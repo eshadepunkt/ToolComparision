@@ -1,9 +1,36 @@
-<mxfile host="app.diagrams.net" modified="2021-10-15T13:56:02.034Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="0BiTtqB1GG4Ly-sKGHKB" version="15.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-15T14:05:48.054Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="K7wNqXrJjQMEIoUttjtW" version="15.5.4" type="github">
   <diagram id="HzL5nLl4aqMytPJhs5fx" name="Page-1">
     <mxGraphModel dx="1374" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-1" value="ToolComparision" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-3" value="Create New&#xa;Comparision" style="dashed=0;align=center;fontSize=12;shape=rect;fillColor=#2196F3;strokeColor=none;fontStyle=1;shadow=1;fontColor=#ffffff;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-1">
+          <mxGeometry x="50" y="50" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-2" value="Load Existing &#xa;Comparision" style="dashed=0;align=center;fontSize=12;shape=rect;fillColor=#2196F3;strokeColor=none;fontStyle=1;shadow=1;fontColor=#ffffff;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-1">
+          <mxGeometry x="50" y="100" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-4" value="Create New" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;" vertex="1" parent="1">
+          <mxGeometry x="210" y="50" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-5" value="Tool Comparision" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="320" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-6" value="Create New&#xa;Criterias" style="dashed=0;align=center;fontSize=12;shape=rect;fillColor=#2196F3;strokeColor=none;fontStyle=1;shadow=1;fontColor=#ffffff;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-5">
+          <mxGeometry x="50" y="50" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-7" value="Load Existing&#xa;Criterias" style="dashed=0;align=center;fontSize=12;shape=rect;fillColor=#2196F3;strokeColor=none;fontStyle=1;shadow=1;fontColor=#ffffff;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-5">
+          <mxGeometry x="50" y="100" width="100" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-8" value="Create New" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;" vertex="1" parent="1">
+          <mxGeometry x="530" y="50" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-9" value="Vertical Container" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="640" width="200" height="200" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
