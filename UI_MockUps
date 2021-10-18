@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-18T11:08:15.216Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="P-bxAWnG20DvM_WgGu9W" version="15.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-18T11:15:24.578Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="n4pjYinWOQ5mu1BYGPgz" version="15.5.4" type="github">
   <diagram id="HzL5nLl4aqMytPJhs5fx" name="Page-1">
-    <mxGraphModel dx="3250" dy="965" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+    <mxGraphModel dx="4429" dy="2554" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -17,7 +17,7 @@
           <mxGeometry x="195" y="260" width="130" height="66" as="geometry" />
         </mxCell>
         <mxCell id="kOYK7Mknpjplnk_gRkZT-8" value="Create New" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;" parent="1" vertex="1">
-          <mxGeometry x="530" y="50" width="100" height="70" as="geometry" />
+          <mxGeometry x="530" y="-650" width="100" height="70" as="geometry" />
         </mxCell>
         <mxCell id="kOYK7Mknpjplnk_gRkZT-9" value="Tool Comparision" style="swimlane;fillColor=#2196F3;swimlaneFillColor=#E6E6E6;fontColor=#FFFFFF;" parent="1" vertex="1">
           <mxGeometry x="640" width="1000" height="651" as="geometry" />
@@ -124,6 +124,12 @@
         </mxCell>
         <mxCell id="kOYK7Mknpjplnk_gRkZT-172" value="ADD&#xa;TOOLS" style="text;fontSize=13;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=center;" parent="kOYK7Mknpjplnk_gRkZT-9" vertex="1">
           <mxGeometry x="535" y="434" width="75" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="x5_B62W5w27Jvr4w5505-102" value="Import Criteria from: &#xa;\\?\C:\file.json" style="text;fontSize=8;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=left;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-9">
+          <mxGeometry x="390" y="490" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="x5_B62W5w27Jvr4w5505-103" value="Export as JSON" style="text;fontSize=8;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=left;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-9">
+          <mxGeometry x="510" y="490" width="100" height="42" as="geometry" />
         </mxCell>
         <mxCell id="kOYK7Mknpjplnk_gRkZT-101" value="Add Criteria" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;" parent="1" vertex="1">
           <mxGeometry x="1650" y="50" width="100" height="70" as="geometry" />
@@ -301,7 +307,13 @@
         <mxCell id="kOYK7Mknpjplnk_gRkZT-233" value="START&#xa;COMPARISION" style="text;fontSize=13;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=center;" parent="kOYK7Mknpjplnk_gRkZT-173" vertex="1">
           <mxGeometry x="535" y="454" width="75" height="42" as="geometry" />
         </mxCell>
-        <mxCell id="kOYK7Mknpjplnk_gRkZT-201" value="ADD TOOLS&lt;br&gt;&lt;br&gt;WITH &#39;EXPORT REQUEST&#39;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;direction=south;notch=0;labelBackgroundColor=none;fontSize=12;fontColor=#000000;strokeColor=#2196F3;fillColor=#FFFFFF;gradientColor=none;" parent="1" vertex="1">
+        <mxCell id="x5_B62W5w27Jvr4w5505-105" value="Import Criteria from: &#xa;\\?\C:\file.json" style="text;fontSize=8;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=left;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-173">
+          <mxGeometry x="377.5" y="510" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="x5_B62W5w27Jvr4w5505-106" value="Export as JSON" style="text;fontSize=8;fontStyle=1;fontColor=#2196F3;verticalAlign=middle;labelBackgroundColor=none;fillColor=#FFFFFF;align=left;" vertex="1" parent="kOYK7Mknpjplnk_gRkZT-173">
+          <mxGeometry x="522.5" y="510" width="100" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="kOYK7Mknpjplnk_gRkZT-201" value="ADD TOOLS&lt;br&gt;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;direction=south;notch=0;labelBackgroundColor=none;fontSize=12;fontColor=#000000;strokeColor=#2196F3;fillColor=#FFFFFF;gradientColor=none;" parent="1" vertex="1">
           <mxGeometry x="1100" y="610" width="70" height="100" as="geometry" />
         </mxCell>
         <mxCell id="kOYK7Mknpjplnk_gRkZT-234" value="Add Tool" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;" parent="1" vertex="1">
@@ -382,7 +394,7 @@
           <mxGeometry x="1650" y="210" width="100" height="70" as="geometry" />
         </mxCell>
         <mxCell id="ZeC3kZPHNxn_P1dObeFd-35" value="Cancel" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;flipH=1;notch=0;labelBackgroundColor=#FFFFFF;fontSize=11;fontColor=#000000;fillColor=#FFFFFF;gradientColor=none;" parent="1" vertex="1">
-          <mxGeometry x="530" y="120" width="100" height="70" as="geometry" />
+          <mxGeometry x="530" y="-580" width="100" height="70" as="geometry" />
         </mxCell>
         <mxCell id="ZeC3kZPHNxn_P1dObeFd-42" value="START COMPARISION" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;direction=south;notch=0;labelBackgroundColor=#FFFFFF;fontSize=11;fontColor=#000000;fillColor=#FFFFFF;gradientColor=none;" parent="1" vertex="1">
           <mxGeometry x="1105" y="1440" width="70" height="100" as="geometry" />
@@ -968,7 +980,7 @@
           <mxGeometry x="1750" y="1650" width="100" height="70" as="geometry" />
         </mxCell>
         <mxCell id="ZeC3kZPHNxn_P1dObeFd-249" value="Tool Comparision" style="swimlane;swimlaneFillColor=#E6E6E6;fillColor=#2196F3;fontColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="-20" y="40" width="520" height="410" as="geometry" />
+          <mxGeometry x="-20" y="-660" width="520" height="410" as="geometry" />
         </mxCell>
         <mxCell id="ZeC3kZPHNxn_P1dObeFd-250" value="Create New&#xa;Criterias" style="dashed=0;align=center;fontSize=12;shape=rect;fillColor=#2196F3;strokeColor=none;fontStyle=1;shadow=1;fontColor=#ffffff;" parent="ZeC3kZPHNxn_P1dObeFd-249" vertex="1">
           <mxGeometry x="195" y="64" width="130" height="66" as="geometry" />
@@ -1046,13 +1058,13 @@
           <mxGeometry x="1160" y="2350" width="70" height="100" as="geometry" />
         </mxCell>
         <mxCell id="x5_B62W5w27Jvr4w5505-99" value="Load Existing&lt;br&gt;after File import" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;fontSize=16;" vertex="1" parent="1">
-          <mxGeometry x="520" y="200" width="100" height="70" as="geometry" />
+          <mxGeometry x="520" y="-500" width="100" height="70" as="geometry" />
         </mxCell>
         <mxCell id="x5_B62W5w27Jvr4w5505-100" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;fontSize=16;align=center;" vertex="1" parent="1">
-          <mxGeometry x="-70" width="20" height="540" as="geometry" />
+          <mxGeometry x="-70" y="-700" width="20" height="540" as="geometry" />
         </mxCell>
         <mxCell id="x5_B62W5w27Jvr4w5505-101" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;fontSize=16;align=center;" vertex="1" parent="1">
-          <mxGeometry x="510" y="10" width="20" height="510" as="geometry" />
+          <mxGeometry x="510" y="-690" width="20" height="510" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
