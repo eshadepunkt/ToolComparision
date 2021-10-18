@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-18T07:07:52.616Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="jueej3UcrstVWwyfA_OI" version="15.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-18T07:12:18.928Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="5Jb_XLgMBWUIE_S0j0Ki" version="15.5.4" type="github">
   <diagram id="HzL5nLl4aqMytPJhs5fx" name="Page-1">
     <mxGraphModel dx="1165" dy="1581" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
       <root>
@@ -695,6 +695,9 @@
         </mxCell>
         <mxCell id="ZeC3kZPHNxn_P1dObeFd-181" value="&lt;font color=&quot;#000000&quot;&gt;GO BACK&lt;/font&gt;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;direction=north;notch=0;labelBackgroundColor=none;labelBorderColor=none;fontSize=12;fontColor=#FFCCCC;fillColor=#FFFFFF;gradientColor=none;" vertex="1" parent="1">
           <mxGeometry x="1210" y="1440" width="70" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ZeC3kZPHNxn_P1dObeFd-183" value="When user got throu all criterias, button will change to &quot;FINISH&quot; and go to &#39;StartPage&#39;" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.bendArrow;dy=15;dx=38;notch=0;arrowHead=55;rounded=1;labelBackgroundColor=none;labelBorderColor=none;fontSize=12;fontColor=#000000;fillColor=#FFFFFF;gradientColor=none;rotation=-180;" vertex="1" parent="1">
+          <mxGeometry x="1660" y="1322" width="1250" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
