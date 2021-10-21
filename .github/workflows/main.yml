@@ -10,19 +10,15 @@ jobs:
     # uses GitHub's checkout action to checkout code form the main branch
     - uses: actions/checkout@v2
     
-    - name: Change Path
-      run: cd toolcomparer
-    
-    - name: Load CLI
+    - name: CD Load CLI Build
       uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
         node-version: '16.x'
+    - run: cd toolcomparer
     - run: npm install
     - run: npm install -g vue
     - run: npm install -g @vue/cli
-    
-    - name: Build
-      run: npm run build
+    - run: npm run build
       
     
     - name: Publish generated content to GitHub Pages
