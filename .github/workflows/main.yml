@@ -6,6 +6,9 @@ on:
 jobs:
   build_vue:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./toolcomparer
     steps:
     # uses GitHub's checkout action to checkout code form the main branch
     - uses: actions/checkout@v2
@@ -14,7 +17,6 @@ jobs:
       uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
         node-version: '16.x'
-    - run: cd toolcomparer/
     - run: npm install
     - run: npm install -g vue
     - run: npm install -g @vue/cli
