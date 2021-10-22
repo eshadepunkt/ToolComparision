@@ -26,6 +26,8 @@ jobs:
       run: cd dist
     - name: Init Git
       run: git init
+    - name: Verify Git
+      run: git config --global user.name "ZDI-StephanJoneleit"
     - name: Add Git
       run: git add -A
     - name: Commit Git
