@@ -20,6 +20,8 @@ jobs:
       run: npm install -g @vue/cli
     - name: Build
       run: npm run build
+    - name: Verify on git
+      run: git config --global user.name "ZDI-StephanJoneleit"
     - name: Add dist N commit
       run: git add -f dist && git commit -m "Initial dist subtree commit"
     - name: Push to gh pages
