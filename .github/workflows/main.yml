@@ -14,7 +14,6 @@ jobs:
     - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
         node-version: '16.x'
-    - working-directory: ./toolcomparer
     - run: npm install
     - run: npm install -g @vue/cli
     - run: npm run build
