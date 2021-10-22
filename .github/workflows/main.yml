@@ -18,8 +18,5 @@ jobs:
     - run: npm install -g @vue/cli
     - run: npm run build
     - name: Publish generated content to GitHub Pages
-      uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
-      with:
-          dir: dist
-          branch: gh-pages
-          token: ${{ secrets.ACCESS_TOKEN }}
+    - run: git add dist && git commit -m "Initial dist subtree commit"
+    - run: git subtree push --prefix dist origin gh-pages
