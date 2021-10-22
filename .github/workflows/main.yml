@@ -21,6 +21,6 @@ jobs:
     - name: Build
       run: npm run build
     - name: Add dist N commit
-      run: git add dist && git commit -m "Initial dist subtree commit"
+      run: git add -f dist && git commit -m "Initial dist subtree commit"
     - name: Push to gh pages
       run: git subtree push --prefix dist origin gh-pages
