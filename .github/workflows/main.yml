@@ -11,6 +11,8 @@ jobs:
     name: Build Vue
     steps:
     - uses: actions/checkout@v2
+    - name: Install npm
+      run: npm install
     - name: Build
       run: npm run build
     - name: CD
