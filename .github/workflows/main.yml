@@ -24,13 +24,8 @@ jobs:
       run: npm run build
     - name: CD
       run: cd dist
-    - name: Init Git
-      run: git init
-    - name: Verify Git
-      run: git config --global user.name "ZDI-StephanJoneleit"
-    - name: Add Git
-      run: git add -A
-    - name: Commit Git
-      run: git commit -m 'deploy'
-    - name: Push Git
-      run: git push -f github.com/zeiss-digital-innovation/ToolComparision.git master:gh-pages
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
