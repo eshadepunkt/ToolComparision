@@ -2,27 +2,21 @@ name: Build Vue
 on: 
   push:
     branches: [ main ]
-
 jobs:
   build_vue:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./toolcomparer
+    name: Build Vue
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
+    - id: Build-Vue
+      uses: xRealNeon/VuePagesAction@1.0.0
       with:
-        node-version: '16.x'
-    - name: Install npm
-      run: npm install
-    - name: Install Vue CLI
-      run: npm install -g @vue/cli
-    - name: Build
-      run: npm run build
-    - name: Verify on git
-      run: git config --global user.name "ZDI-StephanJoneleit"
-    - name: Add dist N commit
-      run: git add -f dist && git commit -m "Initial dist subtree commit"
-    - name: Push to gh pages
-      run: git push origin `git subtree push --prefix dist origin`:gh-pages --force
+        username: 'zeiss-digital-innovation'
+        reponame: 'ToolComparision'
+        token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        VUE_APP_KEY: ${{ secrets.VUE_APP_KEY }}
+        VUE_APP_URL: ${{ secrets.VUE_APP_URL }}
