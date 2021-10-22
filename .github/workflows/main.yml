@@ -18,7 +18,7 @@ jobs:
     - name: CD
       run: cd dist
     - name: Config Git
-      run: git config --global user.name "ZDI-StephanJOneleit"
+      run: git config --global user.name "ZDI-StephanJoneleit"
     - name: Init Git
       run: git init
     - name: Add Git
