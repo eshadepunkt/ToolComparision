@@ -22,6 +22,8 @@ jobs:
       run: npm run build
     - name: Verify on git
       run: git config --global user.name "ZDI-StephanJoneleit"
+    - name: Remove local dist
+      run: git branch -D gh-pages
     - name: Add dist N commit
       run: git add -f dist && git commit -m "Initial dist subtree commit"
     - name: Push to gh pages
