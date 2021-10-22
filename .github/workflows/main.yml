@@ -13,16 +13,15 @@ jobs:
     # uses GitHub's checkout action to checkout code form the main branch
     - uses: actions/checkout@v2
     
-    - name: CD Load CLI Build
+    - name: Load CLI
       uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
         node-version: '16.x'
     - run: npm install
     - run: npm install -g vue
     - run: npm install -g @vue/cli
-    - run: npm run build
      
-    - name: Push
+    - name: Build N Push
       uses: xRealNeon/VuePagesAction@1.0.0
       with:
         username: 'zeiss-digital-innovation'
