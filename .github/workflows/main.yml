@@ -14,6 +14,7 @@ jobs:
     - id: Build-Vue
       uses: xRealNeon/VuePagesAction@1.0.1
       with:
+        working-directory: ./toolcomparer
         username: 'zeiss-digital-innovation'
         reponame: 'ToolComparision'
         token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
