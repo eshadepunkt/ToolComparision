@@ -16,8 +16,6 @@ jobs:
     name: Build Vue
     steps:
     - uses: actions/checkout@v2
-      with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install npm
       run: npm install
     - name: Build
@@ -33,4 +31,4 @@ jobs:
     - name: Commit Git
       run: git commit -m 'deploy'
     - name: Push Git
-      run: git push -f ***github.com/zeiss-digital-innovation/ToolComparision.git master:gh-pages
+      run: git push -f github.com/zeiss-digital-innovation/ToolComparision.git master:gh-pages
