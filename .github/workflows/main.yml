@@ -3,10 +3,6 @@ on:
   push:
     branches: [ main ]
     
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   build_vue:
     runs-on: ubuntu-latest
@@ -16,8 +12,6 @@ jobs:
     name: Build Vue
     steps:
     - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install npm
       run: npm install
     - name: Build
