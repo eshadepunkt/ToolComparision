@@ -11,7 +11,6 @@ jobs:
         working-directory: ./toolcomparer
     steps:
     - uses: actions/checkout@v2
-    - run: cd toolcomparer/
     - id: Build-Vue
       uses: xRealNeon/VuePagesAction@1.0.1
       with:
