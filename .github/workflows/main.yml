@@ -11,10 +11,17 @@ jobs:
         working-directory: ./toolcomparer
     steps:
     - uses: actions/checkout@v2
-    - id: Build-Vue
-      uses: xRealNeon/VuePagesAction@1.0.1
+    - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
-        working-directory: ./toolcomparer
-        username: 'zeiss-digital-innovation'
-        reponame: 'ToolComparision'
-        token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
+        node-version: '16.x'
+    - working-directory: ./toolcomparer
+    - run: npm install
+    - run: npm install -g @vue/cli
+    - run: npm run build
+    - name: Publish generated content to GitHub Pages
+      uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+      with:
+          working-directory: ./toolcomparer
+          dir: dist
+          branch: gh-pages
+          token: ${{ secrets.ACCESS_TOKEN }}
