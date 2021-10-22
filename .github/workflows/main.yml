@@ -14,9 +14,13 @@ jobs:
     - uses: actions/setup-node@v1 #this will install Node and npm on Ubuntu
       with:
         node-version: '16.x'
-    - run: npm install
-    - run: npm install -g @vue/cli
-    - run: npm run build
-    - name: Publish generated content to GitHub Pages
-    - run: git add dist && git commit -m "Initial dist subtree commit"
-    - run: git subtree push --prefix dist origin gh-pages
+    - name: Install npm
+      run: npm install
+    - name: Install Vue CLI
+      run: npm install -g @vue/cli
+    - name: Build
+      run: npm run build
+    - name: Add dist N commit
+      run: git add dist && git commit -m "Initial dist subtree commit"
+    - name: Push to gh pages
+      run: git subtree push --prefix dist origin gh-pages
