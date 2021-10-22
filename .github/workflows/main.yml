@@ -33,4 +33,4 @@ jobs:
     - name: Commit Git
       run: git commit -m 'deploy'
     - name: Push Git
-      run: git push -f https://github.com/zeiss-digital-innovation/ToolComparision.git master:gh-pages
+      run: git push -f github.com/zeiss-digital-innovation/ToolComparision.git master:gh-pages
