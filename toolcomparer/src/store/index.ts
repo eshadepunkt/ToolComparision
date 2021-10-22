@@ -9,3 +9,20 @@ export default new Vuex.Store({
   actions: {},
   modules: {},
 });
+
+const criteriaStore = new Vuex.Store({
+  state: {
+    criteria: Array
+  },
+  mutations: {
+    addItem (item) {
+      this.criteria.add(item);
+    },
+    removeItem (item) {
+      this.criteria.remove(item);
+    },
+    updateItem (oldItem, newItem) {
+       
+    }
+  }
+})
