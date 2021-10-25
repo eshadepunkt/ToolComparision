@@ -1,3 +1,4 @@
+/*
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -12,17 +13,18 @@ export default new Vuex.Store({
 
 const criteriaStore = new Vuex.Store({
   state: {
-    criteria: Array
+    criterium: [:criterium],
   },
   mutations: {
     addItem (item) {
-      this.criteria.add(item);
+      //this.criteria.push(item);
     },
     removeItem (item) {
-      this.criteria.remove(item);
+      //this.criteria
     },
     updateItem (oldItem, newItem) {
        
     }
   }
 })
+*/

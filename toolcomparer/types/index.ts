@@ -10,4 +10,12 @@ interface criterium {
     description: string;
     importance: criteriumImportance;
     isExclusionCriterium: boolean;
+} 
+
+
+enum criteriaModuleState {
+    minimized,
+    maximized,
+    increation,
 }
+
