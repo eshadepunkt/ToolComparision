@@ -4,7 +4,7 @@
   </v-app>
 </template>
 
-<script lang="ts">
+<script lang="ts" src="../types/index.ts">
 import Vue from "vue";
 
 export default Vue.extend({

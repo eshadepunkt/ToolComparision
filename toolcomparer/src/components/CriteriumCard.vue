@@ -13,7 +13,7 @@ export default {
     name: "CriteriumCard",
     data: () => ({
         moduleState: {} as criteriaModuleState,
-        criterium:{} as criterium,
+        criterium: {} as criterium,
     })
 }
 

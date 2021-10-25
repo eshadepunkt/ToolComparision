@@ -1,6 +1,8 @@
-/*
+
 import Vue from "vue";
 import Vuex from "vuex";
+
+import "../../types/index";
 
 Vue.use(Vuex);
 
@@ -13,18 +15,15 @@ export default new Vuex.Store({
 
 const criteriaStore = new Vuex.Store({
   state: {
-    criterium: [:criterium],
+    criteria: Array<criterium>(),
   },
   mutations: {
-    addItem (item) {
-      //this.criteria.push(item);
+    addCriterium (state, item: criterium) {
+      state.criteria.push(item);
     },
-    removeItem (item) {
-      //this.criteria
+    removeCriterium (state, item: criterium) {
+      let index: number = state.criteria.indexOf(item);
+      state.criteria.slice(index, 1);
     },
-    updateItem (oldItem, newItem) {
-       
-    }
   }
 })
-*/

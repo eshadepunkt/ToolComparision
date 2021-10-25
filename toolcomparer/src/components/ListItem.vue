@@ -5,7 +5,7 @@
 </template>
 
 
-<script lang="ts">
+<script lang="ts" src="../../types/index.ts">
 
 export default {
     name: "ListItem"
