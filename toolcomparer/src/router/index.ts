@@ -1,4 +1,4 @@
-/*
+
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 
@@ -16,4 +16,3 @@ const router = new VueRouter({
 });
 
 export default router;
-*/

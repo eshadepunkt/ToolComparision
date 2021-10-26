@@ -2,7 +2,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import "../../types/index";
+import * as Typ from "../types/index";
 
 Vue.use(Vuex);
 
@@ -15,14 +15,14 @@ export default new Vuex.Store({
 
 const criteriaStore = new Vuex.Store({
   state: {
-    criteria: Array<criterium>(),
+    criteria: Array<Typ.criterium>(),
   },
   mutations: {
-    addCriterium (state, item: criterium) {
+    addCriterium (state, item: Typ.criterium) {
       state.criteria.push(item);
     },
-    removeCriterium (state, item: criterium) {
-      let index: number = state.criteria.indexOf(item);
+    removeCriterium (state, item: Typ.criterium) {
+      const index: number = state.criteria.indexOf(item);
       state.criteria.slice(index, 1);
     },
   }

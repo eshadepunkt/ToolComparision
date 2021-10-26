@@ -1,14 +1,36 @@
 <template>
-  <v-app>
+
+<div id="App">
+<v-app>
+    App
+    <CriteriumCard />
+
+    <Tst />
+    
 
   </v-app>
+</div>
+  
 </template>
 
-<script lang="ts" src="../types/index.ts">
-import Vue from "vue";
+<script lang="ts">
+console.log("Load App.vue");
+console.dir();
+
+
+import Vue from 'vue';
+
+import CriteriumCard from "./components/CriteriumCard.vue";
+
+import Tst from "./components/Tst.vue";
 
 export default Vue.extend({
   name: "App",
+
+  components: {
+    CriteriumCard,
+    Tst,
+  },
 
   data: () => ({
     //

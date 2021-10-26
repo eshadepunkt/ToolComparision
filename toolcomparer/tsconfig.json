@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "outDir": "dist",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "noImplicitAny": true,
@@ -21,14 +22,14 @@
     "paths": {
       "@/*": [
         "src/*",
-        "types/*"
+        "src/types/*",
       ]
     },
     "lib": [
       "esnext",
       "dom",
       "dom.iterable",
-      "scripthost"
+      "scripthost",
     ]
   },
   "include": [
@@ -37,9 +38,9 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "types/*.ts",
+    "src/types/*.ts",
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+  ],
 }

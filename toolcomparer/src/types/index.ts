@@ -1,11 +1,11 @@
-enum criteriumImportance {
+export enum criteriumImportance {
     unimportant = 1,
     neutral = 2,
     important = 3,
     veryimportant = 4,
 }
 
-interface criterium {
+export interface criterium {
     name: string;
     description: string;
     importance: criteriumImportance;
@@ -13,7 +13,7 @@ interface criterium {
 } 
 
 
-enum criteriaModuleState {
+export enum criteriaModuleState {
     minimized,
     maximized,
     increation,
