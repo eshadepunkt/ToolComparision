@@ -5,7 +5,6 @@
     App
     <CriteriumCard />
 
-    <Tst />
     
 
   </v-app>
@@ -22,14 +21,14 @@ import Vue from 'vue';
 
 import CriteriumCard from "./components/CriteriumCard.vue";
 
-import Tst from "./components/Tst.vue";
+//import Tst from "./components/Tst.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
     CriteriumCard,
-    Tst,
+    //Tst,
   },
 
   data: () => ({

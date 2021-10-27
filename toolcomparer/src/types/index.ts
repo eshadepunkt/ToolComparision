@@ -1,4 +1,5 @@
 export enum criteriumImportance {
+    undefined = 0,
     unimportant = 1,
     neutral = 2,
     important = 3,
@@ -17,5 +18,14 @@ export enum criteriaModuleState {
     minimized,
     maximized,
     increation,
+}
+
+export enum editCriteriaModule {
+    none,
+    increation,
+    name,
+    description,
+    importance,
+    isExclusionCriterium,
 }
 
