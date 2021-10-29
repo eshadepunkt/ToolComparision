@@ -1,5 +1,4 @@
 console.log("Load main.js");
-console.dir();
 
 import Vue from "vue";
 import App from "./App.vue";

@@ -1,3 +1,4 @@
+
 export enum criteriumImportance {
     undefined = 0,
     unimportant = 1,
@@ -13,6 +14,10 @@ export interface criterium {
     isExclusionCriterium: boolean;
 } 
 
+export interface criteriumKeyValue {
+    key: number;
+    value: criterium;
+}
 
 export enum criteriaModuleState {
     minimized,

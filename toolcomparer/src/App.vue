@@ -1,12 +1,12 @@
 <template>
 
-<div id="App">
-<v-app>
-    App
-    <CriteriumCard />
+<div id="App" style="background-color: #FAFAFA">
+  <v-app>
+    <v-card
+      color="grey lighten-5">
 
-    
-
+      <CriteriumCreation />
+    </v-card>    
   </v-app>
 </div>
   
@@ -20,6 +20,7 @@ console.dir();
 import Vue from 'vue';
 
 import CriteriumCard from "./components/CriteriumCard.vue";
+import CriteriumCreation from "./components/CriteriumCreation.vue";
 
 //import Tst from "./components/Tst.vue";
 
@@ -28,6 +29,7 @@ export default Vue.extend({
 
   components: {
     CriteriumCard,
+    CriteriumCreation,
     //Tst,
   },
 
