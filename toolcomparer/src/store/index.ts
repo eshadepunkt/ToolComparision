@@ -22,7 +22,10 @@ const store = new Vuex.Store({
   getters: {
     getUniqueKey: (state) => {
       return ++(state.uniqueKey);
-    }
+    },
+    getCriteria: (state) => {
+      return state.criteria;
+    },
   },
 
   mutations: {

@@ -174,8 +174,6 @@ export default Vue.extend({
     mounted: function () {
         this.criteriumKV = this.propCriteriumKV;
 
-        //(this.$refs.form as Vue & { resetValidation: () => void }).resetValidation();
-
         //LOG
         console.log("CriteriumCreation: Mounted");
     },

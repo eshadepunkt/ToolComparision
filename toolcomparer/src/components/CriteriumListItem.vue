@@ -61,21 +61,28 @@ export default Vue.extend({
 
     //PROPS
     props: {
-        propCriterium: {
-            type: Object as () => Typ.criterium, 
-            default: {
-                name: "",
-                description: "",
-                importance: Typ.criteriumImportance.undefined,
-                isExclusionCriterium: false
-            } as Typ.criterium
+        propCriteriumKV: {
+            type: Object as () => Typ.criteriumKeyValue, 
+            default: { 
+                key: -1 as number,
+                value: {
+                    name: "",
+                    description: "",
+                    importance: Typ.criteriumImportance.undefined,
+                    isExclusionCriterium: false
+                } as Typ.criterium 
+            } as Typ.criteriumKeyValue
+        },
+        btnText: {
+            type: String,
+            default: "Add",
         },
     },
 
     //DATA
     data() {
         return {
-            criterium: {} as Typ.criterium,
+            criteriumKV: {} as Typ.criteriumKeyValue,
             moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,      
             editState: Typ.editCriteriaModule.none as Typ.editCriteriaModule,
 
@@ -91,17 +98,25 @@ export default Vue.extend({
         }        
     },
 
-    //WATCH
+     //WATCH
     watch: {
         propCriterium:  {
-            handler(newVal: Typ.criterium) {
-                this.criterium = newVal;
+            handler(newVal: Typ.criteriumKeyValue) {
+                this.criteriumKV = newVal;
 
                 //LOG
-                console.log("CriteriumListItem: propCriterium changed!");
+                console.log("CriteriumListItem propCriteriumKV changed!");
             },
             deep: true,        
         },
-    }
+    },
+
+    //MOUNTED
+    mounted: function () {
+        this.criteriumKV = this.propCriteriumKV;
+
+        //LOG
+        console.log("CriteriumListItem: Mounted");
+    },
 });
 </script>

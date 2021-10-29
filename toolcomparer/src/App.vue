@@ -5,7 +5,7 @@
     <v-card
       color="grey lighten-5">
 
-      <CriteriumCreation />
+      <CriteriumListBox />
     </v-card>    
   </v-app>
 </div>
@@ -21,6 +21,7 @@ import Vue from 'vue';
 
 import CriteriumCard from "./components/CriteriumCard.vue";
 import CriteriumCreation from "./components/CriteriumCreation.vue";
+import CriteriumListBox from "./components/CriteriumListBox.vue";
 
 //import Tst from "./components/Tst.vue";
 
@@ -30,6 +31,7 @@ export default Vue.extend({
   components: {
     CriteriumCard,
     CriteriumCreation,
+    CriteriumListBox,
     //Tst,
   },
 
