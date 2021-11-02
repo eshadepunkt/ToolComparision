@@ -107,7 +107,7 @@ export default Vue.extend({
     //DATA
     data() {
         return {
-            criteriumKV: {} as Typ.criteriumKeyValue,
+            criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
             moduleState: Typ.criteriaModuleState.increation as Typ.criteriaModuleState,      
             editState: Typ.editCriteriaModule.increation as Typ.editCriteriaModule,
 
@@ -132,18 +132,20 @@ export default Vue.extend({
             console.log("CriteriumCreation: criterium updated!");
         },
         btnCancel()
-        {
-            this.$emit('btn_cancel');
-
+        {    
             //LOG
             console.log("CriteriumCreation: CANCEL button clicked");
+
+            this.resetCriteriumKV();
+            this.emitAppStateChange("criteria");
         },
         btnSave()
         {
             if((this.$refs.criterium_card as Vue & { validate: () => boolean }).validate())
             {               
                 if (this.criteriumKV.key === -1) {
-                    this.criteriumKV.key = this.$store.getters.getUniqueKey;
+                    this.$store.commit("incrementUniqueID");
+                    this.criteriumKV.key = this.$store.getters.getID;
 
                     //LOG
                     console.log("CriteriumCreation: unique key: " + this.criteriumKV.key + " generated");
@@ -153,8 +155,25 @@ export default Vue.extend({
 
                 //LOG
                 console.log("CriteriumCreation: store updated");
+
+                this.resetCriteriumKV();
+                this.emitAppStateChange("criteria");
             }
-        }
+        },
+        resetCriteriumKV() : void {
+            this.criteriumKV = { 
+                key: -1 as number,
+                value: {
+                    name: "",
+                    description: "",
+                    importance: Typ.criteriumImportance.undefined,
+                    isExclusionCriterium: false
+                } as Typ.criterium 
+            }
+        },
+        emitAppStateChange(state: string) : void {
+            this.$emit("change_app_state", state);
+        },
     },
 
     //WATCH
@@ -168,14 +187,6 @@ export default Vue.extend({
             },
             deep: true,        
         },
-    },
-
-    //MOUNTED
-    mounted: function () {
-        this.criteriumKV = this.propCriteriumKV;
-
-        //LOG
-        console.log("CriteriumCreation: Mounted");
     },
 });
 </script>

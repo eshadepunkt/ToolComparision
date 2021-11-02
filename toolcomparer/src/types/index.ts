@@ -1,4 +1,14 @@
 
+export enum appState {
+    start,
+    criteria,
+    criteriumCreation,
+    tools,
+    toolCreation,
+    compare,
+    export,
+}
+
 export enum criteriumImportance {
     undefined = 0,
     unimportant = 1,

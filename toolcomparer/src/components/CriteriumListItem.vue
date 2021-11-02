@@ -4,25 +4,25 @@
     <v-card>
         <v-container>
             <v-row>
-                <v-col md="5">
+                <v-col cols="9">
                 <CriteriumCard 
-                    :propCriterium="criterium"
+                    :propCriterium="criteriumKV.value"
                     :propModuleState="moduleState"
                     :propEditState="editState"
                 />
             </v-col>
             <!-- Icons -->
-            <v-col md="1">
+            <v-col cols="1">
                 <v-btn class="ma-2" icon>
                     <v-icon>
                     {{ icons.mdiPencil }}
                     </v-icon>
                 </v-btn>                        
             </v-col>
-            <v-col md="1">
+            <v-col cols="1">
                 <v-btn class="ma-2" icon>
                     <v-icon>
-                    {{ icons.delete }}
+                    {{ icons.mdiDelete }}
                 </v-icon>
                 </v-btn>                        
             </v-col>
@@ -63,15 +63,6 @@ export default Vue.extend({
     props: {
         propCriteriumKV: {
             type: Object as () => Typ.criteriumKeyValue, 
-            default: { 
-                key: -1 as number,
-                value: {
-                    name: "",
-                    description: "",
-                    importance: Typ.criteriumImportance.undefined,
-                    isExclusionCriterium: false
-                } as Typ.criterium 
-            } as Typ.criteriumKeyValue
         },
         btnText: {
             type: String,
@@ -82,7 +73,7 @@ export default Vue.extend({
     //DATA
     data() {
         return {
-            criteriumKV: {} as Typ.criteriumKeyValue,
+            criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
             moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,      
             editState: Typ.editCriteriaModule.none as Typ.editCriteriaModule,
 
@@ -102,21 +93,13 @@ export default Vue.extend({
     watch: {
         propCriterium:  {
             handler(newVal: Typ.criteriumKeyValue) {
-                this.criteriumKV = newVal;
+                this.criteriumKV = JSON.parse(JSON.stringify(newVal)) as Typ.criteriumKeyValue;
 
                 //LOG
-                console.log("CriteriumListItem propCriteriumKV changed!");
+                console.log("CriteriumListItem: propCriteriumKV changed!");
             },
             deep: true,        
         },
-    },
-
-    //MOUNTED
-    mounted: function () {
-        this.criteriumKV = this.propCriteriumKV;
-
-        //LOG
-        console.log("CriteriumListItem: Mounted");
     },
 });
 </script>

@@ -17,20 +17,21 @@ export default new Vuex.Store({
 const store = new Vuex.Store({
   state: {
     criteria: Array<Typ.criteriumKeyValue>(),
-    uniqueKey: 0 as number,
+    uniqueID: 0 as number,
   },
   getters: {
-    getUniqueKey: (state) => {
-      return ++(state.uniqueKey);
-    },
     getCriteria: (state) => {
       return state.criteria;
     },
+    getID: (state) => {
+      return state.uniqueID;
+    }
   },
 
   mutations: {
     addCriterium (state, item: Typ.criteriumKeyValue) {
-      state.criteria.push(item);
+      const cloned: Typ.criteriumKeyValue = JSON.parse(JSON.stringify(item)) as Typ.criteriumKeyValue;
+      state.criteria.push(cloned);
 
       //LOG
       console.log("Vuex: criterium with key: " + item.key + " added");
@@ -44,6 +45,12 @@ const store = new Vuex.Store({
         console.log("Vuex: criterium with key: " + item.key + " removed");
       }  
     },  
+    incrementUniqueID(state) {
+        ++(state.uniqueID);
+
+        //LOG
+        console.log("Vuex: unique id incremented to: " + state.uniqueID);
+    }
   },
   actions: {
     updateCriterium (context, item: Typ.criteriumKeyValue) {
@@ -52,7 +59,7 @@ const store = new Vuex.Store({
 
       //LOG
       console.log("Vuex: criterium with key: " + item.key + " updated");
-    },
+    },   
   }
 })
 

@@ -261,18 +261,20 @@ export default Vue.extend({
              //Log
             console.log("CriteriumCard: update criterium importance from '" + 
                 Typ.criteriumImportance[this.criterium.importance] + "' to '" + importance  + "'");
-
+          
             var importanceEnum: Typ.criteriumImportance = this.convertStringToImportanceEnum(importance);
             this.criterium.importance = importanceEnum;
 
         },
         convertStringToImportanceEnum(convert: string): Typ.criteriumImportance {
+            convert = convert.replaceAll(" ", "");
+            
             //Log 
             console.log("CriteriumCard: convert string '" + 
                 convert + "' to importanceEnum");
             
             switch (convert) {
-                case "very important":
+                case "veryimportant":
                     return Typ.criteriumImportance.veryimportant;
                 case "important":
                     return Typ.criteriumImportance.important;
@@ -299,12 +301,16 @@ export default Vue.extend({
     //DATA
     data() {
         return {
-            criterium: {} as Typ.criterium,
+            criterium: JSON.parse(JSON.stringify(this.propCriterium)) as Typ.criterium,
             moduleState: this.propModuleState as Typ.criteriaModuleState,      
             editState: this.propEditState as Typ.editCriteriaModule,
 
             importanceItems: ['very important', 'important', 'neutral', 'unimportant'] as string[],
-            selectedImportance: '' as string,
+            selectedImportance: ((this.propCriterium.importance === Typ.criteriumImportance.undefined)
+                                    ? ""
+                                    : (this.propCriterium.importance === Typ.criteriumImportance.veryimportant)
+                                    ? "very important"
+                                    : Typ.criteriumImportance[this.propCriterium.importance]) as string,
 
             rules: {
                 required: (value: boolean | string) => !!value || 'Required',
@@ -320,7 +326,7 @@ export default Vue.extend({
 
             isValid: true as boolean,
 
-            debug: true as boolean,
+            debug: false as boolean,
             debugItems: ['minimized', 'maximized', 'increation' ] as string[],
             selectedDebugItem: "" as string,
         }        
@@ -349,8 +355,7 @@ export default Vue.extend({
     },
 
     //MOUNTED
-    mounted: function () {
-        this.criterium = this.propCriterium;
+    mounted: function () {   
         this.moduleState = this.propModuleState;
         this.editState = this.propEditState;
 

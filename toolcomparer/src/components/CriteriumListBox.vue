@@ -21,9 +21,11 @@
             <v-row>
                 <v-col xl="7">
                     <v-list style="height: 66vh; overflow-y: auto;">
-                        <v-item v-for="(item, index) in this.criteria" :key="index">
-                            <CriteriumListItem :propCriteriumKV="item" />
-                        </v-item>
+                        <v-item-group>
+                            <v-item v-for="(item, index) in getCriteria()" :key="index">
+                                <CriteriumListItem :propCriteriumKV="item" />
+                            </v-item>
+                        </v-item-group>
                     </v-list>
                 </v-col>       
             </v-row>
@@ -31,21 +33,21 @@
             <!-- Buttons -->
             <v-row align="center" align-content="space-between" justify="space-between"> 
                 <v-col xl="1">
-                    <v-btn
+                    <v-btn @click="emitAppStateChange('start')"
                     color="red lighten-5"
                     >
                         Start-Site
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn
+                    <v-btn @click="emitAppStateChange('criteriumCreation')"
                         color="teal lighten-5"
                     >
                         Add Criterium
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn
+                    <v-btn @click="emitAppStateChange('tools')"
                         color="blue lighten-5"
                     >
                         Add Tools
@@ -95,10 +97,36 @@ export default Vue.extend({
         CriteriumListItem,
     },
 
+    //DATA
     data() {
         return {
-            criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
+            criteria: {} as Array<Typ.criteriumKeyValue>,
         }
-    }
+    },
+
+    //METHODS
+    methods: {
+        emitAppStateChange(state: string) : void {
+            this.$emit("change_app_state", state);
+        },
+        getCriteria() : Array<Typ.criteriumKeyValue> {
+            this.criteria = this.$store.getters.getCriteria;
+
+            this.criteria.forEach(element => {
+                console.log("\nCLB:\nEL:\n" + element.key + ";\n" + element.value.name + "\n");
+            });
+
+            return this.criteria;
+
+        },
+    },
+
+    //MOUNTED
+    mounted: function () {
+        this.criteria = this.$store.getters.getCriteria;
+
+        //LOG
+        console.log("CriteriumCreation: Mounted");
+    },
 });
 </script>
