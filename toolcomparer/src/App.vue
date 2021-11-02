@@ -5,8 +5,7 @@
     <v-card
       color="grey lighten-5">
 
-      <CriteriumListBox v-if="isCurrent('criteria')" @change_app_state="changeCurrentState" />
-      <CriteriumCreation v-if="isCurrent('criteriumCreation')" @change_app_state="changeCurrentState" />
+      <router-view />
 
     </v-card>    
   </v-app>
@@ -89,5 +88,10 @@ export default Vue.extend({
         }           
     },
   },
+
+  //MOUNTED
+    mounted: function () {   
+      this.$router.push("Criteria");
+  }
 });
 </script>

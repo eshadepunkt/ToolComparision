@@ -29,29 +29,29 @@
                         @update_criterium="updateCriterium"
                     />                   
                     </v-card>                      
-            </v-col>
-        </v-row>
-        <!-- Buttons -->
-        <v-row>
-            <v-col cols="8">
-            </v-col>
-            <v-col cols="1">
-                <v-btn @click="btnCancel()"
-                    color="red lighten-5"
-                >
-                    Cancel
-                </v-btn>
-            </v-col>
-            <v-col cols="1">
-            </v-col>
-            <v-col cols="1">
-                <v-btn @click="btnSave()"
-                    color="teal lighten-5"
-                >
-                    {{ btnText }}
-                </v-btn>
-            </v-col>
-        </v-row>          
+                </v-col>
+            </v-row>
+            <!-- Buttons -->
+            <v-row>
+                <v-col cols="8">
+                </v-col>
+                <v-col cols="1">
+                    <v-btn @click="btnCancel()"
+                        color="red lighten-5"
+                    >
+                        Cancel
+                    </v-btn>
+                </v-col>
+                <v-col cols="1">
+                </v-col>
+                <v-col cols="1">
+                    <v-btn @click="btnSave()"
+                        color="teal lighten-5"
+                    >
+                        {{ btnText }}
+                    </v-btn>
+                </v-col>
+            </v-row>    
         </v-container>
     </v-card>   
 </div>
@@ -69,6 +69,7 @@ import {
     mdiShareVariant,
     mdiDelete,
     mdiAppleKeyboardControl,
+    mdiContentSaveEdit,
   } from '@mdi/js';
 
 import Vue from 'vue';
@@ -117,6 +118,7 @@ export default Vue.extend({
                 mdiShareVariant,
                 mdiDelete,
                 mdiAppleKeyboardControl,
+                mdiContentSaveEdit,
             },
 
             debug: true as boolean,
@@ -137,7 +139,7 @@ export default Vue.extend({
             console.log("CriteriumCreation: CANCEL button clicked");
 
             this.resetCriteriumKV();
-            this.emitAppStateChange("criteria");
+            this.navigateTo("Criteria");
         },
         btnSave()
         {
@@ -157,7 +159,7 @@ export default Vue.extend({
                 console.log("CriteriumCreation: store updated");
 
                 this.resetCriteriumKV();
-                this.emitAppStateChange("criteria");
+                this.navigateTo("Criteria");
             }
         },
         resetCriteriumKV() : void {
@@ -171,8 +173,8 @@ export default Vue.extend({
                 } as Typ.criterium 
             }
         },
-        emitAppStateChange(state: string) : void {
-            this.$emit("change_app_state", state);
+        navigateTo(route: string) : void {
+            this.$router.push(route)
         },
     },
 

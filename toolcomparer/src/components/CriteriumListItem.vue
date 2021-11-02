@@ -9,6 +9,7 @@
                     :propCriterium="criteriumKV.value"
                     :propModuleState="moduleState"
                     :propEditState="editState"
+                    @update_criterium="updateCriterium"
                 />
             </v-col>
             <!-- Icons -->
@@ -87,6 +88,16 @@ export default Vue.extend({
 
             debug: true as boolean,
         }        
+    },
+
+    //METHODS
+    methods: {
+        updateCriterium(newVal: Typ.criterium) {
+            this.criteriumKV.value = newVal;
+
+            //LOG
+            console.log("CriteriumListBox: criterium updated!");
+        },
     },
 
      //WATCH

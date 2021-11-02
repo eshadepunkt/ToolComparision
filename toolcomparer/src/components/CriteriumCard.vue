@@ -124,6 +124,19 @@
                 </v-col>
                 <v-col sm="1" xl="1" />
             </v-row>
+            <v-row>
+                <v-col cols="9">
+                </v-col>
+                <v-col cols="1">
+                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                        icon @click="btnUpdate()">
+                        <v-icon>
+                        {{ icons.mdiContentSaveEdit }}
+                    </v-icon>
+                    </v-btn>                        
+                </v-col>
+                <v-col sm="1" xl="1" />
+            </v-row>  
         </v-container>
     </v-card>   
 </v-form>
@@ -141,6 +154,7 @@ import {
     mdiShareVariant,
     mdiDelete,
     mdiAppleKeyboardControl,
+    mdiContentSaveEdit,
   } from '@mdi/js';
 
 import Vue from 'vue';
@@ -285,6 +299,14 @@ export default Vue.extend({
             }
         },
 
+        btnUpdate(): void {
+            //LOG
+            console.log("CriteriumCard: SAVE_UPDATE button clicked");
+
+
+            this.$emit('update_criterium', this.criterium);
+        },
+
         validate(): boolean {
             return (this.$refs.form as Vue & { validate: () => boolean }).validate();
         },
@@ -322,6 +344,7 @@ export default Vue.extend({
                 mdiShareVariant,
                 mdiDelete,
                 mdiAppleKeyboardControl,
+                mdiContentSaveEdit,
             },
 
             isValid: true as boolean,

@@ -33,21 +33,21 @@
             <!-- Buttons -->
             <v-row align="center" align-content="space-between" justify="space-between"> 
                 <v-col xl="1">
-                    <v-btn @click="emitAppStateChange('start')"
+                    <v-btn @click="navigateTo('Start')"
                     color="red lighten-5"
                     >
                         Start-Site
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn @click="emitAppStateChange('criteriumCreation')"
+                    <v-btn @click="navigateTo('CriteriumCreation')"
                         color="teal lighten-5"
                     >
                         Add Criterium
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn @click="emitAppStateChange('tools')"
+                    <v-btn @click="navigateTo('Tools')"
                         color="blue lighten-5"
                     >
                         Add Tools
@@ -106,8 +106,8 @@ export default Vue.extend({
 
     //METHODS
     methods: {
-        emitAppStateChange(state: string) : void {
-            this.$emit("change_app_state", state);
+        navigateTo(route: string) : void {
+            this.$router.push(route)
         },
         getCriteria() : Array<Typ.criteriumKeyValue> {
             this.criteria = this.$store.getters.getCriteria;
