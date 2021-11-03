@@ -1,7 +1,7 @@
 <template>
 
 <div id="CriteriumListItem">
-    <v-card>
+    <v-card v-bind:style="unsavedChanges ? 'background-color: LavenderBlush' : ''">
         <v-container>
             <v-row>
                 <v-col cols="9">
@@ -9,8 +9,10 @@
                     :propCriterium="criteriumKV.value"
                     :propModuleState="moduleState"
                     :propEditState="editState"
+                    :propUnsavedChanges="unsavedChanges"
                     @update_criterium="updateCriterium"
                     @save_criterium="saveCriterium"
+                    @restore_criterium="restoreCriterium"
                 />
             </v-col>
             <!-- Icons -->
@@ -22,7 +24,7 @@
                 </v-btn>                        
             </v-col>
             <v-col cols="1">
-                <v-btn class="ma-2" icon>
+                <v-btn class="ma-2" icon @click="btnDelete()">
                     <v-icon>
                     {{ icons.mdiDelete }}
                 </v-icon>
@@ -75,7 +77,7 @@ export default Vue.extend({
     //DATA
     data() {
         return {
-            criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
+            criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,      
             moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,      
             editState: Typ.editCriteriaModule.none as Typ.editCriteriaModule,
 
@@ -87,6 +89,9 @@ export default Vue.extend({
                 mdiAppleKeyboardControl,
             },
 
+            unsavedChanges: false as boolean,
+            resetRequest: false as boolean,
+
             debug: true as boolean,
         }        
     },
@@ -94,22 +99,47 @@ export default Vue.extend({
     //METHODS
     methods: {
         updateCriterium(newVal: Typ.criterium) {
-            this.criteriumKV.value = newVal;
+                this.criteriumKV.value = newVal;
 
-            //LOG
-            console.log("CriteriumListBox: criterium updated!");
+                if (!this.resetRequest) {
+                    this.unsavedChanges = true;
+                }     
+                else {
+                    this.unsavedChanges = false;
+                    this.resetRequest = false;
+                }             
+
+                //LOG
+                console.log("CriteriumListBox: criterium updated!");  
         },
         saveCriterium(newVal: Typ.criterium) {
             this.criteriumKV.value = newVal;
 
             this.$store.dispatch("updateCriterium", this.criteriumKV);
 
+            this.unsavedChanges = false;
+
             //LOG
             console.log("CriteriumListBox: store updated");
         },
+        restoreCriterium() {
+            //LOG
+            console.log("CriteriumListBox: restore request");
+
+            this.resetRequest = true;
+            this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue;
+            this.unsavedChanges = false;
+        },
+
         btnEdit() {
             const appendix: number = this.criteriumKV.key;
             this.navigateTo("/CriteriumCreation/Update/" + appendix);
+        },
+        btnDelete() {
+            this.$store.commit("removeCriterium", this.criteriumKV);
+            
+            //LOG
+            console.log("CriteriumListBox: item removed");
         },
 
         navigateTo(route: string) : void {
@@ -121,7 +151,7 @@ export default Vue.extend({
     watch: {
         propCriterium:  {
             handler(newVal: Typ.criteriumKeyValue) {
-                this.criteriumKV = JSON.parse(JSON.stringify(newVal)) as Typ.criteriumKeyValue;
+                this.criteriumKV = newVal;
 
                 //LOG
                 console.log("CriteriumListItem: propCriteriumKV changed!");

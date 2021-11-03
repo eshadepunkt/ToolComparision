@@ -202,7 +202,7 @@ export default Vue.extend({
         if (id !== -1) {
             const result = this.$store.getters.getCriterium(id);
             if (result !== null) {
-                this.criteriumKV = result as Typ.criteriumKeyValue;
+                this.criteriumKV = JSON.parse(JSON.stringify(result)) as Typ.criteriumKeyValue;
 
                 //LOG
                 console.log("CriteriumCreation: Loaded criterium with key: " + id);

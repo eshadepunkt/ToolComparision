@@ -20,7 +20,7 @@
             <!-- Body -->
             <v-row>
                 <v-col xl="7">
-                    <v-list style="height: 66vh; overflow-y: auto;">
+                    <v-list style="height: 72vh; overflow-y: auto;">
                         <v-item-group>
                             <v-item v-for="(item) in getCriteria()" :key="item.key">
                                 <CriteriumListItem :propCriteriumKV="item" />

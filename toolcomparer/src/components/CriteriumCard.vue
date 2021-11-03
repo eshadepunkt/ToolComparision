@@ -33,7 +33,8 @@
                 </v-col>
                 <!-- Icons -->
                 <v-col cols="1">
-                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                    <v-btn  v-if="!isMinimized() && !isInCreation()" class="ma-2"
+                        v-bind:style="canEdit('name') ? 'color: LightGreen' : ''"
                         icon @click="changeEditMode('name')">
                         <v-icon>
                         {{ icons.mdiPencil }}
@@ -42,7 +43,9 @@
                 </v-col>
                 <v-col cols="1">
                     <v-btn v-if="!isInCreation()" class="ma-2" v-bind:style="isMinimized() ? 'transform: scaleY(-1);' : ''"
-                        icon @click="[isMinimized() ? changeModuleState('maximized') : changeModuleState('minimized')]">
+                        icon @click="[isMinimized() 
+                                ? changeModuleState('maximized') 
+                                : minAfterValidate()]">
                     <v-icon >
                         {{ icons.mdiAppleKeyboardControl  }}
                     </v-icon>
@@ -67,7 +70,8 @@
                 </v-col>
                 <!-- Icons -->
                 <v-col cols="1">
-                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                    <v-btn v-if="!isMinimized() && !isInCreation()" class="ma-2"
+                        v-bind:style="canEdit('description') ? 'color: LightGreen' : ''"
                         icon @click="changeEditMode('description')">
                         <v-icon>
                         {{ icons.mdiPencil }}
@@ -93,7 +97,8 @@
                 </v-col>
                 <!-- Icons -->
                 <v-col cols="1">
-                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                    <v-btn v-if="!isMinimized() && !isInCreation()" class="ma-2"
+                        v-bind:style="canEdit('importance') ? 'color: LightGreen' : ''"
                         icon @click="changeEditMode('importance')">
                         <v-icon>
                         {{ icons.mdiPencil }}
@@ -115,7 +120,8 @@
                 </v-col>
                 <!-- Icons -->
                 <v-col cols="1">
-                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                    <v-btn v-if="!isMinimized() && !isInCreation()" class="ma-2" 
+                        v-bind:style="canEdit('isExclusionCriterium') ? 'color: LightGreen' : ''"
                         icon @click="changeEditMode('isExclusionCriterium')">
                         <v-icon>
                         {{ icons.mdiPencil }}
@@ -128,14 +134,21 @@
                 <v-col cols="9">
                 </v-col>
                 <v-col cols="1">
-                    <v-btn  v-if="!isMinimized() && !isInCreation()"  class="ma-2"
+                    <v-btn v-if="propUnsavedChanges && !isMinimized() && !isInCreation()" class="ma-2"
                         icon @click="btnUpdate()">
                         <v-icon>
                         {{ icons.mdiContentSaveEdit }}
                     </v-icon>
                     </v-btn>                        
                 </v-col>
-                <v-col sm="1" xl="1" />
+                <v-col cols="1">
+                    <v-btn v-if="propUnsavedChanges && !isMinimized() && !isInCreation()" class="ma-2"
+                        icon @click="btnRestore()">
+                        <v-icon>
+                        {{ icons.mdiFileRestoreOutline }}
+                    </v-icon>
+                    </v-btn>                        
+                </v-col>
             </v-row>  
         </v-container>
     </v-card>   
@@ -155,6 +168,7 @@ import {
     mdiDelete,
     mdiAppleKeyboardControl,
     mdiContentSaveEdit,
+    mdiFileRestoreOutline,
   } from '@mdi/js';
 
 import Vue from 'vue';
@@ -185,6 +199,10 @@ export default Vue.extend({
             type: Object as () => Typ.editCriteriaModule, 
             default: Typ.editCriteriaModule.increation as Typ.editCriteriaModule,
         },
+        propUnsavedChanges: {
+            type: Object as () => boolean,
+            default: false as boolean,
+        }
     },
 
     //METHODS
@@ -235,8 +253,12 @@ export default Vue.extend({
             //Log
             console.log("CriteriumCard: change edit mode from '" + 
                 Typ.editCriteriaModule[this.editState] + "' to '" + mode  + "'");
-
+            
             var modeEnum: Typ.editCriteriaModule = this.convertStringToEditModeEnum(mode);
+
+            if (this.editState === modeEnum) {
+                modeEnum = Typ.editCriteriaModule.none;
+            }
 
             this.editState = modeEnum;
         },
@@ -323,20 +345,35 @@ export default Vue.extend({
             //LOG
             console.log("CriteriumCard: SAVE_UPDATE button clicked");
 
+            this.changeEditMode('none');
 
             this.$emit('save_criterium', this.criterium);
+        },
+        btnRestore(): void {
+            //LOG
+            console.log("CriteriumCard: RESTORE button clicked");
+
+            this.changeEditMode('none');
+
+            this.criterium = this.restoreCriterium;
+
+            this.$emit('restore_criterium');
         },
 
         validate(): boolean {
             return (this.$refs.form as Vue & { validate: () => boolean }).validate();
         },
-
         resetValidation() {
             (this.$refs.form as Vue & { resetValidation: () => void }).resetValidation();
         },
-
         reset() {
             (this.$refs.form as Vue & { reset: () => void }).reset();
+        },
+
+        minAfterValidate() {
+            if (this.validate()) {
+                this.changeModuleState('minimized');
+            }
         }
     },
 
@@ -344,6 +381,7 @@ export default Vue.extend({
     data() {
         return {
             criterium: JSON.parse(JSON.stringify(this.propCriterium)) as Typ.criterium,
+            restoreCriterium: {} as Typ.criterium,
             moduleState: this.propModuleState as Typ.criteriaModuleState,      
             editState: this.propEditState as Typ.editCriteriaModule,
 
@@ -365,6 +403,7 @@ export default Vue.extend({
                 mdiDelete,
                 mdiAppleKeyboardControl,
                 mdiContentSaveEdit,
+                mdiFileRestoreOutline,
             },
 
             isValid: true as boolean,
@@ -381,7 +420,7 @@ export default Vue.extend({
             handler(newVal: Typ.criterium) {
                 this.criterium = newVal;
                 this.selectedImportance = this.convertImportanceEnumToString(this.criterium.importance);
-
+         
                 //LOG
                 console.log("CriteriumCard: propCriterium changed!");
             },
