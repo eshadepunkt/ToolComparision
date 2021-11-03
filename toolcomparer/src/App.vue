@@ -91,7 +91,7 @@ export default Vue.extend({
 
   //MOUNTED
     mounted: function () {   
-      this.$router.push("Criteria");
+      this.$router.push("/Criteria/");
   }
 });
 </script>

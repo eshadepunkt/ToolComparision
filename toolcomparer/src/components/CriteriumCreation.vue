@@ -89,19 +89,18 @@ export default Vue.extend({
     props: {
         propCriteriumKV: {
             type: Object as () => Typ.criteriumKeyValue, 
-            default: { 
+            default() { 
+                return {
                 key: -1 as number,
                 value: {
                     name: "",
                     description: "",
                     importance: Typ.criteriumImportance.undefined,
                     isExclusionCriterium: false
-                } as Typ.criterium 
-            } as Typ.criteriumKeyValue
-        },
-        btnText: {
-            type: String,
-            default: "Add",
+                    } as Typ.criterium 
+
+                } as Typ.criteriumKeyValue
+            }
         },
     },
 
@@ -121,6 +120,8 @@ export default Vue.extend({
                 mdiContentSaveEdit,
             },
 
+            btnText: "Add" as string,
+
             debug: true as boolean,
         }        
     },
@@ -139,7 +140,7 @@ export default Vue.extend({
             console.log("CriteriumCreation: CANCEL button clicked");
 
             this.resetCriteriumKV();
-            this.navigateTo("Criteria");
+            this.navigateTo("/Criteria/");
         },
         btnSave()
         {
@@ -159,7 +160,7 @@ export default Vue.extend({
                 console.log("CriteriumCreation: store updated");
 
                 this.resetCriteriumKV();
-                this.navigateTo("Criteria");
+                this.navigateTo("/Criteria/");
             }
         },
         resetCriteriumKV() : void {
@@ -190,5 +191,28 @@ export default Vue.extend({
             deep: true,        
         },
     },
+
+    //MOUNTED
+    mounted () {
+        this.btnText = this.$route.params.mode;
+
+        const idstr: string = this.$route.params.id;
+        const id: number = parseInt(idstr);
+        
+        if (id !== -1) {
+            const result = this.$store.getters.getCriterium(id);
+            if (result !== null) {
+                this.criteriumKV = result as Typ.criteriumKeyValue;
+
+                //LOG
+                console.log("CriteriumCreation: Loaded criterium with key: " + id);
+
+                console.log("\nImportance:\n" + Typ.criteriumImportance[this.criteriumKV.value.importance] + "\n");
+            }
+        }
+
+        //LOG
+        console.log("CriteriumCreation: Mounted");
+    }
 });
 </script>

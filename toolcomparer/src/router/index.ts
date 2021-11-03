@@ -16,7 +16,7 @@ const routes: Array<RouteConfig> = [
     name: "Home",
   },
   {
-    path: "/CriteriumCreation/",
+    path: "/CriteriumCreation/:mode/:id",
     component: CriteriumCreation,
     name: "CriteriumCreation",
   },

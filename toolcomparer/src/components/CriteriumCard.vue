@@ -168,12 +168,14 @@ export default Vue.extend({
     props: {
         propCriterium: {
             type: Object as () => Typ.criterium, 
-            default: {
+            default() {
+                return {
                 name: "",
                 description: "",
                 importance: Typ.criteriumImportance.undefined,
                 isExclusionCriterium: false
-            } as Typ.criterium
+                } as Typ.criterium 
+            }
         },
         propModuleState: {
             type: Object as () => Typ.criteriaModuleState, 
@@ -298,13 +300,31 @@ export default Vue.extend({
                     return Typ.criteriumImportance.unimportant;
             }
         },
+        convertImportanceEnumToString(convert: Typ.criteriumImportance): string {       
+            //Log 
+            console.log("CriteriumCard: convert importanceEnum '" + 
+                Typ.criteriumImportance[convert] + "' to string");
+            
+            switch (convert) {
+                case Typ.criteriumImportance.veryimportant:
+                    return "very important";
+                case Typ.criteriumImportance.important:
+                    return "important";
+                case Typ.criteriumImportance.neutral:
+                    return "neutral";
+                case Typ.criteriumImportance.unimportant:
+                    return "unimportant";
+                default:
+                    return "";
+            }
+        },
 
         btnUpdate(): void {
             //LOG
             console.log("CriteriumCard: SAVE_UPDATE button clicked");
 
 
-            this.$emit('update_criterium', this.criterium);
+            this.$emit('save_criterium', this.criterium);
         },
 
         validate(): boolean {
@@ -360,6 +380,7 @@ export default Vue.extend({
         propCriterium:  {
             handler(newVal: Typ.criterium) {
                 this.criterium = newVal;
+                this.selectedImportance = this.convertImportanceEnumToString(this.criterium.importance);
 
                 //LOG
                 console.log("CriteriumCard: propCriterium changed!");
@@ -369,6 +390,7 @@ export default Vue.extend({
         criterium:  {
             handler(newVal: Typ.criterium) {
                 this.$emit('update_criterium', newVal);
+                this.selectedImportance = this.convertImportanceEnumToString(this.criterium.importance);
 
                 //LOG
                 console.log("CriteriumCard: criterium changed!");
@@ -381,10 +403,10 @@ export default Vue.extend({
     mounted: function () {   
         this.moduleState = this.propModuleState;
         this.editState = this.propEditState;
+        this.selectedImportance = this.convertImportanceEnumToString(this.propCriterium.importance);
 
         this.resetValidation();
 
-        //(this.$refs.form as Vue & { validate: () => boolean }).validate();
         //LOG
         console.log("CriteriumCard: Mounted");
     },

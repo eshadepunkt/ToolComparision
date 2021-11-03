@@ -10,11 +10,12 @@
                     :propModuleState="moduleState"
                     :propEditState="editState"
                     @update_criterium="updateCriterium"
+                    @save_criterium="saveCriterium"
                 />
             </v-col>
             <!-- Icons -->
             <v-col cols="1">
-                <v-btn class="ma-2" icon>
+                <v-btn class="ma-2" icon @click="btnEdit()">
                     <v-icon>
                     {{ icons.mdiPencil }}
                     </v-icon>
@@ -97,6 +98,22 @@ export default Vue.extend({
 
             //LOG
             console.log("CriteriumListBox: criterium updated!");
+        },
+        saveCriterium(newVal: Typ.criterium) {
+            this.criteriumKV.value = newVal;
+
+            this.$store.dispatch("updateCriterium", this.criteriumKV);
+
+            //LOG
+            console.log("CriteriumListBox: store updated");
+        },
+        btnEdit() {
+            const appendix: number = this.criteriumKV.key;
+            this.navigateTo("/CriteriumCreation/Update/" + appendix);
+        },
+
+        navigateTo(route: string) : void {
+            this.$router.push(route)
         },
     },
 

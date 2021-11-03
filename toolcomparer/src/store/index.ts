@@ -23,6 +23,17 @@ const store = new Vuex.Store({
     getCriteria: (state) => {
       return state.criteria;
     },
+    getCriterium: (state) => (key: number) => {
+      const index: number = state.criteria.findIndex(x => x.key === key);
+      if (index >= 0) {
+        //LOG
+        console.log("Vuex: criterium with key: " + key + " at index: " + index + " returned");
+
+        return state.criteria[index];
+      }  
+
+      return null;
+    },
     getID: (state) => {
       return state.uniqueID;
     }
@@ -39,7 +50,7 @@ const store = new Vuex.Store({
     removeCriterium (state, item: Typ.criteriumKeyValue) {
       const index: number = state.criteria.findIndex(x => x.key === item.key);
       if (index >= 0) {
-        state.criteria = state.criteria.slice(index, 1);
+        state.criteria.splice(index, 1);
 
         //LOG
         console.log("Vuex: criterium with key: " + item.key + " at index: " + index + " removed");
