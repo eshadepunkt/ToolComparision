@@ -1,5 +1,5 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
-  publicPath: '/ToolComparision/',
+  publicPath: "/ToolComparision/",
   assetsDir: process.env.BASE_URL,
 };

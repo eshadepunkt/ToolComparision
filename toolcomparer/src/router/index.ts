@@ -30,7 +30,7 @@ const routes: Array<RouteConfig> = [
     path: "*",
     component: App,
     name: "Start",
-  }
+  },
 ];
 
 const router = new VueRouter({

@@ -6,8 +6,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
-import { Ripple } from 'vuetify/lib/directives'
-
+import { Ripple } from "vuetify/lib/directives";
 
 Vue.config.productionTip = false;
 
@@ -16,7 +15,7 @@ new Vue({
   store,
   vuetify,
   directives: {
-    Ripple
+    Ripple,
   },
   render: (h) => h(App),
 }).$mount("#app");
