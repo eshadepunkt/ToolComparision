@@ -41,6 +41,9 @@
 <script lang="ts">
 console.log("Load CriteriumListItem.vue");
 
+import { v4 as uuidv4 } from 'uuid';
+import { NIL as uuidNIL } from 'uuid';
+
 import * as Typ from "../types/index";
 import {
     mdiAccount,
@@ -132,7 +135,7 @@ export default Vue.extend({
         },
 
         btnEdit() {
-            const appendix: number = this.criteriumKV.key;
+            const appendix: string = this.criteriumKV.key;
             this.navigateTo("/CriteriumCreation/Update/" + appendix);
         },
         btnDelete() {

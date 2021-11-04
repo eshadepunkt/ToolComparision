@@ -62,6 +62,9 @@
 <script lang="ts">
 console.log("Load CriteriumCreation.vue");
 
+import { v4 as uuidv4 } from 'uuid';
+import { NIL as uuidNIL } from 'uuid';
+
 import * as Typ from "../types/index";
 import {
     mdiAccount,
@@ -91,7 +94,7 @@ export default Vue.extend({
             type: Object as () => Typ.criteriumKeyValue, 
             default() { 
                 return {
-                key: -1 as number,
+                key: uuidv4() as string,
                 value: {
                     name: "",
                     description: "",
@@ -119,7 +122,7 @@ export default Vue.extend({
                 mdiAppleKeyboardControl,
                 mdiContentSaveEdit,
             },
-
+            
             btnText: "Add" as string,
 
             debug: true as boolean,
@@ -146,14 +149,6 @@ export default Vue.extend({
         {
             if((this.$refs.criterium_card as Vue & { validate: () => boolean }).validate())
             {               
-                if (this.criteriumKV.key === -1) {
-                    this.$store.commit("incrementUniqueID");
-                    this.criteriumKV.key = this.$store.getters.getID;
-
-                    //LOG
-                    console.log("CriteriumCreation: unique key: " + this.criteriumKV.key + " generated");
-                }
-
                 this.$store.dispatch("updateCriterium", this.criteriumKV);
 
                 //LOG
@@ -165,7 +160,7 @@ export default Vue.extend({
         },
         resetCriteriumKV() : void {
             this.criteriumKV = { 
-                key: -1 as number,
+                key: uuidv4() as string,
                 value: {
                     name: "",
                     description: "",
@@ -196,16 +191,15 @@ export default Vue.extend({
     mounted () {
         this.btnText = this.$route.params.mode;
 
-        const idstr: string = this.$route.params.id;
-        const id: number = parseInt(idstr);
+        const uuid: string = this.$route.params.id;
         
-        if (id !== -1) {
-            const result = this.$store.getters.getCriterium(id);
+        if (uuid !== uuidNIL) {
+            const result = this.$store.getters.getCriterium(uuid);
             if (result !== null) {
                 this.criteriumKV = JSON.parse(JSON.stringify(result)) as Typ.criteriumKeyValue;
 
                 //LOG
-                console.log("CriteriumCreation: Loaded criterium with key: " + id);
+                console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
 
                 console.log("\nImportance:\n" + Typ.criteriumImportance[this.criteriumKV.value.importance] + "\n");
             }
