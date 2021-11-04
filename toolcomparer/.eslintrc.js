@@ -19,6 +19,7 @@ module.exports = {
     "no-inferrable-types": "off",
     "no-unused-components": "off",
     "vue/no-unused-components": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   overrides: [
     {

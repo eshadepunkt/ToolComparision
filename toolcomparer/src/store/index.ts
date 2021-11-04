@@ -51,7 +51,7 @@ const store = new Vuex.Store({
         //LOG
         console.log("Vuex: criterium with key: " + item.key + " at index: " + index + " removed");
       }  
-    },  
+    },    
   },
   actions: {
     updateCriterium (context, item: Typ.criteriumKeyValue) {
@@ -60,7 +60,16 @@ const store = new Vuex.Store({
 
       //LOG
       console.log("Vuex: criterium with key: " + item.key + " updated");
-    },   
+    }, 
+    extendCriteria(context, extend: Array<Typ.criteriumKeyValue>) {
+      extend.forEach(element => {
+        if (Typ.isCriteriumKV(element)) {
+          if (this.getters.getCriterium(element.key) === null) {
+            context.commit("addCriterium", element);
+          }
+        }   
+      });
+    },  
   }
 })
 

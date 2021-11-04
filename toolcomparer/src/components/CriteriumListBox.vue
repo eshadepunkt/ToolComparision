@@ -56,9 +56,16 @@
             </v-row>
             <v-row align="center" align-content="space-between" justify="space-between"> 
                 <v-col xl="1">
-                    <v-btn>
+                    <v-btn @click="importCriteria()"> 
                         Import
                     </v-btn>
+                    <input
+                        ref="uploader"
+                        class="d-none"
+                        type="file"
+                        accept=".json"
+                        @input="onFileChanged"
+                    >
                 </v-col>
                 <v-col xl="1">
                     <v-btn @click="exportCriteria()">
@@ -89,9 +96,7 @@ import {
 
 import Vue from 'vue';
 
-
 import CriteriumListItem from "./CriteriumListItem.vue";
-
 
 export default Vue.extend({
     name: "CriteriumListBox",
@@ -120,7 +125,7 @@ export default Vue.extend({
         },
         exportCriteria() {
             //LOG
-            console.log("CriteriumListBox: Upload JSON");
+            console.log("CriteriumListBox: Export JSON");
 
             const json: string = JSON.stringify(this.criteria);
             const filename = "toolcomparer_criteria.json"
@@ -135,6 +140,31 @@ export default Vue.extend({
             element.click();
 
             document.body.removeChild(element);
+        },
+        importCriteria() {     
+            //LOG
+            console.log("CriteriumListBox: Import JSON");
+   
+            (this.$refs.uploader as Vue & { click: () => void }).click();
+        },
+        onFileChanged(e: any) {
+            const file = e.target.files[0];
+            let reader = new FileReader();    
+            var json: string | undefined;
+            reader.onload = function() {
+                json = reader.result?.toString();
+                console.log(json);
+            }
+            reader.onloadend = () => this.convertJSONToArray(json);
+            reader.readAsText(file);      
+        },
+        convertJSONToArray(json: string | undefined) {
+            if (json !== undefined) {
+                const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(json) as Array<Typ.criteriumKeyValue>;
+                this.$store.dispatch("extendCriteria", tmpCriteria);
+
+                console.log("DONEY");
+            }
         }
     },
 

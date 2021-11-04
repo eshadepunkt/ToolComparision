@@ -29,6 +29,18 @@ export interface criteriumKeyValue {
     value: criterium;
 }
 
+export function isCriteriumKV(check: any): boolean {
+    const type = check as criteriumKeyValue;
+
+    return (type.key !== undefined
+        && type.value !== undefined
+        && type.value.importance !== undefined
+        && type.value.isExclusionCriterium !== undefined
+        && type.value.description !== undefined
+        && type.value.name !== undefined
+    );
+}
+
 export enum criteriaModuleState {
     minimized,
     maximized,
