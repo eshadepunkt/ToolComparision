@@ -1,52 +1,99 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <div id="App" style="background-color: #fafafa">
+    <v-app>
+      <v-card color="grey lighten-5">
+        <router-view />
+      </v-card>
+    </v-app>
+  </div>
 </template>
 
 <script lang="ts">
+console.log("Load App.vue");
+console.dir();
+
+import * as Typ from "./types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+} from "@mdi/js";
+
 import Vue from "vue";
+
+import CriteriumCard from "./components/CriteriumCard.vue";
+import CriteriumCreation from "./components/CriteriumCreation.vue";
+import CriteriumListBox from "./components/CriteriumListBox.vue";
 
 export default Vue.extend({
   name: "App",
 
+  components: {
+    CriteriumCard,
+    CriteriumCreation,
+    CriteriumListBox,
+  },
+
   data: () => ({
-    //
+    currentState: Typ.appState.criteria as Typ.appState,
   }),
+
+  methods: {
+    changeCurrentState(state: string): void {
+      //Log
+      console.log(
+        "App: change current state from '" +
+          Typ.appState[this.currentState] +
+          "' to: '" +
+          state +
+          "'"
+      );
+
+      this.currentState = this.convertStringToAppStateEnum(state);
+    },
+
+    isCurrent(sender: string): boolean {
+      //Log
+      console.log(
+        "App: request current state from '" +
+          sender +
+          "'; current: '" +
+          Typ.appState[this.currentState] +
+          "'"
+      );
+
+      var senderEnum: Typ.appState = this.convertStringToAppStateEnum(sender);
+
+      return senderEnum === this.currentState;
+    },
+    convertStringToAppStateEnum(convert: string): Typ.appState {
+      //Log
+      console.log("App: convert string '" + convert + "' to appState");
+
+      switch (convert) {
+        case "criteria":
+          return Typ.appState.criteria;
+        case "createCriterium":
+          return Typ.appState.criteriumCreation;
+        case "tools":
+          return Typ.appState.tools;
+        case "createTool":
+          return Typ.appState.toolCreation;
+        case "compare":
+          return Typ.appState.compare;
+        case "export":
+          return Typ.appState.export;
+        default:
+          return Typ.appState.start;
+      }
+    },
+  },
+
+  //MOUNTED
+  mounted: function () {
+    this.$router.push("/Criteria/");
+  },
 });
 </script>
