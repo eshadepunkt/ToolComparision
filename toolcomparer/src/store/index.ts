@@ -17,13 +17,12 @@ export default new Vuex.Store({
 const store = new Vuex.Store({
   state: {
     criteria: Array<Typ.criteriumKeyValue>(),
-    uniqueID: 0 as number,
   },
   getters: {
     getCriteria: (state) => {
       return state.criteria;
     },
-    getCriterium: (state) => (key: number) => {
+    getCriterium: (state) => (key: string) => {
       const index: number = state.criteria.findIndex(x => x.key === key);
       if (index >= 0) {
         //LOG
@@ -34,9 +33,6 @@ const store = new Vuex.Store({
 
       return null;
     },
-    getID: (state) => {
-      return state.uniqueID;
-    }
   },
 
   mutations: {
@@ -56,12 +52,6 @@ const store = new Vuex.Store({
         console.log("Vuex: criterium with key: " + item.key + " at index: " + index + " removed");
       }  
     },  
-    incrementUniqueID(state) {
-        ++(state.uniqueID);
-
-        //LOG
-        console.log("Vuex: unique id incremented to: " + state.uniqueID);
-    }
   },
   actions: {
     updateCriterium (context, item: Typ.criteriumKeyValue) {

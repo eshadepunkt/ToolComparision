@@ -40,7 +40,7 @@
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn @click="navigateTo('/CriteriumCreation/Add/-1')"
+                    <v-btn @click="navigateTo('/CriteriumCreation/Add/' + uuidNIL)"
                         color="teal lighten-5"
                     >
                         Add Criterium
@@ -61,7 +61,7 @@
                     </v-btn>
                 </v-col>
                 <v-col xl="1">
-                    <v-btn>
+                    <v-btn @click="exportCriteria()">
                         Export
                     </v-btn>
                 </v-col>
@@ -74,6 +74,9 @@
 
 <script lang="ts">
 console.log("Load CriteriumListBox.vue");
+
+import { v4 as uuidv4 } from 'uuid';
+import { NIL as uuidNIL } from 'uuid';
 
 import * as Typ from "../types/index";
 import {
@@ -101,7 +104,8 @@ export default Vue.extend({
     data() {
         return {
             criteria: {} as Array<Typ.criteriumKeyValue>,
-        }
+            uuidNIL,
+        }     
     },
 
     //METHODS
@@ -114,6 +118,24 @@ export default Vue.extend({
 
             return this.criteria;
         },
+        exportCriteria() {
+            //LOG
+            console.log("CriteriumListBox: Upload JSON");
+
+            const json: string = JSON.stringify(this.criteria);
+            const filename = "toolcomparer_criteria.json"
+
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(json));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
     },
 
     //MOUNTED

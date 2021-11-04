@@ -25,7 +25,7 @@ export interface criterium {
 } 
 
 export interface criteriumKeyValue {
-    key: number;
+    key: string;
     value: criterium;
 }
 
