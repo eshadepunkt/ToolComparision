@@ -46,12 +46,3 @@ export enum criteriaModuleState {
   maximized,
   increation,
 }
-
-export enum editCriteriaModule {
-  none,
-  increation,
-  name,
-  description,
-  importance,
-  isExclusionCriterium,
-}

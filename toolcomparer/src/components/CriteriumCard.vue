@@ -30,23 +30,9 @@
               :rules="rules.str"
               label="Criterium name"
               required
-              :readonly="!canEdit('name')"
+              :readonly="!isInCreation()"
             >
             </v-text-field>
-          </v-col>
-          <!-- Icons -->
-          <v-col cols="1">
-            <v-btn
-              v-if="!isMinimized() && !isInCreation()"
-              class="ma-2"
-              v-bind:style="canEdit('name') ? 'color: LightGreen' : ''"
-              icon
-              @click="changeEditMode('name')"
-            >
-              <v-icon>
-                {{ icons.mdiPencil }}
-              </v-icon>
-            </v-btn>
           </v-col>
           <v-col cols="1">
             <v-btn
@@ -54,13 +40,7 @@
               class="ma-2"
               v-bind:style="isMinimized() ? 'transform: scaleY(-1);' : ''"
               icon
-              @click="
-                [
-                  isMinimized()
-                    ? changeModuleState('maximized')
-                    : minAfterValidate(),
-                ]
-              "
+              @click="[isMinimized() ? changeModuleState('maximized') : changeModuleState('minimized')]"
             >
               <v-icon>
                 {{ icons.mdiAppleKeyboardControl }}
@@ -80,25 +60,10 @@
               v-model="criterium.description"
               :rules="rules.str"
               required
-              :readonly="!canEdit('description')"
+              :readonly="!isInCreation()"
             >
             </v-textarea>
           </v-col>
-          <!-- Icons -->
-          <v-col cols="1">
-            <v-btn
-              v-if="!isMinimized() && !isInCreation()"
-              class="ma-2"
-              v-bind:style="canEdit('description') ? 'color: LightGreen' : ''"
-              icon
-              @click="changeEditMode('description')"
-            >
-              <v-icon>
-                {{ icons.mdiPencil }}
-              </v-icon>
-            </v-btn>
-          </v-col>
-          <v-col sm="1" xl="1" />
         </v-row>
 
         <!-- Importance -->
@@ -110,26 +75,11 @@
               v-model="selectedImportance"
               :rules="rules.str"
               required
-              :readonly="!canEdit('importance')"
+              :readonly="!isInCreation()"
               @change="updateImportance(selectedImportance)"
             >
             </v-select>
           </v-col>
-          <!-- Icons -->
-          <v-col cols="1">
-            <v-btn
-              v-if="!isMinimized() && !isInCreation()"
-              class="ma-2"
-              v-bind:style="canEdit('importance') ? 'color: LightGreen' : ''"
-              icon
-              @click="changeEditMode('importance')"
-            >
-              <v-icon>
-                {{ icons.mdiPencil }}
-              </v-icon>
-            </v-btn>
-          </v-col>
-          <v-col sm="1" xl="1" />
         </v-row>
 
         <!-- Exclusion Criterium -->
@@ -138,53 +88,9 @@
             <v-checkbox
               label="Exclusion Criterium"
               v-model="criterium.isExclusionCriterium"
-              :readonly="!canEdit('isExclusionCriterium')"
+              :readonly="!isInCreation()"
             >
             </v-checkbox>
-          </v-col>
-          <!-- Icons -->
-          <v-col cols="1">
-            <v-btn
-              v-if="!isMinimized() && !isInCreation()"
-              class="ma-2"
-              v-bind:style="
-                canEdit('isExclusionCriterium') ? 'color: LightGreen' : ''
-              "
-              icon
-              @click="changeEditMode('isExclusionCriterium')"
-            >
-              <v-icon>
-                {{ icons.mdiPencil }}
-              </v-icon>
-            </v-btn>
-          </v-col>
-          <v-col sm="1" xl="1" />
-        </v-row>
-        <v-row>
-          <v-col cols="9"> </v-col>
-          <v-col cols="1">
-            <v-btn
-              v-if="propUnsavedChanges && !isMinimized() && !isInCreation()"
-              class="ma-2"
-              icon
-              @click="btnUpdate()"
-            >
-              <v-icon>
-                {{ icons.mdiContentSaveEdit }}
-              </v-icon>
-            </v-btn>
-          </v-col>
-          <v-col cols="1">
-            <v-btn
-              v-if="propUnsavedChanges && !isMinimized() && !isInCreation()"
-              class="ma-2"
-              icon
-              @click="btnRestore()"
-            >
-              <v-icon>
-                {{ icons.mdiFileRestoreOutline }}
-              </v-icon>
-            </v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -229,14 +135,6 @@ export default Vue.extend({
       type: Object as () => Typ.criteriaModuleState,
       default: Typ.criteriaModuleState.increation as Typ.criteriaModuleState,
     },
-    propEditState: {
-      type: Object as () => Typ.editCriteriaModule,
-      default: Typ.editCriteriaModule.increation as Typ.editCriteriaModule,
-    },
-    propUnsavedChanges: {
-      type: Object as () => boolean,
-      default: false as boolean,
-    },
   },
 
   //METHODS
@@ -250,12 +148,6 @@ export default Vue.extend({
     changeModuleState(state: string): void {
       var stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
-
-      if (this.moduleState === Typ.criteriaModuleState.increation) {
-        this.editState = Typ.editCriteriaModule.increation;
-      } else {
-        this.editState = Typ.editCriteriaModule.none;
-      }
     },
     convertStringToModuleStateEnum(convert: string): Typ.criteriaModuleState {
       this.selectedDebugItem = convert;
@@ -267,42 +159,6 @@ export default Vue.extend({
           return Typ.criteriaModuleState.maximized;
         default:
           return Typ.criteriaModuleState.increation;
-      }
-    },
-
-    changeEditMode(mode: string): void {
-      var modeEnum: Typ.editCriteriaModule =
-        this.convertStringToEditModeEnum(mode);
-
-      if (this.editState === modeEnum) {
-        modeEnum = Typ.editCriteriaModule.none;
-      }
-
-      this.editState = modeEnum;
-    },
-    canEdit(sender: string): boolean {
-      var senderEnum: Typ.editCriteriaModule =
-        this.convertStringToEditModeEnum(sender);
-      if (this.editState === Typ.editCriteriaModule.increation) {
-        return true;
-      }
-
-      return senderEnum === this.editState;
-    },
-    convertStringToEditModeEnum(convert: string): Typ.editCriteriaModule {
-      switch (convert) {
-        case "increation":
-          return Typ.editCriteriaModule.increation;
-        case "name":
-          return Typ.editCriteriaModule.name;
-        case "description":
-          return Typ.editCriteriaModule.description;
-        case "importance":
-          return Typ.editCriteriaModule.importance;
-        case "isExclusionCriterium":
-          return Typ.editCriteriaModule.isExclusionCriterium;
-        default:
-          return Typ.editCriteriaModule.none;
       }
     },
 
@@ -340,19 +196,6 @@ export default Vue.extend({
       }
     },
 
-    btnUpdate(): void {
-      this.changeEditMode("none");
-
-      this.$emit("save_criterium", this.criterium);
-    },
-    btnRestore(): void {
-      this.changeEditMode("none");
-
-      this.criterium = this.restoreCriterium;
-
-      this.$emit("restore_criterium");
-    },
-
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
@@ -380,7 +223,6 @@ export default Vue.extend({
       ) as Typ.criterium,
       restoreCriterium: {} as Typ.criterium,
       moduleState: this.propModuleState as Typ.criteriaModuleState,
-      editState: this.propEditState as Typ.editCriteriaModule,
 
       importanceItems: [
         "very important",
@@ -451,7 +293,6 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-    this.editState = this.propEditState;
     this.selectedImportance = this.convertImportanceEnumToString(
       this.propCriterium.importance
     );

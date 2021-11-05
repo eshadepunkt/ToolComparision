@@ -9,7 +9,6 @@
             <CriteriumCard
               :propCriterium="criteriumKV.value"
               :propModuleState="moduleState"
-              :propEditState="editState"
               :propUnsavedChanges="unsavedChanges"
               @update_criterium="updateCriterium"
               @save_criterium="saveCriterium"
@@ -81,7 +80,6 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,
-      editState: Typ.editCriteriaModule.none as Typ.editCriteriaModule,
 
       icons: {
         mdiAccount,
