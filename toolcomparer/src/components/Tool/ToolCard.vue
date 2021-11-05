@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" lazy-validation v-model="isValid" id="CriteriumCard">
+  <v-form ref="form" lazy-validation v-model="isValid" id="ToolCard">
     <!-- Fast Debug Settings -->
     <div v-if="debug">
       <v-select
@@ -21,14 +21,14 @@
               v-if="isMinimized()"
               style="font-size: 1.5em; position: relative; top: 0.5em"
             >
-              {{ criterium.name }}
+              {{ Tool.name }}
             </div>
             <!-- Maximized -->
             <v-text-field
               v-else
-              v-model="criterium.name"
+              v-model="Tool.name"
               :rules="rules.str"
-              label="Criterium name"
+              label="Tool name"
               required
               :readonly="!isInCreation()"
             >
@@ -57,7 +57,7 @@
             <v-textarea
               outlined
               label="Description"
-              v-model="criterium.description"
+              v-model="Tool.description"
               :rules="rules.str"
               required
               :readonly="!isInCreation()"
@@ -82,12 +82,12 @@
           </v-col>
         </v-row>
 
-        <!-- Exclusion Criterium -->
+        <!-- Exclusion Tool -->
         <v-row v-if="!isMinimized()">
           <v-col cols="9">
             <v-checkbox
-              label="Exclusion Criterium"
-              v-model="criterium.isExclusionCriterium"
+              label="Exclusion Tool"
+              v-model="Tool.isExclusionTool"
               :readonly="!isInCreation()"
             >
             </v-checkbox>
@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCard.vue");
+console.log("Load ToolCard.vue");
 console.dir();
 
 import * as Typ from "../../types/index";
@@ -116,19 +116,19 @@ import {
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "CriteriumCard",
+  name: "ToolCard",
 
   //PROPS
   props: {
-    propCriterium: {
-      type: Object as () => Typ.criterium,
+    propTool: {
+      type: Object as () => Typ.Tool,
       default() {
         return {
           name: "",
           description: "",
-          importance: Typ.criteriumImportance.undefined,
-          isExclusionCriterium: false,
-        } as Typ.criterium;
+          importance: Typ.ToolImportance.undefined,
+          isExclusionTool: false,
+        } as Typ.Tool;
       },
     },
     propModuleState: {
@@ -163,33 +163,33 @@ export default Vue.extend({
     },
 
     updateImportance(importance: string): void {
-      var importanceEnum: Typ.criteriumImportance =
+      var importanceEnum: Typ.ToolImportance =
         this.convertStringToImportanceEnum(importance);
-      this.criterium.importance = importanceEnum;
+      this.Tool.importance = importanceEnum;
     },
-    convertStringToImportanceEnum(convert: string): Typ.criteriumImportance {
+    convertStringToImportanceEnum(convert: string): Typ.ToolImportance {
       convert = convert.replaceAll(" ", "");
 
       switch (convert) {
         case "veryimportant":
-          return Typ.criteriumImportance.veryimportant;
+          return Typ.ToolImportance.veryimportant;
         case "important":
-          return Typ.criteriumImportance.important;
+          return Typ.ToolImportance.important;
         case "neutral":
-          return Typ.criteriumImportance.neutral;
+          return Typ.ToolImportance.neutral;
         default:
-          return Typ.criteriumImportance.unimportant;
+          return Typ.ToolImportance.unimportant;
       }
     },
-    convertImportanceEnumToString(convert: Typ.criteriumImportance): string {
+    convertImportanceEnumToString(convert: Typ.ToolImportance): string {
       switch (convert) {
-        case Typ.criteriumImportance.veryimportant:
+        case Typ.ToolImportance.veryimportant:
           return "very important";
-        case Typ.criteriumImportance.important:
+        case Typ.ToolImportance.important:
           return "important";
-        case Typ.criteriumImportance.neutral:
+        case Typ.ToolImportance.neutral:
           return "neutral";
-        case Typ.criteriumImportance.unimportant:
+        case Typ.ToolImportance.unimportant:
           return "unimportant";
         default:
           return "";
@@ -218,10 +218,10 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criterium: JSON.parse(
-        JSON.stringify(this.propCriterium)
-      ) as Typ.criterium,
-      restoreCriterium: {} as Typ.criterium,
+      Tool: JSON.parse(
+        JSON.stringify(this.propTool)
+      ) as Typ.Tool,
+      restoreTool: {} as Typ.Tool,
       moduleState: this.propModuleState as Typ.criteriaModuleState,
 
       importanceItems: [
@@ -230,13 +230,13 @@ export default Vue.extend({
         "neutral",
         "unimportant",
       ] as string[],
-      selectedImportance: (this.propCriterium.importance ===
-      Typ.criteriumImportance.undefined
+      selectedImportance: (this.propTool.importance ===
+      Typ.ToolImportance.undefined
         ? ""
-        : this.propCriterium.importance ===
-          Typ.criteriumImportance.veryimportant
+        : this.propTool.importance ===
+          Typ.ToolImportance.veryimportant
         ? "very important"
-        : Typ.criteriumImportance[this.propCriterium.importance]) as string,
+        : Typ.ToolImportance[this.propTool.importance]) as string,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -264,27 +264,27 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriterium: {
-      handler(newVal: Typ.criterium) {
-        this.criterium = newVal;
+    propTool: {
+      handler(newVal: Typ.Tool) {
+        this.Tool = newVal;
         this.selectedImportance = this.convertImportanceEnumToString(
-          this.criterium.importance
+          this.Tool.importance
         );
 
         //LOG
-        console.log("CriteriumCard: propCriterium changed!");
+        console.log("ToolCard: propTool changed!");
       },
       deep: true,
     },
-    criterium: {
-      handler(newVal: Typ.criterium) {
-        this.$emit("update_criterium", newVal);
+    Tool: {
+      handler(newVal: Typ.Tool) {
+        this.$emit("update_Tool", newVal);
         this.selectedImportance = this.convertImportanceEnumToString(
-          this.criterium.importance
+          this.Tool.importance
         );
 
         //LOG
-        console.log("CriteriumCard: criterium changed!");
+        console.log("ToolCard: Tool changed!");
       },
       deep: true,
     },
@@ -294,13 +294,13 @@ export default Vue.extend({
   mounted: function () {
     this.moduleState = this.propModuleState;
     this.selectedImportance = this.convertImportanceEnumToString(
-      this.propCriterium.importance
+      this.propTool.importance
     );
 
     this.resetValidation();
 
     //LOG
-    console.log("CriteriumCard: Mounted");
+    console.log("ToolCard: Mounted");
   },
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div id="CriteriumCreation">
+  <div id="ToolCreation">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
@@ -7,7 +7,7 @@
           <v-col xl="11">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
-                {{ btnText }} Criterium
+                {{ btnText }} Tool
               </h1>
             </v-card>
           </v-col>
@@ -16,11 +16,11 @@
         <v-row>
           <v-col xl="11">
             <v-card outlined>
-              <CriteriumCard
-                ref="criterium_card"
-                :propCriterium="criteriumKV.value"
+              <ToolCard
+                ref="Tool_card"
+                :propTool="ToolKV.value"
                 :propModuleState="moduleState"
-                @update_criterium="updateCriterium"
+                @update_Tool="updateTool"
               />
             </v-card>
           </v-col>
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCreation.vue");
+console.log("Load ToolCreation.vue");
 
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
@@ -61,29 +61,29 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCard from "./CriteriumCard.vue";
+import ToolCard from "./ToolCard.vue";
 
 export default Vue.extend({
-  name: "CriteriumCreation",
+  name: "ToolCreation",
 
   components: {
-    CriteriumCard,
+    ToolCard,
   },
 
   //PROPS
   props: {
-    propCriteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
+    propToolKV: {
+      type: Object as () => Typ.ToolKeyValue,
       default() {
         return {
           key: uuidv4() as string,
           value: {
             name: "",
             description: "",
-            importance: Typ.criteriumImportance.undefined,
-            isExclusionCriterium: false,
-          } as Typ.criterium,
-        } as Typ.criteriumKeyValue;
+            importance: Typ.ToolImportance.undefined,
+            isExclusionTool: false,
+          } as Typ.Tool,
+        } as Typ.ToolKeyValue;
       },
     },
   },
@@ -91,9 +91,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: JSON.parse(
-        JSON.stringify(this.propCriteriumKV)
-      ) as Typ.criteriumKeyValue,
+      ToolKV: JSON.parse(
+        JSON.stringify(this.propToolKV)
+      ) as Typ.ToolKeyValue,
       moduleState: Typ.criteriaModuleState
         .increation as Typ.criteriaModuleState,
 
@@ -114,34 +114,34 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    updateCriterium(newVal: Typ.criterium) {
-      this.criteriumKV.value = newVal;
+    updateTool(newVal: Typ.Tool) {
+      this.ToolKV.value = newVal;
     },
     btnCancel() {
-      this.resetCriteriumKV();
+      this.resetToolKV();
       this.navigateTo("/Criteria/");
     },
     btnSave() {
       if (
         (
-          this.$refs.criterium_card as Vue & { validate: () => boolean }
+          this.$refs.Tool_card as Vue & { validate: () => boolean }
         ).validate()
       ) {
-        this.$store.dispatch("updateCriterium", this.criteriumKV);
+        this.$store.dispatch("updateTool", this.ToolKV);
 
-        this.resetCriteriumKV();
+        this.resetToolKV();
         this.navigateTo("/Criteria/");
       }
     },
-    resetCriteriumKV(): void {
-      this.criteriumKV = {
+    resetToolKV(): void {
+      this.ToolKV = {
         key: uuidv4() as string,
         value: {
           name: "",
           description: "",
-          importance: Typ.criteriumImportance.undefined,
-          isExclusionCriterium: false,
-        } as Typ.criterium,
+          importance: Typ.ToolImportance.undefined,
+          isExclusionTool: false,
+        } as Typ.Tool,
       };
     },
     navigateTo(route: string): void {
@@ -151,12 +151,12 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriterium: {
-      handler(newVal: Typ.criteriumKeyValue) {
-        this.criteriumKV = newVal;
+    propTool: {
+      handler(newVal: Typ.ToolKeyValue) {
+        this.ToolKV = newVal;
 
         //LOG
-        console.log("CriteriumCreation: propCriteriumKV changed!");
+        console.log("ToolCreation: propToolKV changed!");
       },
       deep: true,
     },
@@ -169,25 +169,25 @@ export default Vue.extend({
     const uuid: string = this.$route.params.id;
 
     if (uuid !== uuidNIL) {
-      const result = this.$store.getters.getCriterium(uuid);
+      const result = this.$store.getters.getTool(uuid);
       if (result !== null) {
-        this.criteriumKV = JSON.parse(
+        this.ToolKV = JSON.parse(
           JSON.stringify(result)
-        ) as Typ.criteriumKeyValue;
+        ) as Typ.ToolKeyValue;
 
         //LOG
-        console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
+        console.log("ToolCreation: Loaded Tool with key: " + uuid);
 
         console.log(
           "\nImportance:\n" +
-            Typ.criteriumImportance[this.criteriumKV.value.importance] +
+            Typ.ToolImportance[this.ToolKV.value.importance] +
             "\n"
         );
       }
     }
 
     //LOG
-    console.log("CriteriumCreation: Mounted");
+    console.log("ToolCreation: Mounted");
   },
 });
 </script>

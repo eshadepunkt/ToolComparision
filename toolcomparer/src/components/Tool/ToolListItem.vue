@@ -1,18 +1,18 @@
 <template>
-  <div id="CriteriumListItem">
+  <div id="ToolListItem">
     <v-card
       v-bind:style="unsavedChanges ? 'background-color: LavenderBlush' : ''"
     >
       <v-container>
         <v-row>
           <v-col cols="9">
-            <CriteriumCard
-              :propCriterium="criteriumKV.value"
+            <ToolCard
+              :propTool="ToolKV.value"
               :propModuleState="moduleState"
               :propUnsavedChanges="unsavedChanges"
-              @update_criterium="updateCriterium"
-              @save_criterium="saveCriterium"
-              @restore_criterium="restoreCriterium"
+              @update_Tool="updateTool"
+              @save_Tool="saveTool"
+              @restore_Tool="restoreTool"
             />
           </v-col>
           <!-- Icons -->
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumListItem.vue");
+console.log("Load ToolListItem.vue");
 
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
@@ -53,19 +53,19 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCard from "./CriteriumCard.vue";
+import ToolCard from "./ToolCard.vue";
 
 export default Vue.extend({
-  name: "CriteriumListItem",
+  name: "ToolListItem",
 
   components: {
-    CriteriumCard,
+    ToolCard,
   },
 
   //PROPS
   props: {
-    propCriteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
+    propToolKV: {
+      type: Object as () => Typ.ToolKeyValue,
     },
     btnText: {
       type: String,
@@ -76,9 +76,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: JSON.parse(
-        JSON.stringify(this.propCriteriumKV)
-      ) as Typ.criteriumKeyValue,
+      ToolKV: JSON.parse(
+        JSON.stringify(this.propToolKV)
+      ) as Typ.ToolKeyValue,
       moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,
 
       icons: {
@@ -98,8 +98,8 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    updateCriterium(newVal: Typ.criterium) {
-      this.criteriumKV.value = newVal;
+    updateTool(newVal: Typ.Tool) {
+      this.ToolKV.value = newVal;
 
       if (!this.resetRequest) {
         this.unsavedChanges = true;
@@ -108,27 +108,27 @@ export default Vue.extend({
         this.resetRequest = false;
       }
     },
-    saveCriterium(newVal: Typ.criterium) {
-      this.criteriumKV.value = newVal;
+    saveTool(newVal: Typ.Tool) {
+      this.ToolKV.value = newVal;
 
-      this.$store.dispatch("updateCriterium", this.criteriumKV);
+      this.$store.dispatch("updateTool", this.ToolKV);
 
       this.unsavedChanges = false;
     },
-    restoreCriterium() {
+    restoreTool() {
       this.resetRequest = true;
-      this.criteriumKV = JSON.parse(
-        JSON.stringify(this.propCriteriumKV)
-      ) as Typ.criteriumKeyValue;
+      this.ToolKV = JSON.parse(
+        JSON.stringify(this.propToolKV)
+      ) as Typ.ToolKeyValue;
       this.unsavedChanges = false;
     },
 
     btnEdit() {
-      const appendix: string = this.criteriumKV.key;
-      this.navigateTo("/CriteriumCreation/Update/" + appendix);
+      const appendix: string = this.ToolKV.key;
+      this.navigateTo("/ToolCreation/Update/" + appendix);
     },
     btnDelete() {
-      this.$store.commit("removeCriterium", this.criteriumKV);
+      this.$store.commit("removeTool", this.ToolKV);
     },
 
     navigateTo(route: string): void {
@@ -138,12 +138,12 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriterium: {
-      handler(newVal: Typ.criteriumKeyValue) {
-        this.criteriumKV = newVal;
+    propTool: {
+      handler(newVal: Typ.ToolKeyValue) {
+        this.ToolKV = newVal;
 
         //LOG
-        console.log("CriteriumListItem: propCriteriumKV changed!");
+        console.log("ToolListItem: propToolKV changed!");
       },
       deep: true,
     },

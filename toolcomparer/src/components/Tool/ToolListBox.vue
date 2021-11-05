@@ -1,5 +1,5 @@
 <template>
-  <div id="CriteriumListBox">
+  <div id="ToolListBox">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
@@ -17,7 +17,7 @@
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
                 <v-item v-for="item in getCriteria()" :key="item.key">
-                  <CriteriumListItem :propCriteriumKV="item" />
+                  <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>
             </v-list>
@@ -37,10 +37,10 @@
           </v-col>
           <v-col xl="1">
             <v-btn
-              @click="navigateTo('/CriteriumCreation/Add/' + uuidNIL)"
+              @click="navigateTo('/ToolCreation/Add/' + uuidNIL)"
               color="teal lighten-5"
             >
-              Add Criterium
+              Add Tool
             </v-btn>
           </v-col>
           <v-col xl="1">
@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumListBox.vue");
+console.log("Load ToolListBox.vue");
 
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
@@ -90,19 +90,19 @@ import {
 
 import Vue from "vue";
 
-import CriteriumListItem from "./CriteriumListItem.vue";
+import ToolListItem from "./ToolListItem.vue";
 
 export default Vue.extend({
-  name: "CriteriumListBox",
+  name: "ToolListBox",
 
   components: {
-    CriteriumListItem,
+    ToolListItem,
   },
 
   //DATA
   data() {
     return {
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      criteria: {} as Array<Typ.ToolKeyValue>,
       uuidNIL,
     };
   },
@@ -112,7 +112,7 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
+    getCriteria(): Array<Typ.ToolKeyValue> {
       this.criteria = this.$store.getters.getCriteria;
 
       return this.criteria;
@@ -155,9 +155,9 @@ export default Vue.extend({
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
-        const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
+        const tmpCriteria: Array<Typ.ToolKeyValue> = JSON.parse(
           json
-        ) as Array<Typ.criteriumKeyValue>;
+        ) as Array<Typ.ToolKeyValue>;
         this.$store.dispatch("extendCriteria", tmpCriteria);
       }
     },
@@ -168,7 +168,7 @@ export default Vue.extend({
     this.criteria = this.$store.getters.getCriteria;
 
     //LOG
-    console.log("CriteriumCreation: Mounted");
+    console.log("ToolCreation: Mounted");
   },
 });
 </script>
