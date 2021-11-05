@@ -4,7 +4,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="6">
+          <v-col xl="11">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
                 {{ btnText }} Criterium
@@ -14,13 +14,12 @@
         </v-row>
         <!-- Body -->
         <v-row>
-          <v-col xl="6">
+          <v-col xl="11">
             <v-card outlined>
               <CriteriumCard
                 ref="criterium_card"
                 :propCriterium="criteriumKV.value"
                 :propModuleState="moduleState"
-                :propEditState="editState"
                 @update_criterium="updateCriterium"
               />
             </v-card>
@@ -28,12 +27,12 @@
         </v-row>
         <!-- Buttons -->
         <v-row>
-          <v-col cols="8"> </v-col>
-          <v-col cols="1">
+          <v-col xl="8"> </v-col>
+          <v-col xl="1">
             <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
           </v-col>
-          <v-col cols="1"> </v-col>
-          <v-col cols="1">
+          <v-col xl="1"> </v-col>
+          <v-col xl="1">
             <v-btn @click="btnSave()" color="teal lighten-5">
               {{ btnText }}
             </v-btn>
@@ -97,7 +96,6 @@ export default Vue.extend({
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.criteriaModuleState
         .increation as Typ.criteriaModuleState,
-      editState: Typ.editCriteriaModule.increation as Typ.editCriteriaModule,
 
       icons: {
         mdiAccount,
