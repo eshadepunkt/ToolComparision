@@ -61,7 +61,7 @@
               class="d-none"
               type="file"
               accept=".json"
-              @input="onFileChanged"
+              @change="onFileChanged"
             />
           </v-col>
           <v-col xl="1">
@@ -144,7 +144,11 @@ export default Vue.extend({
       var json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
+        
+        //LOG
         console.log(json);
+  
+        e.target.value = null;
       };
       reader.onloadend = () => this.convertJSONToArray(json);
       reader.readAsText(file);
@@ -155,8 +159,6 @@ export default Vue.extend({
           json
         ) as Array<Typ.criteriumKeyValue>;
         this.$store.dispatch("extendCriteria", tmpCriteria);
-
-        console.log("DONEY");
       }
     },
   },
