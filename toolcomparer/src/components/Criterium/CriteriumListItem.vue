@@ -79,7 +79,7 @@ export default Vue.extend({
       criteriumKV: JSON.parse(
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
-      moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,
+      moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
 
       icons: {
         mdiAccount,

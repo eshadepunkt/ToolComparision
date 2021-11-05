@@ -7,7 +7,7 @@
           <v-col xl="11">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
-                {{ btnText }} Tool
+                {{ btnText }} tool
               </h1>
             </v-card>
           </v-col>
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load ToolCreation.vue");
+console.log("Load toolCreation.vue");
 
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
@@ -73,17 +73,17 @@ export default Vue.extend({
   //PROPS
   props: {
     propToolKV: {
-      type: Object as () => Typ.ToolKeyValue,
+      type: Object as () => Typ.toolKeyValue,
       default() {
         return {
           key: uuidv4() as string,
           value: {
             name: "",
             description: "",
-            importance: Typ.ToolImportance.undefined,
+            importance: Typ.toolImportance.undefined,
             isExclusionTool: false,
-          } as Typ.Tool,
-        } as Typ.ToolKeyValue;
+          } as Typ.tool,
+        } as Typ.toolKeyValue;
       },
     },
   },
@@ -91,11 +91,11 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      ToolKV: JSON.parse(
+      toolKV: JSON.parse(
         JSON.stringify(this.propToolKV)
-      ) as Typ.ToolKeyValue,
-      moduleState: Typ.ToolsModuleState
-        .increation as Typ.ToolsModuleState,
+      ) as Typ.toolKeyValue,
+      moduleState: Typ.toolsModuleState
+        .increation as Typ.toolsModuleState,
 
       icons: {
         mdiAccount,
@@ -114,8 +114,8 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    updateTool(newVal: Typ.Tool) {
-      this.ToolKV.value = newVal;
+    updateTool(newVal: Typ.tool) {
+      this.toolKV.value = newVal;
     },
     btnCancel() {
       this.resetToolKV();
@@ -124,24 +124,24 @@ export default Vue.extend({
     btnSave() {
       if (
         (
-          this.$refs.Tool_card as Vue & { validate: () => boolean }
+          this.$refs.tool_card as Vue & { validate: () => boolean }
         ).validate()
       ) {
-        this.$store.dispatch("updateTool", this.ToolKV);
+        this.$store.dispatch("updateTool", this.toolKV);
 
         this.resetToolKV();
         this.navigateTo("/Tools/");
       }
     },
     resetToolKV(): void {
-      this.ToolKV = {
+      this.toolKV = {
         key: uuidv4() as string,
         value: {
           name: "",
           description: "",
-          importance: Typ.ToolImportance.undefined,
+          importance: Typ.toolImportance.undefined,
           isExclusionTool: false,
-        } as Typ.Tool,
+        } as Typ.tool,
       };
     },
     navigateTo(route: string): void {
@@ -152,8 +152,8 @@ export default Vue.extend({
   //WATCH
   watch: {
     propTool: {
-      handler(newVal: Typ.ToolKeyValue) {
-        this.ToolKV = newVal;
+      handler(newVal: Typ.toolKeyValue) {
+        this.toolKV = newVal;
 
         //LOG
         console.log("ToolCreation: propToolKV changed!");
@@ -171,16 +171,16 @@ export default Vue.extend({
     if (uuid !== uuidNIL) {
       const result = this.$store.getters.getTool(uuid);
       if (result !== null) {
-        this.ToolKV = JSON.parse(
+        this.toolKV = JSON.parse(
           JSON.stringify(result)
-        ) as Typ.ToolKeyValue;
+        ) as Typ.toolKeyValue;
 
         //LOG
-        console.log("ToolCreation: Loaded Tool with key: " + uuid);
+        console.log("ToolCreation: Loaded tool with key: " + uuid);
 
         console.log(
           "\nImportance:\n" +
-            Typ.ToolImportance[this.ToolKV.value.importance] +
+            Typ.toolImportance[this.toolKV.value.importance] +
             "\n"
         );
       }

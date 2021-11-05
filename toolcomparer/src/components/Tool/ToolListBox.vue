@@ -40,12 +40,12 @@
               @click="navigateTo('/ToolCreation/Add/' + uuidNIL)"
               color="teal lighten-5"
             >
-              Add Tool
+              Add tool
             </v-btn>
           </v-col>
           <v-col xl="1">
             <v-btn @click="navigateTo('/Tools/')" color="blue lighten-5">
-              Add Tools
+              Add tools
             </v-btn>
           </v-col>
         </v-row>
@@ -102,7 +102,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      Tools: {} as Array<Typ.ToolKeyValue>,
+      tools: {} as Array<Typ.toolKeyValue>,
       uuidNIL,
     };
   },
@@ -112,14 +112,14 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getTools(): Array<Typ.ToolKeyValue> {
-      this.Tools = this.$store.getters.getTools;
+    getTools(): Array<Typ.toolKeyValue> {
+      this.tools = this.$store.getters.getTools;
 
-      return this.Tools;
+      return this.tools;
     },
     exportTools() {
-      const json: string = JSON.stringify(this.Tools);
-      const filename = "toolcomparer_Tools.json";
+      const json: string = JSON.stringify(this.tools);
+      const filename = "toolcomparer_tools.json";
 
       var element = document.createElement("a");
       element.setAttribute(
@@ -155,9 +155,9 @@ export default Vue.extend({
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
-        const tmpTools: Array<Typ.ToolKeyValue> = JSON.parse(
+        const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
           json
-        ) as Array<Typ.ToolKeyValue>;
+        ) as Array<Typ.toolKeyValue>;
         this.$store.dispatch("extendTools", tmpTools);
       }
     },
@@ -165,7 +165,7 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.Tools = this.$store.getters.getTools;
+    this.tools = this.$store.getters.getTools;
 
     //LOG
     console.log("ToolCreation: Mounted");

@@ -94,8 +94,8 @@ export default Vue.extend({
       criteriumKV: JSON.parse(
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
-      moduleState: Typ.criteriaModuleState
-        .increation as Typ.criteriaModuleState,
+      moduleState: Typ.simpleModuleState
+        .increation as Typ.simpleModuleState,
 
       icons: {
         mdiAccount,

@@ -21,7 +21,7 @@
               v-if="isMinimized()"
               style="font-size: 1.5em; position: relative; top: 0.5em"
             >
-              {{ Tool.name }}
+              {{ tool.name }}
             </div>
             <!-- Maximized -->
             <v-text-field
@@ -82,11 +82,11 @@
           </v-col>
         </v-row>
 
-        <!-- Exclusion Tool -->
+        <!-- Exclusion tool -->
         <v-row v-if="!isMinimized()">
           <v-col cols="9">
             <v-checkbox
-              label="Exclusion Tool"
+              label="Exclusion tool"
               v-model="Tool.isExclusionTool"
               :readonly="!isInCreation()"
             >
@@ -121,75 +121,74 @@ export default Vue.extend({
   //PROPS
   props: {
     propTool: {
-      type: Object as () => Typ.Tool,
+      type: Object as () => Typ.tool,
       default() {
         return {
           name: "",
           description: "",
-          importance: Typ.ToolImportance.undefined,
-          isExclusionTool: false,
-        } as Typ.Tool;
+          criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+        } as Typ.tool;
       },
     },
     propModuleState: {
-      type: Object as () => Typ.ToolsModuleState,
-      default: Typ.ToolsModuleState.increation as Typ.ToolsModuleState,
+      type: Object as () => Typ.toolsModuleState,
+      default: Typ.toolsModuleState.increation as Typ.toolsModuleState,
     },
   },
 
   //METHODS
   methods: {
     isMinimized(): boolean {
-      return this.moduleState === Typ.ToolsModuleState.minimized;
+      return this.moduleState === Typ.toolsModuleState.minimized;
     },
     isInCreation(): boolean {
-      return this.moduleState === Typ.ToolsModuleState.increation;
+      return this.moduleState === Typ.toolsModuleState.increation;
     },
     changeModuleState(state: string): void {
       var stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-    convertStringToModuleStateEnum(convert: string): Typ.ToolsModuleState {
+    convertStringToModuleStateEnum(convert: string): Typ.toolsModuleState {
       this.selectedDebugItem = convert;
 
       switch (convert) {
         case "minimized":
-          return Typ.ToolsModuleState.minimized;
+          return Typ.toolsModuleState.minimized;
         case "maximized":
-          return Typ.ToolsModuleState.maximized;
+          return Typ.toolsModuleState.maximized;
         default:
-          return Typ.ToolsModuleState.increation;
+          return Typ.toolsModuleState.increation;
       }
     },
 
     updateImportance(importance: string): void {
-      var importanceEnum: Typ.ToolImportance =
+      var importanceEnum: Typ.toolImportance =
         this.convertStringToImportanceEnum(importance);
-      this.Tool.importance = importanceEnum;
+      this.tool.importance = importanceEnum;
     },
-    convertStringToImportanceEnum(convert: string): Typ.ToolImportance {
+    convertStringToImportanceEnum(convert: string): Typ.toolImportance {
       convert = convert.replaceAll(" ", "");
 
       switch (convert) {
         case "veryimportant":
-          return Typ.ToolImportance.veryimportant;
+          return Typ.toolImportance.veryimportant;
         case "important":
-          return Typ.ToolImportance.important;
+          return Typ.toolImportance.important;
         case "neutral":
-          return Typ.ToolImportance.neutral;
+          return Typ.toolImportance.neutral;
         default:
-          return Typ.ToolImportance.unimportant;
+          return Typ.toolImportance.unimportant;
       }
     },
-    convertImportanceEnumToString(convert: Typ.ToolImportance): string {
+    convertImportanceEnumToString(convert: Typ.toolImportance): string {
       switch (convert) {
-        case Typ.ToolImportance.veryimportant:
+        case Typ.toolImportance.veryimportant:
           return "very important";
-        case Typ.ToolImportance.important:
+        case Typ.toolImportance.important:
           return "important";
-        case Typ.ToolImportance.neutral:
+        case Typ.toolImportance.neutral:
           return "neutral";
-        case Typ.ToolImportance.unimportant:
+        case Typ.toolImportance.unimportant:
           return "unimportant";
         default:
           return "";
@@ -218,11 +217,11 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      Tool: JSON.parse(
+      tool: JSON.parse(
         JSON.stringify(this.propTool)
-      ) as Typ.Tool,
-      restoreTool: {} as Typ.Tool,
-      moduleState: this.propModuleState as Typ.ToolsModuleState,
+      ) as Typ.tool,
+      restoreTool: {} as Typ.tool,
+      moduleState: this.propModuleState as Typ.toolsModuleState,
 
       importanceItems: [
         "very important",
@@ -231,12 +230,12 @@ export default Vue.extend({
         "unimportant",
       ] as string[],
       selectedImportance: (this.propTool.importance ===
-      Typ.ToolImportance.undefined
+      Typ.toolImportance.undefined
         ? ""
         : this.propTool.importance ===
-          Typ.ToolImportance.veryimportant
+          Typ.toolImportance.veryimportant
         ? "very important"
-        : Typ.ToolImportance[this.propTool.importance]) as string,
+        : Typ.toolImportance[this.propTool.importance]) as string,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -265,10 +264,10 @@ export default Vue.extend({
   //WATCH
   watch: {
     propTool: {
-      handler(newVal: Typ.Tool) {
-        this.Tool = newVal;
+      handler(newVal: Typ.tool) {
+        this.tool = newVal;
         this.selectedImportance = this.convertImportanceEnumToString(
-          this.Tool.importance
+          this.tool.importance
         );
 
         //LOG
@@ -276,15 +275,15 @@ export default Vue.extend({
       },
       deep: true,
     },
-    Tool: {
-      handler(newVal: Typ.Tool) {
+    tool: {
+      handler(newVal: Typ.tool) {
         this.$emit("update_Tool", newVal);
         this.selectedImportance = this.convertImportanceEnumToString(
-          this.Tool.importance
+          this.tool.importance
         );
 
         //LOG
-        console.log("ToolCard: Tool changed!");
+        console.log("ToolCard: tool changed!");
       },
       deep: true,
     },

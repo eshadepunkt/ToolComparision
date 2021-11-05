@@ -65,7 +65,7 @@ export default Vue.extend({
   //PROPS
   props: {
     propToolKV: {
-      type: Object as () => Typ.ToolKeyValue,
+      type: Object as () => Typ.toolKeyValue,
     },
     btnText: {
       type: String,
@@ -76,10 +76,10 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      ToolKV: JSON.parse(
+      toolKV: JSON.parse(
         JSON.stringify(this.propToolKV)
-      ) as Typ.ToolKeyValue,
-      moduleState: Typ.ToolsModuleState.minimized as Typ.ToolsModuleState,
+      ) as Typ.toolKeyValue,
+      moduleState: Typ.toolsModuleState.minimized as Typ.toolsModuleState,
 
       icons: {
         mdiAccount,
@@ -98,8 +98,8 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    updateTool(newVal: Typ.Tool) {
-      this.ToolKV.value = newVal;
+    updateTool(newVal: Typ.tool) {
+      this.toolKV.value = newVal;
 
       if (!this.resetRequest) {
         this.unsavedChanges = true;
@@ -108,27 +108,27 @@ export default Vue.extend({
         this.resetRequest = false;
       }
     },
-    saveTool(newVal: Typ.Tool) {
-      this.ToolKV.value = newVal;
+    saveTool(newVal: Typ.tool) {
+      this.toolKV.value = newVal;
 
-      this.$store.dispatch("updateTool", this.ToolKV);
+      this.$store.dispatch("updateTool", this.toolKV);
 
       this.unsavedChanges = false;
     },
     restoreTool() {
       this.resetRequest = true;
-      this.ToolKV = JSON.parse(
+      this.toolKV = JSON.parse(
         JSON.stringify(this.propToolKV)
-      ) as Typ.ToolKeyValue;
+      ) as Typ.toolKeyValue;
       this.unsavedChanges = false;
     },
 
     btnEdit() {
-      const appendix: string = this.ToolKV.key;
+      const appendix: string = this.toolKV.key;
       this.navigateTo("/ToolCreation/Update/" + appendix);
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.ToolKV);
+      this.$store.commit("removeTool", this.toolKV);
     },
 
     navigateTo(route: string): void {
@@ -139,8 +139,8 @@ export default Vue.extend({
   //WATCH
   watch: {
     propTool: {
-      handler(newVal: Typ.ToolKeyValue) {
-        this.ToolKV = newVal;
+      handler(newVal: Typ.toolKeyValue) {
+        this.toolKV = newVal;
 
         //LOG
         console.log("ToolListItem: propToolKV changed!");

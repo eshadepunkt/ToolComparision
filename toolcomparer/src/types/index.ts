@@ -8,6 +8,14 @@ export enum appState {
   export,
 }
 
+export enum simpleModuleState {
+  minimized,
+  maximized,
+  increation,
+}
+
+
+
 export enum criteriumImportance {
   undefined = 0,
   unimportant = 1,
@@ -41,8 +49,33 @@ export function isCriteriumKV(check: any): boolean {
   );
 }
 
-export enum criteriaModuleState {
-  minimized,
-  maximized,
-  increation,
+
+
+
+
+
+export enum toolCriteriumFullfillment {
+  undefined = 0,
+  verybad = 1,
+  bad = 2,
+  normal = 3,
+  good = 4,
+  verygood = 5,
+}
+
+export interface toolCriteriumSuitability {
+  criterium: criteriumKeyValue;
+  fullfilment: toolCriteriumFullfillment;
+  justification: string;
+}
+
+export interface tool {
+  name: string;
+  description: string;
+  criteriaSuitabilities: Array<toolCriteriumSuitability>;
+}
+
+export interface toolKeyValue {
+  key: string;
+  value: tool;
 }
