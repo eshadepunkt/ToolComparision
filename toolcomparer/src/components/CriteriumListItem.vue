@@ -109,9 +109,6 @@ export default Vue.extend({
         this.unsavedChanges = false;
         this.resetRequest = false;
       }
-
-      //LOG
-      console.log("CriteriumListBox: criterium updated!");
     },
     saveCriterium(newVal: Typ.criterium) {
       this.criteriumKV.value = newVal;
@@ -119,14 +116,8 @@ export default Vue.extend({
       this.$store.dispatch("updateCriterium", this.criteriumKV);
 
       this.unsavedChanges = false;
-
-      //LOG
-      console.log("CriteriumListBox: store updated");
     },
     restoreCriterium() {
-      //LOG
-      console.log("CriteriumListBox: restore request");
-
       this.resetRequest = true;
       this.criteriumKV = JSON.parse(
         JSON.stringify(this.propCriteriumKV)
@@ -140,9 +131,6 @@ export default Vue.extend({
     },
     btnDelete() {
       this.$store.commit("removeCriterium", this.criteriumKV);
-
-      //LOG
-      console.log("CriteriumListBox: item removed");
     },
 
     navigateTo(route: string): void {

@@ -118,14 +118,8 @@ export default Vue.extend({
   methods: {
     updateCriterium(newVal: Typ.criterium) {
       this.criteriumKV.value = newVal;
-
-      //LOG
-      console.log("CriteriumCreation: criterium updated!");
     },
     btnCancel() {
-      //LOG
-      console.log("CriteriumCreation: CANCEL button clicked");
-
       this.resetCriteriumKV();
       this.navigateTo("/Criteria/");
     },
@@ -136,9 +130,6 @@ export default Vue.extend({
         ).validate()
       ) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
-
-        //LOG
-        console.log("CriteriumCreation: store updated");
 
         this.resetCriteriumKV();
         this.navigateTo("/Criteria/");

@@ -61,7 +61,7 @@
               class="d-none"
               type="file"
               accept=".json"
-              @input="onFileChanged"
+              @change="onFileChanged"
             />
           </v-col>
           <v-col xl="1">
@@ -118,9 +118,6 @@ export default Vue.extend({
       return this.criteria;
     },
     exportCriteria() {
-      //LOG
-      console.log("CriteriumListBox: Export JSON");
-
       const json: string = JSON.stringify(this.criteria);
       const filename = "toolcomparer_criteria.json";
 
@@ -139,9 +136,6 @@ export default Vue.extend({
       document.body.removeChild(element);
     },
     importCriteria() {
-      //LOG
-      console.log("CriteriumListBox: Import JSON");
-
       (this.$refs.uploader as Vue & { click: () => void }).click();
     },
     onFileChanged(e: any) {
@@ -150,7 +144,11 @@ export default Vue.extend({
       var json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
+        
+        //LOG
         console.log(json);
+  
+        e.target.value = null;
       };
       reader.onloadend = () => this.convertJSONToArray(json);
       reader.readAsText(file);
@@ -161,8 +159,6 @@ export default Vue.extend({
           json
         ) as Array<Typ.criteriumKeyValue>;
         this.$store.dispatch("extendCriteria", tmpCriteria);
-
-        console.log("DONEY");
       }
     },
   },

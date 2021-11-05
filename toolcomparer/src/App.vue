@@ -42,36 +42,15 @@ export default Vue.extend({
 
   methods: {
     changeCurrentState(state: string): void {
-      //Log
-      console.log(
-        "App: change current state from '" +
-          Typ.appState[this.currentState] +
-          "' to: '" +
-          state +
-          "'"
-      );
-
-      this.currentState = this.convertStringToAppStateEnum(state);
+       this.currentState = this.convertStringToAppStateEnum(state);
     },
 
     isCurrent(sender: string): boolean {
-      //Log
-      console.log(
-        "App: request current state from '" +
-          sender +
-          "'; current: '" +
-          Typ.appState[this.currentState] +
-          "'"
-      );
-
       var senderEnum: Typ.appState = this.convertStringToAppStateEnum(sender);
 
       return senderEnum === this.currentState;
     },
     convertStringToAppStateEnum(convert: string): Typ.appState {
-      //Log
-      console.log("App: convert string '" + convert + "' to appState");
-
       switch (convert) {
         case "criteria":
           return Typ.appState.criteria;
