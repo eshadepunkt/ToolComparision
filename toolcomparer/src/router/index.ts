@@ -1,5 +1,5 @@
-import CriteriumCreation from "../components/CriteriumCreation.vue";
-import CriteriumListBox from "../components/CriteriumListBox.vue";
+import CriteriumCreation from "../components/Criterium/CriteriumCreation.vue";
+import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
 
 import App from "../App.vue";
 

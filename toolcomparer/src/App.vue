@@ -23,15 +23,13 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCard from "./components/CriteriumCard.vue";
-import CriteriumCreation from "./components/CriteriumCreation.vue";
-import CriteriumListBox from "./components/CriteriumListBox.vue";
+import CriteriumCreation from "./components/Criterium/CriteriumCreation.vue";
+import CriteriumListBox from "./components/Criterium/CriteriumListBox.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    CriteriumCard,
     CriteriumCreation,
     CriteriumListBox,
   },

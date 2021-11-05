@@ -102,7 +102,7 @@
 console.log("Load CriteriumCard.vue");
 console.dir();
 
-import * as Typ from "../types/index";
+import * as Typ from "../../types/index";
 import {
   mdiAccount,
   mdiPencil,
