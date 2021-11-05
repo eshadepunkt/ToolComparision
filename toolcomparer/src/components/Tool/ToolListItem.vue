@@ -79,7 +79,7 @@ export default Vue.extend({
       ToolKV: JSON.parse(
         JSON.stringify(this.propToolKV)
       ) as Typ.ToolKeyValue,
-      moduleState: Typ.criteriaModuleState.minimized as Typ.criteriaModuleState,
+      moduleState: Typ.ToolsModuleState.minimized as Typ.ToolsModuleState,
 
       icons: {
         mdiAccount,

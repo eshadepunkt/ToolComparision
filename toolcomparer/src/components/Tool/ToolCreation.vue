@@ -94,8 +94,8 @@ export default Vue.extend({
       ToolKV: JSON.parse(
         JSON.stringify(this.propToolKV)
       ) as Typ.ToolKeyValue,
-      moduleState: Typ.criteriaModuleState
-        .increation as Typ.criteriaModuleState,
+      moduleState: Typ.ToolsModuleState
+        .increation as Typ.ToolsModuleState,
 
       icons: {
         mdiAccount,
@@ -119,7 +119,7 @@ export default Vue.extend({
     },
     btnCancel() {
       this.resetToolKV();
-      this.navigateTo("/Criteria/");
+      this.navigateTo("/Tools/");
     },
     btnSave() {
       if (
@@ -130,7 +130,7 @@ export default Vue.extend({
         this.$store.dispatch("updateTool", this.ToolKV);
 
         this.resetToolKV();
-        this.navigateTo("/Criteria/");
+        this.navigateTo("/Tools/");
       }
     },
     resetToolKV(): void {

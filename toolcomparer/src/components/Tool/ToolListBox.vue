@@ -6,7 +6,7 @@
         <v-row>
           <v-col xl="11">
             <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Criteria</h1>
+              <h1 style="text-align: center; color: white">Tools</h1>
             </v-card>
           </v-col>
         </v-row>
@@ -16,7 +16,7 @@
           <v-col xl="11">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getCriteria()" :key="item.key">
+                <v-item v-for="item in getTools()" :key="item.key">
                   <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>
@@ -55,7 +55,7 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="importCriteria()"> Import </v-btn>
+            <v-btn @click="importTools()"> Import </v-btn>
             <input
               ref="uploader"
               class="d-none"
@@ -65,7 +65,7 @@
             />
           </v-col>
           <v-col xl="1">
-            <v-btn @click="exportCriteria()"> Export </v-btn>
+            <v-btn @click="exportTools()"> Export </v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -102,7 +102,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteria: {} as Array<Typ.ToolKeyValue>,
+      Tools: {} as Array<Typ.ToolKeyValue>,
       uuidNIL,
     };
   },
@@ -112,14 +112,14 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getCriteria(): Array<Typ.ToolKeyValue> {
-      this.criteria = this.$store.getters.getCriteria;
+    getTools(): Array<Typ.ToolKeyValue> {
+      this.Tools = this.$store.getters.getTools;
 
-      return this.criteria;
+      return this.Tools;
     },
-    exportCriteria() {
-      const json: string = JSON.stringify(this.criteria);
-      const filename = "toolcomparer_criteria.json";
+    exportTools() {
+      const json: string = JSON.stringify(this.Tools);
+      const filename = "toolcomparer_Tools.json";
 
       var element = document.createElement("a");
       element.setAttribute(
@@ -135,7 +135,7 @@ export default Vue.extend({
 
       document.body.removeChild(element);
     },
-    importCriteria() {
+    importTools() {
       (this.$refs.uploader as Vue & { click: () => void }).click();
     },
     onFileChanged(e: any) {
@@ -155,17 +155,17 @@ export default Vue.extend({
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
-        const tmpCriteria: Array<Typ.ToolKeyValue> = JSON.parse(
+        const tmpTools: Array<Typ.ToolKeyValue> = JSON.parse(
           json
         ) as Array<Typ.ToolKeyValue>;
-        this.$store.dispatch("extendCriteria", tmpCriteria);
+        this.$store.dispatch("extendTools", tmpTools);
       }
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.criteria = this.$store.getters.getCriteria;
+    this.Tools = this.$store.getters.getTools;
 
     //LOG
     console.log("ToolCreation: Mounted");

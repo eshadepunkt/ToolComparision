@@ -132,33 +132,33 @@ export default Vue.extend({
       },
     },
     propModuleState: {
-      type: Object as () => Typ.criteriaModuleState,
-      default: Typ.criteriaModuleState.increation as Typ.criteriaModuleState,
+      type: Object as () => Typ.ToolsModuleState,
+      default: Typ.ToolsModuleState.increation as Typ.ToolsModuleState,
     },
   },
 
   //METHODS
   methods: {
     isMinimized(): boolean {
-      return this.moduleState === Typ.criteriaModuleState.minimized;
+      return this.moduleState === Typ.ToolsModuleState.minimized;
     },
     isInCreation(): boolean {
-      return this.moduleState === Typ.criteriaModuleState.increation;
+      return this.moduleState === Typ.ToolsModuleState.increation;
     },
     changeModuleState(state: string): void {
       var stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-    convertStringToModuleStateEnum(convert: string): Typ.criteriaModuleState {
+    convertStringToModuleStateEnum(convert: string): Typ.ToolsModuleState {
       this.selectedDebugItem = convert;
 
       switch (convert) {
         case "minimized":
-          return Typ.criteriaModuleState.minimized;
+          return Typ.ToolsModuleState.minimized;
         case "maximized":
-          return Typ.criteriaModuleState.maximized;
+          return Typ.ToolsModuleState.maximized;
         default:
-          return Typ.criteriaModuleState.increation;
+          return Typ.ToolsModuleState.increation;
       }
     },
 
@@ -222,7 +222,7 @@ export default Vue.extend({
         JSON.stringify(this.propTool)
       ) as Typ.Tool,
       restoreTool: {} as Typ.Tool,
-      moduleState: this.propModuleState as Typ.criteriaModuleState,
+      moduleState: this.propModuleState as Typ.ToolsModuleState,
 
       importanceItems: [
         "very important",
