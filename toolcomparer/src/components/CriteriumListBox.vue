@@ -118,9 +118,6 @@ export default Vue.extend({
       return this.criteria;
     },
     exportCriteria() {
-      //LOG
-      console.log("CriteriumListBox: Export JSON");
-
       const json: string = JSON.stringify(this.criteria);
       const filename = "toolcomparer_criteria.json";
 
@@ -139,9 +136,6 @@ export default Vue.extend({
       document.body.removeChild(element);
     },
     importCriteria() {
-      //LOG
-      console.log("CriteriumListBox: Import JSON");
-
       (this.$refs.uploader as Vue & { click: () => void }).click();
     },
     onFileChanged(e: any) {

@@ -248,15 +248,6 @@ export default Vue.extend({
       return this.moduleState === Typ.criteriaModuleState.increation;
     },
     changeModuleState(state: string): void {
-      //Log
-      console.log(
-        "CriteriumCard: change module state from '" +
-          Typ.criteriaModuleState[this.moduleState] +
-          "' to '" +
-          state +
-          "'"
-      );
-
       var stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
 
@@ -265,20 +256,8 @@ export default Vue.extend({
       } else {
         this.editState = Typ.editCriteriaModule.none;
       }
-
-      //Log
-      console.log(
-        "CriteriumCard: changed edit mode to '" +
-          Typ.editCriteriaModule[this.editState] +
-          "'"
-      );
     },
     convertStringToModuleStateEnum(convert: string): Typ.criteriaModuleState {
-      //Log
-      console.log(
-        "CriteriumCard: convert string '" + convert + "' to moduleStateEnum"
-      );
-
       this.selectedDebugItem = convert;
 
       switch (convert) {
@@ -292,15 +271,6 @@ export default Vue.extend({
     },
 
     changeEditMode(mode: string): void {
-      //Log
-      console.log(
-        "CriteriumCard: change edit mode from '" +
-          Typ.editCriteriaModule[this.editState] +
-          "' to '" +
-          mode +
-          "'"
-      );
-
       var modeEnum: Typ.editCriteriaModule =
         this.convertStringToEditModeEnum(mode);
 
@@ -311,15 +281,6 @@ export default Vue.extend({
       this.editState = modeEnum;
     },
     canEdit(sender: string): boolean {
-      //Log
-      console.log(
-        "CriteriumCard: request edit mode from '" +
-          sender +
-          "'; current: '" +
-          Typ.editCriteriaModule[this.editState] +
-          "'"
-      );
-
       var senderEnum: Typ.editCriteriaModule =
         this.convertStringToEditModeEnum(sender);
       if (this.editState === Typ.editCriteriaModule.increation) {
@@ -329,11 +290,6 @@ export default Vue.extend({
       return senderEnum === this.editState;
     },
     convertStringToEditModeEnum(convert: string): Typ.editCriteriaModule {
-      //Log
-      console.log(
-        "CriteriumCard: convert string '" + convert + "' to editEnum"
-      );
-
       switch (convert) {
         case "increation":
           return Typ.editCriteriaModule.increation;
@@ -351,26 +307,12 @@ export default Vue.extend({
     },
 
     updateImportance(importance: string): void {
-      //Log
-      console.log(
-        "CriteriumCard: update criterium importance from '" +
-          Typ.criteriumImportance[this.criterium.importance] +
-          "' to '" +
-          importance +
-          "'"
-      );
-
       var importanceEnum: Typ.criteriumImportance =
         this.convertStringToImportanceEnum(importance);
       this.criterium.importance = importanceEnum;
     },
     convertStringToImportanceEnum(convert: string): Typ.criteriumImportance {
       convert = convert.replaceAll(" ", "");
-
-      //Log
-      console.log(
-        "CriteriumCard: convert string '" + convert + "' to importanceEnum"
-      );
 
       switch (convert) {
         case "veryimportant":
@@ -384,13 +326,6 @@ export default Vue.extend({
       }
     },
     convertImportanceEnumToString(convert: Typ.criteriumImportance): string {
-      //Log
-      console.log(
-        "CriteriumCard: convert importanceEnum '" +
-          Typ.criteriumImportance[convert] +
-          "' to string"
-      );
-
       switch (convert) {
         case Typ.criteriumImportance.veryimportant:
           return "very important";
@@ -406,17 +341,11 @@ export default Vue.extend({
     },
 
     btnUpdate(): void {
-      //LOG
-      console.log("CriteriumCard: SAVE_UPDATE button clicked");
-
       this.changeEditMode("none");
 
       this.$emit("save_criterium", this.criterium);
     },
     btnRestore(): void {
-      //LOG
-      console.log("CriteriumCard: RESTORE button clicked");
-
       this.changeEditMode("none");
 
       this.criterium = this.restoreCriterium;
