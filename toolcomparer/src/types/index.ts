@@ -14,8 +14,6 @@ export enum simpleModuleState {
   increation,
 }
 
-
-
 export enum criteriumImportance {
   undefined = 0,
   unimportant = 1,
@@ -48,11 +46,6 @@ export function isCriteriumKV(check: any): boolean {
     type.value.name !== undefined
   );
 }
-
-
-
-
-
 
 export enum toolCriteriumFullfillment {
   undefined = 0,

@@ -40,7 +40,7 @@ export default Vue.extend({
 
   methods: {
     changeCurrentState(state: string): void {
-       this.currentState = this.convertStringToAppStateEnum(state);
+      this.currentState = this.convertStringToAppStateEnum(state);
     },
 
     isCurrent(sender: string): boolean {

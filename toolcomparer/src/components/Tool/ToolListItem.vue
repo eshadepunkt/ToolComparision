@@ -76,9 +76,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      toolKV: JSON.parse(
-        JSON.stringify(this.propToolKV)
-      ) as Typ.toolKeyValue,
+      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
       moduleState: Typ.toolsModuleState.minimized as Typ.toolsModuleState,
 
       icons: {

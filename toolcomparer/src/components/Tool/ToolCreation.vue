@@ -91,11 +91,8 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      toolKV: JSON.parse(
-        JSON.stringify(this.propToolKV)
-      ) as Typ.toolKeyValue,
-      moduleState: Typ.toolsModuleState
-        .increation as Typ.toolsModuleState,
+      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
+      moduleState: Typ.toolsModuleState.increation as Typ.toolsModuleState,
 
       icons: {
         mdiAccount,
@@ -123,9 +120,7 @@ export default Vue.extend({
     },
     btnSave() {
       if (
-        (
-          this.$refs.tool_card as Vue & { validate: () => boolean }
-        ).validate()
+        (this.$refs.tool_card as Vue & { validate: () => boolean }).validate()
       ) {
         this.$store.dispatch("updateTool", this.toolKV);
 
@@ -171,9 +166,7 @@ export default Vue.extend({
     if (uuid !== uuidNIL) {
       const result = this.$store.getters.getTool(uuid);
       if (result !== null) {
-        this.toolKV = JSON.parse(
-          JSON.stringify(result)
-        ) as Typ.toolKeyValue;
+        this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
         //LOG
         console.log("ToolCreation: Loaded tool with key: " + uuid);

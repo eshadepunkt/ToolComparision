@@ -40,7 +40,13 @@
               class="ma-2"
               v-bind:style="isMinimized() ? 'transform: scaleY(-1);' : ''"
               icon
-              @click="[isMinimized() ? changeModuleState('maximized') : changeModuleState('minimized')]"
+              @click="
+                [
+                  isMinimized()
+                    ? changeModuleState('maximized')
+                    : changeModuleState('minimized'),
+                ]
+              "
             >
               <v-icon>
                 {{ icons.mdiAppleKeyboardControl }}
@@ -217,9 +223,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tool: JSON.parse(
-        JSON.stringify(this.propTool)
-      ) as Typ.tool,
+      tool: JSON.parse(JSON.stringify(this.propTool)) as Typ.tool,
       restoreTool: {} as Typ.tool,
       moduleState: this.propModuleState as Typ.toolsModuleState,
 
@@ -232,8 +236,7 @@ export default Vue.extend({
       selectedImportance: (this.propTool.importance ===
       Typ.toolImportance.undefined
         ? ""
-        : this.propTool.importance ===
-          Typ.toolImportance.veryimportant
+        : this.propTool.importance === Typ.toolImportance.veryimportant
         ? "very important"
         : Typ.toolImportance[this.propTool.importance]) as string,
 

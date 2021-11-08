@@ -1,5 +1,10 @@
 <template>
-  <v-form ref="form" lazy-validation v-model="isValid" id="CriteriumCard">
+  <v-form
+    ref="form"
+    lazy-validation
+    v-model="isValid"
+    id="ToolCriteriumSuitabilityCard"
+  >
     <!-- Fast Debug Settings -->
     <div v-if="debug">
       <v-select
@@ -16,23 +21,9 @@
         <!-- Head -->
         <v-row>
           <v-col cols="9">
-            <!-- Minimized -->
-            <div
-              v-if="isMinimized()"
-              style="font-size: 1.5em; position: relative; top: 0.5em"
-            >
-              {{ criterium.name }}
+            <div style="font-size: 1.5em; position: relative; top: 0.5em">
+              {{ toolCriteriumSuitability.criterium.name }}
             </div>
-            <!-- Maximized -->
-            <v-text-field
-              v-else
-              v-model="criterium.name"
-              :rules="rules.str"
-              label="Criterium name"
-              required
-              :readonly="!isInCreation()"
-            >
-            </v-text-field>
           </v-col>
           <v-col cols="1">
             <v-btn
@@ -62,41 +53,44 @@
           <v-col cols="9">
             <v-textarea
               outlined
-              label="Description"
-              v-model="criterium.description"
+              label="Criterium description"
+              v-model="toolCriteriumSuitability.criterium.description"
               :rules="rules.str"
               required
-              :readonly="!isInCreation()"
+              :readonly="true"
             >
             </v-textarea>
           </v-col>
         </v-row>
 
-        <!-- Importance -->
+        <!-- Fullfilment -->
         <v-row v-if="!isMinimized()">
           <v-col cols="9">
             <v-select
-              :items="importanceItems"
-              label="Importance"
-              v-model="selectedImportance"
+              :items="fullfillmentItems"
+              label="Fullfillment"
+              v-model="selectedFullfillment"
               :rules="rules.str"
               required
               :readonly="!isInCreation()"
-              @change="updateImportance(selectedImportance)"
+              @change="updateFullfillment(selectedFullfillment)"
             >
             </v-select>
           </v-col>
         </v-row>
 
-        <!-- Exclusion Criterium -->
+        <!-- Justification -->
         <v-row v-if="!isMinimized()">
           <v-col cols="9">
-            <v-checkbox
-              label="Exclusion Criterium"
-              v-model="criterium.isExclusionCriterium"
-              :readonly="!isInCreation()"
+            <v-textarea
+              outlined
+              label="Justification"
+              v-model="toolCriteriumSuitability.justification"
+              :rules="rules.str"
+              required
+              :readonly="true"
             >
-            </v-checkbox>
+            </v-textarea>
           </v-col>
         </v-row>
       </v-container>
@@ -105,7 +99,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCard.vue");
+console.log("Load ToolCRiteriumSuitabilityCard.vue");
 console.dir();
 
 import * as Typ from "../../types/index";
@@ -122,20 +116,12 @@ import {
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "CriteriumCard",
+  name: "ToolCriteriumSuitabilityCard",
 
   //PROPS
   props: {
-    propCriterium: {
-      type: Object as () => Typ.criterium,
-      default() {
-        return {
-          name: "",
-          description: "",
-          importance: Typ.criteriumImportance.undefined,
-          isExclusionCriterium: false,
-        } as Typ.criterium;
-      },
+    propToolCriteriumSuitability: {
+      type: Object as () => Typ.toolCriteriumSuitability,
     },
     propModuleState: {
       type: Object as () => Typ.simpleModuleState,
@@ -168,37 +154,45 @@ export default Vue.extend({
       }
     },
 
-    updateImportance(importance: string): void {
-      var importanceEnum: Typ.criteriumImportance =
-        this.convertStringToImportanceEnum(importance);
-      this.criterium.importance = importanceEnum;
+    updateFullfillment(fullfillment: string): void {
+      var fullfillmentEnum: Typ.toolCriteriumFullfillment =
+        this.convertStringToFullfillmentEnum(fullfillment);
+      this.toolCriteriumSuitability.fullfilment = fullfillmentEnum;
     },
-    convertStringToImportanceEnum(convert: string): Typ.criteriumImportance {
+
+    convertStringToFullfillmentEnum(
+      convert: string
+    ): Typ.toolCriteriumFullfillment {
       convert = convert.replaceAll(" ", "");
 
       switch (convert) {
-        case "veryimportant":
-          return Typ.criteriumImportance.veryimportant;
-        case "important":
-          return Typ.criteriumImportance.important;
-        case "neutral":
-          return Typ.criteriumImportance.neutral;
+        case "verygood":
+          return Typ.toolCriteriumFullfillment.verygood;
+        case "good":
+          return Typ.toolCriteriumFullfillment.good;
+        case "normal":
+          return Typ.toolCriteriumFullfillment.normal;
+        case "bad":
+          return Typ.toolCriteriumFullfillment.bad;
         default:
-          return Typ.criteriumImportance.unimportant;
+          return Typ.toolCriteriumFullfillment.verybad;
       }
     },
-    convertImportanceEnumToString(convert: Typ.criteriumImportance): string {
+
+    convertFullfillmentEnumToString(
+      convert: Typ.toolCriteriumFullfillment
+    ): string {
       switch (convert) {
-        case Typ.criteriumImportance.veryimportant:
-          return "very important";
-        case Typ.criteriumImportance.important:
-          return "important";
-        case Typ.criteriumImportance.neutral:
-          return "neutral";
-        case Typ.criteriumImportance.unimportant:
-          return "unimportant";
+        case Typ.toolCriteriumFullfillment.verygood:
+          return "very good";
+        case Typ.toolCriteriumFullfillment.good:
+          return "good";
+        case Typ.toolCriteriumFullfillment.normal:
+          return "normal";
+        case Typ.toolCriteriumFullfillment.bad:
+          return "bad";
         default:
-          return "";
+          return "very bad";
       }
     },
 
@@ -224,19 +218,21 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criterium: JSON.parse(
-        JSON.stringify(this.propCriterium)
-      ) as Typ.criterium,
+      toolCriteriumSuitability: JSON.parse(
+        JSON.stringify(this.propToolCriteriumSuitability)
+      ) as Typ.toolCriteriumSuitability,
 
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
-      importanceItems: [
+      fullfillmentItems: [
         "very important",
         "important",
         "neutral",
         "unimportant",
       ] as string[],
-      selectedImportance: "" as string,
+
+      //
+      selectedFullfillment: "" as string,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -264,27 +260,31 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriterium: {
-      handler(newVal: Typ.criterium) {
-        this.criterium = newVal;
-        this.selectedImportance = this.convertImportanceEnumToString(
-          this.criterium.importance
+    propToolCriteriumSuitability: {
+      handler(newVal: Typ.toolCriteriumSuitability) {
+        this.toolCriteriumSuitability = newVal;
+        this.selectedFullfillment = this.convertFullfillmentEnumToString(
+          this.toolCriteriumSuitability.fullfilment
         );
 
         //LOG
-        console.log("CriteriumCard: propCriterium changed!");
+        console.log(
+          "ToolCriteriumSuitabilityCard: propToolCriteriumSuitability changed!"
+        );
       },
       deep: true,
     },
-    criterium: {
-      handler(newVal: Typ.criterium) {
-        this.$emit("update_criterium", newVal);
-        this.selectedImportance = this.convertImportanceEnumToString(
-          this.criterium.importance
+    toolCriteriumSuitability: {
+      handler(newVal: Typ.toolCriteriumSuitability) {
+        this.$emit("update_tool_suit", newVal);
+        this.selectedFullfillment = this.convertFullfillmentEnumToString(
+          this.toolCriteriumSuitability.fullfilment
         );
 
         //LOG
-        console.log("CriteriumCard: criterium changed!");
+        console.log(
+          "ToolCriteriumSuitabilityCard: toolCriteriumSuitability changed!"
+        );
       },
       deep: true,
     },
@@ -293,14 +293,14 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-    this.selectedImportance = this.convertImportanceEnumToString(
-      this.propCriterium.importance
+    this.selectedFullfillment = this.convertFullfillmentEnumToString(
+      this.toolCriteriumSuitability.fullfilment
     );
 
     this.resetValidation();
 
     //LOG
-    console.log("CriteriumCard: Mounted");
+    console.log("ToolCriteriumSuitabilityCard: Mounted");
   },
 });
 </script>

@@ -144,10 +144,10 @@ export default Vue.extend({
       var json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
-        
+
         //LOG
         console.log(json);
-  
+
         e.target.value = null;
       };
       reader.onloadend = () => this.convertJSONToArray(json);
