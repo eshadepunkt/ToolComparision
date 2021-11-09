@@ -15,7 +15,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col cols="9">
+          <v-col cols="10">
             <!-- Minimized -->
             <div
               v-if="isMinimized()"
@@ -59,7 +59,7 @@
 
         <!-- Description -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="10">
             <v-textarea
               outlined
               label="Description"
@@ -74,7 +74,7 @@
 
         <!-- Importance -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="10">
             <v-select
               :items="importanceItems"
               label="Importance"
@@ -90,7 +90,7 @@
 
         <!-- Exclusion Criterium -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="10">
             <v-checkbox
               label="Exclusion Criterium"
               v-model="criterium.isExclusionCriterium"

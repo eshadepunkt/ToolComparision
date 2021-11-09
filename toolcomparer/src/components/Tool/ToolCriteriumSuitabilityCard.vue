@@ -26,6 +26,11 @@
             </div>
           </v-col>
           <v-col cols="1">
+            <div v-if="!isInCreation()">
+                {{ getResultString() }}
+            </div>
+          </v-col>
+          <v-col cols="1">
             <v-btn
               v-if="!isInCreation()"
               class="ma-2"
@@ -174,8 +179,10 @@ export default Vue.extend({
           return Typ.toolCriteriumFullfillment.normal;
         case "bad":
           return Typ.toolCriteriumFullfillment.bad;
-        default:
+        case "verybad":
           return Typ.toolCriteriumFullfillment.verybad;
+        default:
+          return Typ.toolCriteriumFullfillment.doesnot;
       }
     },
 
@@ -191,8 +198,10 @@ export default Vue.extend({
           return "normal";
         case Typ.toolCriteriumFullfillment.bad:
           return "bad";
-        default:
+        case Typ.toolCriteriumFullfillment.verybad:
           return "very bad";
+        default:
+          return "does not";
       }
     },
 
@@ -213,6 +222,15 @@ export default Vue.extend({
         this.changeModuleState("minimized");
       }
     },
+
+    getResultString(): string {
+      const max: number = Typ.criteriumImportance.veryimportant * Typ.toolCriteriumFullfillment.verygood;
+
+      const min: number = 
+      this.toolCriteriumSuitability.criteriumKV.value.importance * this.toolCriteriumSuitability.fullfillment;
+
+      return (min + "/" + max);
+    }
   },
 
   //DATA

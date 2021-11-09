@@ -48,7 +48,8 @@ export function isCriteriumKV(check: any): boolean {
 }
 
 export enum toolCriteriumFullfillment {
-  undefined = 0,
+  undefined = -1,
+  doesnot = 0,
   verybad = 1,
   bad = 2,
   normal = 3,
