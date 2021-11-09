@@ -57,8 +57,8 @@ export enum toolCriteriumFullfillment {
 }
 
 export interface toolCriteriumSuitability {
-  criterium: criteriumKeyValue;
-  fullfilment: toolCriteriumFullfillment;
+  criteriumKV: criteriumKeyValue;
+  fullfillment: toolCriteriumFullfillment;
   justification: string;
 }
 
@@ -71,4 +71,16 @@ export interface tool {
 export interface toolKeyValue {
   key: string;
   value: tool;
+}
+
+export function isToolKV(check: any): boolean {
+  const type = check as toolKeyValue;
+
+  return (
+    type.key !== undefined &&
+    type.value !== undefined &&
+    type.value.criteriaSuitabilities !== undefined &&
+    type.value.description !== undefined &&
+    type.value.name !== undefined
+  );
 }

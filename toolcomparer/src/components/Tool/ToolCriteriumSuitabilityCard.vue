@@ -157,7 +157,7 @@ export default Vue.extend({
     updateFullfillment(fullfillment: string): void {
       var fullfillmentEnum: Typ.toolCriteriumFullfillment =
         this.convertStringToFullfillmentEnum(fullfillment);
-      this.toolCriteriumSuitability.fullfilment = fullfillmentEnum;
+      this.toolCriteriumSuitability.fullfillment = fullfillmentEnum;
     },
 
     convertStringToFullfillmentEnum(
@@ -225,10 +225,11 @@ export default Vue.extend({
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
       fullfillmentItems: [
-        "very important",
-        "important",
-        "neutral",
-        "unimportant",
+        "very good",
+        "good",
+        "normal",
+        "bad",
+        "very bad",
       ] as string[],
 
       //
@@ -264,7 +265,7 @@ export default Vue.extend({
       handler(newVal: Typ.toolCriteriumSuitability) {
         this.toolCriteriumSuitability = newVal;
         this.selectedFullfillment = this.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfilment
+          this.toolCriteriumSuitability.fullfillment
         );
 
         //LOG
@@ -276,9 +277,9 @@ export default Vue.extend({
     },
     toolCriteriumSuitability: {
       handler(newVal: Typ.toolCriteriumSuitability) {
-        this.$emit("update_tool_suit", newVal);
+        this.$emit("update_tool_suitability", newVal);
         this.selectedFullfillment = this.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfilment
+          this.toolCriteriumSuitability.fullfillment
         );
 
         //LOG
@@ -294,7 +295,7 @@ export default Vue.extend({
   mounted: function () {
     this.moduleState = this.propModuleState;
     this.selectedFullfillment = this.convertFullfillmentEnumToString(
-      this.toolCriteriumSuitability.fullfilment
+      this.toolCriteriumSuitability.fullfillment
     );
 
     this.resetValidation();

@@ -121,11 +121,8 @@ export default Vue.extend({
       this.navigateTo("/Criteria/");
     },
     btnSave() {
-      if (
-        (
-          this.$refs.criterium_card as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
+      const isValid: boolean = (this.$refs.criterium_card as Vue & { validate: () => boolean }).validate();
+      if (isValid) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
 
         this.resetCriteriumKV();
@@ -176,12 +173,6 @@ export default Vue.extend({
 
         //LOG
         console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
-
-        console.log(
-          "\nImportance:\n" +
-            Typ.criteriumImportance[this.criteriumKV.value.importance] +
-            "\n"
-        );
       }
     }
 
