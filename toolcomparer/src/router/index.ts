@@ -1,6 +1,8 @@
 import CriteriumCreation from "../components/Criterium/CriteriumCreation.vue";
 import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
 
+import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
+
 import App from "../App.vue";
 
 import Vue from "vue";
@@ -24,6 +26,12 @@ const routes: Array<RouteConfig> = [
     path: "/Criteria/",
     component: CriteriumListBox,
     name: "Criteria",
+  },
+
+  {
+    path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",
+    component: ToolCriteriumSuitabilityCreation,
+    name: "ToolCriteriumSuitabilityCreation",
   },
 
   {

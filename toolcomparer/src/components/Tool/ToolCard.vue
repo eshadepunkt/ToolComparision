@@ -26,7 +26,7 @@
             <!-- Maximized -->
             <v-text-field
               v-else
-              v-model="Tool.name"
+              v-model="toolKV.value.name"
               :rules="rules.str"
               label="Tool name"
               required
@@ -53,6 +53,18 @@
               </v-icon>
             </v-btn>
           </v-col>
+          <v-col>
+            <div
+              v-if="!isInCreation()"
+              style="font-size: 2em;"
+            >
+              {{ getRanking() }}
+            </div>     
+          </v-col>
+        </v-row>
+        
+        <v-row v-if="!isInCreation()">
+          <!-- RATING -->
         </v-row>
 
         <!-- Body -->
@@ -63,7 +75,7 @@
             <v-textarea
               outlined
               label="Description"
-              v-model="Tool.description"
+              v-model="toolKV.value.description"
               :rules="rules.str"
               required
               :readonly="!isInCreation()"
@@ -72,32 +84,10 @@
           </v-col>
         </v-row>
 
-        <!-- Importance -->
-        <v-row v-if="!isMinimized()">
-          <v-col cols="9">
-            <v-select
-              :items="importanceItems"
-              label="Importance"
-              v-model="selectedImportance"
-              :rules="rules.str"
-              required
-              :readonly="!isInCreation()"
-              @change="updateImportance(selectedImportance)"
-            >
-            </v-select>
-          </v-col>
-        </v-row>
-
-        <!-- Exclusion tool -->
-        <v-row v-if="!isMinimized()">
-          <v-col cols="9">
-            <v-checkbox
-              label="Exclusion tool"
-              v-model="Tool.isExclusionTool"
-              :readonly="!isInCreation()"
-            >
-            </v-checkbox>
-          </v-col>
+        <v-row v-if="!isInCreation()">
+          <ToolCriteriumSuitabilityListBox
+            :propToolKV="propToolKV"
+          >
         </v-row>
       </v-container>
     </v-card>
@@ -107,6 +97,9 @@
 <script lang="ts">
 console.log("Load ToolCard.vue");
 console.dir();
+
+import { v4 as uuidv4 } from "uuid";
+import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
 import {
@@ -121,85 +114,73 @@ import {
 
 import Vue from "vue";
 
+import ToolCriteriumSuitabilityListBox from "./ToolCriteriumSuitabilityListBox.vue";
+
 export default Vue.extend({
   name: "ToolCard",
 
+  components: {
+    ToolCriteriumSuitabilityListBox,
+  },
+
   //PROPS
   props: {
-    propTool: {
-      type: Object as () => Typ.tool,
+    propToolKV: {
+      type: Object as () => Typ.toolKeyValue,
       default() {
         return {
-          name: "",
-          description: "",
-          criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
-        } as Typ.tool;
+          key: uuidv4() as string,
+          value: {
+            name: "",
+            description: "",
+            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+          } as Typ.tool        
+        } as Typ.toolKeyValue;
       },
     },
     propModuleState: {
-      type: Object as () => Typ.toolsModuleState,
-      default: Typ.toolsModuleState.increation as Typ.toolsModuleState,
+      type: Object as () => Typ.simpleModuleState,
+      default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
+    },
+    propRanking: {
+      type: Number,
+      default: -1 as Number,
+    },
+    propRating: {
+      type: Number,
+      default: -1 as Number,
     },
   },
 
   //METHODS
   methods: {
     isMinimized(): boolean {
-      return this.moduleState === Typ.toolsModuleState.minimized;
+      return this.moduleState === Typ.simpleModuleState.minimized;
     },
     isInCreation(): boolean {
-      return this.moduleState === Typ.toolsModuleState.increation;
+      return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
       var stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-    convertStringToModuleStateEnum(convert: string): Typ.toolsModuleState {
+    convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
       this.selectedDebugItem = convert;
 
       switch (convert) {
         case "minimized":
-          return Typ.toolsModuleState.minimized;
+          return Typ.simpleModuleState.minimized;
         case "maximized":
-          return Typ.toolsModuleState.maximized;
+          return Typ.simpleModuleState.maximized;
         default:
-          return Typ.toolsModuleState.increation;
+          return Typ.simpleModuleState.increation;
       }
     },
 
-    updateImportance(importance: string): void {
-      var importanceEnum: Typ.toolImportance =
-        this.convertStringToImportanceEnum(importance);
-      this.tool.importance = importanceEnum;
+    getRanking(): string {
+      return (this.propRanking !== -1 ? this.propRanking.toString() : "");
     },
-    convertStringToImportanceEnum(convert: string): Typ.toolImportance {
-      convert = convert.replaceAll(" ", "");
 
-      switch (convert) {
-        case "veryimportant":
-          return Typ.toolImportance.veryimportant;
-        case "important":
-          return Typ.toolImportance.important;
-        case "neutral":
-          return Typ.toolImportance.neutral;
-        default:
-          return Typ.toolImportance.unimportant;
-      }
-    },
-    convertImportanceEnumToString(convert: Typ.toolImportance): string {
-      switch (convert) {
-        case Typ.toolImportance.veryimportant:
-          return "very important";
-        case Typ.toolImportance.important:
-          return "important";
-        case Typ.toolImportance.neutral:
-          return "neutral";
-        case Typ.toolImportance.unimportant:
-          return "unimportant";
-        default:
-          return "";
-      }
-    },
 
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
@@ -223,22 +204,8 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tool: JSON.parse(JSON.stringify(this.propTool)) as Typ.tool,
-      restoreTool: {} as Typ.tool,
-      moduleState: this.propModuleState as Typ.toolsModuleState,
-
-      importanceItems: [
-        "very important",
-        "important",
-        "neutral",
-        "unimportant",
-      ] as string[],
-      selectedImportance: (this.propTool.importance ===
-      Typ.toolImportance.undefined
-        ? ""
-        : this.propTool.importance === Typ.toolImportance.veryimportant
-        ? "very important"
-        : Typ.toolImportance[this.propTool.importance]) as string,
+      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
+      moduleState: this.propModuleState as Typ.simpleModuleState,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -266,24 +233,18 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propTool: {
-      handler(newVal: Typ.tool) {
-        this.tool = newVal;
-        this.selectedImportance = this.convertImportanceEnumToString(
-          this.tool.importance
-        );
+    propToolKV: {
+      handler(newVal: Typ.toolKeyValue) {
+        this.toolKV = newVal;
 
         //LOG
         console.log("ToolCard: propTool changed!");
       },
       deep: true,
     },
-    tool: {
-      handler(newVal: Typ.tool) {
+    toolKV: {
+      handler(newVal: Typ.toolKeyValue) {
         this.$emit("update_Tool", newVal);
-        this.selectedImportance = this.convertImportanceEnumToString(
-          this.tool.importance
-        );
 
         //LOG
         console.log("ToolCard: tool changed!");
@@ -295,9 +256,6 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-    this.selectedImportance = this.convertImportanceEnumToString(
-      this.propTool.importance
-    );
 
     this.resetValidation();
 

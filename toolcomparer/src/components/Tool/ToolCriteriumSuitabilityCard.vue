@@ -41,8 +41,7 @@
                   isMinimized()
                     ? changeModuleState('maximized')
                     : changeModuleState('minimized'),
-                ]
-              "
+                ]"
             >
               <v-icon>
                 {{ icons.mdiAppleKeyboardControl }}
@@ -224,10 +223,10 @@ export default Vue.extend({
     },
 
     getResultString(): string {
-      const max: number = Typ.criteriumImportance.veryimportant * Typ.toolCriteriumFullfillment.verygood;
+      const max: number = Math.pow(Typ.criteriumImportance.veryimportant, 2) * Typ.toolCriteriumFullfillment.verygood;
 
       const min: number = 
-      this.toolCriteriumSuitability.criteriumKV.value.importance * this.toolCriteriumSuitability.fullfillment;
+      Math.pow(this.toolCriteriumSuitability.criteriumKV.value.importance, 2) * this.toolCriteriumSuitability.fullfillment;
 
       return (min + "/" + max);
     }

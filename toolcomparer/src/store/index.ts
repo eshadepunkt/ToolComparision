@@ -119,21 +119,42 @@ const store = new Vuex.Store({
         );
       }
     },
-    appendToolCriteriumSuitabilities(state, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
+    addToolSuitability(state, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
       const index: number = state.tools.findIndex(x => x.key === payload.toolKV.key);
       if (index != -1) {
           state.tools[index].value.criteriaSuitabilities.push(payload.criteriumSuitability);
 
           //LOG
           console.log(
-            "Vuex: tool with key: " +
+            "Vuex: suitability from tool with key: " +
             state.tools[index].key +
               " at index: " +
               index +
-              " appended"
+              " added"
           );
       }
     },
+    removeToolSuitability(state, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
+      const toolindex: number = state.tools.findIndex(x => x.key === payload.toolKV.key);
+      if (toolindex != -1) {
+          const suitIndex: number = 
+            state.tools[toolindex].value.criteriaSuitabilities.findIndex(
+              x => x.criteriumKV.key == payload.criteriumSuitability.criteriumKV.key);
+
+          if (suitIndex != -1) {
+            state.tools[toolindex].value.criteriaSuitabilities.slice(suitIndex, 1);
+            
+          //LOG
+          console.log(
+            "Vuex: suitability from tool with key: " +
+            state.tools[toolindex].key +
+              " at index: " +
+              toolindex +
+              " removed"
+          );
+          }
+      }
+    }
   },
   actions: {
     updateCriterium(context, item: Typ.criteriumKeyValue) {
@@ -170,6 +191,14 @@ const store = new Vuex.Store({
         }
       });
     },
+
+    updateToolSuitability(context, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
+      context.commit("removeToolSuitability", payload);
+      context.commit("addToolSuitability", payload);
+
+      //LOG
+      console.log("Vuex: suitability from tool with key: " + payload.toolKV.key + " updated");
+    }
   },
 });
 

@@ -118,13 +118,14 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnCancel() {
+      this.currentSuitabilityIndex = -1;
       this.resetToolKV();
       this.navigateTo("/Tools/");
     },
     btnSave() {
       const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
       if (isValid) {
-        this.$store.dispatch("appendToolCriteriumSuitabilities", { 
+        this.$store.dispatch("updateToolSuitability", { 
           toolKV: this.toolKV,
           criteriumSuitability: this.currentSuitability 
         });
@@ -210,17 +211,31 @@ export default Vue.extend({
   mounted() {
     this.mode = this.$route.params.mode;
 
-    const uuid: string = this.$route.params.id;
+    const tooluuid: string = this.$route.params.toolid;
+    const criteriumuuid: string = this.$route.params.criteriumid;
 
-    if (uuid !== uuidNIL) {
-      const result = this.$store.getters.getTool(uuid);
+    if (tooluuid !== uuidNIL) {
+      const result = this.$store.getters.getTool(tooluuid);
       if (result !== null) {
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
         this.btnText = this.mode;
 
-        //LOG
-        console.log("ToolCriteriumSuitabilityCreation: Loaded tool with key: " + uuid);
+        if (criteriumuuid !== uuidNIL) {
+          const suitabilities = this.toolKV.value.criteriaSuitabilities
+          const filtered = suitabilities.filter(x => x.criteriumKV.key == criteriumuuid);    
+          if (filtered.length > 0) {
+            this.criteria = filtered.map(x => x.criteriumKV);
+            this.setCurrentSuitability();
+          }    
+
+          //LOG
+          console.log("ToolCriteriumSuitabilityCreation: Loaded tool with tool: " + tooluuid +
+            "and criterium: " + criteriumuuid);
+
+          return;
+        }
+        
       }
     }
 

@@ -1,11 +1,11 @@
 <template>
-  <div id="CriteriumListItem">
+  <div id="ToolCriteriumSuitabilityListItem">
     <v-card>
       <v-container>
         <v-row>
           <v-col cols="9">
-            <CriteriumCard
-              :propCriterium="criteriumKV.value"
+            <ToolCriteriumSuitabilityCard
+              :propTool="ToolKV.value.criteriaSuitabilities[propSuitabilityIndex]"
               :propModuleState="moduleState"
             />
           </v-col>
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumListItem.vue");
+console.log("Load ToolCriteriumSuitabilityListItem.vue");
 
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
@@ -47,19 +47,22 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCard from "./CriteriumCard.vue";
+import ToolCriteriumSuitabilityCard from "./ToolCriteriumSuitabilityCard.vue";
 
 export default Vue.extend({
-  name: "CriteriumListItem",
+  name: "ToolCriteriumSuitabilityListItem",
 
   components: {
-    CriteriumCard,
+    ToolCriteriumSuitabilityCard,
   },
 
   //PROPS
   props: {
-    propCriteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
+    propToolKV: {
+      type: Object as () => Typ.toolKeyValue,
+    },
+    propSuitabilityIndex: {
+      type: Number
     },
     btnText: {
       type: String,
@@ -87,11 +90,15 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string = this.propCriteriumKV.key;
-      this.navigateTo("/CriteriumCreation/Update/" + appendix);
+      const appendix: string = 
+        this.propToolKV.key + "/" + this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex].criteriumKV.key;
+      this.navigateTo("/ToolCriteriumSuitabilityCreation/Update/" + appendix);
     },
     btnDelete() {
-      this.$store.commit("removeCriterium", this.propCriteriumKV);
+      this.$store.commit("removeToolSuitability", { 
+          toolKV: this.propToolKV,
+          criteriumSuitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex]
+        });
     },
 
     navigateTo(route: string): void {
