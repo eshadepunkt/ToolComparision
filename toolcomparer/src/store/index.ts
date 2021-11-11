@@ -15,10 +15,12 @@ export default new Vuex.Store({
 });
 */
 const store = new Vuex.Store({
+  //STATE
   state: {
     criteria: Array<Typ.criteriumKeyValue>(),
     tools: Array<Typ.toolKeyValue>(),
   },
+  //GETTERS
   getters: {
     getCriteria: (state) => {
       return state.criteria;
@@ -69,7 +71,7 @@ const store = new Vuex.Store({
       return -1;
     }
   },
-
+  //MUTATIONS
   mutations: {
     addCriterium(state, item: Typ.criteriumKeyValue) {
       const cloned: Typ.criteriumKeyValue = JSON.parse(
@@ -156,6 +158,7 @@ const store = new Vuex.Store({
       }
     }
   },
+  //ACTIONS
   actions: {
     updateCriterium(context, item: Typ.criteriumKeyValue) {
       context.commit("removeCriterium", item);

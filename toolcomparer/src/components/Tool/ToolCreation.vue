@@ -7,7 +7,7 @@
           <v-col xl="11">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
-                {{ btnText }} tool
+                {{ mode }} tool
               </h1>
             </v-card>
           </v-col>
@@ -17,10 +17,10 @@
           <v-col xl="11">
             <v-card outlined>
               <ToolCard
-                ref="Tool_card"
-                :propTool="ToolKV.value"
+                ref="tool_card"
+                :propToolKV="toolKV"
                 :propModuleState="moduleState"
-                @update_Tool="updateTool"
+                @update_tool="updateTool"
               />
             </v-card>
           </v-col>
@@ -31,7 +31,11 @@
           <v-col xl="1">
             <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
           </v-col>
-          <v-col xl="1"> </v-col>
+          <v-col xl="1"> 
+            <v-btn v-if="[mode === 'Update']" @click="btnUpdate()" color="blue lighten-5">
+              Update-Save-Return
+            </v-btn>
+          </v-col>
           <v-col xl="1">
             <v-btn @click="btnSave()" color="teal lighten-5">
               {{ btnText }}
@@ -80,9 +84,8 @@ export default Vue.extend({
           value: {
             name: "",
             description: "",
-            importance: Typ.toolImportance.undefined,
-            isExclusionTool: false,
-          } as Typ.tool,
+            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+          } as Typ.tool
         } as Typ.toolKeyValue;
       },
     },
@@ -92,7 +95,7 @@ export default Vue.extend({
   data() {
     return {
       toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
-      moduleState: Typ.toolsModuleState.increation as Typ.toolsModuleState,
+      moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
       icons: {
         mdiAccount,
@@ -103,7 +106,8 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
 
-      btnText: "Add" as string,
+      btnText: "Next" as string,
+      mode: "Add" as string,
 
       debug: true as boolean,
     };
@@ -111,32 +115,43 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    updateTool(newVal: Typ.tool) {
-      this.toolKV.value = newVal;
+    updateTool(newVal: Typ.toolKeyValue) {
+      this.toolKV = newVal;
     },
     btnCancel() {
       this.resetToolKV();
       this.navigateTo("/Tools/");
     },
     btnSave() {
-      if (
-        (this.$refs.tool_card as Vue & { validate: () => boolean }).validate()
-      ) {
+      const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
+      if (isValid) {
         this.$store.dispatch("updateTool", this.toolKV);
+        
+        const appendix: string = this.mode + "/" + this.toolKV.key;
 
         this.resetToolKV();
+        
+        this.navigateTo("/ToolCriteriumSuitabilityCreation/" + appendix);
+      }
+    },
+    btnUpdate() {
+      const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
+      if (isValid) {
+        this.$store.dispatch("updateTool", this.toolKV);
+
+        this.resetToolKV();   
         this.navigateTo("/Tools/");
       }
     },
+
     resetToolKV(): void {
       this.toolKV = {
         key: uuidv4() as string,
-        value: {
-          name: "",
-          description: "",
-          importance: Typ.toolImportance.undefined,
-          isExclusionTool: false,
-        } as Typ.tool,
+          value: {
+            name: "",
+            description: "",
+            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+          } as Typ.tool
       };
     },
     navigateTo(route: string): void {
@@ -159,25 +174,21 @@ export default Vue.extend({
 
   //MOUNTED
   mounted() {
-    this.btnText = this.$route.params.mode;
+    this.mode = this.$route.params.mode;
 
-    const uuid: string = this.$route.params.id;
+    const tooluuid: string = this.$route.params.toolid;
 
-    if (uuid !== uuidNIL) {
-      const result = this.$store.getters.getTool(uuid);
+    if (tooluuid !== "" && tooluuid !== uuidNIL) {
+      const result = this.$store.getters.getTool(tooluuid);
       if (result !== null) {
-        this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
+        this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;   
 
-        //LOG
-        console.log("ToolCreation: Loaded tool with key: " + uuid);
+          //LOG
+          console.log("ToolCreation: Loaded tool with tool: " + tooluuid);
 
-        console.log(
-          "\nImportance:\n" +
-            Typ.toolImportance[this.toolKV.value.importance] +
-            "\n"
-        );
+          return;
+        }     
       }
-    }
 
     //LOG
     console.log("ToolCreation: Mounted");

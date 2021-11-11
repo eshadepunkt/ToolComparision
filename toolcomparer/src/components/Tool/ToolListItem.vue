@@ -1,18 +1,15 @@
 <template>
   <div id="ToolListItem">
-    <v-card
-      v-bind:style="unsavedChanges ? 'background-color: LavenderBlush' : ''"
-    >
+    <v-card>
       <v-container>
         <v-row>
           <v-col cols="9">
             <ToolCard
-              :propTool="ToolKV.value"
+              :propToolKV="ToolKV"
               :propModuleState="moduleState"
-              :propUnsavedChanges="unsavedChanges"
+              :propRanking="propRanking"
+              :propRating="propRating"
               @update_Tool="updateTool"
-              @save_Tool="saveTool"
-              @restore_Tool="restoreTool"
             />
           </v-col>
           <!-- Icons -->
@@ -71,12 +68,20 @@ export default Vue.extend({
       type: String,
       default: "Add",
     },
+
+    propRanking: {
+      type: Number,
+      default: -1 as Number,
+    },
+    propRating: {
+      type: Number,
+      default: -1 as Number,
+    },
   },
 
   //DATA
   data() {
     return {
-      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
 
       icons: {
@@ -87,63 +92,22 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
       },
 
-      unsavedChanges: false as boolean,
-      resetRequest: false as boolean,
-
       debug: true as boolean,
     };
   },
 
   //METHODS
   methods: {
-    updateTool(newVal: Typ.tool) {
-      this.toolKV.value = newVal;
-
-      if (!this.resetRequest) {
-        this.unsavedChanges = true;
-      } else {
-        this.unsavedChanges = false;
-        this.resetRequest = false;
-      }
-    },
-    saveTool(newVal: Typ.tool) {
-      this.toolKV.value = newVal;
-
-      this.$store.dispatch("updateTool", this.toolKV);
-
-      this.unsavedChanges = false;
-    },
-    restoreTool() {
-      this.resetRequest = true;
-      this.toolKV = JSON.parse(
-        JSON.stringify(this.propToolKV)
-      ) as Typ.toolKeyValue;
-      this.unsavedChanges = false;
-    },
-
     btnEdit() {
-      const appendix: string = this.toolKV.key;
+      const appendix: string = this.propToolKV.key;
       this.navigateTo("/ToolCreation/Update/" + appendix);
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.toolKV);
+      this.$store.commit("removeTool", this.propToolKV);
     },
 
     navigateTo(route: string): void {
       this.$router.push(route);
-    },
-  },
-
-  //WATCH
-  watch: {
-    propTool: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.toolKV = newVal;
-
-        //LOG
-        console.log("ToolListItem: propToolKV changed!");
-      },
-      deep: true,
     },
   },
 });

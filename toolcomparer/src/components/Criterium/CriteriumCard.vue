@@ -151,7 +151,7 @@ export default Vue.extend({
       return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
-      var stateEnum = this.convertStringToModuleStateEnum(state);
+      let stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
     convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
@@ -168,7 +168,7 @@ export default Vue.extend({
     },
 
     updateImportance(importance: string): void {
-      var importanceEnum: Typ.criteriumImportance =
+      let importanceEnum: Typ.criteriumImportance =
         this.convertStringToImportanceEnum(importance);
       this.criterium.importance = importanceEnum;
     },

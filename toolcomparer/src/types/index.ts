@@ -14,6 +14,11 @@ export enum simpleModuleState {
   increation,
 }
 
+export enum simpleEditMode {
+  Add,
+  Update,
+}
+
 export enum criteriumImportance {
   undefined = 0,
   unimportant = 1,

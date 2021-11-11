@@ -31,7 +31,11 @@
           <v-col xl="1">
             <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
           </v-col>
-          <v-col xl="1"> </v-col>
+          <v-col xl="1"> 
+            <v-btn v-if="[mode === 'Update']" @click="btnUpdate()" color="blue lighten-5">
+              Update-Save-Return
+            </v-btn>
+          </v-col>
           <v-col xl="1">
             <v-btn @click="btnSave()" color="teal lighten-5">
               {{ btnText }}
@@ -139,6 +143,20 @@ export default Vue.extend({
         }      
       }
     },
+    btnUpdate() {
+      const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
+      if (isValid) {
+        this.$store.dispatch("updateToolSuitability", { 
+          toolKV: this.toolKV,
+          criteriumSuitability: this.currentSuitability 
+        });
+
+        this.currentSuitabilityIndex = -1;
+        this.resetToolKV();
+        this.navigateTo("/Tools/");
+      }
+    },
+
     resetToolKV(): void {
       this.toolKV = {
         key: uuidv4() as string,
@@ -156,33 +174,42 @@ export default Vue.extend({
       return this.$store.getters.getCriteria;
     },
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
-      var currentCriteria: Array<Typ.criteriumKeyValue> = this.getCriteria();
+      let currentCriteria: Array<Typ.criteriumKeyValue> = this.getCriteria();
 
-      var suitabilities: Array<Typ.toolCriteriumSuitability> = this.toolKV.value.criteriaSuitabilities;
-      var suitCriteria: Array<Typ.criteriumKeyValue> = suitabilities.map(x => x.criteriumKV);
+      if (this.mode === "Add") {
+        let suitabilities: Array<Typ.toolCriteriumSuitability> = this.toolKV.value.criteriaSuitabilities;
+        let suitCriteria: Array<Typ.criteriumKeyValue> = suitabilities.map(x => x.criteriumKV);
 
-      if (suitCriteria.length > 0) {
-        //Filter out all (imported) criteria that are also in the current comparision
-        //(these do not need to be added twice)
-        var filtered: Array<Typ.criteriumKeyValue> = 
-          currentCriteria.filter(x => ((suitCriteria.findIndex(y => y.key === x.key) === -1)));
+        if (suitCriteria.length > 0) {
+          //Filter out all (imported) criteria that are also in the current comparision
+          //(these do not need to be added twice)
+          let filtered: Array<Typ.criteriumKeyValue> = 
+            currentCriteria.filter(x => ((suitCriteria.findIndex(y => y.key === x.key) === -1)));
 
-        return filtered;
-      }
-      else {
-        return currentCriteria;
-      }
+          return filtered;
+        }
+      }  
+      else if (this.mode === "Update") {
+        return this.toolKV.value.criteriaSuitabilities.map(x => x.criteriumKV);
+      }   
+      
+      return currentCriteria;
     },
     setCurrentSuitability() {
       (this.currentSuitabilityIndex)++;
 
-      var lenght: number = this.criteria.length;
+      let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
-        this.currentSuitability = {
-          criteriumKV: this.criteria[this.currentSuitabilityIndex],
-          fullfillment: Typ.toolCriteriumFullfillment.undefined,
-          justification: "" as string,
-        };
+        if (this.mode === "Add") {
+            this.currentSuitability = {
+            criteriumKV: this.criteria[this.currentSuitabilityIndex],
+            fullfillment: Typ.toolCriteriumFullfillment.undefined,
+            justification: "" as string,
+          };
+        }
+        else if (this.mode === "Update") {
+          this.currentSuitability = this.toolKV.value.criteriaSuitabilities[this.currentSuitabilityIndex];
+        }   
 
         if (this.currentSuitabilityIndex === lenght - 1) {
           this.btnText = "Save & Finish";
@@ -214,14 +241,14 @@ export default Vue.extend({
     const tooluuid: string = this.$route.params.toolid;
     const criteriumuuid: string = this.$route.params.criteriumid;
 
-    if (tooluuid !== uuidNIL) {
+    if (tooluuid !== "" && tooluuid !== uuidNIL) {
       const result = this.$store.getters.getTool(tooluuid);
       if (result !== null) {
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
         this.btnText = this.mode;
 
-        if (criteriumuuid !== uuidNIL) {
+        if (criteriumuuid !== "" && criteriumuuid !== uuidNIL) {
           const suitabilities = this.toolKV.value.criteriaSuitabilities
           const filtered = suitabilities.filter(x => x.criteriumKV.key == criteriumuuid);    
           if (filtered.length > 0) {
@@ -234,8 +261,7 @@ export default Vue.extend({
             "and criterium: " + criteriumuuid);
 
           return;
-        }
-        
+        }     
       }
     }
 

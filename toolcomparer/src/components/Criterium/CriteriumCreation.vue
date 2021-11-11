@@ -164,7 +164,7 @@ export default Vue.extend({
 
     const uuid: string = this.$route.params.id;
 
-    if (uuid !== uuidNIL) {
+    if (uuid !== "" && uuid !== uuidNIL) {
       const result = this.$store.getters.getCriterium(uuid);
       if (result !== null) {
         this.criteriumKV = JSON.parse(

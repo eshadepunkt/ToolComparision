@@ -121,7 +121,7 @@ export default Vue.extend({
       const json: string = JSON.stringify(this.criteria);
       const filename = "toolcomparer_criteria.json";
 
-      var element = document.createElement("a");
+      let element = document.createElement("a");
       element.setAttribute(
         "href",
         "data:text/plain;charset=utf-8," + encodeURIComponent(json)
@@ -141,7 +141,7 @@ export default Vue.extend({
     onFileChanged(e: any) {
       const file = e.target.files[0];
       let reader = new FileReader();
-      var json: string | undefined;
+      let json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
 

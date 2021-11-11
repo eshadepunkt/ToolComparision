@@ -161,7 +161,7 @@ export default Vue.extend({
       return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
-      var stateEnum = this.convertStringToModuleStateEnum(state);
+      let stateEnum = this.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
     convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
@@ -244,7 +244,7 @@ export default Vue.extend({
     },
     toolKV: {
       handler(newVal: Typ.toolKeyValue) {
-        this.$emit("update_Tool", newVal);
+        this.$emit("update_tool", newVal);
 
         //LOG
         console.log("ToolCard: tool changed!");
