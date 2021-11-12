@@ -4,7 +4,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="11">
+          <v-col xl="12">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">Criteria</h1>
             </v-card>
@@ -13,7 +13,7 @@
 
         <!-- Body -->
         <v-row>
-          <v-col xl="11">
+          <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
                 <v-item v-for="item in getCriteria()" :key="item.key">

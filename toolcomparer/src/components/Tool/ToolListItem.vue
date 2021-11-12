@@ -3,13 +3,12 @@
     <v-card>
       <v-container>
         <v-row>
-          <v-col cols="9">
+          <v-col cols="10">
             <ToolCard
               :propToolKV="propToolKV"
               :propModuleState="moduleState"
               :propRanking="propRanking"
               :propRating="propRating"
-              @update_Tool="updateTool"
             />
           </v-col>
           <!-- Icons -->

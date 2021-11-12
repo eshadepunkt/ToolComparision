@@ -1,13 +1,13 @@
 <template>
-  <div id="ToolCriteriumSuitabilityListBox">
+  <div id="ToolCriteriumSuitabilityListBox" style="height: 72%; background-color: #fafafa;">
     <v-container>
         <v-row>
-          <v-col xl="11">
+          <v-col cols="12">
             <v-list style="height: 72%; overflow-y: auto">
               <v-item-group>
                 <v-item v-for="(suitability, index) in propToolKV.value.criteriaSuitabilities" :key="suitability.criteriumKV.key">
                   <ToolCriteriumSuitabilityListItem 
-                    :propToolKV="suitability" 
+                    :propToolKV="propToolKV" 
                     :propSuitabilityIndex="index"
                   />
                 </v-item>
@@ -47,7 +47,7 @@ export default Vue.extend({
 
   props: {
     propToolKV: {
-      type: Object as () => Array<Typ.toolCriteriumSuitability>,
+      type: Object as () => Typ.toolKeyValue,
     },
   },
 

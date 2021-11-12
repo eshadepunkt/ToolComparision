@@ -14,7 +14,7 @@
         </v-row>
         <!-- Body -->
         <v-row>
-          <v-col xl="11">
+          <v-col xl="12">
             <v-card outlined>
               <ToolCriteriumSuitabilityCard
                 ref="tool_card"
@@ -34,7 +34,7 @@
             </v-btn>
           </v-col>
           <v-col xl="1"> 
-            <v-btn v-if="[mode === 'Update']" @click="btnUpdate()" color="blue lighten-5">
+            <v-btn v-if="mode === 'Update'" @click="btnUpdate()" color="blue lighten-5">
               Update-Save-Return
             </v-btn>
           </v-col>
@@ -184,8 +184,7 @@ export default Vue.extend({
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
       let currentCriteria: Array<Typ.criteriumKeyValue> = this.getCriteria();
 
-      if (this.mode === "Add") {
-        let suitabilities: Array<Typ.toolCriteriumSuitability> = this.toolKV.value.criteriaSuitabilities;
+      let suitabilities: Array<Typ.toolCriteriumSuitability> = this.toolKV.value.criteriaSuitabilities;
         let suitCriteria: Array<Typ.criteriumKeyValue> = suitabilities.map(x => x.criteriumKV);
 
         if (suitCriteria.length > 0) {
@@ -196,10 +195,6 @@ export default Vue.extend({
 
           return filtered;
         }
-      }  
-      else if (this.mode === "Update") {
-        return this.toolKV.value.criteriaSuitabilities.map(x => x.criteriumKV);
-      }   
       
       return currentCriteria;
     },
@@ -276,6 +271,10 @@ export default Vue.extend({
     }
 
     this.criteria = this.getFilteredCriteria();
+    if (this.criteria.length === 0) {
+      this.navigateTo("/Tools/");
+    }
+
     this.setCurrentSuitability();
 
     //LOG

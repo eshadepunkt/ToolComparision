@@ -4,7 +4,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="11">
+          <v-col xl="12">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
                 {{ mode }} tool
@@ -14,7 +14,7 @@
         </v-row>
         <!-- Body -->
         <v-row>
-          <v-col xl="11">
+          <v-col xl="12">
             <v-card outlined>
               <ToolCard
                 ref="tool_card"

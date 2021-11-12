@@ -3,7 +3,7 @@
     <v-card>
       <v-container>
         <v-row>
-          <v-col cols="9">
+          <v-col cols="10">
             <CriteriumCard
               :propCriterium="propCriteriumKV.value"
               :propModuleState="moduleState"

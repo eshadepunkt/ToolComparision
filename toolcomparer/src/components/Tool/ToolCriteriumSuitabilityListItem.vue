@@ -3,9 +3,9 @@
     <v-card>
       <v-container>
         <v-row>
-          <v-col cols="9">
+          <v-col cols="10">
             <ToolCriteriumSuitabilityCard
-              :propTool="ToolKV.value.criteriaSuitabilities[propSuitabilityIndex]"
+              :propToolCriteriumSuitability="propToolKV.value.criteriaSuitabilities[propSuitabilityIndex]"
               :propModuleState="moduleState"
             />
           </v-col>

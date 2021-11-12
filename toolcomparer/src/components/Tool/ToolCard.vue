@@ -15,7 +15,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col cols="9">
+          <v-col cols="10">
             <!-- Minimized -->
             <div
               v-if="isMinimized()"
@@ -53,7 +53,7 @@
               </v-icon>
             </v-btn>
           </v-col>
-          <v-col>
+          <v-col cols="1">
             <div
               v-if="!isInCreation()"
               style="font-size: 2em;"
@@ -65,13 +65,16 @@
         
         <v-row v-if="!isInCreation()">
           <!-- RATING -->
+          <v-col cols="12">
+            STARS XXXXX
+          </v-col>  
         </v-row>
 
         <!-- Body -->
 
         <!-- Description -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="12">
             <v-textarea
               outlined
               label="Description"
@@ -84,10 +87,12 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="!isInCreation()">
-          <ToolCriteriumSuitabilityListBox
-            :propToolKV="toolKV"
-          />
+        <v-row >
+          <v-col cols="12">
+            <ToolCriteriumSuitabilityListBox v-if="!isInCreation() && !isMinimized()"
+                :propToolKV="toolKV"
+              />
+          </v-col>
         </v-row>
       </v-container>
     </v-card>
@@ -178,7 +183,7 @@ export default Vue.extend({
     },
 
     getRanking(): string {
-      return (this.propRanking !== -1 ? this.propRanking.toString() : "");
+      return (this.propRanking !== -1 ? this.propRanking.toString() : "rX");
     },
 
 

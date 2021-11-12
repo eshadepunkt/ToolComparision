@@ -25,7 +25,7 @@
               {{ toolCriteriumSuitability.criteriumKV.value.name }}
             </div>
           </v-col>
-          <v-col cols="1">
+          <v-col cols="2">
             <div v-if="!isInCreation()">
                 {{ getResultString() }}
             </div>
@@ -54,7 +54,7 @@
 
         <!-- Description -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="12">
             <v-textarea
               outlined
               label="Criterium description"
@@ -69,7 +69,7 @@
 
         <!-- Fullfilment -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="12">
             <v-select
               :items="fullfillmentItems"
               label="Fullfillment"
@@ -85,7 +85,7 @@
 
         <!-- Justification -->
         <v-row v-if="!isMinimized()">
-          <v-col cols="9">
+          <v-col cols="12">
             <v-textarea
               outlined
               label="Justification"
@@ -223,7 +223,7 @@ export default Vue.extend({
     },
 
     getResultString(): string {
-      const max: number = Math.pow(Typ.criteriumImportance.veryimportant, 2) * Typ.toolCriteriumFullfillment.verygood;
+      const max: number = Math.pow(this.toolCriteriumSuitability.criteriumKV.value.importance, 2) * Typ.toolCriteriumFullfillment.verygood;
 
       const min: number = 
       Math.pow(this.toolCriteriumSuitability.criteriumKV.value.importance, 2) * this.toolCriteriumSuitability.fullfillment;
