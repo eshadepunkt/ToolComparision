@@ -22,7 +22,7 @@
         <v-row>
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ toolCriteriumSuitability.criterium.name }}
+              {{ toolCriteriumSuitability.criteriumKV.value.name }}
             </div>
           </v-col>
           <v-col cols="1">
@@ -58,7 +58,7 @@
             <v-textarea
               outlined
               label="Criterium description"
-              v-model="toolCriteriumSuitability.criterium.description"
+              v-model="toolCriteriumSuitability.criteriumKV.value.description"
               :rules="rules.str"
               required
               :readonly="true"
@@ -92,7 +92,7 @@
               v-model="toolCriteriumSuitability.justification"
               :rules="rules.str"
               required
-              :readonly="true"
+              :readonly="!isInCreation()"
             >
             </v-textarea>
           </v-col>
@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts">
-console.log("Load ToolCRiteriumSuitabilityCard.vue");
+console.log("Load ToolCriteriumSuitabilityCard.vue");
 console.dir();
 
 import * as Typ from "../../types/index";
@@ -275,7 +275,7 @@ export default Vue.extend({
       selectedDebugItem: "" as string,
     };
   },
-
+  
   //WATCH
   watch: {
     propToolCriteriumSuitability: {
@@ -307,6 +307,7 @@ export default Vue.extend({
       deep: true,
     },
   },
+  
 
   //MOUNTED
   mounted: function () {

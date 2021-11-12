@@ -21,7 +21,7 @@
               v-if="isMinimized()"
               style="font-size: 1.5em; position: relative; top: 0.5em"
             >
-              {{ tool.name }}
+              {{ toolKV.value.name }}
             </div>
             <!-- Maximized -->
             <v-text-field
@@ -86,8 +86,8 @@
 
         <v-row v-if="!isInCreation()">
           <ToolCriteriumSuitabilityListBox
-            :propToolKV="propToolKV"
-          >
+            :propToolKV="toolKV"
+          />
         </v-row>
       </v-container>
     </v-card>
@@ -144,11 +144,11 @@ export default Vue.extend({
     },
     propRanking: {
       type: Number,
-      default: -1 as Number,
+      default: -1 as number,
     },
     propRating: {
       type: Number,
-      default: -1 as Number,
+      default: -1 as number,
     },
   },
 
@@ -186,9 +186,7 @@ export default Vue.extend({
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
     resetValidation() {
-      (
-        this.$refs.form as Vue & { resetValidation: () => void }
-      ).resetValidation();
+      (this.$refs.form as Vue & { resetValidation: () => void }).resetValidation();
     },
     reset() {
       (this.$refs.form as Vue & { reset: () => void }).reset();

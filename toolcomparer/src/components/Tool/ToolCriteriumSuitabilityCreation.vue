@@ -29,7 +29,9 @@
         <v-row>
           <v-col xl="8"> </v-col>
           <v-col xl="1">
-            <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
+            <v-btn @click="btnGoBack()" color="red lighten-5">
+               Go Back 
+            </v-btn>
           </v-col>
           <v-col xl="1"> 
             <v-btn v-if="[mode === 'Update']" @click="btnUpdate()" color="blue lighten-5">
@@ -121,10 +123,16 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    btnCancel() {
-      this.currentSuitabilityIndex = -1;
-      this.resetToolKV();
-      this.navigateTo("/Tools/");
+    btnGoBack() {
+      this.currentSuitabilityIndex -= 2;
+      
+      if (this.currentSuitabilityIndex < -1) {
+        let appendix: string = "Update/" + this.toolKV.key;
+        this.navigateTo("/ToolCreation/" + appendix);
+      }
+      else {
+        this.setCurrentSuitability();
+      }
     },
     btnSave() {
       const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
@@ -206,6 +214,8 @@ export default Vue.extend({
             fullfillment: Typ.toolCriteriumFullfillment.undefined,
             justification: "" as string,
           };
+
+          (this.$refs.tool_card as Vue & { resetValidation: () => boolean }).resetValidation();
         }
         else if (this.mode === "Update") {
           this.currentSuitability = this.toolKV.value.criteriaSuitabilities[this.currentSuitabilityIndex];
@@ -246,7 +256,7 @@ export default Vue.extend({
       if (result !== null) {
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
-        this.btnText = this.mode;
+        this.btnText = this.mode + " & Next";
 
         if (criteriumuuid !== "" && criteriumuuid !== uuidNIL) {
           const suitabilities = this.toolKV.value.criteriaSuitabilities

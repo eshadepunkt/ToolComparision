@@ -31,8 +31,8 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Start/')" color="red lighten-5">
-              Start-Site
+            <v-btn @click="navigateTo('/Criteria/')" color="red lighten-5">
+              Change Criteria
             </v-btn>
           </v-col>
           <v-col xl="1">
@@ -45,7 +45,7 @@
           </v-col>
           <v-col xl="1">
             <v-btn @click="navigateTo('/Tools/')" color="blue lighten-5">
-              Add tools
+              Comparision
             </v-btn>
           </v-col>
         </v-row>

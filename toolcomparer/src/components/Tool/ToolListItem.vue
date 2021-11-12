@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="9">
             <ToolCard
-              :propToolKV="ToolKV"
+              :propToolKV="propToolKV"
               :propModuleState="moduleState"
               :propRanking="propRanking"
               :propRating="propRating"
@@ -71,11 +71,11 @@ export default Vue.extend({
 
     propRanking: {
       type: Number,
-      default: -1 as Number,
+      default: -1 as number,
     },
     propRating: {
       type: Number,
-      default: -1 as Number,
+      default: -1 as number,
     },
   },
 

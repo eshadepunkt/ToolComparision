@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="9">
             <CriteriumCard
-              :propCriterium="criteriumKV.value"
+              :propCriterium="propCriteriumKV.value"
               :propModuleState="moduleState"
             />
           </v-col>

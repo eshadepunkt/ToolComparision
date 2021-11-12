@@ -127,7 +127,7 @@ export default Vue.extend({
       if (isValid) {
         this.$store.dispatch("updateTool", this.toolKV);
         
-        const appendix: string = this.mode + "/" + this.toolKV.key;
+        const appendix: string = this.mode + "/" + this.toolKV.key + "/" + uuidNIL;
 
         this.resetToolKV();
         
@@ -177,6 +177,8 @@ export default Vue.extend({
     this.mode = this.$route.params.mode;
 
     const tooluuid: string = this.$route.params.toolid;
+
+    console.log("ID:\n" + tooluuid + "\n");
 
     if (tooluuid !== "" && tooluuid !== uuidNIL) {
       const result = this.$store.getters.getTool(tooluuid);
