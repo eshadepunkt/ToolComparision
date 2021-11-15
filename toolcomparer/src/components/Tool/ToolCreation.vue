@@ -32,7 +32,7 @@
             <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
           </v-col>
           <v-col xl="1"> 
-            <v-btn v-if="[mode === 'Update']" @click="btnUpdate()" color="blue lighten-5">
+            <v-btn v-if="mode === 'Update'" @click="btnUpdate()" color="blue lighten-5">
               Update-Save-Return
             </v-btn>
           </v-col>
@@ -119,6 +119,10 @@ export default Vue.extend({
       this.toolKV = newVal;
     },
     btnCancel() {
+      if (this.mode === "Add") {
+        this.$store.commit("removeTool", this.toolKV);
+      }
+      
       this.resetToolKV();
       this.navigateTo("/Tools/");
     },
@@ -175,10 +179,7 @@ export default Vue.extend({
   //MOUNTED
   mounted() {
     this.mode = this.$route.params.mode;
-
     const tooluuid: string = this.$route.params.toolid;
-
-    console.log("ID:\n" + tooluuid + "\n");
 
     if (tooluuid !== "" && tooluuid !== uuidNIL) {
       const result = this.$store.getters.getTool(tooluuid);
@@ -186,7 +187,7 @@ export default Vue.extend({
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;   
 
           //LOG
-          console.log("ToolCreation: Loaded tool with tool: " + tooluuid);
+          console.log("ToolCreation: Loaded tool with key: " + tooluuid);
 
           return;
         }     

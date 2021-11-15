@@ -30,7 +30,7 @@
           <v-col xl="8"> </v-col>
           <v-col xl="1">
             <v-btn @click="btnGoBack()" color="red lighten-5">
-               Go Back 
+               Cancel &amp; Go Back 
             </v-btn>
           </v-col>
           <v-col xl="1"> 
@@ -125,9 +125,9 @@ export default Vue.extend({
   methods: {
     btnGoBack() {
       this.currentSuitabilityIndex -= 2;
-      
+
       if (this.currentSuitabilityIndex < -1) {
-        let appendix: string = "Update/" + this.toolKV.key;
+        let appendix: string = "Add/" + this.toolKV.key;
         this.navigateTo("/ToolCreation/" + appendix);
       }
       else {
@@ -141,6 +141,11 @@ export default Vue.extend({
           toolKV: this.toolKV,
           criteriumSuitability: this.currentSuitability 
         });
+
+        const result = this.$store.getters.getTool(this.toolKV.key);
+        if (result !== null) {
+          this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
+        }
 
         this.setCurrentSuitability();
 
@@ -159,9 +164,10 @@ export default Vue.extend({
           criteriumSuitability: this.currentSuitability 
         });
 
-        this.currentSuitabilityIndex = -1;
-        this.resetToolKV();
-        this.navigateTo("/Tools/");
+        const result = this.$store.getters.getTool(this.toolKV.key);
+        if (result !== null) {
+          this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
+        }
       }
     },
 
@@ -184,17 +190,19 @@ export default Vue.extend({
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
       let currentCriteria: Array<Typ.criteriumKeyValue> = this.getCriteria();
 
+      /*
       let suitabilities: Array<Typ.toolCriteriumSuitability> = this.toolKV.value.criteriaSuitabilities;
-        let suitCriteria: Array<Typ.criteriumKeyValue> = suitabilities.map(x => x.criteriumKV);
+      let suitCriteria: Array<Typ.criteriumKeyValue> = suitabilities.map(x => x.criteriumKV);
 
-        if (suitCriteria.length > 0) {
-          //Filter out all (imported) criteria that are also in the current comparision
-          //(these do not need to be added twice)
-          let filtered: Array<Typ.criteriumKeyValue> = 
-            currentCriteria.filter(x => ((suitCriteria.findIndex(y => y.key === x.key) === -1)));
+      if (suitCriteria.length > 0) {
+        //Filter out all (imported) criteria that are also in the current comparision
+        //(these do not need to be added twice)
+        let filtered: Array<Typ.criteriumKeyValue> = 
+          currentCriteria.filter(x => ((suitCriteria.findIndex(y => y.key === x.key) === -1)));
 
-          return filtered;
-        }
+        return filtered;
+      }
+      */
       
       return currentCriteria;
     },
@@ -203,18 +211,23 @@ export default Vue.extend({
 
       let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
-        if (this.mode === "Add") {
-            this.currentSuitability = {
+        const found = this.toolKV.value.criteriaSuitabilities.filter(
+            x => x.criteriumKV.key === this.criteria[this.currentSuitabilityIndex].key);
+        this.currentSuitability =
+          (found.length > 0)
+          ?
+          found[0]
+          :
+          {
             criteriumKV: this.criteria[this.currentSuitabilityIndex],
             fullfillment: Typ.toolCriteriumFullfillment.undefined,
             justification: "" as string,
           };
+        
+        console.log("\nSuitability with (criterium) key:\n" + this.currentSuitability.criteriumKV.key + "\nloaded\n");
+        console.log("\nFound:\n" + this.toolKV.value.criteriaSuitabilities.length + "\nsuits\n");
 
-          (this.$refs.tool_card as Vue & { resetValidation: () => boolean }).resetValidation();
-        }
-        else if (this.mode === "Update") {
-          this.currentSuitability = this.toolKV.value.criteriaSuitabilities[this.currentSuitabilityIndex];
-        }   
+        (this.$refs.tool_card as Vue & { resetValidation: () => boolean }).resetValidation();
 
         if (this.currentSuitabilityIndex === lenght - 1) {
           this.btnText = "Save & Finish";
@@ -255,9 +268,10 @@ export default Vue.extend({
 
         if (criteriumuuid !== "" && criteriumuuid !== uuidNIL) {
           const suitabilities = this.toolKV.value.criteriaSuitabilities
-          const filtered = suitabilities.filter(x => x.criteriumKV.key == criteriumuuid);    
+          const filtered = suitabilities.filter(x => x.criteriumKV.key === criteriumuuid);    
           if (filtered.length > 0) {
             this.criteria = filtered.map(x => x.criteriumKV);
+       
             this.setCurrentSuitability();
           }    
 

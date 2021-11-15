@@ -128,7 +128,9 @@ const store = new Vuex.Store({
 
           //LOG
           console.log(
-            "Vuex: suitability from tool with key: " +
+            "Vuex: suitability with (criterium) key: " +
+            payload.criteriumSuitability.criteriumKV.key +
+            " from tool with key: " +
             state.tools[index].key +
               " at index: " +
               index +
@@ -144,11 +146,13 @@ const store = new Vuex.Store({
               x => x.criteriumKV.key == payload.criteriumSuitability.criteriumKV.key);
 
           if (suitIndex != -1) {
-            state.tools[toolindex].value.criteriaSuitabilities.slice(suitIndex, 1);
+            state.tools[toolindex].value.criteriaSuitabilities.splice(suitIndex, 1);
             
           //LOG
           console.log(
-            "Vuex: suitability from tool with key: " +
+            "Vuex: suitability with (criterium) key: " +
+            payload.criteriumSuitability.criteriumKV.key +
+            " from tool with key: " +
             state.tools[toolindex].key +
               " at index: " +
               toolindex +
@@ -200,7 +204,9 @@ const store = new Vuex.Store({
       context.commit("addToolSuitability", payload);
 
       //LOG
-      console.log("Vuex: suitability from tool with key: " + payload.toolKV.key + " updated");
+      console.log("Vuex: suitability with (criterium) key: " +
+      payload.criteriumSuitability.criteriumKV.key +
+      " from tool with key: " +payload.toolKV.key + " updated");
     }
   },
 });

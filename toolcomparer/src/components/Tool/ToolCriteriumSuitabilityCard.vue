@@ -249,7 +249,6 @@ export default Vue.extend({
         "very bad",
       ] as string[],
 
-      //
       selectedFullfillment: "" as string,
 
       rules: {
