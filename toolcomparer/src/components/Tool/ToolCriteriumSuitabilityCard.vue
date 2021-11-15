@@ -199,8 +199,10 @@ export default Vue.extend({
           return "bad";
         case Typ.toolCriteriumFullfillment.verybad:
           return "very bad";
-        default:
+        case Typ.toolCriteriumFullfillment.doesnot:
           return "does not";
+        default:
+          return "";
       }
     },
 
