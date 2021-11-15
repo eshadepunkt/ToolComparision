@@ -92,7 +92,7 @@ export default Vue.extend({
     btnEdit() {
       const appendix: string = 
         this.propToolKV.key + "/" + this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex].criteriumKV.key;
-      this.navigateTo("/ToolCriteriumSuitabilityCreation/Update/" + appendix);
+      this.navigateTo("/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix);
     },
     btnDelete() {
       this.$store.commit("removeToolSuitability", { 

@@ -39,7 +39,7 @@
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="btnSave()" color="teal lighten-5">
+            <v-btn v-if="!updateSingle" @click="btnSave()" color="teal lighten-5">
               {{ btnText }}
             </v-btn>
           </v-col>
@@ -116,6 +116,7 @@ export default Vue.extend({
 
       btnText: "Save & Next" as string,
       mode: "Add" as string,
+      updateSingle: false as boolean,
 
       debug: true as boolean,
     };
@@ -124,15 +125,22 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnGoBack() {
-      this.currentSuitabilityIndex -= 2;
-
-      if (this.currentSuitabilityIndex < -1) {
-        let appendix: string = "Add/" + this.toolKV.key;
-        this.navigateTo("/ToolCreation/" + appendix);
+      if (this.updateSingle) {
+        this.currentSuitabilityIndex = -1;
+        this.resetToolKV();
+        this.navigateTo("/Tools/");
       }
       else {
-        this.setCurrentSuitability();
-      }
+        this.currentSuitabilityIndex -= 2;
+
+        if (this.currentSuitabilityIndex < -1) {
+          let appendix: string = "Add/" + this.toolKV.key;
+          this.navigateTo("/ToolCreation/" + appendix);
+        }
+        else {
+          this.setCurrentSuitability();
+        }
+      }  
     },
     btnSave() {
       const isValid: boolean = (this.$refs.tool_card as Vue & { validate: () => boolean }).validate();
@@ -164,10 +172,9 @@ export default Vue.extend({
           criteriumSuitability: this.currentSuitability 
         });
 
-        const result = this.$store.getters.getTool(this.toolKV.key);
-        if (result !== null) {
-          this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
-        }
+        this.currentSuitabilityIndex = -1;
+        this.resetToolKV();
+        this.navigateTo("/Tools/");
       }
     },
 
@@ -255,6 +262,10 @@ export default Vue.extend({
   //MOUNTED
   mounted() {
     this.mode = this.$route.params.mode;
+    if (this.mode === "UpdateSingle") {
+      this.mode = "Update";
+      this.updateSingle = true;
+    }
 
     const tooluuid: string = this.$route.params.toolid;
     const criteriumuuid: string = this.$route.params.criteriumid;
