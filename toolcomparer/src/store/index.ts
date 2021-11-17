@@ -188,6 +188,8 @@ const store = new Vuex.Store({
       context.commit("removeCriterium", item);
       context.commit("addCriterium", item);
 
+      context.dispatch("updateCriteriumInTools", item);
+
       //LOG
       console.log("Vuex: criterium with key: " + item.key + " updated");
     },
@@ -240,6 +242,29 @@ const store = new Vuex.Store({
           payload.toolKV.key +
           " updated"
       );
+    },
+    updateCriteriumInTools(context, criteriumKV: Typ.criteriumKeyValue) {
+      const tools: Array<Typ.toolKeyValue> = this.getters.getTools;
+      tools.forEach(tool => {
+        context.dispatch("updateCriteriumInTool",{
+          toolKV: tool,
+          criteriumKV: criteriumKV
+        });
+      });
+    },
+    updateCriteriumInTool(context,
+      payload: {
+        toolKV: Typ.toolKeyValue;
+        criteriumKV: Typ.criteriumKeyValue;
+      }) {
+        const index = payload.toolKV.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.key === payload.criteriumKV.key);
+        const suitability: Typ.toolCriteriumSuitability = payload.toolKV.value.criteriaSuitabilities[index];
+        suitability.criteriumKV = payload.criteriumKV;
+
+        context.dispatch("updateToolSuitability", {
+          toolKV: payload.toolKV,
+          criteriumSuitability: suitability
+        });
     },
   },
 });
