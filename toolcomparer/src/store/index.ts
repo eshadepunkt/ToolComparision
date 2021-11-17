@@ -212,7 +212,7 @@ const store = new Vuex.Store({
     extendTools(context, extend: Array<Typ.toolKeyValue>) {
       extend.forEach((element) => {
         if (Typ.isToolKV(element)) {
-          if (this.getters.getCriterium(element.key) === null) {
+          if (this.getters.getTool(element.key) === null) {
             context.commit("addTool", element);
           }
         }
