@@ -83,6 +83,20 @@ const store = new Vuex.Store({
       const cloned: Typ.toolKeyValue = JSON.parse(
         JSON.stringify(item)
       ) as Typ.toolKeyValue;
+
+      //NOTE: When importing, tools using (possible) other criteria settings, so we need to set them to the current
+      const oldToolSuitabilities = cloned.value.criteriaSuitabilities;
+      const newToolSuitabilities: Array<Typ.toolCriteriumSuitability> = oldToolSuitabilities.map(
+        x => {
+          const index = state.criteria.findIndex((y) => y.key === x.criteriumKV.key);
+          if (index !== -1) {
+            x.criteriumKV = state.criteria[index];
+          }
+          return x;
+        });
+
+      cloned.value.criteriaSuitabilities = newToolSuitabilities;      
+
       state.tools.push(cloned);
 
       //LOG
