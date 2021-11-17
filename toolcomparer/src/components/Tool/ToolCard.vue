@@ -54,20 +54,19 @@
             </v-btn>
           </v-col>
           <v-col cols="1">
-            <div
-              v-if="!isInCreation()"
-              style="font-size: 2em;"
-            >
+            <div v-if="!isInCreation()" style="font-size: 2em">
               {{ getRanking() }}
-            </div>     
+            </div>
           </v-col>
         </v-row>
-        
+
         <v-row v-if="!isInCreation()">
           <!-- RATING -->
           <v-col cols="12">
-            STARS XXXXX
-          </v-col>  
+            <div id="rating_div">
+              {{ getRating() }}
+            </div>
+          </v-col>
         </v-row>
 
         <!-- Body -->
@@ -87,11 +86,12 @@
           </v-col>
         </v-row>
 
-        <v-row >
+        <v-row>
           <v-col cols="12">
-            <ToolCriteriumSuitabilityListBox v-if="!isInCreation() && !isMinimized()"
-                :propToolKV="toolKV"
-              />
+            <ToolCriteriumSuitabilityListBox
+              v-if="!isInCreation() && !isMinimized()"
+              :propToolKV="toolKV"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -139,7 +139,7 @@ export default Vue.extend({
             name: "",
             description: "",
             criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
-          } as Typ.tool        
+          } as Typ.tool,
         } as Typ.toolKeyValue;
       },
     },
@@ -147,13 +147,10 @@ export default Vue.extend({
       type: Object as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
-    propRanking: {
-      type: Number,
-      default: -1 as number,
-    },
-    propRating: {
-      type: Number,
-      default: -1 as number,
+
+    propToolRating: {
+      type: Object as () => Typ.toolRating,
+      default: undefined,
     },
   },
 
@@ -183,15 +180,30 @@ export default Vue.extend({
     },
 
     getRanking(): string {
-      return (this.propRanking !== -1 ? this.propRanking.toString() : "rX");
+      return this.propToolRating !== undefined
+        ? this.propToolRating.rank.toString()
+        : "rX";
     },
+    getRating(): string {
+      if (this.propToolRating !== undefined) {
+        return (
+          "XXXXX STARS     " +
+          this.propToolRating.score.currentValue +
+          "/" +
+          this.propToolRating.score.maxValue
+        );
+      }
 
+      return "XXXXX STARS      YY/ZZ";
+    },
 
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
     resetValidation() {
-      (this.$refs.form as Vue & { resetValidation: () => void }).resetValidation();
+      (
+        this.$refs.form as Vue & { resetValidation: () => void }
+      ).resetValidation();
     },
     reset() {
       (this.$refs.form as Vue & { reset: () => void }).reset();
@@ -259,7 +271,11 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-
+/*
+    if (this.propToolRating !== undefined) {
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.tool));
+    }
+*/
     this.resetValidation();
 
     //LOG

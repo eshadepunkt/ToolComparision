@@ -121,7 +121,9 @@ export default Vue.extend({
       this.navigateTo("/Criteria/");
     },
     btnSave() {
-      const isValid: boolean = (this.$refs.criterium_card as Vue & { validate: () => boolean }).validate();
+      const isValid: boolean = (
+        this.$refs.criterium_card as Vue & { validate: () => boolean }
+      ).validate();
       if (isValid) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
 

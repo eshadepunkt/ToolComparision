@@ -45,7 +45,8 @@
                   isMinimized()
                     ? changeModuleState('maximized')
                     : changeModuleState('minimized'),
-                ]"
+                ]
+              "
             >
               <v-icon>
                 {{ icons.mdiAppleKeyboardControl }}

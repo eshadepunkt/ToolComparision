@@ -1,20 +1,27 @@
 <template>
-  <div id="ToolCriteriumSuitabilityListBox" style="height: 72%; background-color: #fafafa;">
+  <div
+    id="ToolCriteriumSuitabilityListBox"
+    style="height: 72%; background-color: #fafafa"
+  >
     <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-list style="height: 72%; overflow-y: auto">
-              <v-item-group>
-                <v-item v-for="(suitability, index) in propToolKV.value.criteriaSuitabilities" :key="suitability.criteriumKV.key">
-                  <ToolCriteriumSuitabilityListItem 
-                    :propToolKV="propToolKV" 
-                    :propSuitabilityIndex="index"
-                  />
-                </v-item>
-              </v-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-list style="height: 72%; overflow-y: auto">
+            <v-item-group>
+              <v-item
+                v-for="(suitability, index) in propToolKV.value
+                  .criteriaSuitabilities"
+                :key="suitability.criteriumKV.key"
+              >
+                <ToolCriteriumSuitabilityListItem
+                  :propToolKV="propToolKV"
+                  :propSuitabilityIndex="index"
+                />
+              </v-item>
+            </v-item-group>
+          </v-list>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

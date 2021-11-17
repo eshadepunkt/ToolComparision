@@ -5,7 +5,9 @@
         <v-row>
           <v-col cols="10">
             <ToolCriteriumSuitabilityCard
-              :propToolCriteriumSuitability="propToolKV.value.criteriaSuitabilities[propSuitabilityIndex]"
+              :propToolCriteriumSuitability="
+                propToolKV.value.criteriaSuitabilities[propSuitabilityIndex]
+              "
               :propModuleState="moduleState"
             />
           </v-col>
@@ -62,7 +64,7 @@ export default Vue.extend({
       type: Object as () => Typ.toolKeyValue,
     },
     propSuitabilityIndex: {
-      type: Number
+      type: Number,
     },
     btnText: {
       type: String,
@@ -90,15 +92,23 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string = 
-        this.propToolKV.key + "/" + this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex].criteriumKV.key;
-      this.navigateTo("/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix);
+      const appendix: string =
+        this.propToolKV.key +
+        "/" +
+        this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex]
+          .criteriumKV.key;
+      this.navigateTo(
+        "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
+      );
     },
     btnDelete() {
-      this.$store.commit("removeToolSuitability", { 
-          toolKV: this.propToolKV,
-          criteriumSuitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex]
-        });
+      this.$store.commit("removeToolSuitability", {
+        toolKV: this.propToolKV,
+        criteriumSuitability:
+          this.propToolKV.value.criteriaSuitabilities[
+            this.propSuitabilityIndex
+          ],
+      });
     },
 
     navigateTo(route: string): void {

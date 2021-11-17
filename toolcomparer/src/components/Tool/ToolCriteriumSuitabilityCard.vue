@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="2">
             <div v-if="!isInCreation()">
-                {{ getResultString() }}
+              {{ getResultString() }}
             </div>
           </v-col>
           <v-col cols="1">
@@ -41,7 +41,8 @@
                   isMinimized()
                     ? changeModuleState('maximized')
                     : changeModuleState('minimized'),
-                ]"
+                ]
+              "
             >
               <v-icon>
                 {{ icons.mdiAppleKeyboardControl }}
@@ -225,13 +226,20 @@ export default Vue.extend({
     },
 
     getResultString(): string {
-      const max: number = Math.pow(this.toolCriteriumSuitability.criteriumKV.value.importance, 2) * Typ.toolCriteriumFullfillment.verygood;
+      const max: number =
+        Math.pow(
+          this.toolCriteriumSuitability.criteriumKV.value.importance,
+          2
+        ) * Typ.toolCriteriumFullfillment.verygood;
 
-      const min: number = 
-      Math.pow(this.toolCriteriumSuitability.criteriumKV.value.importance, 2) * this.toolCriteriumSuitability.fullfillment;
+      const min: number =
+        Math.pow(
+          this.toolCriteriumSuitability.criteriumKV.value.importance,
+          2
+        ) * this.toolCriteriumSuitability.fullfillment;
 
-      return (min + "/" + max);
-    }
+      return min + "/" + max;
+    },
   },
 
   //DATA
@@ -249,6 +257,7 @@ export default Vue.extend({
         "normal",
         "bad",
         "very bad",
+        "does not",
       ] as string[],
 
       selectedFullfillment: "" as string,
@@ -276,7 +285,7 @@ export default Vue.extend({
       selectedDebugItem: "" as string,
     };
   },
-  
+
   //WATCH
   watch: {
     propToolCriteriumSuitability: {
@@ -308,7 +317,6 @@ export default Vue.extend({
       deep: true,
     },
   },
-  
 
   //MOUNTED
   mounted: function () {

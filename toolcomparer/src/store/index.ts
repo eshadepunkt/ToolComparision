@@ -46,15 +46,11 @@ const store = new Vuex.Store({
       return state.tools;
     },
     getTool: (state) => (key: string) => {
-      const index: number = state.tools.findIndex(x => x.key === key);
+      const index: number = state.tools.findIndex((x) => x.key === key);
       if (index != -1) {
         //LOG
         console.log(
-          "Vuex: tool with key: " +
-            key +
-            " at index: " +
-            index +
-            " returned"
+          "Vuex: tool with key: " + key + " at index: " + index + " returned"
         );
 
         return state.tools[index];
@@ -64,12 +60,12 @@ const store = new Vuex.Store({
     },
     getIndexOf: (state) => (array: any, key: string) => {
       if (Array.isArray(array)) {
-        const index: number = array.findIndex(x => x.key === key);
+        const index: number = array.findIndex((x) => x.key === key);
         return index;
       }
 
       return -1;
-    }
+    },
   },
   //MUTATIONS
   mutations: {
@@ -83,7 +79,7 @@ const store = new Vuex.Store({
       console.log("Vuex: criterium with key: " + item.key + " added");
     },
     removeCriterium(state, item: Typ.criteriumKeyValue) {
-      const index: number = state.criteria.findIndex(x => x.key === item.key);
+      const index: number = state.criteria.findIndex((x) => x.key === item.key);
       if (index !== -1) {
         state.criteria.splice(index, 1);
 
@@ -107,7 +103,7 @@ const store = new Vuex.Store({
       console.log("Vuex: tool with key: " + item.key + " added");
     },
     removeTool(state, item: Typ.toolKeyValue) {
-      const index: number = state.tools.findIndex(x => x.key === item.key);
+      const index: number = state.tools.findIndex((x) => x.key === item.key);
       if (index !== -1) {
         state.tools.splice(index, 1);
 
@@ -121,46 +117,70 @@ const store = new Vuex.Store({
         );
       }
     },
-    addToolSuitability(state, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
-      const index: number = state.tools.findIndex(x => x.key === payload.toolKV.key);
+    addToolSuitability(
+      state,
+      payload: {
+        toolKV: Typ.toolKeyValue;
+        criteriumSuitability: Typ.toolCriteriumSuitability;
+      }
+    ) {
+      const index: number = state.tools.findIndex(
+        (x) => x.key === payload.toolKV.key
+      );
       if (index != -1) {
-          state.tools[index].value.criteriaSuitabilities.push(payload.criteriumSuitability);
+        state.tools[index].value.criteriaSuitabilities.push(
+          payload.criteriumSuitability
+        );
 
-          //LOG
-          console.log(
-            "Vuex: suitability with (criterium) key: " +
+        //LOG
+        console.log(
+          "Vuex: suitability with (criterium) key: " +
             payload.criteriumSuitability.criteriumKV.key +
             " from tool with key: " +
             state.tools[index].key +
-              " at index: " +
-              index +
-              " added"
-          );
+            " at index: " +
+            index +
+            " added"
+        );
       }
     },
-    removeToolSuitability(state, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
-      const toolindex: number = state.tools.findIndex(x => x.key === payload.toolKV.key);
+    removeToolSuitability(
+      state,
+      payload: {
+        toolKV: Typ.toolKeyValue;
+        criteriumSuitability: Typ.toolCriteriumSuitability;
+      }
+    ) {
+      const toolindex: number = state.tools.findIndex(
+        (x) => x.key === payload.toolKV.key
+      );
       if (toolindex != -1) {
-          const suitIndex: number = 
-            state.tools[toolindex].value.criteriaSuitabilities.findIndex(
-              x => x.criteriumKV.key == payload.criteriumSuitability.criteriumKV.key);
+        const suitIndex: number = state.tools[
+          toolindex
+        ].value.criteriaSuitabilities.findIndex(
+          (x) =>
+            x.criteriumKV.key == payload.criteriumSuitability.criteriumKV.key
+        );
 
-          if (suitIndex != -1) {
-            state.tools[toolindex].value.criteriaSuitabilities.splice(suitIndex, 1);
-            
+        if (suitIndex != -1) {
+          state.tools[toolindex].value.criteriaSuitabilities.splice(
+            suitIndex,
+            1
+          );
+
           //LOG
           console.log(
             "Vuex: suitability with (criterium) key: " +
-            payload.criteriumSuitability.criteriumKV.key +
-            " from tool with key: " +
-            state.tools[toolindex].key +
+              payload.criteriumSuitability.criteriumKV.key +
+              " from tool with key: " +
+              state.tools[toolindex].key +
               " at index: " +
               toolindex +
               " removed"
           );
-          }
+        }
       }
-    }
+    },
   },
   //ACTIONS
   actions: {
@@ -188,7 +208,7 @@ const store = new Vuex.Store({
       //LOG
       console.log("Vuex: tool with key: " + item.key + " updated");
     },
-    
+
     extendTools(context, extend: Array<Typ.toolKeyValue>) {
       extend.forEach((element) => {
         if (Typ.isToolKV(element)) {
@@ -199,15 +219,25 @@ const store = new Vuex.Store({
       });
     },
 
-    updateToolSuitability(context, payload: {toolKV: Typ.toolKeyValue, criteriumSuitability: Typ.toolCriteriumSuitability}) {
+    updateToolSuitability(
+      context,
+      payload: {
+        toolKV: Typ.toolKeyValue;
+        criteriumSuitability: Typ.toolCriteriumSuitability;
+      }
+    ) {
       context.commit("removeToolSuitability", payload);
       context.commit("addToolSuitability", payload);
 
       //LOG
-      console.log("Vuex: suitability with (criterium) key: " +
-      payload.criteriumSuitability.criteriumKV.key +
-      " from tool with key: " +payload.toolKV.key + " updated");
-    }
+      console.log(
+        "Vuex: suitability with (criterium) key: " +
+          payload.criteriumSuitability.criteriumKV.key +
+          " from tool with key: " +
+          payload.toolKV.key +
+          " updated"
+      );
+    },
   },
 });
 

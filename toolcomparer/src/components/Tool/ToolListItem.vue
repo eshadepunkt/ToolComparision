@@ -5,10 +5,9 @@
         <v-row>
           <v-col cols="10">
             <ToolCard
-              :propToolKV="propToolKV"
+              :propToolKV="propToolRating === undefined ? propToolKV : propToolRating.tool"
               :propModuleState="moduleState"
-              :propRanking="propRanking"
-              :propRating="propRating"
+              :propToolRating="propToolRating"
             />
           </v-col>
           <!-- Icons -->
@@ -68,13 +67,9 @@ export default Vue.extend({
       default: "Add",
     },
 
-    propRanking: {
-      type: Number,
-      default: -1 as number,
-    },
-    propRating: {
-      type: Number,
-      default: -1 as number,
+    propToolRating: {
+      type: Object as () => Typ.toolRating,
+      default: undefined,
     },
   },
 

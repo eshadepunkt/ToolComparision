@@ -90,3 +90,15 @@ export function isToolKV(check: any): boolean {
     type.value.name !== undefined
   );
 }
+
+export interface toolRating {
+  tool: toolKeyValue;
+  score: score;
+  rank: number;
+}
+
+export interface score {
+  currentValue: number;
+  maxValue: number;
+  isExcluded: boolean;
+}
