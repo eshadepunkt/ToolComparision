@@ -100,9 +100,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load ToolCard.vue");
-console.dir();
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
@@ -251,18 +248,12 @@ export default Vue.extend({
     propToolKV: {
       handler(newVal: Typ.toolKeyValue) {
         this.toolKV = newVal;
-
-        //LOG
-        console.log("ToolCard: propTool changed!");
       },
       deep: true,
     },
     toolKV: {
       handler(newVal: Typ.toolKeyValue) {
         this.$emit("update_tool", newVal);
-
-        //LOG
-        console.log("ToolCard: tool changed!");
       },
       deep: true,
     },
@@ -271,15 +262,11 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-/*
     if (this.propToolRating !== undefined) {
       this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.tool));
     }
-*/
-    this.resetValidation();
 
-    //LOG
-    console.log("ToolCard: Mounted");
+    this.resetValidation();
   },
 });
 </script>

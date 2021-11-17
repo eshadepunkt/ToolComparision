@@ -104,7 +104,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load ToolCriteriumSuitabilityCard.vue");
 console.dir();
 
 import * as Typ from "../../types/index";
@@ -294,11 +293,6 @@ export default Vue.extend({
         this.selectedFullfillment = this.convertFullfillmentEnumToString(
           this.toolCriteriumSuitability.fullfillment
         );
-
-        //LOG
-        console.log(
-          "ToolCriteriumSuitabilityCard: propToolCriteriumSuitability changed!"
-        );
       },
       deep: true,
     },
@@ -307,11 +301,6 @@ export default Vue.extend({
         this.$emit("update_tool_suitability", newVal);
         this.selectedFullfillment = this.convertFullfillmentEnumToString(
           this.toolCriteriumSuitability.fullfillment
-        );
-
-        //LOG
-        console.log(
-          "ToolCriteriumSuitabilityCard: toolCriteriumSuitability changed!"
         );
       },
       deep: true,
@@ -326,9 +315,6 @@ export default Vue.extend({
     );
 
     this.resetValidation();
-
-    //LOG
-    console.log("ToolCriteriumSuitabilityCard: Mounted");
   },
 });
 </script>

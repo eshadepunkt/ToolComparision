@@ -64,8 +64,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load ComparisionListBox.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
@@ -249,10 +247,6 @@ export default Vue.extend({
       let json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
-
-        //LOG
-        console.log(json);
-
         e.target.value = null;
       };
       reader.onloadend = () => this.convertJSONToArray(json);
@@ -274,9 +268,6 @@ export default Vue.extend({
     this.cacheCriteria();
     this.cacheMaxScore();
     this.cacheResults();
-
-    //LOG
-    console.log("ToolCreation: Mounted");
   },
 });
 </script>

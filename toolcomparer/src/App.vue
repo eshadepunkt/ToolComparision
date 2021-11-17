@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load App.vue");
 console.dir();
 
 import * as Typ from "./types/index";

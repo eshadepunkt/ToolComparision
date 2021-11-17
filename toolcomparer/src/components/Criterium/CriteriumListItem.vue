@@ -31,8 +31,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumListItem.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 

@@ -44,8 +44,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCreation.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
@@ -152,9 +150,6 @@ export default Vue.extend({
     propCriterium: {
       handler(newVal: Typ.criteriumKeyValue) {
         this.criteriumKV = newVal;
-
-        //LOG
-        console.log("CriteriumCreation: propCriteriumKV changed!");
       },
       deep: true,
     },
@@ -177,9 +172,6 @@ export default Vue.extend({
         console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
       }
     }
-
-    //LOG
-    console.log("CriteriumCreation: Mounted");
   },
 });
 </script>

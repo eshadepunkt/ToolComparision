@@ -58,8 +58,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load ToolCriteriumSuitabilityCreation.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
@@ -241,18 +239,6 @@ export default Vue.extend({
                 fullfillment: Typ.toolCriteriumFullfillment.undefined,
                 justification: "" as string,
               };
-
-        console.log(
-          "\nSuitability with (criterium) key:\n" +
-            this.currentSuitability.criteriumKV.key +
-            "\nloaded\n"
-        );
-        console.log(
-          "\nFound:\n" +
-            this.toolKV.value.criteriaSuitabilities.length +
-            "\nsuits\n"
-        );
-
         (
           this.$refs.tool_card as Vue & { resetValidation: () => boolean }
         ).resetValidation();
@@ -272,9 +258,6 @@ export default Vue.extend({
     propTool: {
       handler(newVal: Typ.toolKeyValue) {
         this.toolKV = newVal;
-
-        //LOG
-        console.log("ToolCriteriumSuitabilityCreation: propToolKV changed!");
       },
       deep: true,
     },
@@ -328,9 +311,6 @@ export default Vue.extend({
     }
 
     this.setCurrentSuitability();
-
-    //LOG
-    console.log("ToolCriteriumSuitabilityCreation: Mounted");
   },
 });
 </script>

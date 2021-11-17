@@ -105,9 +105,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCard.vue");
-console.dir();
-
 import * as Typ from "../../types/index";
 import {
   mdiAccount,
@@ -270,9 +267,6 @@ export default Vue.extend({
         this.selectedImportance = this.convertImportanceEnumToString(
           this.criterium.importance
         );
-
-        //LOG
-        console.log("CriteriumCard: propCriterium changed!");
       },
       deep: true,
     },
@@ -282,9 +276,6 @@ export default Vue.extend({
         this.selectedImportance = this.convertImportanceEnumToString(
           this.criterium.importance
         );
-
-        //LOG
-        console.log("CriteriumCard: criterium changed!");
       },
       deep: true,
     },
@@ -298,9 +289,6 @@ export default Vue.extend({
     );
 
     this.resetValidation();
-
-    //LOG
-    console.log("CriteriumCard: Mounted");
   },
 });
 </script>

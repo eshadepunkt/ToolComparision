@@ -1,5 +1,3 @@
-console.log("Load Vuex Store");
-
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -28,14 +26,6 @@ const store = new Vuex.Store({
     getCriterium: (state) => (key: string) => {
       const index: number = state.criteria.findIndex((x) => x.key === key);
       if (index != -1) {
-        //LOG
-        console.log(
-          "Vuex: criterium with key: " +
-            key +
-            " at index: " +
-            index +
-            " returned"
-        );
 
         return state.criteria[index];
       }
@@ -48,10 +38,6 @@ const store = new Vuex.Store({
     getTool: (state) => (key: string) => {
       const index: number = state.tools.findIndex((x) => x.key === key);
       if (index != -1) {
-        //LOG
-        console.log(
-          "Vuex: tool with key: " + key + " at index: " + index + " returned"
-        );
 
         return state.tools[index];
       }

@@ -50,8 +50,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load toolCreation.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
@@ -175,9 +173,6 @@ export default Vue.extend({
     propTool: {
       handler(newVal: Typ.toolKeyValue) {
         this.toolKV = newVal;
-
-        //LOG
-        console.log("ToolCreation: propToolKV changed!");
       },
       deep: true,
     },
@@ -199,9 +194,6 @@ export default Vue.extend({
         return;
       }
     }
-
-    //LOG
-    console.log("ToolCreation: Mounted");
   },
 });
 </script>
