@@ -214,6 +214,9 @@ const store = new Vuex.Store({
         if (Typ.isToolKV(element)) {
           if (this.getters.getTool(element.key) === null) {
             context.commit("addTool", element);
+     
+            const toolCriteria: Array<Typ.criteriumKeyValue> = element.value.criteriaSuitabilities.map(x => x.criteriumKV);
+            context.dispatch("extendCriteria", toolCriteria);
           }
         }
       });
