@@ -258,13 +258,15 @@ const store = new Vuex.Store({
         criteriumKV: Typ.criteriumKeyValue;
       }) {
         const index = payload.toolKV.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.key === payload.criteriumKV.key);
-        const suitability: Typ.toolCriteriumSuitability = payload.toolKV.value.criteriaSuitabilities[index];
-        suitability.criteriumKV = payload.criteriumKV;
+        if (index !== -1) {
+          const suitability: Typ.toolCriteriumSuitability = payload.toolKV.value.criteriaSuitabilities[index];
+          suitability.criteriumKV = payload.criteriumKV;
 
-        context.dispatch("updateToolSuitability", {
-          toolKV: payload.toolKV,
-          criteriumSuitability: suitability
-        });
+          context.dispatch("updateToolSuitability", {
+            toolKV: payload.toolKV,
+            criteriumSuitability: suitability
+          });
+        }   
     },
   },
 });
