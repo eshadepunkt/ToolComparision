@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-console.log("Load App.vue");
 console.dir();
 
 import * as Typ from "./types/index";
@@ -23,15 +22,13 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCard from "./components/CriteriumCard.vue";
-import CriteriumCreation from "./components/CriteriumCreation.vue";
-import CriteriumListBox from "./components/CriteriumListBox.vue";
+import CriteriumCreation from "./components/Criterium/CriteriumCreation.vue";
+import CriteriumListBox from "./components/Criterium/CriteriumListBox.vue";
 
 export default Vue.extend({
   name: "App",
 
   components: {
-    CriteriumCard,
     CriteriumCreation,
     CriteriumListBox,
   },
@@ -42,7 +39,7 @@ export default Vue.extend({
 
   methods: {
     changeCurrentState(state: string): void {
-       this.currentState = this.convertStringToAppStateEnum(state);
+      this.currentState = this.convertStringToAppStateEnum(state);
     },
 
     isCurrent(sender: string): boolean {

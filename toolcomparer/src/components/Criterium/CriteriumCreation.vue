@@ -4,7 +4,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="6">
+          <v-col xl="12">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
                 {{ btnText }} Criterium
@@ -14,13 +14,12 @@
         </v-row>
         <!-- Body -->
         <v-row>
-          <v-col xl="6">
+          <v-col xl="12">
             <v-card outlined>
               <CriteriumCard
                 ref="criterium_card"
                 :propCriterium="criteriumKV.value"
                 :propModuleState="moduleState"
-                :propEditState="editState"
                 @update_criterium="updateCriterium"
               />
             </v-card>
@@ -28,12 +27,12 @@
         </v-row>
         <!-- Buttons -->
         <v-row>
-          <v-col cols="8"> </v-col>
-          <v-col cols="1">
+          <v-col xl="8"> </v-col>
+          <v-col xl="1">
             <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
           </v-col>
-          <v-col cols="1"> </v-col>
-          <v-col cols="1">
+          <v-col xl="1"> </v-col>
+          <v-col xl="1">
             <v-btn @click="btnSave()" color="teal lighten-5">
               {{ btnText }}
             </v-btn>
@@ -45,12 +44,10 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumCreation.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
-import * as Typ from "../types/index";
+import * as Typ from "../../types/index";
 import {
   mdiAccount,
   mdiPencil,
@@ -95,9 +92,7 @@ export default Vue.extend({
       criteriumKV: JSON.parse(
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
-      moduleState: Typ.criteriaModuleState
-        .increation as Typ.criteriaModuleState,
-      editState: Typ.editCriteriaModule.increation as Typ.editCriteriaModule,
+      moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
       icons: {
         mdiAccount,
@@ -124,11 +119,10 @@ export default Vue.extend({
       this.navigateTo("/Criteria/");
     },
     btnSave() {
-      if (
-        (
-          this.$refs.criterium_card as Vue & { validate: () => boolean }
-        ).validate()
-      ) {
+      const isValid: boolean = (
+        this.$refs.criterium_card as Vue & { validate: () => boolean }
+      ).validate();
+      if (isValid) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
 
         this.resetCriteriumKV();
@@ -156,9 +150,6 @@ export default Vue.extend({
     propCriterium: {
       handler(newVal: Typ.criteriumKeyValue) {
         this.criteriumKV = newVal;
-
-        //LOG
-        console.log("CriteriumCreation: propCriteriumKV changed!");
       },
       deep: true,
     },
@@ -170,7 +161,7 @@ export default Vue.extend({
 
     const uuid: string = this.$route.params.id;
 
-    if (uuid !== uuidNIL) {
+    if (uuid !== "" && uuid !== uuidNIL) {
       const result = this.$store.getters.getCriterium(uuid);
       if (result !== null) {
         this.criteriumKV = JSON.parse(
@@ -179,17 +170,8 @@ export default Vue.extend({
 
         //LOG
         console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
-
-        console.log(
-          "\nImportance:\n" +
-            Typ.criteriumImportance[this.criteriumKV.value.importance] +
-            "\n"
-        );
       }
     }
-
-    //LOG
-    console.log("CriteriumCreation: Mounted");
   },
 });
 </script>

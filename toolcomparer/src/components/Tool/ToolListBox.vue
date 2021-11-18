@@ -1,23 +1,23 @@
 <template>
-  <div id="CriteriumListBox">
+  <div id="ToolListBox">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="7">
+          <v-col xl="12">
             <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Criteria</h1>
+              <h1 style="text-align: center; color: white">Tools</h1>
             </v-card>
           </v-col>
         </v-row>
 
         <!-- Body -->
         <v-row>
-          <v-col xl="7">
+          <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getCriteria()" :key="item.key">
-                  <CriteriumListItem :propCriteriumKV="item" />
+                <v-item v-for="item in getTools()" :key="item.key">
+                  <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>
             </v-list>
@@ -31,21 +31,21 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Start/')" color="red lighten-5">
-              Start-Site
+            <v-btn @click="navigateTo('/Criteria/')" color="red lighten-5">
+              Change Criteria
             </v-btn>
           </v-col>
           <v-col xl="1">
             <v-btn
-              @click="navigateTo('/CriteriumCreation/Add/' + uuidNIL)"
+              @click="navigateTo('/ToolCreation/Add/' + uuidNIL)"
               color="teal lighten-5"
             >
-              Add Criterium
+              Add tool
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Tools/')" color="blue lighten-5">
-              Add Tools
+            <v-btn @click="navigateTo('/Comparision/')" color="blue lighten-5">
+              Comparision
             </v-btn>
           </v-col>
         </v-row>
@@ -55,7 +55,7 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="importCriteria()"> Import </v-btn>
+            <v-btn @click="importTools()"> Import </v-btn>
             <input
               ref="uploader"
               class="d-none"
@@ -65,7 +65,7 @@
             />
           </v-col>
           <v-col xl="1">
-            <v-btn @click="exportCriteria()"> Export </v-btn>
+            <v-btn @click="exportTools()"> Export </v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -74,12 +74,10 @@
 </template>
 
 <script lang="ts">
-console.log("Load CriteriumListBox.vue");
-
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
-import * as Typ from "../types/index";
+import * as Typ from "../../types/index";
 import {
   mdiAccount,
   mdiPencil,
@@ -90,19 +88,19 @@ import {
 
 import Vue from "vue";
 
-import CriteriumListItem from "./CriteriumListItem.vue";
+import ToolListItem from "./ToolListItem.vue";
 
 export default Vue.extend({
-  name: "CriteriumListBox",
+  name: "ToolListBox",
 
   components: {
-    CriteriumListItem,
+    ToolListItem,
   },
 
   //DATA
   data() {
     return {
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      tools: {} as Array<Typ.toolKeyValue>,
       uuidNIL,
     };
   },
@@ -112,16 +110,16 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
-      this.criteria = this.$store.getters.getCriteria;
+    getTools(): Array<Typ.toolKeyValue> {
+      this.tools = this.$store.getters.getTools;
 
-      return this.criteria;
+      return this.tools;
     },
-    exportCriteria() {
-      const json: string = JSON.stringify(this.criteria);
-      const filename = "toolcomparer_criteria.json";
+    exportTools() {
+      const json: string = JSON.stringify(this.tools);
+      const filename = "toolcomparer_tools.json";
 
-      var element = document.createElement("a");
+      let element = document.createElement("a");
       element.setAttribute(
         "href",
         "data:text/plain;charset=utf-8," + encodeURIComponent(json)
@@ -135,19 +133,15 @@ export default Vue.extend({
 
       document.body.removeChild(element);
     },
-    importCriteria() {
+    importTools() {
       (this.$refs.uploader as Vue & { click: () => void }).click();
     },
     onFileChanged(e: any) {
       const file = e.target.files[0];
       let reader = new FileReader();
-      var json: string | undefined;
+      let json: string | undefined;
       reader.onload = function () {
         json = reader.result?.toString();
-        
-        //LOG
-        console.log(json);
-  
         e.target.value = null;
       };
       reader.onloadend = () => this.convertJSONToArray(json);
@@ -155,20 +149,17 @@ export default Vue.extend({
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
-        const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
+        const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
           json
-        ) as Array<Typ.criteriumKeyValue>;
-        this.$store.dispatch("extendCriteria", tmpCriteria);
+        ) as Array<Typ.toolKeyValue>;
+        this.$store.dispatch("extendTools", tmpTools);
       }
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.criteria = this.$store.getters.getCriteria;
-
-    //LOG
-    console.log("CriteriumCreation: Mounted");
+    this.tools = this.$store.getters.getTools;
   },
 });
 </script>

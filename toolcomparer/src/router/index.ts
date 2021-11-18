@@ -1,5 +1,11 @@
-import CriteriumCreation from "../components/CriteriumCreation.vue";
-import CriteriumListBox from "../components/CriteriumListBox.vue";
+import CriteriumCreation from "../components/Criterium/CriteriumCreation.vue";
+import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
+
+import ToolCreation from "../components/Tool/ToolCreation.vue";
+import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
+import ToolListBox from "../components/Tool/ToolListBox.vue";
+
+import ComparisionListBox from "../components/Other/ComparisionListBox.vue";
 
 import App from "../App.vue";
 
@@ -24,6 +30,28 @@ const routes: Array<RouteConfig> = [
     path: "/Criteria/",
     component: CriteriumListBox,
     name: "Criteria",
+  },
+
+  {
+    path: "/Tools/",
+    component: ToolListBox,
+    name: "Tools",
+  },
+  {
+    path: "/ToolCreation/:mode/:toolid",
+    component: ToolCreation,
+    name: "ToolCreation",
+  },
+  {
+    path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",
+    component: ToolCriteriumSuitabilityCreation,
+    name: "ToolCriteriumSuitabilityCreation",
+  },
+
+  {
+    path: "/Comparision/",
+    component: ComparisionListBox,
+    name: "Comparision",
   },
 
   {

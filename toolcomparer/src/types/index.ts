@@ -8,6 +8,17 @@ export enum appState {
   export,
 }
 
+export enum simpleModuleState {
+  minimized,
+  maximized,
+  increation,
+}
+
+export enum simpleEditMode {
+  Add,
+  Update,
+}
+
 export enum criteriumImportance {
   undefined = 0,
   unimportant = 1,
@@ -41,17 +52,53 @@ export function isCriteriumKV(check: any): boolean {
   );
 }
 
-export enum criteriaModuleState {
-  minimized,
-  maximized,
-  increation,
+export enum toolCriteriumFullfillment {
+  undefined = -1,
+  doesnot = 0,
+  verybad = 1,
+  bad = 2,
+  normal = 3,
+  good = 4,
+  verygood = 5,
 }
 
-export enum editCriteriaModule {
-  none,
-  increation,
-  name,
-  description,
-  importance,
-  isExclusionCriterium,
+export interface toolCriteriumSuitability {
+  criteriumKV: criteriumKeyValue;
+  fullfillment: toolCriteriumFullfillment;
+  justification: string;
+}
+
+export interface tool {
+  name: string;
+  description: string;
+  criteriaSuitabilities: Array<toolCriteriumSuitability>;
+}
+
+export interface toolKeyValue {
+  key: string;
+  value: tool;
+}
+
+export function isToolKV(check: any): boolean {
+  const type = check as toolKeyValue;
+
+  return (
+    type.key !== undefined &&
+    type.value !== undefined &&
+    type.value.criteriaSuitabilities !== undefined &&
+    type.value.description !== undefined &&
+    type.value.name !== undefined
+  );
+}
+
+export interface toolRating {
+  tool: toolKeyValue;
+  score: score;
+  rank: number;
+}
+
+export interface score {
+  currentValue: number;
+  maxValue: number;
+  isExcluded: boolean;
 }
