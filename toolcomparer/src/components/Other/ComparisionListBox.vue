@@ -225,7 +225,6 @@ export default Vue.extend({
         if (ranked[i - 1].score.currentValue === ranked[i].score.currentValue) {
           ranked[i - 1].rank = rank;
           ranked[i].rank = rank;
-
         } else {
           ranked[i - 1].rank = rank;
           ranked[i].rank = ++rank;

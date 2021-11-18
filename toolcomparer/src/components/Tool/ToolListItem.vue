@@ -5,7 +5,9 @@
         <v-row>
           <v-col cols="10">
             <ToolCard
-              :propToolKV="propToolRating === undefined ? propToolKV : propToolRating.tool"
+              :propToolKV="
+                propToolRating === undefined ? propToolKV : propToolRating.tool
+              "
               :propModuleState="moduleState"
               :propToolRating="propToolRating"
             />

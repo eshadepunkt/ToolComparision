@@ -26,7 +26,6 @@ const store = new Vuex.Store({
     getCriterium: (state) => (key: string) => {
       const index: number = state.criteria.findIndex((x) => x.key === key);
       if (index != -1) {
-
         return state.criteria[index];
       }
 
@@ -38,7 +37,6 @@ const store = new Vuex.Store({
     getTool: (state) => (key: string) => {
       const index: number = state.tools.findIndex((x) => x.key === key);
       if (index != -1) {
-
         return state.tools[index];
       }
 
@@ -86,16 +84,18 @@ const store = new Vuex.Store({
 
       //NOTE: When importing, tools using (possible) other criteria settings, so we need to set them to the current
       const oldToolSuitabilities = cloned.value.criteriaSuitabilities;
-      const newToolSuitabilities: Array<Typ.toolCriteriumSuitability> = oldToolSuitabilities.map(
-        x => {
-          const index = state.criteria.findIndex((y) => y.key === x.criteriumKV.key);
+      const newToolSuitabilities: Array<Typ.toolCriteriumSuitability> =
+        oldToolSuitabilities.map((x) => {
+          const index = state.criteria.findIndex(
+            (y) => y.key === x.criteriumKV.key
+          );
           if (index !== -1) {
             x.criteriumKV = state.criteria[index];
           }
           return x;
         });
 
-      cloned.value.criteriaSuitabilities = newToolSuitabilities;      
+      cloned.value.criteriaSuitabilities = newToolSuitabilities;
 
       state.tools.push(cloned);
 
@@ -216,8 +216,9 @@ const store = new Vuex.Store({
         if (Typ.isToolKV(element)) {
           if (this.getters.getTool(element.key) === null) {
             context.commit("addTool", element);
-     
-            const toolCriteria: Array<Typ.criteriumKeyValue> = element.value.criteriaSuitabilities.map(x => x.criteriumKV);
+
+            const toolCriteria: Array<Typ.criteriumKeyValue> =
+              element.value.criteriaSuitabilities.map((x) => x.criteriumKV);
             context.dispatch("extendCriteria", toolCriteria);
           }
         }
@@ -245,28 +246,33 @@ const store = new Vuex.Store({
     },
     updateCriteriumInTools(context, criteriumKV: Typ.criteriumKeyValue) {
       const tools: Array<Typ.toolKeyValue> = this.getters.getTools;
-      tools.forEach(tool => {
-        context.dispatch("updateCriteriumInTool",{
+      tools.forEach((tool) => {
+        context.dispatch("updateCriteriumInTool", {
           toolKV: tool,
-          criteriumKV: criteriumKV
+          criteriumKV: criteriumKV,
         });
       });
     },
-    updateCriteriumInTool(context,
+    updateCriteriumInTool(
+      context,
       payload: {
         toolKV: Typ.toolKeyValue;
         criteriumKV: Typ.criteriumKeyValue;
-      }) {
-        const index = payload.toolKV.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.key === payload.criteriumKV.key);
-        if (index !== -1) {
-          const suitability: Typ.toolCriteriumSuitability = payload.toolKV.value.criteriaSuitabilities[index];
-          suitability.criteriumKV = payload.criteriumKV;
+      }
+    ) {
+      const index = payload.toolKV.value.criteriaSuitabilities.findIndex(
+        (x) => x.criteriumKV.key === payload.criteriumKV.key
+      );
+      if (index !== -1) {
+        const suitability: Typ.toolCriteriumSuitability =
+          payload.toolKV.value.criteriaSuitabilities[index];
+        suitability.criteriumKV = payload.criteriumKV;
 
-          context.dispatch("updateToolSuitability", {
-            toolKV: payload.toolKV,
-            criteriumSuitability: suitability
-          });
-        }   
+        context.dispatch("updateToolSuitability", {
+          toolKV: payload.toolKV,
+          criteriumSuitability: suitability,
+        });
+      }
     },
   },
 });

@@ -147,7 +147,7 @@ export default Vue.extend({
         };
         reader.onloadend = () => this.convertJSONToArray(json);
         reader.readAsText(file);
-      } 
+      }
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
