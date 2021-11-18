@@ -61,6 +61,9 @@
 ### Test plans
 - add criteria, 
 - add alternatives,
+
+<br>
+
 - start comparision and check results,
 - delete some alternatives,
 - start comparision and check results,
@@ -70,6 +73,9 @@
 - start comparision and check results,
 - update criteria
 - start comparision and check results,
+
+<br>
+
 - add criteria,
 - update alternatives (add new criteria from previous step),
 - start comparision and check results,
@@ -78,6 +84,8 @@
 
 - start comparision and check results,
 - quit comparision
+- start comparision and check results,
+- delete all criteria
 - start comparision and check results,
 
 
@@ -102,12 +110,14 @@
 - import same file
 - update criteria
 - import criteria
-- export criteria
 
 <br>
 
 - add some criteria
 - import criteria
+
+<br>
+
 - add some alternatives
 - start comparision and check results,
   
@@ -125,34 +135,17 @@
 - import same file
 - update some alternatives
 - import alternatives
-- export alternatives
-
-<br>
-
-- add some alternatives
-- import alternatives
-- start comparision and check results,
 
 <br>
 
 - delete some criteria
 - import alternatives
 - check criteria
-- delete some imported
+- delete some imported alternatives
 - import same file
+- check criteria
 - update some imported
 - update some criteria
-- export alternatives
-
-<br>
-
-- delete some criteria
-- delete some alternatives
-- update some criteria
-- update some alternatives
-- import criteria
-- import alternatives
-- start comparision and check results,
 
 <br>
 
@@ -179,19 +172,3 @@
 - add some alternatives
 - update some criteria
 - start comparision and check results,
-
-- import criteria and cancel (no import)
-- import same file and cancel (no import)
-- add some criteria
-- update some alternatives
-- start comparision and check results,
-
-<br>
-
-- import alternatives in criteria
-- import criteria in alternatives
-- add some criteria
-- add some alternatives
-- start comparision and check results,
-
-
