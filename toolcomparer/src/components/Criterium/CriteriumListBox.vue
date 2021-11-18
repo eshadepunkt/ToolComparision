@@ -138,14 +138,16 @@ export default Vue.extend({
     },
     onFileChanged(e: any) {
       const file = e.target.files[0];
-      let reader = new FileReader();
-      let json: string | undefined;
-      reader.onload = function () {
-        json = reader.result?.toString();
-        e.target.value = null;
-      };
-      reader.onloadend = () => this.convertJSONToArray(json);
-      reader.readAsText(file);
+      if (e.target.value !== null) {
+        let reader = new FileReader();
+        let json: string | undefined;
+        reader.onload = function () {
+          json = reader.result?.toString();
+          e.target.value = null;
+        };
+        reader.onloadend = () => this.convertJSONToArray(json);
+        reader.readAsText(file);
+      } 
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {

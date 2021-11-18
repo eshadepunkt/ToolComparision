@@ -1,0 +1,6 @@
+Current Behaviour in comparision:
+    - all tools that do not contain all criteria will be ignored
+    - it is possible to compare only one tool (this will result in a negative ranking)
+    - when an import was cancelled it is not possible to add new items
+        -> not reproducable(?) after fix(?)
+            -> (Remark) item was added but add/update button did not redirect. Cancel was possible

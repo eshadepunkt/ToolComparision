@@ -91,39 +91,61 @@
 - import alternatives
 
 ### Test plans
+- add some criteria
 - export criteria
 - delete some criteria
 - import exported criteria
+
+<br>
+
 - delete some imported
 - import same file
 - update criteria
 - import criteria
 - export criteria
+
+<br>
+
 - add some criteria
-- import
+- import criteria
+- add some alternatives
 - start comparision and check results,
   
+<br>
+<br>
 <br>
 
 - export alternatives
 - delete some alternatives
 - import exported alternatives
+
+<br>
+
 - delete some imported
 - import same file
 - update some alternatives
 - import alternatives
 - export alternatives
+
+<br>
+
 - add some alternatives
-- import
+- import alternatives
 - start comparision and check results,
 
 <br>
 
 - delete some criteria
 - import alternatives
+- check criteria
+- delete some imported
+- import same file
 - update some imported
 - update some criteria
 - export alternatives
+
+<br>
+
 - delete some criteria
 - delete some alternatives
 - update some criteria
@@ -157,3 +179,19 @@
 - add some alternatives
 - update some criteria
 - start comparision and check results,
+
+- import criteria and cancel (no import)
+- import same file and cancel (no import)
+- add some criteria
+- update some alternatives
+- start comparision and check results,
+
+<br>
+
+- import alternatives in criteria
+- import criteria in alternatives
+- add some criteria
+- add some alternatives
+- start comparision and check results,
+
+
