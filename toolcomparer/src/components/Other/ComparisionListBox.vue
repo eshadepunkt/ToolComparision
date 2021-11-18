@@ -225,7 +225,6 @@ export default Vue.extend({
         if (ranked[i - 1].score.currentValue === ranked[i].score.currentValue) {
           ranked[i - 1].rank = rank;
           ranked[i].rank = rank;
-
         } else {
           ranked[i - 1].rank = rank;
           ranked[i].rank = ++rank;
@@ -242,23 +241,12 @@ export default Vue.extend({
       (this.$refs.uploader as Vue & { click: () => void }).click();
     },
     onFileChanged(e: any) {
-      const file = e.target.files[0];
-      let reader = new FileReader();
-      let json: string | undefined;
-      reader.onload = function () {
-        json = reader.result?.toString();
-        e.target.value = null;
-      };
-      reader.onloadend = () => this.convertJSONToArray(json);
-      reader.readAsText(file);
+      //TO DO
+      //IMPORT
     },
     convertJSONToArray(json: string | undefined) {
-      if (json !== undefined) {
-        const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
-          json
-        ) as Array<Typ.toolKeyValue>;
-        this.$store.dispatch("extendTools", tmpTools);
-      }
+      //TO DO
+      //Convert IMPORT
     },
   },
 
