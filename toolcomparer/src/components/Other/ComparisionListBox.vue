@@ -16,9 +16,9 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="result in results" :key="result.tool.key">
+                <v-item v-for="result in results" :key="result.toolKV.key">
                   <ToolListItem
-                    :propToolKV="result.tool"
+                    :propToolKV="result.toolKV"
                     :propToolRating="result"
                   />
                 </v-item>
@@ -134,7 +134,7 @@ export default Vue.extend({
       let score: Typ.score = this.getScore(tool);
 
       return {
-        tool: tool,
+        toolKV: tool,
         score: score,
         rank: -1,
       } as Typ.toolRating;
@@ -170,9 +170,9 @@ export default Vue.extend({
 
       return filtered;
     },
-    getScore(tool: Typ.toolKeyValue): Typ.score {
+    getScore(toolKV: Typ.toolKeyValue): Typ.score {
       let currentScore = 0;
-      let suitabilities = tool.value.criteriaSuitabilities;
+      let suitabilities = toolKV.value.criteriaSuitabilities;
       let isExcluded = false;
 
       suitabilities.forEach((element) => {

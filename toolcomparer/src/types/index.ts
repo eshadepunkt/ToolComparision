@@ -92,7 +92,7 @@ export function isToolKV(check: any): boolean {
 }
 
 export interface toolRating {
-  tool: toolKeyValue;
+  toolKV: toolKeyValue;
   score: score;
   rank: number;
 }

@@ -263,7 +263,7 @@ export default Vue.extend({
   mounted: function () {
     this.moduleState = this.propModuleState;
     if (this.propToolRating !== undefined) {
-      this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.tool));
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.toolKV));
     }
 
     this.resetValidation();

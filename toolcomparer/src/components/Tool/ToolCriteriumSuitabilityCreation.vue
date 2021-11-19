@@ -255,7 +255,7 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propTool: {
+    propToolKV: {
       handler(newVal: Typ.toolKeyValue) {
         this.toolKV = newVal;
       },
