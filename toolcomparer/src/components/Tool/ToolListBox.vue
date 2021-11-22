@@ -44,7 +44,7 @@
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Comparision/')" color="blue lighten-5">
+            <v-btn @click="navigateTo('/DataIterator/')" color="blue lighten-5">
               Comparision
             </v-btn>
           </v-col>
@@ -100,7 +100,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: {} as Array<Typ.toolKeyValue>,
+      tools: Array<Typ.toolKeyValue>(),
       uuidNIL,
     };
   },

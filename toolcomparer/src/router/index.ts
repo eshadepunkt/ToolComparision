@@ -6,6 +6,7 @@ import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSu
 import ToolListBox from "../components/Tool/ToolListBox.vue";
 
 import ComparisionListBox from "../components/Other/ComparisionListBox.vue";
+import ComparisionDataIterator from "../components/Other/ComparisionDataIterator.vue";
 
 import App from "../App.vue";
 
@@ -52,6 +53,12 @@ const routes: Array<RouteConfig> = [
     path: "/Comparision/",
     component: ComparisionListBox,
     name: "Comparision",
+  },
+
+  {
+    path: "/DataIterator/",
+    component: ComparisionDataIterator,
+    name: "DataIterator",
   },
 
   {

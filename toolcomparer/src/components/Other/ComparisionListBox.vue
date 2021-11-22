@@ -91,10 +91,10 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: {} as Array<Typ.toolKeyValue>,
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      tools: Array<Typ.toolKeyValue>(),
+      criteria: Array<Typ.criteriumKeyValue>(),
       maxScore: -1 as number,
-      results: {} as Array<Typ.toolRating>,
+      results: Array<Typ.toolRating>(),
       uuidNIL,
     };
   },

@@ -100,7 +100,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      criteria: Array<Typ.criteriumKeyValue>(),
       uuidNIL,
     };
   },
