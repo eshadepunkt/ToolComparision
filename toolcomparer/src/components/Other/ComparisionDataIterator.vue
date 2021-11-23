@@ -42,7 +42,6 @@
               </template>
             </v-toolbar>
           </template>
-
           <template v-slot:default="props">
             <v-row>
               <v-col
@@ -53,41 +52,14 @@
                 md="4"
                 lg="3"
               >
-                <v-card>
-                  <v-card-title class="subheading font-weight-bold">
-                    {{ result.toolKV.value.name }}
-                    <br/>
-                    {{ result.score.currentValue + "/" + result.score.maxValue }}
-                  </v-card-title>
-
-                  <v-divider></v-divider>
-
-                  <v-list dense>
-                    <v-list-item
-                      v-for="criteriumKV in criteria"
-                      :key="criteriumKV.key"
-                    >
-                      <v-list-item-content
-                        :class="{
-                          'blue--text': sortBy === criteriumKV.value.name,
-                        }"
-                      >
-                        {{ criteriumKV.value.name }}:
-                      </v-list-item-content>
-                      <v-list-item-content
-                        class="align-end"
-                        :class="{
-                          'blue--text': sortBy === criteriumKV.value.name,
-                        }"
-                      >
-                        {{ "&nbsp;&nbsp;" + getResultString(result, criteriumKV) }}
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-card>
+                <ComparisionDataIteratorCard
+                  :result="result"
+                  :criteria="criteria"
+                  :sortBy="sortBy"
+                />
               </v-col>
             </v-row>
-          </template>
+          </template>     
         </v-data-iterator>
       </v-container>
     </v-card>
@@ -95,28 +67,19 @@
 </template>
 
 <script lang="ts">
-import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
-import {
-  mdiAccount,
-  mdiPencil,
-  mdiShareVariant,
-  mdiDelete,
-  mdiAppleKeyboardControl,
-} from "@mdi/js";
 
 import Vue from "vue";
 
-import ToolListItem from "../Tool/ToolListItem.vue";
-import { filter } from "vue/types/umd";
+import ComparisionDataIteratorCard from "./ComparisionDataIteratorCard.vue";
 
 export default Vue.extend({
   name: "ComparisionListBox",
 
   components: {
-    ToolListItem,
+    ComparisionDataIteratorCard,
   },
 
   //DATA
