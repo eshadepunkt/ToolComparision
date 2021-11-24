@@ -5,10 +5,17 @@
           'blue--text': sortBy === criteriumKV.value.name,
         }"
       >
-      <v-tooltip>
-          {{ criteriumKV.value.name }}:
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on"
+          >
+            {{ criteriumKV.value.name }}:
+          </div>
+        </template>
           <span>
-              {{  }}
+              <v-card-text v-html="getCriteriumInfo()" />
           </span>
       </v-tooltip>    
       </v-list-item-content>
@@ -17,7 +24,19 @@
           'blue--text': sortBy === criteriumKV.value.name,
         }"
       >
-        {{ "&nbsp;&nbsp;" + getResultString() }}
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <div
+              v-bind="attrs"
+              v-on="on"
+            >
+            <v-card-text v-html="getResultString()" />
+            </div>
+          </template>
+            <span>
+                <v-card-text v-html="getRatingInfo()" />
+            </span>
+        </v-tooltip>       
     </v-list-item-content>
     <v-list-item-content>
         <v-btn icon @click="btnEdit()">
@@ -94,10 +113,15 @@ export default Vue.extend({
     },
     getCriteriumInfo(): string {
         const text =
-            "Description:\n" + this.criteriumKV.value.description +
-            "\nImportance:\n" + Typ.convertImportanceEnumToString(this.criteriumKV.value.importance) +
-            "\Fullfillment:\n" + Typ.convertFullfillmentEnumToString(this.suitability.fullfillment) + 
-            "\nJustification:\n" + this.suitability.justification;
+            "Description:<br/>" + this.criteriumKV.value.description;
+
+        return text;
+    },
+    getRatingInfo(): string {
+      const text =
+            "Importance: " + Typ.convertImportanceEnumToString(this.criteriumKV.value.importance) +
+            "<br/>Fullfillment: " + Typ.convertFullfillmentEnumToString(this.suitability.fullfillment) + 
+            "<br/>Justification:<br/>" + this.suitability.justification;
 
         return text;
     },
