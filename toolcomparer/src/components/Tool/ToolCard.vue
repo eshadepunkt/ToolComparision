@@ -152,7 +152,6 @@ export default Vue.extend({
       let stateEnum = Typ.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-    
 
     getRanking(): string {
       return this.propToolRating !== undefined

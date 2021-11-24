@@ -1,22 +1,40 @@
 <template>
-<v-card>
-  <v-card-title class="subheading font-weight-bold">
-    {{ result.toolKV.value.name }}
-    <br/>
-    {{ result.score.currentValue + "/" + result.score.maxValue }}
-  </v-card-title>
+  <v-card>
+    <v-card-title class="subheading font-weight-bold">
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on">
+            {{ "RANK: " + result.rank.toString() }}
+            <br />
+            {{ result.toolKV.value.name }}
+            <br />
+            {{
+              "XXXXX STARS Y" +
+              result.score.currentValue +
+              "/" +
+              result.score.maxValue
+            }}
+          </div>
+        </template>
+        <span>
+          <v-card-text v-html="getToolInfo()" />
+        </span>
+      </v-tooltip>
+    </v-card-title>
 
-  <v-divider></v-divider>
+    <v-divider></v-divider>
 
-  <v-list dense>
-    <ComparisionDataIteratorCardItem v-for="(suitability, index) in result.toolKV.value.criteriaSuitabilities"
-      :result="result"
-      :propSuitabilityIndex="index"
-      :sortBy="sortBy"
-      :key="suitability.criteriumKV.key"
-    />
-  </v-list>
-</v-card>
+    <v-list dense>
+      <ComparisionDataIteratorCardItem
+        v-for="(suitability, index) in result.toolKV.value
+          .criteriaSuitabilities"
+        :result="result"
+        :propSuitabilityIndex="index"
+        :sortBy="sortBy"
+        :key="suitability.criteriumKV.key"
+      />
+    </v-list>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -47,6 +65,18 @@ export default Vue.extend({
     },
   },
 
+  methods: {
+    getToolInfo(): string {
+      const text =
+        "Description:<br/>" +
+        this.result.toolKV.value.description +
+        "<br/>Excluded: " +
+        this.result.score.isExcluded;
+
+      return text;
+    },
+  },
+
   //DATA
   data() {
     return {
@@ -55,4 +85,3 @@ export default Vue.extend({
   },
 });
 </script>
-

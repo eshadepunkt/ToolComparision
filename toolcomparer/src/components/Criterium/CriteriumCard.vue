@@ -158,7 +158,7 @@ export default Vue.extend({
         Typ.convertStringToImportanceEnum(importance);
       this.criterium.importance = importanceEnum;
     },
-    
+
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },

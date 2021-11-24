@@ -2,10 +2,7 @@
   <div id="ComparisionDataIterator">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container fluid>
-        <v-data-iterator
-          :items="getFilteredResults"
-          hide-default-footer
-        >
+        <v-data-iterator :items="getFilteredResults" hide-default-footer>
           <template v-slot:header>
             <v-toolbar dark color="blue darken-3" class="mb-1">
               <v-text-field
@@ -59,7 +56,7 @@
                 />
               </v-col>
             </v-row>
-          </template>     
+          </template>
         </v-data-iterator>
       </v-container>
     </v-card>
@@ -274,14 +271,12 @@ export default Vue.extend({
       //Convert IMPORT
     },
 
-    
-
     stringContains(value: string, searchFor: string): boolean {
       if (searchFor === "" || searchFor === undefined || searchFor === null) {
         return true;
       }
 
-      var v = (value || '').toLowerCase();
+      var v = (value || "").toLowerCase();
       var v2 = searchFor;
       if (v2) {
         v2 = v2.toLowerCase();
@@ -300,25 +295,35 @@ export default Vue.extend({
 
   //COMPUTED
   computed: {
-    getFilteredResults: function(): Array<Typ.toolRating> {
-      const filtered = this.results.filter(x => this.stringContains(x.toolKV.value.name, this.search));
+    getFilteredResults: function (): Array<Typ.toolRating> {
+      const filtered = this.results.filter((x) =>
+        this.stringContains(x.toolKV.value.name, this.search)
+      );
 
       const sortInt = this.sortDesc ? -1 : 1;
 
       if (this.sortBy !== "") {
-        return filtered.sort(
-          ((a: Typ.toolRating, b: Typ.toolRating) => {
-          const aIndex = a.toolKV.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.value.name === this.sortBy);
-          const aCriteriumValue = (aIndex !== -1) ? a.toolKV.value.criteriaSuitabilities[aIndex].fullfillment : -1;
-          
-          const bIndex = b.toolKV.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.value.name === this.sortBy);
-          const bCriteriumValue = (aIndex !== -1) ? b.toolKV.value.criteriaSuitabilities[bIndex].fullfillment : -1;
+        return filtered.sort((a: Typ.toolRating, b: Typ.toolRating) => {
+          const aIndex = a.toolKV.value.criteriaSuitabilities.findIndex(
+            (x) => x.criteriumKV.value.name === this.sortBy
+          );
+          const aCriteriumValue =
+            aIndex !== -1
+              ? a.toolKV.value.criteriaSuitabilities[aIndex].fullfillment
+              : -1;
+
+          const bIndex = b.toolKV.value.criteriaSuitabilities.findIndex(
+            (x) => x.criteriumKV.value.name === this.sortBy
+          );
+          const bCriteriumValue =
+            aIndex !== -1
+              ? b.toolKV.value.criteriaSuitabilities[bIndex].fullfillment
+              : -1;
 
           return (aCriteriumValue - bCriteriumValue) * sortInt;
-        }))
-      }
-      else {
-        return filtered.sort(((a, b) => {
+        });
+      } else {
+        return filtered.sort((a, b) => {
           if (a.score.isExcluded === b.score.isExcluded) {
             return a.score.currentValue - b.score.currentValue * sortInt;
           } else if (a.score.isExcluded) {
@@ -326,9 +331,9 @@ export default Vue.extend({
           } else {
             return 1 * sortInt;
           }
-        }))
+        });
       }
     },
-  }
+  },
 });
 </script>

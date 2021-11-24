@@ -20,7 +20,6 @@ export enum simpleEditMode {
   Update,
 }
 
-
 //CRITERIA
 export enum criteriumImportance {
   undefined = 0,
@@ -30,7 +29,9 @@ export enum criteriumImportance {
   veryimportant = 4,
 }
 
-export function convertStringToImportanceEnum(convert: string): criteriumImportance {
+export function convertStringToImportanceEnum(
+  convert: string
+): criteriumImportance {
   convert = convert.replaceAll(" ", "");
 
   switch (convert) {
@@ -44,7 +45,9 @@ export function convertStringToImportanceEnum(convert: string): criteriumImporta
       return criteriumImportance.unimportant;
   }
 }
-export function convertImportanceEnumToString(convert: criteriumImportance): string {
+export function convertImportanceEnumToString(
+  convert: criteriumImportance
+): string {
   switch (convert) {
     case criteriumImportance.veryimportant:
       return "very important";
@@ -58,7 +61,6 @@ export function convertImportanceEnumToString(convert: criteriumImportance): str
       return "";
   }
 }
-
 
 export interface criterium {
   name: string;
@@ -85,7 +87,9 @@ export function isCriteriumKV(check: any): boolean {
   );
 }
 
-export function convertStringToModuleStateEnum(convert: string): simpleModuleState {
+export function convertStringToModuleStateEnum(
+  convert: string
+): simpleModuleState {
   switch (convert) {
     case "minimized":
       return simpleModuleState.minimized;
@@ -95,7 +99,6 @@ export function convertStringToModuleStateEnum(convert: string): simpleModuleSta
       return simpleModuleState.increation;
   }
 }
-
 
 //TOOLS
 export enum toolCriteriumFullfillment {
@@ -107,8 +110,6 @@ export enum toolCriteriumFullfillment {
   good = 4,
   verygood = 5,
 }
-
-
 
 export function convertStringToFullfillmentEnum(
   convert: string
@@ -151,7 +152,6 @@ export function convertFullfillmentEnumToString(
       return "";
   }
 }
-
 
 export interface toolCriteriumSuitability {
   criteriumKV: criteriumKeyValue;
