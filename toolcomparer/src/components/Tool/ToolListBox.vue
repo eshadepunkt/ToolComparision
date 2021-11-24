@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getTools()" :key="item.key">
+                <v-item v-for="item in tools" :key="item.key">
                   <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>

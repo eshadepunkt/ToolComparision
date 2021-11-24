@@ -99,8 +99,6 @@ export default Vue.extend({
         }
       });
 
-      console.log("\nSB: " + this.sortBy);
-
       return sorted;
     },
   }

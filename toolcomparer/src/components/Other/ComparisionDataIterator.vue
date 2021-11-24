@@ -106,7 +106,16 @@ export default Vue.extend({
       return this.tools;
     },
     cacheCriteria() {
-      this.criteria = this.$store.getters.getCriteria;
+      const unsorted: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+      this.criteria = unsorted.sort((a, b) => {
+        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
+          return b.value.importance - a.value.importance
+        } else if (a.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
     },
     cacheResults() {
       const raw = this.getTools();
