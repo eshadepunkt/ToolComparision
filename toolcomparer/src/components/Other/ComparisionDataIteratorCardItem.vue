@@ -8,12 +8,18 @@
         {{ criteriumKV.value.name }}:
       </v-list-item-content>
       <v-list-item-content
-        class="align-end"
         :class="{
           'blue--text': sortBy === criteriumKV.value.name,
         }"
       >
         {{ "&nbsp;&nbsp;" + getResultString(result, criteriumKV) }}
+    </v-list-item-content>
+    <v-list-item-content>
+        <v-btn icon @click="btnEdit()">
+            <v-icon>
+            {{ icons.mdiPencil }}
+            </v-icon>
+        </v-btn>    
     </v-list-item-content>
 </v-list-item>
 </template>
@@ -22,6 +28,13 @@
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+} from "@mdi/js";
 
 import Vue from "vue";
 
@@ -50,6 +63,13 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+      },
     };
   },
 
@@ -77,6 +97,36 @@ export default Vue.extend({
       }
 
       return "";
+    },
+
+    btnEdit() {
+        const index = this.result.toolKV.value.criteriaSuitabilities.findIndex(
+        (x) => x.criteriumKV.key == this.criteriumKV.key
+        );
+        const appendix: string =
+            this.result.toolKV.key +
+            "/" +
+            this.result.toolKV.value.criteriaSuitabilities[index]
+            .criteriumKV.key;
+        this.navigateTo(
+            "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
+        );
+    },
+    /*
+    btnDelete() {
+        const index = this.result.toolKV.value.criteriaSuitabilities.findIndex(
+        (x) => x.criteriumKV.key == this.criteriumKV.key
+        );
+        this.$store.commit("removeToolSuitability", {
+            toolKV: this.result.toolKV,
+            criteriumSuitability:
+            this.result.toolKV.value.criteriaSuitabilities[index],
+        });
+    },
+    */
+
+    navigateTo(route: string): void {
+      this.$router.push(route);
     },
   }
 
