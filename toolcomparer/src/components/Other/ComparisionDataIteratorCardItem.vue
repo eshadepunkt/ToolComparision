@@ -5,14 +5,19 @@
           'blue--text': sortBy === criteriumKV.value.name,
         }"
       >
-        {{ criteriumKV.value.name }}:
+      <v-tooltip>
+          {{ criteriumKV.value.name }}:
+          <span>
+              {{  }}
+          </span>
+      </v-tooltip>    
       </v-list-item-content>
       <v-list-item-content
         :class="{
           'blue--text': sortBy === criteriumKV.value.name,
         }"
       >
-        {{ "&nbsp;&nbsp;" + getResultString(result, criteriumKV) }}
+        {{ "&nbsp;&nbsp;" + getResultString() }}
     </v-list-item-content>
     <v-list-item-content>
         <v-btn icon @click="btnEdit()">
@@ -51,8 +56,8 @@ export default Vue.extend({
     result: {
       type: Object as () => Typ.toolRating,
     },
-    criteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
+    propSuitabilityIndex: {
+      type: Number,
     },
     sortBy: {
       type: String,
@@ -62,68 +67,50 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      uuidNIL,
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-      },
+        criteriumKV: this.result.toolKV.value.criteriaSuitabilities[this.propSuitabilityIndex].criteriumKV as Typ.criteriumKeyValue,
+        suitability: this.result.toolKV.value.criteriaSuitabilities[this.propSuitabilityIndex] as Typ.toolCriteriumSuitability,
+        uuidNIL,
+        icons: {
+            mdiAccount,
+            mdiPencil,
+            mdiShareVariant,
+            mdiDelete,
+            mdiAppleKeyboardControl,
+        },
     };
   },
 
   methods: {
-    getResultString(
-      result: Typ.toolRating,
-      criteriumKV: Typ.criteriumKeyValue
-    ): string {
-      const index = result.toolKV.value.criteriaSuitabilities.findIndex(
-        (x) => x.criteriumKV.key == criteriumKV.key
-      );
-      if (index !== -1) {
-        const toolCriteriumSuitability: Typ.toolCriteriumSuitability =
-          result.toolKV.value.criteriaSuitabilities[index];
-
+    getResultString(): string {
         const max: number =
-          Math.pow(toolCriteriumSuitability.criteriumKV.value.importance, 2) *
+          Math.pow(this.suitability.criteriumKV.value.importance, 2) *
           Typ.toolCriteriumFullfillment.verygood;
 
         const min: number =
-          Math.pow(toolCriteriumSuitability.criteriumKV.value.importance, 2) *
-          toolCriteriumSuitability.fullfillment;
+          Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+          this.suitability.fullfillment;
 
         return min + "/" + max;
-      }
+    },
+    getCriteriumInfo(): string {
+        const text =
+            "Description:\n" + this.criteriumKV.value.description +
+            "\nImportance:\n" + Typ.convertImportanceEnumToString(this.criteriumKV.value.importance) +
+            "\Fullfillment:\n" + Typ.convertFullfillmentEnumToString(this.suitability.fullfillment) + 
+            "\nJustification:\n" + this.suitability.justification;
 
-      return "";
+        return text;
     },
 
     btnEdit() {
-        const index = this.result.toolKV.value.criteriaSuitabilities.findIndex(
-        (x) => x.criteriumKV.key == this.criteriumKV.key
-        );
         const appendix: string =
             this.result.toolKV.key +
             "/" +
-            this.result.toolKV.value.criteriaSuitabilities[index]
-            .criteriumKV.key;
+            this.suitability.criteriumKV.key;
         this.navigateTo(
             "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
         );
     },
-    /*
-    btnDelete() {
-        const index = this.result.toolKV.value.criteriaSuitabilities.findIndex(
-        (x) => x.criteriumKV.key == this.criteriumKV.key
-        );
-        this.$store.commit("removeToolSuitability", {
-            toolKV: this.result.toolKV,
-            criteriumSuitability:
-            this.result.toolKV.value.criteriaSuitabilities[index],
-        });
-    },
-    */
 
     navigateTo(route: string): void {
       this.$router.push(route);
