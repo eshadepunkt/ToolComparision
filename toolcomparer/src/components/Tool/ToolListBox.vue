@@ -100,7 +100,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: Array<Typ.toolKeyValue>(),
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
       uuidNIL,
     };
   },
@@ -109,11 +109,6 @@ export default Vue.extend({
   methods: {
     navigateTo(route: string): void {
       this.$router.push(route);
-    },
-    getTools(): Array<Typ.toolKeyValue> {
-      this.tools = this.$store.getters.getTools;
-
-      return this.tools;
     },
     exportTools() {
       const json: string = JSON.stringify(this.tools);
@@ -157,11 +152,6 @@ export default Vue.extend({
         this.$store.dispatch("extendTools", tmpTools);
       }
     },
-  },
-
-  //MOUNTED
-  mounted: function () {
-    this.tools = this.$store.getters.getTools;
   },
 });
 </script>

@@ -1,27 +1,26 @@
 <template>
   <v-list-item>
-    <v-list-item-content
-      :class="{
-        'blue--text': sortBy === criteriumKV.value.name,
-      }"
-    >
+    <v-list-item-content>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">{{ criteriumKV.value.name }}:</div>
+          <div 
+            v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
+            v-bind="attrs" v-on="on"
+          >
+            {{ criteriumKV.value.name }}:
+          </div>
         </template>
         <span>
           <v-card-text v-html="getCriteriumInfo()" />
         </span>
       </v-tooltip>
     </v-list-item-content>
-    <v-list-item-content
-      :class="{
-        'blue--text': sortBy === criteriumKV.value.name,
-      }"
-    >
+    <v-list-item-content>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
+          <div
+            v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
+            v-bind="attrs" v-on="on">
             <v-card-text v-html="getResultString()" />
           </div>
         </template>
@@ -54,14 +53,8 @@ import {
 
 import Vue from "vue";
 
-import ToolListItem from "../Tool/ToolListItem.vue";
-
 export default Vue.extend({
   name: "ComparisionListBox",
-
-  components: {
-    ToolListItem,
-  },
 
   props: {
     result: {
@@ -104,7 +97,7 @@ export default Vue.extend({
       const min: number =
         Math.pow(this.suitability.criteriumKV.value.importance, 2) *
         this.suitability.fullfillment;
-
+        
       return min + "/" + max;
     },
     getCriteriumInfo(): string {

@@ -9,7 +9,7 @@
             {{ result.toolKV.value.name }}
             <br />
             {{
-              "XXXXX STARS Y" +
+              "XXXXX STARS " +
               result.score.currentValue +
               "/" +
               result.score.maxValue
@@ -26,7 +26,7 @@
 
     <v-list dense>
       <ComparisionDataIteratorCardItem
-        v-for="(suitability, index) in getSortedCriteria()"
+        v-for="(suitability, index) in getSortedCriteria"
         :result="result"
         :propSuitabilityIndex="index"
         :sortBy="sortBy"
@@ -74,8 +74,19 @@ export default Vue.extend({
 
       return text;
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      uuidNIL,
+    };
+  },
+
+  //COMPUTED
+  computed: {
     //NOTE: Sort DESCending
-    getSortedCriteria(): Array<Typ.toolCriteriumSuitability> {
+    getSortedCriteria: function(): Array<Typ.toolCriteriumSuitability> {
       const unsorted: Array<Typ.toolCriteriumSuitability> = this.result.toolKV.value.criteriaSuitabilities;
 
       const sorted = unsorted.sort((a, b) => {
@@ -88,15 +99,11 @@ export default Vue.extend({
         }
       });
 
+      console.log("\nSB: " + this.sortBy);
+
       return sorted;
     },
-  },
-
-  //DATA
-  data() {
-    return {
-      uuidNIL,
-    };
-  },
+  }
+  
 });
 </script>

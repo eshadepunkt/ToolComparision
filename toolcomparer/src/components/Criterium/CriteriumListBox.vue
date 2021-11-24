@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getCriteria()" :key="item.key">
+                <v-item v-for="item in criteria" :key="item.key">
                   <CriteriumListItem :propCriteriumKV="item" />
                 </v-item>
               </v-item-group>
@@ -100,7 +100,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteria: Array<Typ.criteriumKeyValue>(),
+      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
       uuidNIL,
     };
   },
@@ -109,11 +109,6 @@ export default Vue.extend({
   methods: {
     navigateTo(route: string): void {
       this.$router.push(route);
-    },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
-      this.criteria = this.$store.getters.getCriteria;
-
-      return this.criteria;
     },
     exportCriteria() {
       const json: string = JSON.stringify(this.criteria);
@@ -157,11 +152,6 @@ export default Vue.extend({
         this.$store.dispatch("extendCriteria", tmpCriteria);
       }
     },
-  },
-
-  //MOUNTED
-  mounted: function () {
-    this.criteria = this.$store.getters.getCriteria;
   },
 });
 </script>
