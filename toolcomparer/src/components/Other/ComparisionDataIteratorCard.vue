@@ -9,11 +9,11 @@
   <v-divider></v-divider>
 
   <v-list dense>
-    <ComparisionDataIteratorCardItem v-for="criteriumKV in criteria"
+    <ComparisionDataIteratorCardItem v-for="(suitability, index) in result.toolKV.value.criteriaSuitabilities"
       :result="result"
-      :criteriumKV="criteriumKV"
+      :propSuitabilityIndex="index"
       :sortBy="sortBy"
-      :key="criteriumKV.key"
+      :key="suitability.criteriumKV.key"
     />
   </v-list>
 </v-card>

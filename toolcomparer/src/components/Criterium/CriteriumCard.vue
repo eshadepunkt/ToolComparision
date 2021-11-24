@@ -149,56 +149,16 @@ export default Vue.extend({
       return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
-      let stateEnum = this.convertStringToModuleStateEnum(state);
+      let stateEnum = Typ.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
-    },
-    convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
-      this.selectedDebugItem = convert;
-
-      switch (convert) {
-        case "minimized":
-          return Typ.simpleModuleState.minimized;
-        case "maximized":
-          return Typ.simpleModuleState.maximized;
-        default:
-          return Typ.simpleModuleState.increation;
-      }
     },
 
     updateImportance(importance: string): void {
       let importanceEnum: Typ.criteriumImportance =
-        this.convertStringToImportanceEnum(importance);
+        Typ.convertStringToImportanceEnum(importance);
       this.criterium.importance = importanceEnum;
     },
-    convertStringToImportanceEnum(convert: string): Typ.criteriumImportance {
-      convert = convert.replaceAll(" ", "");
-
-      switch (convert) {
-        case "veryimportant":
-          return Typ.criteriumImportance.veryimportant;
-        case "important":
-          return Typ.criteriumImportance.important;
-        case "neutral":
-          return Typ.criteriumImportance.neutral;
-        default:
-          return Typ.criteriumImportance.unimportant;
-      }
-    },
-    convertImportanceEnumToString(convert: Typ.criteriumImportance): string {
-      switch (convert) {
-        case Typ.criteriumImportance.veryimportant:
-          return "very important";
-        case Typ.criteriumImportance.important:
-          return "important";
-        case Typ.criteriumImportance.neutral:
-          return "neutral";
-        case Typ.criteriumImportance.unimportant:
-          return "unimportant";
-        default:
-          return "";
-      }
-    },
-
+    
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
@@ -264,7 +224,7 @@ export default Vue.extend({
     propCriterium: {
       handler(newVal: Typ.criterium) {
         this.criterium = newVal;
-        this.selectedImportance = this.convertImportanceEnumToString(
+        this.selectedImportance = Typ.convertImportanceEnumToString(
           this.criterium.importance
         );
       },
@@ -273,7 +233,7 @@ export default Vue.extend({
     criterium: {
       handler(newVal: Typ.criterium) {
         this.$emit("update_criterium", newVal);
-        this.selectedImportance = this.convertImportanceEnumToString(
+        this.selectedImportance = Typ.convertImportanceEnumToString(
           this.criterium.importance
         );
       },
@@ -284,7 +244,7 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-    this.selectedImportance = this.convertImportanceEnumToString(
+    this.selectedImportance = Typ.convertImportanceEnumToString(
       this.propCriterium.importance
     );
 

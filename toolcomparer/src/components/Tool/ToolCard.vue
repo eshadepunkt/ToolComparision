@@ -1,16 +1,5 @@
 <template>
   <v-form ref="form" lazy-validation v-model="isValid" id="ToolCard">
-    <!-- Fast Debug Settings -->
-    <div v-if="debug">
-      <v-select
-        :items="debugItems"
-        label="Module State"
-        v-model="selectedDebugItem"
-        @change="changeModuleState(selectedDebugItem)"
-      >
-      </v-select>
-    </div>
-
     <v-card>
       <v-container>
         <!-- Head -->
@@ -160,21 +149,10 @@ export default Vue.extend({
       return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
-      let stateEnum = this.convertStringToModuleStateEnum(state);
+      let stateEnum = Typ.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-    convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
-      this.selectedDebugItem = convert;
-
-      switch (convert) {
-        case "minimized":
-          return Typ.simpleModuleState.minimized;
-        case "maximized":
-          return Typ.simpleModuleState.maximized;
-        default:
-          return Typ.simpleModuleState.increation;
-      }
-    },
+    
 
     getRanking(): string {
       return this.propToolRating !== undefined
@@ -236,10 +214,6 @@ export default Vue.extend({
       },
 
       isValid: true as boolean,
-
-      debug: false as boolean,
-      debugItems: ["minimized", "maximized", "increation"] as string[],
-      selectedDebugItem: "" as string,
     };
   },
 
