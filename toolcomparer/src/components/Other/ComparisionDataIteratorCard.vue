@@ -26,8 +26,7 @@
 
     <v-list dense>
       <ComparisionDataIteratorCardItem
-        v-for="(suitability, index) in result.toolKV.value
-          .criteriaSuitabilities"
+        v-for="(suitability, index) in getSortedCriteria()"
         :result="result"
         :propSuitabilityIndex="index"
         :sortBy="sortBy"
@@ -74,6 +73,22 @@ export default Vue.extend({
         this.result.score.isExcluded;
 
       return text;
+    },
+    //NOTE: Sort DESCending
+    getSortedCriteria(): Array<Typ.toolCriteriumSuitability> {
+      const unsorted: Array<Typ.toolCriteriumSuitability> = this.result.toolKV.value.criteriaSuitabilities;
+
+      const sorted = unsorted.sort((a, b) => {
+        if (a.criteriumKV.value.isExclusionCriterium === b.criteriumKV.value.isExclusionCriterium) {
+          return b.criteriumKV.value.importance - a.criteriumKV.value.importance
+        } else if (a.criteriumKV.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+
+      return sorted;
     },
   },
 
