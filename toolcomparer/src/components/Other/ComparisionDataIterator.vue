@@ -41,20 +41,15 @@
           </template>
           <template v-slot:default="props">
             <v-row>
-              <v-col
-                v-for="result in props.items"
-                :key="result.toolKV.key"
-                cols="12"
-                sm="8"
-                md="6"
-                lg="4"
-              >
-                <ComparisionDataIteratorCard
-                  :result="result"
-                  :criteria="criteria"
-                  :sortBy="sortBy"
-                />
-              </v-col>
+              <v-col v-for="result in props.items"
+                  :key="result.toolKV.key"                     
+                  >
+                  <ComparisionDataIteratorCard
+                    :result="result"
+                    :criteria="criteria"
+                    :sortBy="sortBy"
+                  />
+              </v-col>     
             </v-row>
           </template>
         </v-data-iterator>

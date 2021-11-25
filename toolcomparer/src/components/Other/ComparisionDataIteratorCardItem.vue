@@ -1,67 +1,51 @@
 <template>
-  <v-list-item>
-    <v-list-item-content width="15em">
-      <v-container>
-        <v-row>
-          <v-col>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <div 
-                  v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
-                  v-bind="attrs" v-on="on"
-                >
-                  {{ criteriumKV.value.name }}:
-                </div>
-              </template>
-              <span>
-                <v-card-text v-html="getCriteriumInfo()" />
-              </span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      
+  <v-list-item style="width: 20em;">
+    <div style="width: 11em;">
+      <v-list-item-content>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div 
+            v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
+            v-bind="attrs" v-on="on"
+          >
+            {{ criteriumKV.value.name }}:
+          </div>
+        </template>
+        <span>
+          <v-card-text v-html="getCriteriumInfo()" />
+        </span>
+      </v-tooltip>   
     </v-list-item-content>
-    <v-list-item-content width="5em">
-      <v-container>
-        <v-row>
-          <v-col>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <div
-                  v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
-                  v-bind="attrs" v-on="on">
-                  <v-card-text v-html="getResultString()" />
-                </div>
-              </template>
-              <span>
-                <v-card-text v-html="getRatingInfo()" />
-              </span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-      </v-container>
-      
+    </div>
+    <div style="width: 5em;">
+      <v-list-item-content>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div
+            v-bind:style="(criteriumKV.value.name === sortBy) ? 'color: blue;' : ''"
+            v-bind="attrs" v-on="on">
+            <v-card-text v-html="getResultString()" />
+          </div>
+        </template>
+        <span>
+          <v-card-text v-html="getRatingInfo()" />
+        </span>
+      </v-tooltip>   
     </v-list-item-content>
-    <v-list-item-content>
-      <v-container>
-        <v-row>
-          <v-col cols="2">
-            <div  style="width: 2em;" />
-          </v-col>
-          <v-col cols="1">
-            <v-btn width="3em" icon @click="btnEdit()">
-              <v-icon>
-                {{ icons.mdiPencil }}
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-      
+    </div>
+    <div style="width: 2em;">
+      <v-list-item-content style="width: 2em;">
+      <v-btn style="width: 2em;" icon @click="btnEdit()">
+        <v-icon>
+          {{ icons.mdiPencil }}
+        </v-icon>
+      </v-btn>   
     </v-list-item-content>
+    </div>
+    <div style="width: 2em;" />
   </v-list-item>
+    
+    
 </template>
 
 <script lang="ts">
