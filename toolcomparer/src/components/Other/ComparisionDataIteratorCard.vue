@@ -6,7 +6,22 @@
           <div v-bind="attrs" v-on="on">
             {{ "RANK: " + result.rank.toString() }}
             <br />
-            {{ result.toolKV.value.name }}
+            <div>
+              {{ result.toolKV.value.name }}
+            </div>
+            <div>
+              <!-- Icons -->
+              <v-btn class="ma-2" icon @click="btnEdit()">
+                <v-icon>
+                  {{ icons.mdiPencil }}
+                </v-icon>
+              </v-btn>
+              <v-btn class="ma-2" icon @click="btnDelete()">
+                <v-icon>
+                  {{ icons.mdiDelete }}
+                </v-icon>
+              </v-btn>
+            </div>
             <br />
             {{
               "XXXXX STARS " +
@@ -40,6 +55,13 @@
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+} from "@mdi/js";
 
 import Vue from "vue";
 
@@ -80,6 +102,13 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+      },
     };
   },
 

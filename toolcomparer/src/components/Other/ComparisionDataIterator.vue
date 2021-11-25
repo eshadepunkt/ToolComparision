@@ -45,9 +45,9 @@
                 v-for="result in props.items"
                 :key="result.toolKV.key"
                 cols="12"
-                sm="6"
-                md="4"
-                lg="3"
+                sm="8"
+                md="6"
+                lg="4"
               >
                 <ComparisionDataIteratorCard
                   :result="result"
