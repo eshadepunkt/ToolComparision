@@ -280,7 +280,13 @@ export default Vue.extend({
   computed: {
     //NOTE: Due performance reasons and due computed(*) 2 functions are in one
     //(*) computed property must have an return and reactive properties, also reactive properties shall not be changed. 
-    //property tools is reactive and results must be revaluated when tools changed (but only the filtered function is called).
+    //
+    //Property tools is reactive and results must be revaluated when tools changed (but only the filtered function is called).
+    //
+    //NOTE: When GetResults is an own computed functions, 
+    //getFilteredResults is missing the reactive property 'tools' and will not reevaluate.
+    //But it would be possible to put the reactive property 'tools' inside GetFiltered (but it does nothing) to reevaluate.
+    //I decided to do it this way 'cause a useless 'tools' will be removed sometimes (you could write a comment but who is reading them)
     getFilteredResults: function (): Array<Typ.toolRating> {
       //METHOD: GetResults
       const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
