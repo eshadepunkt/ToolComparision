@@ -1,12 +1,12 @@
 <template>
-  <v-card style="width: 20em;">
+  <v-card style="width: 20em">
     <v-card-title class="subheading font-weight-bold">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
             <v-row>
               <v-col cols="8">
-                <div style="width: 15em;">
+                <div style="width: 15em">
                   {{ "RANK: " + result.rank.toString() }}
                   <br />
                   <br />
@@ -21,7 +21,7 @@
                 </div>
               </v-col>
               <v-col cols="1">
-                <div style="width: 2em;">
+                <div style="width: 2em">
                   <!-- Icons -->
                   <v-btn class="ma-2" icon @click="btnEdit()">
                     <v-icon>
@@ -29,17 +29,17 @@
                     </v-icon>
                   </v-btn>
                 </div>
-              </v-col>   
+              </v-col>
               <v-col cols="1">
-                <div style="width: 2em;">
+                <div style="width: 2em">
                   <v-btn class="ma-2" icon @click="btnDelete()">
                     <v-icon>
                       {{ icons.mdiDelete }}
                     </v-icon>
                   </v-btn>
                 </div>
-              </v-col>   
-            </v-row>              
+              </v-col>
+            </v-row>
           </div>
         </template>
         <span>
@@ -50,7 +50,7 @@
 
     <v-divider></v-divider>
 
-    <div  style="width: 20em;">
+    <div style="width: 20em">
       <v-list dense>
         <ComparisionDataIteratorCardItem
           v-for="(suitability, index) in getSortedCriteria"
@@ -59,7 +59,7 @@
           :sortBy="sortBy"
           :key="suitability.criteriumKV.key"
         />
-    </v-list>
+      </v-list>
     </div>
   </v-card>
 </template>
@@ -109,6 +109,18 @@ export default Vue.extend({
 
       return text;
     },
+
+    btnEdit() {
+      const appendix: string = this.result.toolKV.key;
+      this.navigateTo("/ToolCreation/Update/" + appendix);
+    },
+    btnDelete() {
+      this.$store.commit("removeTool", this.result.toolKV);
+    },
+
+    navigateTo(route: string): void {
+      this.$router.push(route);
+    },
   },
 
   //DATA
@@ -128,12 +140,18 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     //NOTE: Sort DESCending
-    getSortedCriteria: function(): Array<Typ.toolCriteriumSuitability> {
-      const unsorted: Array<Typ.toolCriteriumSuitability> = this.result.toolKV.value.criteriaSuitabilities;
+    getSortedCriteria: function (): Array<Typ.toolCriteriumSuitability> {
+      const unsorted: Array<Typ.toolCriteriumSuitability> =
+        this.result.toolKV.value.criteriaSuitabilities;
 
       const sorted = unsorted.sort((a, b) => {
-        if (a.criteriumKV.value.isExclusionCriterium === b.criteriumKV.value.isExclusionCriterium) {
-          return b.criteriumKV.value.importance - a.criteriumKV.value.importance
+        if (
+          a.criteriumKV.value.isExclusionCriterium ===
+          b.criteriumKV.value.isExclusionCriterium
+        ) {
+          return (
+            b.criteriumKV.value.importance - a.criteriumKV.value.importance
+          );
         } else if (a.criteriumKV.value.isExclusionCriterium) {
           return -1;
         } else {
@@ -143,7 +161,6 @@ export default Vue.extend({
 
       return sorted;
     },
-  }
-  
+  },
 });
 </script>

@@ -41,15 +41,13 @@
           </template>
           <template v-slot:default="props">
             <v-row>
-              <v-col v-for="result in props.items"
-                  :key="result.toolKV.key"                     
-                  >
-                  <ComparisionDataIteratorCard
-                    :result="result"
-                    :criteria="criteria"
-                    :sortBy="sortBy"
-                  />
-              </v-col>     
+              <v-col v-for="result in props.items" :key="result.toolKV.key">
+                <ComparisionDataIteratorCard
+                  :result="result"
+                  :criteria="criteria"
+                  :sortBy="sortBy"
+                />
+              </v-col>
             </v-row>
           </template>
         </v-data-iterator>
@@ -77,10 +75,11 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: Array<Typ.toolKeyValue>(),
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
       criteria: Array<Typ.criteriumKeyValue>(),
-      maxScore: -1 as number,
       results: Array<Typ.toolRating>(),
+      
+      maxScore: -1 as number,
       uuidNIL,
 
       search: "",
@@ -95,16 +94,13 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getTools(): Array<Typ.toolKeyValue> {
-      this.tools = this.$store.getters.getTools;
-
-      return this.tools;
-    },
     cacheCriteria() {
-      const unsorted: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+      const unsorted: Array<Typ.criteriumKeyValue> =
+        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
+
       this.criteria = unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-          return b.value.importance - a.value.importance
+          return b.value.importance - a.value.importance;
         } else if (a.value.isExclusionCriterium) {
           return -1;
         } else {
@@ -112,23 +108,7 @@ export default Vue.extend({
         }
       });
     },
-    cacheResults() {
-      const raw = this.getTools();
-      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
-
-      raw.forEach((tool) => {
-        if (this.hasNoMissingCriteria(tool)) {
-          let rated = this.getRated(tool);
-          converted.push(rated);
-        } else {
-          //TO DO
-          //REDIRECT AND INFORM
-        }
-      });
-
-      const sorted = this.getSorted(converted);
-      this.results = this.getRanked(sorted);
-    },
+    
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
         this.filterUnusedSuitabilities(toolKV);
@@ -204,6 +184,7 @@ export default Vue.extend({
 
       this.maxScore = score;
     },
+    
     //NOTE: Sort DESCending
     getSorted(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
       let sorted = rated.sort((a, b) => {
@@ -291,16 +272,36 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.tools = this.$store.getters.getTools;
     this.cacheCriteria();
     this.cacheMaxScore();
-    this.cacheResults();
   },
 
   //COMPUTED
   computed: {
+    //NOTE: Due performance reasons and due computed(*) 2 functions are in one
+    //(*) computed property must have an return and reactive properties, also reactive properties shall not be changed. 
+    //property tools is reactive and results must be revaluated when tools changed (but only the filtered function is called).
     getFilteredResults: function (): Array<Typ.toolRating> {
-      const filtered = this.results.filter((x) =>
+      //METHOD: GetResults
+      const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
+      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
+
+      raw.forEach((toolKV) => {
+        const hasNoMissing = this.hasNoMissingCriteria(toolKV);
+        if (hasNoMissing) {
+          let rated = this.getRated(toolKV);
+          converted.push(rated);
+        } else {
+          //TO DO
+          //REDIRECT AND INFORM
+        }
+      });
+
+      const sorted = this.getSorted(converted);
+      const ranked = this.getRanked(sorted);
+
+      //FUNCTION: GetFilteredResults
+      const filtered = ranked.filter((x) =>
         this.stringContains(x.toolKV.value.name, this.search)
       );
 

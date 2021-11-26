@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in tools" :key="item.key">
+                <v-item v-for="item in getTools" :key="item.key">
                   <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>
@@ -100,8 +100,8 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
       uuidNIL,
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
     };
   },
 
@@ -111,7 +111,7 @@ export default Vue.extend({
       this.$router.push(route);
     },
     exportTools() {
-      const json: string = JSON.stringify(this.tools);
+      const json: string = JSON.stringify(this.getTools);
       const filename = "toolcomparer_tools.json";
 
       let element = document.createElement("a");
@@ -151,6 +151,12 @@ export default Vue.extend({
         ) as Array<Typ.toolKeyValue>;
         this.$store.dispatch("extendTools", tmpTools);
       }
+    },
+  },
+  //COMPUTED
+  computed: {
+    getTools: function (): Array<Typ.toolKeyValue> {
+      return this.tools;
     },
   },
 });

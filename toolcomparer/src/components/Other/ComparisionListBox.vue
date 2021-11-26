@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="result in results" :key="result.toolKV.key">
+                <v-item v-for="result in getResults" :key="result.toolKV.key">
                   <ToolListItem
                     :propToolKV="result.toolKV"
                     :propToolRating="result"
@@ -91,10 +91,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: Array<Typ.toolKeyValue>(),
-      criteria: Array<Typ.criteriumKeyValue>(),
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
+      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
       maxScore: -1 as number,
-      results: Array<Typ.toolRating>(),
       uuidNIL,
     };
   },
@@ -103,31 +102,6 @@ export default Vue.extend({
   methods: {
     navigateTo(route: string): void {
       this.$router.push(route);
-    },
-    getTools(): Array<Typ.toolKeyValue> {
-      this.tools = this.$store.getters.getTools;
-
-      return this.tools;
-    },
-    cacheCriteria() {
-      this.criteria = this.$store.getters.getCriteria;
-    },
-    cacheResults() {
-      const raw = this.getTools();
-      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
-
-      raw.forEach((tool) => {
-        if (this.hasNoMissingCriteria(tool)) {
-          let rated = this.getRated(tool);
-          converted.push(rated);
-        } else {
-          //TO DO
-          //REDIRECT AND INFORM
-        }
-      });
-
-      const sorted = this.getSorted(converted);
-      this.results = this.getRanked(sorted);
     },
     getRated(tool: Typ.toolKeyValue): Typ.toolRating {
       tool.value.criteriaSuitabilities = this.filterUnusedSuitabilities(tool);
@@ -252,10 +226,31 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.tools = this.$store.getters.getTools;
-    this.cacheCriteria();
     this.cacheMaxScore();
-    this.cacheResults();
+  },
+
+  //COMPUTED
+  computed: {
+    getResults: function (): Array<Typ.toolRating> {
+      const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
+      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
+
+      raw.forEach((toolKV) => {
+        const hasNoMissing = this.hasNoMissingCriteria(toolKV);
+        if (hasNoMissing) {
+          let rated = this.getRated(toolKV);
+          converted.push(rated);
+        } else {
+          //TO DO
+          //REDIRECT AND INFORM
+        }
+      });
+
+      const sorted = this.getSorted(converted);
+      const ranked = this.getRanked(sorted);
+
+      return ranked;
+    },
   },
 });
 </script>
