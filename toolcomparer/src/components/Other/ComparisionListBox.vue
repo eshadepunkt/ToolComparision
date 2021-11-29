@@ -1,65 +1,17 @@
 <template>
   <div id="ComparisionListBox">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Comparision</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-list style="height: 72vh; overflow-y: auto">
-              <v-item-group>
-                <v-item v-for="result in getResults" :key="result.toolKV.key">
-                  <ToolListItem
-                    :propToolKV="result.toolKV"
-                    :propToolRating="result"
-                  />
-                </v-item>
-              </v-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="navigateTo('/Tools/')" color="red lighten-5">
-              Change Tools
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importer()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
+    <ComparisionContainer>
+      <v-list style="height: 72vh; overflow-y: auto">
+        <v-item-group>
+          <v-item v-for="result in getResults" :key="result.toolKV.key">
+            <ToolListItem
+              :propToolKV="result.toolKV"
+              :propToolRating="result"
             />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exporter()"> Export </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+          </v-item>
+        </v-item-group>
+      </v-list>
+    </ComparisionContainer>
   </div>
 </template>
 
@@ -78,6 +30,7 @@ import {
 
 import Vue from "vue";
 
+import ComparisionContainer from "../Other/ComparisionContainer.vue";
 import ToolListItem from "../Tool/ToolListItem.vue";
 import { filter } from "vue/types/umd";
 
@@ -85,6 +38,7 @@ export default Vue.extend({
   name: "ComparisionListBox",
 
   components: {
+    ComparisionContainer,
     ToolListItem,
   },
 

@@ -50,15 +50,15 @@ const routes: Array<RouteConfig> = [
   },
 
   {
-    path: "/Comparision/",
+    path: "/Comparision/ListBox/",
     component: ComparisionListBox,
-    name: "Comparision",
+    name: "ComparisionListBox",
   },
 
   {
-    path: "/DataIterator/",
+    path: "/Comparision/DataIterator/",
     component: ComparisionDataIterator,
-    name: "DataIterator",
+    name: "ComparisionDataIterator",
   },
 
   {
