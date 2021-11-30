@@ -23,6 +23,7 @@
             v-for="result in getResults"
             :key="result.toolKV.key" 
             class="text-left"
+            :style="getColor(result.score)"
         >
             <td>
                 {{ result.toolKV.value.name }}
@@ -231,6 +232,20 @@ export default Vue.extend({
       }
 
       return "";
+    },
+    getColor(score: Typ.score): string {
+        if (score.isExcluded) {
+            return "background-color: grey;";
+        }
+        else if (score.currentValue > (score.maxValue * 0.75)) {
+            return "background-color: lightgreen;";
+        }
+        else if (score.currentValue > (score.maxValue * 0.5)) {
+            return "background-color: yellow;";
+        }
+        else {
+            return "background-color: orange;";
+        }
     },
     exporter() {
       //TO DO
