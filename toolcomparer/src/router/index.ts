@@ -7,6 +7,7 @@ import ToolListBox from "../components/Tool/ToolListBox.vue";
 
 import ComparisionListBox from "../components/Other/ComparisionListBox.vue";
 import ComparisionDataIterator from "../components/Other/ComparisionDataIterator.vue";
+import ComparisionDataTable from "../components/Other/ComparisionDataTable.vue";
 
 import App from "../App.vue";
 
@@ -59,6 +60,12 @@ const routes: Array<RouteConfig> = [
     path: "/Comparision/DataIterator/",
     component: ComparisionDataIterator,
     name: "ComparisionDataIterator",
+  },
+
+  {
+    path: "/Comparision/DataTable/",
+    component: ComparisionDataTable,
+    name: "ComparisionDataTable",
   },
 
   {
