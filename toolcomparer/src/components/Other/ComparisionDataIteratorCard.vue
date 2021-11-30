@@ -53,7 +53,7 @@
     <div style="width: 20em">
       <v-list dense>
         <ComparisionDataIteratorCardItem
-          v-for="(suitability, index) in getSortedCriteria"
+          v-for="(suitability, index) in getSortedSuitabilities"
           :result="result"
           :propSuitabilityIndex="index"
           :sortBy="sortBy"
@@ -140,7 +140,7 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     //NOTE: Sort DESCending
-    getSortedCriteria: function (): Array<Typ.toolCriteriumSuitability> {
+    getSortedSuitabilities: function (): Array<Typ.toolCriteriumSuitability> {
       const unsorted: Array<Typ.toolCriteriumSuitability> =
         this.result.toolKV.value.criteriaSuitabilities;
 

@@ -16,32 +16,22 @@
             >
                 {{ criteriumKV.value.name }}
             </th>
+            <th>
+                Actions
+            </th>
         </tr>
       </thead>
       <tbody>
-        <tr
-            v-for="result in getResults"
+        <ComparisionDataTableRow
+            v-for="(result, index) in getResults"
             :key="result.toolKV.key" 
+            :result="result"
+            :propSuitabilityIndex="index"
+            :sortBy="sortBy"
+            :criteria="criteria"
             class="text-left"
             :style="getColor(result.score)"
-        >
-            <td>
-                {{ result.toolKV.value.name }}
-            </td>
-            <td>
-                {{ 
-                    result.score.currentValue +
-                    "/" +
-                    result.score.maxValue 
-                }}
-            </td>
-            <td 
-                v-for="criteriumKV in criteria"
-                :key="criteriumKV.key"
-            >
-                {{ getResultString(result, criteriumKV) }}
-            </td>
-        </tr>
+        />
       </tbody>
     </template>
   </v-simple-table>
@@ -56,14 +46,14 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 import ComparisionContainer from "./ComparisionContainer.vue";
-import ComparisionDataIteratorCard from "./ComparisionDataIteratorCard.vue";
+import ComparisionDataTableRow from "./ComparisionDataTableRow.vue";
 
 export default Vue.extend({
   name: "ComparisionListBox",
 
   components: {
     ComparisionContainer,
-    ComparisionDataIteratorCard,
+    ComparisionDataTableRow,
   },
 
   //DATA
