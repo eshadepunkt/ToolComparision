@@ -1,5 +1,17 @@
 <template>
   <v-card>
+      <v-toolbar dark color="blue darken-3" class="mb-1">
+        <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            label="Search tool"
+        >
+        </v-text-field>
+    </v-toolbar>
     <v-simple-table>
       <template v-slot:default>
         <thead>
@@ -16,7 +28,7 @@
         </thead>
         <tbody>
           <ComparisionDataTableRow
-            v-for="(result, index) in getResults"
+            v-for="(result, index) in getFilteredResults"
             :key="result.toolKV.key"
             :result="result"
             :propSuitabilityIndex="index"
