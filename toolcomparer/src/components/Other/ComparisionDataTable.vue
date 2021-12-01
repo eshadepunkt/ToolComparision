@@ -16,12 +16,19 @@
       <template v-slot:default>
         <thead>
           <tr>
-            <th>Tools</th>
+            <th
+                v-on:click="changeSort($event, '')"
+            >
+                Tools
+            </th>
             <th>Score</th>
             <ComparisionDataTableHeader
               v-for="criteriumKV in criteria"
               :key="criteriumKV.key"
               :criteriumKV="criteriumKV"
+              :sortBy="sortBy"
+              :sortDesc="sortDesc"
+              v-on:click.native="changeSort($event, criteriumKV.value.name)"
             />
             <th>Actions</th>
           </tr>
@@ -75,7 +82,7 @@ export default Vue.extend({
       search: "",
       filter: {},
       sortDesc: true,
-      sortBy: "",
+      sortBy: "EX VIP Add Criterium",
     };
   },
 
@@ -241,6 +248,15 @@ export default Vue.extend({
       } else {
         return "background-color: orange;";
       }
+    },
+    changeSort(event: any, sortBy: string) {
+        console.log("CS");
+        if (this.sortBy == sortBy) {
+            this.sortDesc = !this.sortDesc;
+        }
+        else {
+            this.sortBy = sortBy;
+        }
     },
     exporter() {
       //TO DO

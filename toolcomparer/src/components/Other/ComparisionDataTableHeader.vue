@@ -2,9 +2,26 @@
   <th>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <div v-bind="attrs" v-on="on">
-          {{ criteriumKV.value.name }}
-        </div>
+        <v-row>
+            <v-col cols="8"
+                v-bind="attrs" v-on="on"
+                v-bind:style="
+                    criteriumKV.value.name === sortBy ? 'color: blue;' : ''
+                "
+            >
+                {{ criteriumKV.value.name }}
+            </v-col>
+            <v-col cols="1">
+                <v-icon
+                    v-if="criteriumKV.value.name === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                >
+                    {{ icons.mdiSort }}
+                </v-icon>
+            </v-col>
+        </v-row>
       </template>
       <span>
         <v-card-text v-html="getCriteriumInfo()" />
@@ -23,6 +40,7 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiSort,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -34,6 +52,12 @@ export default Vue.extend({
     criteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,
     },
+    sortBy: {
+      type: String,
+    },
+    sortDesc: {
+        type: Boolean,
+    }
   },
 
   //DATA
@@ -46,6 +70,7 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiSort,
       },
     };
   },
