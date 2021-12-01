@@ -115,7 +115,7 @@ export default Vue.extend({
       search: "",
       filter: {},
       sortDesc: true,
-      sortBy: "EX VIP Add Criterium",
+      sortBy: "",
     };
   },
 
