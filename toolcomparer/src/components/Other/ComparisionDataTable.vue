@@ -1,41 +1,34 @@
 <template>
-<v-card>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr >
-            <th>
-                Tools
-            </th>
-            <th>
-                Score
-            </th>
-            <th 
-                v-for="criteriumKV in criteria"
-                :key="criteriumKV.key"
-            >
-                {{ criteriumKV.value.name }}
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-      </thead>
-      <tbody>
-        <ComparisionDataTableRow
+  <v-card>
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th>Tools</th>
+            <th>Score</th>
+            <ComparisionDataTableHeader
+              v-for="criteriumKV in criteria"
+              :key="criteriumKV.key"
+              :criteriumKV="criteriumKV"
+            />
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ComparisionDataTableRow
             v-for="(result, index) in getResults"
-            :key="result.toolKV.key" 
+            :key="result.toolKV.key"
             :result="result"
             :propSuitabilityIndex="index"
             :sortBy="sortBy"
             :criteria="criteria"
             class="text-left"
             :style="getColor(result.score)"
-        />
-      </tbody>
-    </template>
-  </v-simple-table>
-</v-card>
+          />
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -46,6 +39,7 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 import ComparisionContainer from "./ComparisionContainer.vue";
+import ComparisionDataTableHeader from "./ComparisionDataTableHeader.vue";
 import ComparisionDataTableRow from "./ComparisionDataTableRow.vue";
 
 export default Vue.extend({
@@ -53,6 +47,7 @@ export default Vue.extend({
 
   components: {
     ComparisionContainer,
+    ComparisionDataTableHeader,
     ComparisionDataTableRow,
   },
 
@@ -61,7 +56,7 @@ export default Vue.extend({
     return {
       tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
       criteria: Array<Typ.criteriumKeyValue>(),
-      
+
       maxScore: -1 as number,
       uuidNIL,
 
@@ -78,8 +73,9 @@ export default Vue.extend({
       this.$router.push(route);
     },
     cacheCriteria() {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
       this.criteria = unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
@@ -91,7 +87,7 @@ export default Vue.extend({
         }
       });
     },
-    
+
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
         this.filterUnusedSuitabilities(toolKV);
@@ -167,7 +163,7 @@ export default Vue.extend({
 
       this.maxScore = score;
     },
-    
+
     //NOTE: Sort DESCending
     getSorted(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
       let sorted = rated.sort((a, b) => {
@@ -224,18 +220,15 @@ export default Vue.extend({
       return "";
     },
     getColor(score: Typ.score): string {
-        if (score.isExcluded) {
-            return "background-color: grey;";
-        }
-        else if (score.currentValue > (score.maxValue * 0.75)) {
-            return "background-color: lightgreen;";
-        }
-        else if (score.currentValue > (score.maxValue * 0.5)) {
-            return "background-color: yellow;";
-        }
-        else {
-            return "background-color: orange;";
-        }
+      if (score.isExcluded) {
+        return "background-color: grey;";
+      } else if (score.currentValue >= score.maxValue * 0.8) {
+        return "background-color: lightgreen;";
+      } else if (score.currentValue >= score.maxValue * 0.6) {
+        return "background-color: yellow;";
+      } else {
+        return "background-color: orange;";
+      }
     },
     exporter() {
       //TO DO
@@ -276,7 +269,9 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getResults: function (): Array<Typ.toolRating> {
-      const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
+      const raw = JSON.parse(
+        JSON.stringify(this.tools)
+      ) as Array<Typ.toolKeyValue>;
       let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
 
       raw.forEach((toolKV) => {

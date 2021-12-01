@@ -44,7 +44,10 @@
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Comparision/DataIterator/')" color="blue lighten-5">
+            <v-btn
+              @click="navigateTo('/Comparision/DataIterator/')"
+              color="blue lighten-5"
+            >
               Comparision
             </v-btn>
           </v-col>

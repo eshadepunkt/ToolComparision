@@ -1,7 +1,16 @@
 <template>
-<td>
-    {{ getResultString(result, criteriumKV) }}
-</td>
+  <td>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on">
+          {{ getResultString(result, criteriumKV) }}
+        </div>
+      </template>
+      <span>
+        <v-card-text v-html="getRatingInfo()" />
+      </span>
+    </v-tooltip>
+  </td>
 </template>
 
 <script lang="ts">

@@ -1,16 +1,21 @@
 <template>
-<tr>
+  <tr>
     <td>
-        {{ result.toolKV.value.name }}
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on">
+            {{ result.toolKV.value.name }}
+          </div>
+        </template>
+        <span>
+          <v-card-text v-html="getToolInfo()" />
+        </span>
+      </v-tooltip>
     </td>
     <td>
-        {{ 
-            result.score.currentValue +
-            "/" +
-            result.score.maxValue 
-        }}
+      {{ result.score.currentValue + "/" + result.score.maxValue }}
     </td>
-    <ComparisionDataTableRowItem 
+    <ComparisionDataTableRowItem
       v-for="(suitability, index) in getSortedSuitabilities"
       :result="result"
       :propSuitabilityIndex="index"
@@ -35,8 +40,7 @@
         </v-col>
       </v-row>
     </td>
-    
-</tr>
+  </tr>
 </template>
 
 <script lang="ts">
@@ -69,7 +73,7 @@ export default Vue.extend({
       type: String,
     },
     criteria: {
-        type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Object as () => Array<Typ.criteriumKeyValue>,
     },
   },
 
@@ -88,14 +92,20 @@ export default Vue.extend({
   },
 
   methods: {
-    btnEdit() {
-      const appendix: string =
-        this.result.toolKV.key;
-      this.navigateTo(
-        "/ToolCreation/Update/" + appendix
-      );
+    getToolInfo(): string {
+      const text =
+        "Description:<br/>" +
+        this.result.toolKV.value.description +
+        "<br/>Excluded: " +
+        this.result.score.isExcluded;
+
+      return text;
     },
-     btnDelete() {
+    btnEdit() {
+      const appendix: string = this.result.toolKV.key;
+      this.navigateTo("/ToolCreation/Update/" + appendix);
+    },
+    btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
     },
 
@@ -127,7 +137,7 @@ export default Vue.extend({
       });
 
       return sorted;
-    }
+    },
   },
 });
 </script>

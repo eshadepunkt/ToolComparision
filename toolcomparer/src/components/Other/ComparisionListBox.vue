@@ -186,7 +186,9 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getResults: function (): Array<Typ.toolRating> {
-      const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
+      const raw = JSON.parse(
+        JSON.stringify(this.tools)
+      ) as Array<Typ.toolKeyValue>;
       let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
 
       raw.forEach((toolKV) => {

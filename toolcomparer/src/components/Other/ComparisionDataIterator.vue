@@ -81,7 +81,7 @@ export default Vue.extend({
     return {
       tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
       criteria: Array<Typ.criteriumKeyValue>(),
-      
+
       maxScore: -1 as number,
       uuidNIL,
 
@@ -98,8 +98,9 @@ export default Vue.extend({
       this.$router.push(route);
     },
     cacheCriteria() {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
       this.criteria = unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
@@ -111,7 +112,7 @@ export default Vue.extend({
         }
       });
     },
-    
+
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
         this.filterUnusedSuitabilities(toolKV);
@@ -187,7 +188,7 @@ export default Vue.extend({
 
       this.maxScore = score;
     },
-    
+
     //NOTE: Sort DESCending
     getSorted(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
       let sorted = rated.sort((a, b) => {
@@ -282,7 +283,9 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getResults: function (): Array<Typ.toolRating> {
-      const raw = JSON.parse(JSON.stringify(this.tools)) as Array<Typ.toolKeyValue>;
+      const raw = JSON.parse(
+        JSON.stringify(this.tools)
+      ) as Array<Typ.toolKeyValue>;
       let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
 
       raw.forEach((toolKV) => {
