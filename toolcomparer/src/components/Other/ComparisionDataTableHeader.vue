@@ -3,7 +3,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-row>
-            <v-col cols="8"
+            <v-col cols="9"
                 v-bind="attrs" v-on="on"
                 v-bind:style="
                     criteriumKV.value.name === sortBy ? 'color: blue;' : ''

@@ -16,12 +16,29 @@
       <template v-slot:default>
         <thead>
           <tr>
+              <th>Tools</th>
             <th
                 v-on:click="changeSort($event, '')"
             >
-                Tools
+                <v-row>
+                    <v-col cols="9"
+                        v-bind="attrs" v-on="on"
+                    >
+                        Score
+                    </v-col>
+                    <v-col cols="1">
+                        <v-icon
+                            v-if="'' === sortBy"
+                            class="ma-2"
+                            v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                            icon
+                        >
+                            {{ icons.mdiSort }}
+                        </v-icon>
+                    </v-col>
+                </v-row>
             </th>
-            <th>Score</th>
+            
             <ComparisionDataTableHeader
               v-for="criteriumKV in criteria"
               :key="criteriumKV.key"
@@ -54,6 +71,14 @@
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+  mdiSort,
+} from "@mdi/js";
 
 import Vue from "vue";
 
@@ -78,6 +103,14 @@ export default Vue.extend({
 
       maxScore: -1 as number,
       uuidNIL,
+       icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiSort,
+      },
 
       search: "",
       filter: {},
