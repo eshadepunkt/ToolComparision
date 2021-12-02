@@ -1,7 +1,7 @@
 <template>
 <div id="ComparisionDataTable">
     <ComparisionContainer :redirectTo=redirectTo>
-        <v-card>
+        <v-card style="height: 71vh; overflow-y: auto">
             <v-toolbar dark color="blue darken-3" class="mb-1">
                 <v-text-field
                     v-model="search"

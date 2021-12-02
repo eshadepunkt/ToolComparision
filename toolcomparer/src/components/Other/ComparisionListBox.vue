@@ -1,7 +1,7 @@
 <template>
   <div id="ComparisionListBox">
     <ComparisionContainer :redirectTo=redirectTo>
-      <v-list style="height: 72vh; overflow-y: auto">
+      <v-list style="height: 71vh; overflow-y: auto">
         <v-item-group>
           <v-item v-for="result in getResults" :key="result.toolKV.key">
             <ToolListItem

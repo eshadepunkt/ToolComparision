@@ -3,7 +3,7 @@
     <ComparisionContainer 
       :redirectTo=redirectTo
     >
-      <v-card style="height: 72vh; overflow-y: auto" color="grey lighten-5">
+      <v-card style="height: 71vh; overflow-y: auto" color="grey lighten-5">
         <v-container fluid>
           <v-data-iterator :items="getFilteredResults" hide-default-footer>
             <template v-slot:header>
