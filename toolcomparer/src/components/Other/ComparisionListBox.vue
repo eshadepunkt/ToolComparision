@@ -1,6 +1,6 @@
 <template>
   <div id="ComparisionListBox">
-    <ComparisionContainer>
+    <ComparisionContainer :redirectTo=redirectTo>
       <v-list style="height: 72vh; overflow-y: auto">
         <v-item-group>
           <v-item v-for="result in getResults" :key="result.toolKV.key">
@@ -49,6 +49,7 @@ export default Vue.extend({
       criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
       maxScore: -1 as number,
       uuidNIL,
+      redirectTo: "/Comparision/DataIterator/",
     };
   },
 

@@ -1,71 +1,73 @@
 <template>
 <div id="ComparisionDataTable">
-  <v-card>
-      <v-toolbar dark color="blue darken-3" class="mb-1">
-        <v-text-field
-            v-model="search"
-            clearable
-            flat
-            solo-inverted
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            label="Search tool"
-        >
-        </v-text-field>
-    </v-toolbar>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-              <th>Tools</th>
-            <th
-                v-on:click="changeSort($event, '')"
-            >
-                <v-row>
-                    <v-col cols="9"
-                        v-bind="attrs" v-on="on"
+    <ComparisionContainer :redirectTo=redirectTo>
+        <v-card>
+            <v-toolbar dark color="blue darken-3" class="mb-1">
+                <v-text-field
+                    v-model="search"
+                    clearable
+                    flat
+                    solo-inverted
+                    hide-details
+                    prepend-inner-icon="mdi-magnify"
+                    label="Search tool"
+                >
+                </v-text-field>
+            </v-toolbar>
+            <v-simple-table>
+            <template v-slot:default>
+                <thead>
+                <tr>
+                    <th>Tools</th>
+                    <th
+                        v-on:click="changeSort($event, '')"
                     >
-                        Score
-                    </v-col>
-                    <v-col cols="1">
-                        <v-icon
-                            v-if="'' === sortBy"
-                            class="ma-2"
-                            v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
-                            icon
-                        >
-                            {{ icons.mdiSort }}
-                        </v-icon>
-                    </v-col>
-                </v-row>
-            </th>
-            
-            <ComparisionDataTableHeader
-              v-for="criteriumKV in criteria"
-              :key="criteriumKV.key"
-              :criteriumKV="criteriumKV"
-              :sortBy="sortBy"
-              :sortDesc="sortDesc"
-              v-on:click.native="changeSort($event, criteriumKV.value.name)"
-            />
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ComparisionDataTableRow
-            v-for="(result, index) in getFilteredResults"
-            :key="result.toolKV.key"
-            :result="result"
-            :propSuitabilityIndex="index"
-            :sortBy="sortBy"
-            :criteria="criteria"
-            class="text-left"
-            :style="getColor(result.score)"
-          />
-        </tbody>
-      </template>
-    </v-simple-table>
-  </v-card>
+                        <v-row>
+                            <v-col cols="9"
+                                v-bind="attrs" v-on="on"
+                            >
+                                Score
+                            </v-col>
+                            <v-col cols="1">
+                                <v-icon
+                                    v-if="'' === sortBy"
+                                    class="ma-2"
+                                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                                    icon
+                                >
+                                    {{ icons.mdiSort }}
+                                </v-icon>
+                            </v-col>
+                        </v-row>
+                    </th>
+                    
+                    <ComparisionDataTableHeader
+                    v-for="criteriumKV in criteria"
+                    :key="criteriumKV.key"
+                    :criteriumKV="criteriumKV"
+                    :sortBy="sortBy"
+                    :sortDesc="sortDesc"
+                    v-on:click.native="changeSort($event, criteriumKV.value.name)"
+                    />
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ComparisionDataTableRow
+                    v-for="(result, index) in getFilteredResults"
+                    :key="result.toolKV.key"
+                    :result="result"
+                    :propSuitabilityIndex="index"
+                    :sortBy="sortBy"
+                    :criteria="criteria"
+                    class="text-left"
+                    :style="getColor(result.score)"
+                />
+                </tbody>
+            </template>
+            </v-simple-table>
+        </v-card>
+    </ComparisionContainer>
 </div>
 </template>
 
@@ -118,6 +120,7 @@ export default Vue.extend({
       filter: {},
       sortDesc: true,
       sortBy: "",
+      redirectTo: "/Comparision/DataIterator/",
     };
   },
 

@@ -29,6 +29,11 @@
               Change Tools
             </v-btn>
           </v-col>
+          <v-col xl="1">
+            <v-btn @click="navigateTo(redirectTo)" color="blue lighten-5">
+              Change View
+            </v-btn>
+          </v-col>
         </v-row>
         <v-row
           align="center"
@@ -73,28 +78,34 @@ import ToolListItem from "../Tool/ToolListItem.vue";
 import { filter } from "vue/types/umd";
 
 export default Vue.extend({
-  name: "ComparisionContainer",
+    name: "ComparisionContainer",
 
-  //METHODS
-  methods: {
-    navigateTo(route: string): void {
-      this.$router.push(route);
+    props: {
+        redirectTo: {
+            type: String,
+        }
     },
-    exporter() {
-      //TO DO
-      //EXPORT
+
+    //METHODS
+    methods: {
+        navigateTo(route: string): void {
+        this.$router.push(route);
+        },
+        exporter() {
+        //TO DO
+        //EXPORT
+        },
+        importer() {
+        (this.$refs.uploader as Vue & { click: () => void }).click();
+        },
+        onFileChanged(e: any) {
+        //TO DO
+        //IMPORT
+        },
+        convertJSONToArray(json: string | undefined) {
+        //TO DO
+        //Convert IMPORT
+        },
     },
-    importer() {
-      (this.$refs.uploader as Vue & { click: () => void }).click();
-    },
-    onFileChanged(e: any) {
-      //TO DO
-      //IMPORT
-    },
-    convertJSONToArray(json: string | undefined) {
-      //TO DO
-      //Convert IMPORT
-    },
-  },
 });
 </script>
