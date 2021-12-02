@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getTools()" :key="item.key">
+                <v-item v-for="item in getTools" :key="item.key">
                   <ToolListItem :propToolKV="item" />
                 </v-item>
               </v-item-group>
@@ -44,7 +44,10 @@
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Comparision/')" color="blue lighten-5">
+            <v-btn
+              @click="navigateTo('/Comparision/DataIterator/')"
+              color="blue lighten-5"
+            >
               Comparision
             </v-btn>
           </v-col>
@@ -100,8 +103,8 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      tools: {} as Array<Typ.toolKeyValue>,
       uuidNIL,
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
     };
   },
 
@@ -110,13 +113,8 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getTools(): Array<Typ.toolKeyValue> {
-      this.tools = this.$store.getters.getTools;
-
-      return this.tools;
-    },
     exportTools() {
-      const json: string = JSON.stringify(this.tools);
+      const json: string = JSON.stringify(this.getTools);
       const filename = "toolcomparer_tools.json";
 
       let element = document.createElement("a");
@@ -158,10 +156,11 @@ export default Vue.extend({
       }
     },
   },
-
-  //MOUNTED
-  mounted: function () {
-    this.tools = this.$store.getters.getTools;
+  //COMPUTED
+  computed: {
+    getTools: function (): Array<Typ.toolKeyValue> {
+      return this.tools;
+    },
   },
 });
 </script>

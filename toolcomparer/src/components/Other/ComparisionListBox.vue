@@ -1,65 +1,17 @@
 <template>
   <div id="ComparisionListBox">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Comparision</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-list style="height: 72vh; overflow-y: auto">
-              <v-item-group>
-                <v-item v-for="result in results" :key="result.tool.key">
-                  <ToolListItem
-                    :propToolKV="result.tool"
-                    :propToolRating="result"
-                  />
-                </v-item>
-              </v-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="navigateTo('/Tools/')" color="red lighten-5">
-              Change Tools
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importer()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
+    <ComparisionContainer :redirectTo="redirectTo">
+      <v-list style="height: 71vh; overflow-y: auto">
+        <v-item-group>
+          <v-item v-for="result in getResults" :key="result.toolKV.key">
+            <ToolListItem
+              :propToolKV="result.toolKV"
+              :propToolRating="result"
             />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exporter()"> Export </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+          </v-item>
+        </v-item-group>
+      </v-list>
+    </ComparisionContainer>
   </div>
 </template>
 
@@ -78,6 +30,7 @@ import {
 
 import Vue from "vue";
 
+import ComparisionContainer from "../Other/ComparisionContainer.vue";
 import ToolListItem from "../Tool/ToolListItem.vue";
 import { filter } from "vue/types/umd";
 
@@ -85,17 +38,18 @@ export default Vue.extend({
   name: "ComparisionListBox",
 
   components: {
+    ComparisionContainer,
     ToolListItem,
   },
 
   //DATA
   data() {
     return {
-      tools: {} as Array<Typ.toolKeyValue>,
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
+      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
       maxScore: -1 as number,
-      results: {} as Array<Typ.toolRating>,
       uuidNIL,
+      redirectTo: "/Comparision/DataIterator/",
     };
   },
 
@@ -104,37 +58,12 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getTools(): Array<Typ.toolKeyValue> {
-      this.tools = this.$store.getters.getTools;
-
-      return this.tools;
-    },
-    cacheCriteria() {
-      this.criteria = this.$store.getters.getCriteria;
-    },
-    cacheResults() {
-      const raw = this.getTools();
-      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
-
-      raw.forEach((tool) => {
-        if (this.hasNoMissingCriteria(tool)) {
-          let rated = this.getRated(tool);
-          converted.push(rated);
-        } else {
-          //TO DO
-          //REDIRECT AND INFORM
-        }
-      });
-
-      const sorted = this.getSorted(converted);
-      this.results = this.getRanked(sorted);
-    },
     getRated(tool: Typ.toolKeyValue): Typ.toolRating {
       tool.value.criteriaSuitabilities = this.filterUnusedSuitabilities(tool);
       let score: Typ.score = this.getScore(tool);
 
       return {
-        tool: tool,
+        toolKV: tool,
         score: score,
         rank: -1,
       } as Typ.toolRating;
@@ -170,9 +99,9 @@ export default Vue.extend({
 
       return filtered;
     },
-    getScore(tool: Typ.toolKeyValue): Typ.score {
+    getScore(toolKV: Typ.toolKeyValue): Typ.score {
       let currentScore = 0;
-      let suitabilities = tool.value.criteriaSuitabilities;
+      let suitabilities = toolKV.value.criteriaSuitabilities;
       let isExcluded = false;
 
       suitabilities.forEach((element) => {
@@ -252,10 +181,33 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.tools = this.$store.getters.getTools;
-    this.cacheCriteria();
     this.cacheMaxScore();
-    this.cacheResults();
+  },
+
+  //COMPUTED
+  computed: {
+    getResults: function (): Array<Typ.toolRating> {
+      const raw = JSON.parse(
+        JSON.stringify(this.tools)
+      ) as Array<Typ.toolKeyValue>;
+      let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
+
+      raw.forEach((toolKV) => {
+        const hasNoMissing = this.hasNoMissingCriteria(toolKV);
+        if (hasNoMissing) {
+          let rated = this.getRated(toolKV);
+          converted.push(rated);
+        } else {
+          //TO DO
+          //REDIRECT AND INFORM
+        }
+      });
+
+      const sorted = this.getSorted(converted);
+      const ranked = this.getRanked(sorted);
+
+      return ranked;
+    },
   },
 });
 </script>

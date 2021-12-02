@@ -9,8 +9,6 @@
 </template>
 
 <script lang="ts">
-console.dir();
-
 import * as Typ from "./types/index";
 import {
   mdiAccount,

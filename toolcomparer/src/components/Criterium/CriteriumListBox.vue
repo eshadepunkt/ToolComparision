@@ -16,7 +16,7 @@
           <v-col xl="12">
             <v-list style="height: 72vh; overflow-y: auto">
               <v-item-group>
-                <v-item v-for="item in getCriteria()" :key="item.key">
+                <v-item v-for="item in getCriteria" :key="item.key">
                   <CriteriumListItem :propCriteriumKV="item" />
                 </v-item>
               </v-item-group>
@@ -100,8 +100,8 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteria: {} as Array<Typ.criteriumKeyValue>,
       uuidNIL,
+      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
     };
   },
 
@@ -110,13 +110,8 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
-      this.criteria = this.$store.getters.getCriteria;
-
-      return this.criteria;
-    },
     exportCriteria() {
-      const json: string = JSON.stringify(this.criteria);
+      const json: string = JSON.stringify(this.getCriteria);
       const filename = "toolcomparer_criteria.json";
 
       let element = document.createElement("a");
@@ -158,10 +153,11 @@ export default Vue.extend({
       }
     },
   },
-
-  //MOUNTED
-  mounted: function () {
-    this.criteria = this.$store.getters.getCriteria;
+  //COMPUTED
+  computed: {
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      return this.criteria;
+    },
   },
 });
 </script>

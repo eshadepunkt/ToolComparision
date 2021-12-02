@@ -5,17 +5,6 @@
     v-model="isValid"
     id="ToolCriteriumSuitabilityCard"
   >
-    <!-- Fast Debug Settings -->
-    <div v-if="debug">
-      <v-select
-        :items="debugItems"
-        label="Module State"
-        v-model="selectedDebugItem"
-        @change="changeModuleState(selectedDebugItem)"
-      >
-      </v-select>
-    </div>
-
     <v-card>
       <v-container>
         <!-- Head -->
@@ -142,70 +131,15 @@ export default Vue.extend({
       return this.moduleState === Typ.simpleModuleState.increation;
     },
     changeModuleState(state: string): void {
-      let stateEnum = this.convertStringToModuleStateEnum(state);
+      let stateEnum = Typ.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
-    },
-    convertStringToModuleStateEnum(convert: string): Typ.simpleModuleState {
-      this.selectedDebugItem = convert;
-
-      switch (convert) {
-        case "minimized":
-          return Typ.simpleModuleState.minimized;
-        case "maximized":
-          return Typ.simpleModuleState.maximized;
-        default:
-          return Typ.simpleModuleState.increation;
-      }
     },
 
     updateFullfillment(fullfillment: string): void {
       let fullfillmentEnum: Typ.toolCriteriumFullfillment =
-        this.convertStringToFullfillmentEnum(fullfillment);
+        Typ.convertStringToFullfillmentEnum(fullfillment);
       this.toolCriteriumSuitability.fullfillment = fullfillmentEnum;
     },
-
-    convertStringToFullfillmentEnum(
-      convert: string
-    ): Typ.toolCriteriumFullfillment {
-      convert = convert.replaceAll(" ", "");
-
-      switch (convert) {
-        case "verygood":
-          return Typ.toolCriteriumFullfillment.verygood;
-        case "good":
-          return Typ.toolCriteriumFullfillment.good;
-        case "normal":
-          return Typ.toolCriteriumFullfillment.normal;
-        case "bad":
-          return Typ.toolCriteriumFullfillment.bad;
-        case "verybad":
-          return Typ.toolCriteriumFullfillment.verybad;
-        default:
-          return Typ.toolCriteriumFullfillment.doesnot;
-      }
-    },
-
-    convertFullfillmentEnumToString(
-      convert: Typ.toolCriteriumFullfillment
-    ): string {
-      switch (convert) {
-        case Typ.toolCriteriumFullfillment.verygood:
-          return "very good";
-        case Typ.toolCriteriumFullfillment.good:
-          return "good";
-        case Typ.toolCriteriumFullfillment.normal:
-          return "normal";
-        case Typ.toolCriteriumFullfillment.bad:
-          return "bad";
-        case Typ.toolCriteriumFullfillment.verybad:
-          return "very bad";
-        case Typ.toolCriteriumFullfillment.doesnot:
-          return "does not";
-        default:
-          return "";
-      }
-    },
-
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
@@ -278,10 +212,6 @@ export default Vue.extend({
       },
 
       isValid: true as boolean,
-
-      debug: false as boolean,
-      debugItems: ["minimized", "maximized", "increation"] as string[],
-      selectedDebugItem: "" as string,
     };
   },
 
@@ -290,7 +220,7 @@ export default Vue.extend({
     propToolCriteriumSuitability: {
       handler(newVal: Typ.toolCriteriumSuitability) {
         this.toolCriteriumSuitability = newVal;
-        this.selectedFullfillment = this.convertFullfillmentEnumToString(
+        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
           this.toolCriteriumSuitability.fullfillment
         );
       },
@@ -299,7 +229,7 @@ export default Vue.extend({
     toolCriteriumSuitability: {
       handler(newVal: Typ.toolCriteriumSuitability) {
         this.$emit("update_tool_suitability", newVal);
-        this.selectedFullfillment = this.convertFullfillmentEnumToString(
+        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
           this.toolCriteriumSuitability.fullfillment
         );
       },
@@ -310,7 +240,7 @@ export default Vue.extend({
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;
-    this.selectedFullfillment = this.convertFullfillmentEnumToString(
+    this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
       this.toolCriteriumSuitability.fullfillment
     );
 

@@ -109,7 +109,7 @@ export default Vue.extend({
 
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
-      criteria: {} as Array<Typ.criteriumKeyValue>,
+      criteria: Array<Typ.criteriumKeyValue>(),
 
       icons: {
         mdiAccount,
@@ -255,7 +255,7 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propTool: {
+    propToolKV: {
       handler(newVal: Typ.toolKeyValue) {
         this.toolKV = newVal;
       },
