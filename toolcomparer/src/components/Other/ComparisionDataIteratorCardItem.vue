@@ -115,9 +115,11 @@ export default Vue.extend({
       return min + "/" + max;
     },
     getCriteriumInfo(): string {
-      const text = 
-        "Description:<br/>" + this.criteriumKV.value.description +
-        "<br/>Exclusion Criterium: " + this.criteriumKV.value.isExclusionCriterium;
+      const text =
+        "Description:<br/>" +
+        this.criteriumKV.value.description +
+        "<br/>Exclusion Criterium: " +
+        this.criteriumKV.value.isExclusionCriterium;
 
       return text;
     },

@@ -2,11 +2,10 @@
   <td id="ComparisionDataTableRowItem">
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <div 
-            v-bind="attrs" v-on="on"
-             v-bind:style="
-                criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-            "
+        <div
+          v-bind="attrs"
+          v-on="on"
+          v-bind:style="criteriumKV.value.name === sortBy ? 'color: blue;' : ''"
         >
           {{ getResultString(result, criteriumKV) }}
         </div>
