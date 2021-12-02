@@ -282,7 +282,6 @@ export default Vue.extend({
       }
     },
     changeSort(event: any, sortBy: string) {
-      console.log("CS");
       if (this.sortBy == sortBy) {
         this.sortDesc = !this.sortDesc;
       } else {
