@@ -1,5 +1,5 @@
 <template>
-  <th>
+  <th id="ComparisionDataTableHeader">
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-row>
@@ -46,7 +46,7 @@ import {
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataTableHeader",
 
   props: {
     criteriumKV: {

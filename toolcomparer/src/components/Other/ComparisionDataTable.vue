@@ -1,4 +1,5 @@
 <template>
+<div id="ComparisionDataTable">
   <v-card>
       <v-toolbar dark color="blue darken-3" class="mb-1">
         <v-text-field
@@ -65,6 +66,7 @@
       </template>
     </v-simple-table>
   </v-card>
+</div>
 </template>
 
 <script lang="ts">
@@ -87,7 +89,7 @@ import ComparisionDataTableHeader from "./ComparisionDataTableHeader.vue";
 import ComparisionDataTableRow from "./ComparisionDataTableRow.vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataTable",
 
   components: {
     ComparisionContainer,

@@ -1,5 +1,5 @@
 <template>
-  <v-list-item style="width: 20em">
+  <v-list-item id="ComparisionDataIteratorCardItem" style="width: 20em">
     <div style="width: 11em">
       <v-list-item-content>
         <v-tooltip bottom>
@@ -68,7 +68,7 @@ import {
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataIteratorCardItem",
 
   props: {
     result: {

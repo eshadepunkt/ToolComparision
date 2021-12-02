@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr id="ComparisionDataTableRow">
     <td>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -59,7 +59,7 @@ import Vue from "vue";
 import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataTableRow",
 
   components: {
     ComparisionDataTableRowItem,

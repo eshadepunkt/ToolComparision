@@ -69,7 +69,7 @@ import ComparisionContainer from "./ComparisionContainer.vue";
 import ComparisionDataIteratorCard from "./ComparisionDataIteratorCard.vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataIterator",
 
   components: {
     ComparisionContainer,

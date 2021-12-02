@@ -1,5 +1,5 @@
 <template>
-  <v-card style="width: 20em">
+  <v-card id="ComparisionDataIteratorCard" style="width: 20em">
     <v-card-title class="subheading font-weight-bold">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -81,7 +81,7 @@ import Vue from "vue";
 import ComparisionDataIteratorCardItem from "./ComparisionDataIteratorCardItem.vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataIteratorCard",
 
   components: {
     ComparisionDataIteratorCardItem,

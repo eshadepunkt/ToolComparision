@@ -1,5 +1,5 @@
 <template>
-  <td>
+  <td id="ComparisionDataTableRowItem">
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <div 
@@ -26,7 +26,7 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "ComparisionListBox",
+  name: "ComparisionDataTableRowItem",
 
   props: {
     result: {
