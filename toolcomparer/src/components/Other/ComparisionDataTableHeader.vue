@@ -9,7 +9,7 @@
                     criteriumKV.value.name === sortBy ? 'color: blue;' : ''
                 "
             >
-                {{ criteriumKV.value.name }}
+                {{ criteriumKV.value.name + (criteriumKV.value.isExclusionCriterium ? " (!)" : "") }}
             </v-col>
             <v-col cols="1">
                 <v-icon
@@ -77,7 +77,9 @@ export default Vue.extend({
 
   methods: {
     getCriteriumInfo(): string {
-      const text = "Description:<br/>" + this.criteriumKV.value.description;
+      const text = 
+        "Description:<br/>" + this.criteriumKV.value.description +
+        "<br/>Exclusion Criterium: " + this.criteriumKV.value.isExclusionCriterium;
 
       return text;
     },
