@@ -1,5 +1,5 @@
 <template>
-  <div id="CriteriumCreation">
+  <div id="CriteriumFirstCreation">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
@@ -62,7 +62,7 @@ import Vue from "vue";
 import CriteriumCard from "./CriteriumCard.vue";
 
 export default Vue.extend({
-  name: "CriteriumCreation",
+  name: "CriteriumFirstCreation",
 
   components: {
     CriteriumCard,
@@ -116,7 +116,7 @@ export default Vue.extend({
     },
     btnCancel() {
       this.resetCriteriumKV();
-      this.navigateTo("/Criteria/");
+      this.navigateTo("/Criteria/CriteriaFirst");
     },
     btnSave() {
       const isValid: boolean = (
@@ -126,7 +126,7 @@ export default Vue.extend({
         this.$store.dispatch("updateCriterium", this.criteriumKV);
 
         this.resetCriteriumKV();
-        this.navigateTo("/Criteria/");
+        this.navigateTo("/Criteria/CriteriaFirst");
       }
     },
     resetCriteriumKV(): void {
@@ -169,7 +169,9 @@ export default Vue.extend({
         ) as Typ.criteriumKeyValue;
 
         //LOG
-        console.log("CriteriumCreation: Loaded criterium with key: " + uuid);
+        console.log(
+          "CriteriumFirstCreation: Loaded criterium with key: " + uuid
+        );
       }
     }
   },

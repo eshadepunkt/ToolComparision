@@ -94,7 +94,7 @@ export default Vue.extend({
   methods: {
     btnEdit() {
       const appendix: string = this.propToolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.navigateTo("/ToolLastCreation/Update/" + appendix);
     },
     btnDelete() {
       this.$store.commit("removeTool", this.propToolKV);

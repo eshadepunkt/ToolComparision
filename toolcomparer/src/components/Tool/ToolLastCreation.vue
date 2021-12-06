@@ -1,5 +1,5 @@
 <template>
-  <div id="ToolCreation">
+  <div id="ToolLastCreation">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
@@ -68,7 +68,7 @@ import Vue from "vue";
 import ToolCard from "./ToolCard.vue";
 
 export default Vue.extend({
-  name: "ToolCreation",
+  name: "ToolLastCreation",
 
   components: {
     ToolCard,
@@ -124,7 +124,7 @@ export default Vue.extend({
       }
 
       this.resetToolKV();
-      this.navigateTo("/Tools/");
+      this.navigateTo("/Tools/CriteriaFirst");
     },
     btnSave() {
       const isValid: boolean = (
@@ -149,7 +149,7 @@ export default Vue.extend({
         this.$store.dispatch("updateTool", this.toolKV);
 
         this.resetToolKV();
-        this.navigateTo("/Tools/");
+        this.navigateTo("/Tools/CriteriaFirst");
       }
     },
 
@@ -189,7 +189,7 @@ export default Vue.extend({
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
         //LOG
-        console.log("ToolCreation: Loaded tool with key: " + tooluuid);
+        console.log("ToolLastCreation: Loaded tool with key: " + tooluuid);
 
         return;
       }

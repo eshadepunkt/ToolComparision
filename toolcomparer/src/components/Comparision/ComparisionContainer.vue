@@ -25,7 +25,10 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="navigateTo('/Tools/')" color="red lighten-5">
+            <v-btn
+              @click="navigateTo('/Tools/CriteriumFirst')"
+              color="red lighten-5"
+            >
               Change Tools
             </v-btn>
           </v-col>

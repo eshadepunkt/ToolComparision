@@ -1,75 +1,14 @@
 <template>
   <div id="CriteriumListBox">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Criteria</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-list style="height: 72vh; overflow-y: auto">
-              <v-item-group>
-                <v-item v-for="item in getCriteria" :key="item.key">
-                  <CriteriumListItem :propCriteriumKV="item" />
-                </v-item>
-              </v-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="navigateTo('/Start/')" color="red lighten-5">
-              Start-Site
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              @click="navigateTo('/CriteriumCreation/Add/' + uuidNIL)"
-              color="teal lighten-5"
-            >
-              Add Criterium
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="navigateTo('/Tools/')" color="blue lighten-5">
-              Add Tools
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importCriteria()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
-            />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exportCriteria()"> Export </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+    <WorkflowContainer :listboxFrom="listboxFrom">
+      <v-list style="height: 72vh; overflow-y: auto">
+        <v-item-group>
+          <v-item v-for="item in getCriteria" :key="item.key">
+            <CriteriumListItem :propCriteriumKV="item" />
+          </v-item>
+        </v-item-group>
+      </v-list>
+    </WorkflowContainer>
   </div>
 </template>
 
@@ -88,6 +27,7 @@ import {
 
 import Vue from "vue";
 
+import WorkflowContainer from "../Other/WorkflowContainer.vue";
 import CriteriumListItem from "./CriteriumListItem.vue";
 
 export default Vue.extend({
@@ -95,64 +35,18 @@ export default Vue.extend({
 
   components: {
     CriteriumListItem,
+    WorkflowContainer,
   },
 
   //DATA
   data() {
     return {
+      listboxFrom: "Criteria" as string,
       uuidNIL,
       criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
     };
   },
 
-  //METHODS
-  methods: {
-    navigateTo(route: string): void {
-      this.$router.push(route);
-    },
-    exportCriteria() {
-      const json: string = JSON.stringify(this.getCriteria);
-      const filename = "toolcomparer_criteria.json";
-
-      let element = document.createElement("a");
-      element.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(json)
-      );
-      element.setAttribute("download", filename);
-
-      element.style.display = "none";
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
-    },
-    importCriteria() {
-      (this.$refs.uploader as Vue & { click: () => void }).click();
-    },
-    onFileChanged(e: any) {
-      const file = e.target.files[0];
-      if (e.target.value !== null) {
-        let reader = new FileReader();
-        let json: string | undefined;
-        reader.onload = function () {
-          json = reader.result?.toString();
-          e.target.value = null;
-        };
-        reader.onloadend = () => this.convertJSONToArray(json);
-        reader.readAsText(file);
-      }
-    },
-    convertJSONToArray(json: string | undefined) {
-      if (json !== undefined) {
-        const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
-          json
-        ) as Array<Typ.criteriumKeyValue>;
-        this.$store.dispatch("extendCriteria", tmpCriteria);
-      }
-    },
-  },
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {

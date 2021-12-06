@@ -134,13 +134,13 @@ export default Vue.extend({
       if (this.updateSingle) {
         this.currentSuitabilityIndex = -1;
         this.resetToolKV();
-        this.navigateTo("/Tools/");
+        this.navigateTo("/Tools/CriteriaFirst");
       } else {
         this.currentSuitabilityIndex -= 2;
 
         if (this.currentSuitabilityIndex < -1) {
           let appendix: string = this.mode + "/" + this.toolKV.key;
-          this.navigateTo("/ToolCreation/" + appendix);
+          this.navigateTo("/ToolLastCreation/" + appendix);
         } else {
           this.setCurrentSuitability();
         }
@@ -166,7 +166,7 @@ export default Vue.extend({
         if (this.currentSuitabilityIndex >= this.criteria.length) {
           this.currentSuitabilityIndex = -1;
           this.resetToolKV();
-          this.navigateTo("/Tools/");
+          this.navigateTo("/Tools/CriteriaFirst");
         }
       }
     },
@@ -182,7 +182,7 @@ export default Vue.extend({
 
         this.currentSuitabilityIndex = -1;
         this.resetToolKV();
-        this.navigateTo("/Tools/");
+        this.navigateTo("/Tools/CriteriaFirst");
       }
     },
 
@@ -307,7 +307,7 @@ export default Vue.extend({
 
     this.criteria = this.getFilteredCriteria();
     if (this.criteria.length === 0) {
-      this.navigateTo("/Tools/");
+      this.navigateTo("/Tools/CriteriaFirst");
     }
 
     this.setCurrentSuitability();

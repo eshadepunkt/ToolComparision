@@ -86,7 +86,7 @@ export default Vue.extend({
   methods: {
     btnEdit() {
       const appendix: string = this.propCriteriumKV.key;
-      this.navigateTo("/CriteriumCreation/Update/" + appendix);
+      this.navigateTo("/CriteriumFirstCreation/Update/" + appendix);
     },
     btnDelete() {
       this.$store.commit("removeCriterium", this.propCriteriumKV);

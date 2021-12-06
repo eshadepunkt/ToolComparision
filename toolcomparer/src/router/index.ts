@@ -1,13 +1,13 @@
-import CriteriumCreation from "../components/Criterium/CriteriumCreation.vue";
+import CriteriumFirstCreation from "../components/Criterium/CriteriumFirstCreation.vue";
 import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
 
-import ToolCreation from "../components/Tool/ToolCreation.vue";
+import ToolLastCreation from "../components/Tool/ToolLastCreation.vue";
 import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
 import ToolListBox from "../components/Tool/ToolListBox.vue";
 
-import ComparisionListBox from "../components/Other/ComparisionListBox.vue";
-import ComparisionDataIterator from "../components/Other/ComparisionDataIterator.vue";
-import ComparisionDataTable from "../components/Other/ComparisionDataTable.vue";
+import ComparisionListBox from "../components/Comparision/ComparisionListBox.vue";
+import ComparisionDataIterator from "../components/Comparision/ComparisionDataIterator.vue";
+import ComparisionDataTable from "../components/Comparision/ComparisionDataTable.vue";
 
 import App from "../App.vue";
 
@@ -24,25 +24,25 @@ const routes: Array<RouteConfig> = [
     name: "Home",
   },
   {
-    path: "/CriteriumCreation/:mode/:id",
-    component: CriteriumCreation,
-    name: "CriteriumCreation",
+    path: "/CriteriaFirst/CriteriumCreation/:mode/:id",
+    component: CriteriumFirstCreation,
+    name: "CriteriumFirstCreation",
   },
   {
-    path: "/Criteria/",
+    path: "/Criteria/:workflow",
     component: CriteriumListBox,
     name: "Criteria",
   },
 
   {
-    path: "/Tools/",
+    path: "/Tools/:workflow",
     component: ToolListBox,
     name: "Tools",
   },
   {
-    path: "/ToolCreation/:mode/:toolid",
-    component: ToolCreation,
-    name: "ToolCreation",
+    path: "/CriteriaFirst/ToolCreation/:mode/:toolid",
+    component: ToolLastCreation,
+    name: "ToolLastCreation",
   },
   {
     path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",

@@ -20,7 +20,7 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCreation from "./components/Criterium/CriteriumCreation.vue";
+import CriteriumCreation from "./components/Criterium/CriteriumFirstCreation.vue";
 import CriteriumListBox from "./components/Criterium/CriteriumListBox.vue";
 
 export default Vue.extend({
@@ -67,7 +67,7 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.$router.push("/Criteria/");
+    this.$router.push("/Criteria/CriteriaFirst");
   },
 });
 </script>

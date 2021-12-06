@@ -1,78 +1,14 @@
 <template>
   <div id="ToolListBox">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Tools</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-list style="height: 72vh; overflow-y: auto">
-              <v-item-group>
-                <v-item v-for="item in getTools" :key="item.key">
-                  <ToolListItem :propToolKV="item" />
-                </v-item>
-              </v-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="navigateTo('/Criteria/')" color="red lighten-5">
-              Change Criteria
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              @click="navigateTo('/ToolCreation/Add/' + uuidNIL)"
-              color="teal lighten-5"
-            >
-              Add tool
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              @click="navigateTo('/Comparision/DataIterator/')"
-              color="blue lighten-5"
-            >
-              Comparision
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importTools()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
-            />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exportTools()"> Export </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+    <WorkflowContainer :listboxFrom="listboxFrom">
+      <v-list style="height: 72vh; overflow-y: auto">
+        <v-item-group>
+          <v-item v-for="item in getTools" :key="item.key">
+            <ToolListItem :propToolKV="item" />
+          </v-item>
+        </v-item-group>
+      </v-list>
+    </WorkflowContainer>
   </div>
 </template>
 
@@ -91,6 +27,7 @@ import {
 
 import Vue from "vue";
 
+import WorkflowContainer from "../Other/WorkflowContainer.vue";
 import ToolListItem from "./ToolListItem.vue";
 
 export default Vue.extend({
@@ -98,64 +35,18 @@ export default Vue.extend({
 
   components: {
     ToolListItem,
+    WorkflowContainer,
   },
 
   //DATA
   data() {
     return {
+      listboxFrom: "Tools" as string,
       uuidNIL,
       tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
     };
   },
 
-  //METHODS
-  methods: {
-    navigateTo(route: string): void {
-      this.$router.push(route);
-    },
-    exportTools() {
-      const json: string = JSON.stringify(this.getTools);
-      const filename = "toolcomparer_tools.json";
-
-      let element = document.createElement("a");
-      element.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(json)
-      );
-      element.setAttribute("download", filename);
-
-      element.style.display = "none";
-      document.body.appendChild(element);
-
-      element.click();
-
-      document.body.removeChild(element);
-    },
-    importTools() {
-      (this.$refs.uploader as Vue & { click: () => void }).click();
-    },
-    onFileChanged(e: any) {
-      const file = e.target.files[0];
-      if (e.target.value !== null) {
-        let reader = new FileReader();
-        let json: string | undefined;
-        reader.onload = function () {
-          json = reader.result?.toString();
-          e.target.value = null;
-        };
-        reader.onloadend = () => this.convertJSONToArray(json);
-        reader.readAsText(file);
-      }
-    },
-    convertJSONToArray(json: string | undefined) {
-      if (json !== undefined) {
-        const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
-          json
-        ) as Array<Typ.toolKeyValue>;
-        this.$store.dispatch("extendTools", tmpTools);
-      }
-    },
-  },
   //COMPUTED
   computed: {
     getTools: function (): Array<Typ.toolKeyValue> {
