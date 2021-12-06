@@ -30,7 +30,7 @@ import {
 
 import Vue from "vue";
 
-import ComparisionContainer from "../Other/ComparisionContainer.vue";
+import ComparisionContainer from "./ComparisionContainer.vue";
 import ToolListItem from "../Tool/ToolListItem.vue";
 import { filter } from "vue/types/umd";
 
