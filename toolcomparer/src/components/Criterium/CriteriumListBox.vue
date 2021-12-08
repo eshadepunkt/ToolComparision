@@ -1,14 +1,12 @@
 <template>
   <div id="CriteriumListBox">
-    <WorkflowContainer :listboxFrom="listboxFrom">
-      <v-list style="height: 72vh; overflow-y: auto">
-        <v-item-group>
-          <v-item v-for="item in getCriteria" :key="item.key">
-            <CriteriumListItem :propCriteriumKV="item" />
-          </v-item>
-        </v-item-group>
-      </v-list>
-    </WorkflowContainer>
+    <v-list style="height: 72vh; overflow-y: auto">
+      <v-item-group>
+        <v-item v-for="item in getCriteria" :key="item.key">
+          <CriteriumListItem :propCriteriumKV="item" />
+        </v-item>
+      </v-item-group>
+    </v-list>
   </div>
 </template>
 
@@ -27,7 +25,6 @@ import {
 
 import Vue from "vue";
 
-import WorkflowContainer from "../Other/WorkflowContainer.vue";
 import CriteriumListItem from "./CriteriumListItem.vue";
 
 export default Vue.extend({
@@ -35,15 +32,18 @@ export default Vue.extend({
 
   components: {
     CriteriumListItem,
-    WorkflowContainer,
+  },
+
+  props: {
+    criteria: {
+      type: Object as () => Array<Typ.criteriumKeyValue>,
+    },
   },
 
   //DATA
   data() {
     return {
-      listboxFrom: "Criteria" as string,
       uuidNIL,
-      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
     };
   },
 

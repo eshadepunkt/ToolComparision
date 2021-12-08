@@ -1,3 +1,5 @@
+import Workflow from "../components/Other/Workflow.vue";
+
 import CriteriumFirstCreation from "../components/Criterium/CriteriumFirstCreation.vue";
 import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
 
@@ -24,20 +26,14 @@ const routes: Array<RouteConfig> = [
     name: "Home",
   },
   {
+    path: "/Workflow/:workflow",
+    component: Workflow,
+    name: "Workflow",
+  },
+  {
     path: "/CriteriaFirst/CriteriumCreation/:mode/:id",
     component: CriteriumFirstCreation,
     name: "CriteriumFirstCreation",
-  },
-  {
-    path: "/Criteria/:workflow",
-    component: CriteriumListBox,
-    name: "Criteria",
-  },
-
-  {
-    path: "/Tools/:workflow",
-    component: ToolListBox,
-    name: "Tools",
   },
   {
     path: "/CriteriaFirst/ToolCreation/:mode/:toolid",

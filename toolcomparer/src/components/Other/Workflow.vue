@@ -1,5 +1,5 @@
 <template>
-  <div id="WorkflowContainer">
+  <div id="Workflow">
     <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
@@ -7,7 +7,7 @@
           <v-col xl="12">
             <v-card color="indigo darken-4">
               <h1 style="text-align: center; color: white">
-                {{ listboxFrom }}
+                {{ currentListBox }}
               </h1>
             </v-card>
           </v-col>
@@ -16,7 +16,11 @@
         <!-- Body -->
         <v-row>
           <v-col xl="12">
-            <slot> </slot>
+            <WorkflowManager
+              :currentListBox="currentListBox"
+              :criteria="criteria"
+              :tools="tools"
+            />
           </v-col>
         </v-row>
 
@@ -27,20 +31,20 @@
           justify="space-between"
         >
           <v-col xl="1">
-            <v-btn @click="navigateTo(btnBackNavi)" color="red lighten-5">
+            <v-btn @click="navigateForward(false)" color="red lighten-5">
               {{ btnBackTxt }}
             </v-btn>
           </v-col>
           <v-col xl="1">
             <v-btn
-              @click="navigateTo(btnAddNavi + '/Add/' + uuidNIL)"
+              @click="navigateTo(btnAddNavi + 'Add/' + uuidNIL)"
               color="teal lighten-5"
             >
               {{ btnAddTxt }}
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn @click="navigateTo(btnNextNavi)" color="blue lighten-5">
+            <v-btn @click="navigateForward()" color="blue lighten-5">
               {{ btnNextTxt }}
             </v-btn>
           </v-col>
@@ -84,28 +88,28 @@ import {
 
 import Vue from "vue";
 
-export default Vue.extend({
-  name: "WorkflowContainer",
+import WorkflowManager from "./WorkflowManager.vue";
 
-  props: {
-    listboxFrom: {
-      type: String,
-    },
+export default Vue.extend({
+  name: "Workflow",
+
+  components: {
+    WorkflowManager,
   },
 
   //DATA
   data() {
     return {
+      currentListBox: "" as string,
+      criteria: this.$store.getters.getCriteria,
+      tools: this.$store.getters.getTools,
+
       workflow: "" as string,
       btnBackTxt: "" as string,
-      btnBackNavi: "" as string,
       btnNextTxt: "" as string,
-      btnNextNavi: "" as string,
       btnAddTxt: "" as string,
       btnAddNavi: "" as string,
       uuidNIL,
-      criteria: this.$store.getters.getCriteria as Array<Typ.criteriumKeyValue>,
-      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
     };
   },
 
@@ -117,7 +121,7 @@ export default Vue.extend({
     exporter() {
       let json = "";
       let filename = "";
-      switch (this.listboxFrom) {
+      switch (this.currentListBox) {
         case "Criteria":
           {
             json = JSON.stringify(this.getTools);
@@ -164,15 +168,17 @@ export default Vue.extend({
     },
     convertJSONToArray(json: string | undefined) {
       if (json !== undefined) {
-        switch (this.listboxFrom) {
-          case "Criteria": {
+        switch (this.currentListBox) {
+          case "Criteria":
+            {
               const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
                 json
               ) as Array<Typ.criteriumKeyValue>;
               this.$store.dispatch("extendCriteria", tmpCriteria);
-            }    
+            }
             break;
-          case "Tools": {
+          case "Tools":
+            {
               const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
                 json
               ) as Array<Typ.toolKeyValue>;
@@ -181,6 +187,59 @@ export default Vue.extend({
             break;
         }
       }
+    },
+    //Workflows:
+    //CriteriaFirst: Start -> Criteria -> Tools -> Comparision
+    //ToolsFirst: Start -> Tools -> Criteria -> Comparision
+    navigateForward(forward = true) {
+      const isListBoxCriteria: boolean = this.currentListBox === "Criteria";
+      const isCriteriaFirst: boolean = this.workflow === "CriteriaFirst";
+
+      const isComparisionNext =
+        ((isCriteriaFirst && !isListBoxCriteria) ||
+          (!isCriteriaFirst && isListBoxCriteria)) &&
+        forward;
+      const isStartBack =
+        ((isCriteriaFirst && isListBoxCriteria) ||
+          (!isCriteriaFirst && !isListBoxCriteria)) &&
+        !forward;
+      if (isComparisionNext || isStartBack) {
+        this.navigateTo("/Comparision/DataIterator/");
+      } else {
+        const isToolsNext =
+          isListBoxCriteria &&
+          ((isCriteriaFirst && forward) || (!isCriteriaFirst && !forward));
+        this.currentListBox = isToolsNext ? "Tools" : "Criteria";
+      }
+
+      this.updateButtonTexts();
+    },
+    updateButtonTexts() {
+      const isListBoxCriteria: boolean = this.currentListBox === "Criteria";
+      const isCriteriaFirst: boolean = this.workflow === "CriteriaFirst";
+
+      const isComparisionNext =
+        (isCriteriaFirst && !isListBoxCriteria) ||
+        (!isCriteriaFirst && isListBoxCriteria);
+      const isStartBack =
+        (isCriteriaFirst && isListBoxCriteria) ||
+        (!isCriteriaFirst && !isListBoxCriteria);
+
+      this.btnBackTxt = isStartBack
+        ? "Start-Page"
+        : isCriteriaFirst
+        ? "Criteria"
+        : "Tools";
+      this.btnNextTxt = isComparisionNext
+        ? "Comparision"
+        : isCriteriaFirst
+        ? "Tools"
+        : "Criteria";
+
+      this.btnAddTxt = isListBoxCriteria ? "Add Criterium" : "Add Tool";
+      this.btnAddNavi = 
+        (isCriteriaFirst ? "/CriteriaFirst/" : "/ToolsFirst/") + 
+        (isListBoxCriteria ? "CriteriumCreation/" : "ToolCreation/");
     },
   },
   //COMPUTED
@@ -197,64 +256,10 @@ export default Vue.extend({
   mounted: function () {
     this.workflow = this.$route.params.workflow;
 
-    switch (this.workflow) {
-      case "CriteriaFirst":{
-          const isListBoxCriteria: boolean = (this.listboxFrom === "Criteria");
-          this.btnBackTxt =
-            isListBoxCriteria
-              ? "Start-page" 
-              : "Change Criteria";
-          this.btnBackNavi =
-            isListBoxCriteria
-              ? "/Start/"
-              : "/Criteria/CriteriaFirst";
-          this.btnNextTxt =
-            isListBoxCriteria
-             ? "Add Tools" 
-             : "Comparision";
-          this.btnNextNavi =
-            isListBoxCriteria
-              ? "/Tools/CriteriaFirst"
-              : "/Comparision/DataIterator/";
-          this.btnAddTxt =
-            isListBoxCriteria 
-              ? "Add Criterium" 
-              : "Add Tool";
-          this.btnAddNavi =
-            isListBoxCriteria
-              ? "/CriteriaFirst/CriteriumCreation"
-              : "/CriteriaFirst/ToolCreation";
-        }  
-        break;
-      case "ToolsFirst": {
-        const isListBoxTools: boolean = (this.listboxFrom === "Tools");
-          this.btnBackTxt =
-            isListBoxTools 
-              ? "Start-page" 
-              : "Change Tools";
-          this.btnBackNavi =
-            isListBoxTools 
-              ? "/Start/" 
-              : "/Tools/CriteriaFirst";
-          this.btnNextTxt =
-            isListBoxTools 
-              ? "Add Criteria" 
-              : "Comparision";
-          this.btnNextNavi =
-            isListBoxTools
-              ? "/Criteria/CriteriaFirst"
-              : "/Comparision/DataIterator/";
-          this.btnAddTxt =
-            isListBoxTools 
-              ? "Add Tool" 
-              : "Add Criteria";
-          this.btnAddNavi =
-            isListBoxTools
-              ? "/CriteriaFirst/ToolCreation"
-              : "/CriteriaFirst/CriteriumCreation";
-        }  
-        break;
-    }
+    const isCriteriaFirst: boolean = this.workflow === "CriteriaFirst";
+    this.currentListBox = isCriteriaFirst ? "Criteria" : "Tools";
+
+    this.updateButtonTexts();
   },
 });
 </script>

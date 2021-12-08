@@ -1,0 +1,59 @@
+<template>
+  <div id="WorkflowManager">
+    <CriteriumListBox
+      v-if="currentListBox === 'Criteria'"
+      :citeria="criteria"
+    />
+    <CriteriumListBox v-else-if="currentListBox === 'Tools'" :tools="tools" />
+  </div>
+</template>
+
+<script lang="ts">
+import { v4 as uuidv4 } from "uuid";
+import { NIL as uuidNIL } from "uuid";
+
+import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+} from "@mdi/js";
+
+import Vue from "vue";
+
+import CriteriumListBox from "../Criterium/CriteriumListBox.vue";
+import ToolListBox from "../Tool/ToolListBox.vue";
+
+export default Vue.extend({
+  name: "WorkflowManager",
+
+   components: {
+      CriteriumListBox,
+      ToolListBox,
+   },
+
+  props: {
+    currentListBox: {
+      type: String,
+    },
+    criteria: {
+      type: Object as () => Array<Typ.criteriumKeyValue>,
+    },
+    tools: {
+      type: Object as () => Array<Typ.toolKeyValue>,
+    },
+  },
+
+  //COMPUTED
+  computed: {
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      return this.criteria;
+    },
+    getTools: function (): Array<Typ.toolKeyValue> {
+      return this.tools;
+    },
+  },
+});
+</script>
