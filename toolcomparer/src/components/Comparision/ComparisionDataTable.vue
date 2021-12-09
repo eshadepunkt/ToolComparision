@@ -118,6 +118,7 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiSort,
       },
     };
   },
@@ -136,7 +137,7 @@ export default Vue.extend({
     },
     changeSort(event: any, sortBy: string) {
       if (this.sortBy == sortBy) {
-        this.$emit('sortDescChanged', !sortBy);
+        this.$emit('sortDescChanged', !this.sortDesc);
       } else {
         this.$emit('sortByChanged', sortBy);
       }

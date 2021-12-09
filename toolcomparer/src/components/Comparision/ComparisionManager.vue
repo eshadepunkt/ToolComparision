@@ -3,7 +3,7 @@
     <ComparisionDataIterator
       v-if="currentView === 'DataIterator'"
       :results="results"
-      :citeria="criteria"
+      :criteria="criteria"
       :maxScore="maxScore"
       :search="search"
       :sortDesc="sortDesc"
@@ -12,7 +12,7 @@
     <ComparisionDataTable 
       v-else-if="currentView === 'DataTable'" 
       :results="results"
-      :citeria="criteria"
+      :criteria="criteria"
       :maxScore="maxScore"
       :search="search"
       :sortDesc="sortDesc"

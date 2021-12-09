@@ -2,7 +2,7 @@
 <div id="ComparisionHeader">
    <v-toolbar dark color="blue darken-3" class="mb-1">
       <v-text-field
-         v-model="search"
+         v-model="hsearch"
          clearable
          flat
          solo-inverted
@@ -14,7 +14,7 @@
       <template v-if="$vuetify.breakpoint.mdAndUp">
       <v-spacer></v-spacer>
       <v-select
-         v-model="sortBy"
+         v-model="hsortBy"
          flat
          solo-inverted
          hide-details
@@ -24,7 +24,7 @@
       >
       </v-select>
       <v-spacer></v-spacer>
-      <v-btn-toggle v-model="sortDesc" mandatory>
+      <v-btn-toggle v-model="hsortDesc" mandatory>
          <v-btn large depressed color="blue" :value="false">
             <v-icon>mdi-arrow-up</v-icon>
          </v-btn>
@@ -49,29 +49,38 @@ export default Vue.extend({
      sortItems: {
         type: Array as () => Array<Typ.criteriumKeyValue>,
         default() {
-         return Array<Typ.criteriumKeyValue>();
-      },
-     }
+            return Array<Typ.criteriumKeyValue>();
+         },
+     },
+     search: {
+        type: String,
+     },
+     sortDesc: {
+        type: Boolean,
+     },
+     sortBy: {
+        type: String,
+     },
   },
 
-  //DATA
   data() {
-    return {
-      search: "",
-      sortDesc: true,
-      sortBy: "",
-    };
+     return {
+        hsortItems: this.sortItems,
+         hsearch: this.search,
+         hsortDesc: this.sortDesc,
+         hsortBy: this.sortBy,
+     }    
   },
 
   //WATCH
   watch: {
-     search: function(newVal) {
+     hsearch: function(newVal) {
         this.$emit('searchChanged', newVal);
      },
-     sortDesc: function(newVal) {
+     hsortDesc: function(newVal) {
         this.$emit('sortDescChanged', newVal);
      },
-     sortBy: function(newVal) {
+     hsortBy: function(newVal) {
         this.$emit('sortByChanged', newVal);
      },
   }

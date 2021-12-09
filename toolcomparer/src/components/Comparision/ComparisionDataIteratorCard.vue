@@ -92,7 +92,7 @@ export default Vue.extend({
       type: Object as () => Typ.toolRating,
     },
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
     sortBy: {
       type: String,

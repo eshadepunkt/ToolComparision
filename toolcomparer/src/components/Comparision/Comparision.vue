@@ -11,6 +11,7 @@
             <v-row>
                <v-col xl="12">
                   <ComparisionHeader
+                     :sortItems="criteria"
                      :search="search"
                      :sortDesc="sortDesc"
                      :sortBy="sortBy"
@@ -26,7 +27,7 @@
                      <ComparisionManager
                         :currentView="currentView"
                         :results="getFilteredResults"
-                        :citeria="criteria"
+                        :criteria="criteria"
                         :maxScore="maxScore"
                         :search="search"
                         :sortDesc="sortDesc"
@@ -302,7 +303,7 @@ export default Vue.extend({
     changeView() {
        const isTableView: boolean = (this.currentView === "DataTable");
        this.currentView = isTableView ? "DataIterator" : "DataTable";
-    }
+    },
   },
 
   //MOUNTED
