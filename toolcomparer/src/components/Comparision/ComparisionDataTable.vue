@@ -1,6 +1,6 @@
 <template>
   <div id="ComparisionDataTable">
-    <ComparisionContainer :redirectTo="redirectTo">
+    <ComparisionContainer :redirectTo="'/Comparision/DataIterator/'">
       <v-card style="height: 71vh; overflow-y: auto">
         <v-toolbar dark color="blue darken-3" class="mb-1">
           <v-text-field
@@ -111,10 +111,8 @@ export default Vue.extend({
       },
 
       search: "",
-      filter: {},
       sortDesc: true,
       sortBy: "",
-      redirectTo: "/Comparision/DataIterator/",
     };
   },
 

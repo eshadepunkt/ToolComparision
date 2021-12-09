@@ -5,9 +5,7 @@
         <!-- Head -->
         <v-row>
           <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">Comparision</h1>
-            </v-card>
+            <Header :headerText="'Comparision'" />
           </v-col>
         </v-row>
 
@@ -77,6 +75,7 @@ import {
 
 import Vue from "vue";
 
+import Header from "../Other/Header.vue";
 import ToolListItem from "../Tool/ToolListItem.vue";
 import { filter } from "vue/types/umd";
 
