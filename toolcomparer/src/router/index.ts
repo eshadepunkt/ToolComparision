@@ -7,7 +7,6 @@ import ToolLastCreation from "../components/Tool/ToolLastCreation.vue";
 import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
 import ToolListBox from "../components/Tool/ToolListBox.vue";
 
-import ComparisionListBox from "../components/Comparision/ComparisionListBox.vue";
 import ComparisionDataIterator from "../components/Comparision/ComparisionDataIterator.vue";
 import ComparisionDataTable from "../components/Comparision/ComparisionDataTable.vue";
 
@@ -44,12 +43,6 @@ const routes: Array<RouteConfig> = [
     path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",
     component: ToolCriteriumSuitabilityCreation,
     name: "ToolCriteriumSuitabilityCreation",
-  },
-
-  {
-    path: "/Comparision/ListBox/",
-    component: ComparisionListBox,
-    name: "ComparisionListBox",
   },
 
   {
