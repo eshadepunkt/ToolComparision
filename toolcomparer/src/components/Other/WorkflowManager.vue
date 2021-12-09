@@ -4,7 +4,7 @@
       v-if="currentListBox === 'Criteria'"
       :citeria="criteria"
     />
-    <CriteriumListBox v-else-if="currentListBox === 'Tools'" :tools="tools" />
+    <ToolListBox v-else-if="currentListBox === 'Tools'" :tools="tools" />
   </div>
 </template>
 
@@ -39,10 +39,10 @@ export default Vue.extend({
       type: String,
     },
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
     tools: {
-      type: Object as () => Array<Typ.toolKeyValue>,
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 

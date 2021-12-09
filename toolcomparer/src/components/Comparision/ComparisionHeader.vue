@@ -43,11 +43,14 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "Header",
+  name: "ComparisionHeader",
 
   props: {
      sortItems: {
-        type: Object as () => Array<Typ.criteriumKeyValue>,
+        type: Array as () => Array<Typ.criteriumKeyValue>,
+        default() {
+         return Array<Typ.criteriumKeyValue>();
+      },
      }
   },
 
@@ -61,5 +64,16 @@ export default Vue.extend({
   },
 
   //WATCH
+  watch: {
+     search: function(newVal) {
+        this.$emit('searchChanged', newVal);
+     },
+     sortDesc: function(newVal) {
+        this.$emit('sortDescChanged', newVal);
+     },
+     sortBy: function(newVal) {
+        this.$emit('sortByChanged', newVal);
+     },
+  }
 });
 </script>

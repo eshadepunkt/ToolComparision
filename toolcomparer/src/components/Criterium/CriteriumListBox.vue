@@ -1,6 +1,6 @@
 <template>
   <div id="CriteriumListBox">
-    <v-list style="height: 72vh; overflow-y: auto">
+    <v-list>
       <v-item-group>
         <v-item v-for="item in getCriteria" :key="item.key">
           <CriteriumListItem :propCriteriumKV="item" />
@@ -36,7 +36,7 @@ export default Vue.extend({
 
   props: {
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 

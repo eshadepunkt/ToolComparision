@@ -130,7 +130,7 @@ export default Vue.extend({
       },
     },
     propModuleState: {
-      type: Object as () => Typ.simpleModuleState,
+      type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
 

@@ -73,7 +73,7 @@ export default Vue.extend({
       type: String,
     },
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 

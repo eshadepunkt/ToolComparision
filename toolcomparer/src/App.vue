@@ -60,7 +60,7 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.$router.push("/Workflow/CriteriaFirst");
+    this.$router.push("/Start/Comparision");
   },
 });
 </script>

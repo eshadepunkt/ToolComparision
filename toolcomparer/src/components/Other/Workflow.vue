@@ -5,22 +5,22 @@
         <!-- Head -->
         <v-row>
           <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">
-                {{ currentListBox }}
-              </h1>
-            </v-card>
+            <Header
+              :headerText="currentListBox"
+            />
           </v-col>
         </v-row>
 
         <!-- Body -->
         <v-row>
           <v-col xl="12">
-            <WorkflowManager
-              :currentListBox="currentListBox"
-              :criteria="criteria"
-              :tools="tools"
-            />
+            <v-card style="height: 71vh; overflow-y: auto">
+              <WorkflowManager
+                :currentListBox="currentListBox"
+                :criteria="criteria"
+                :tools="tools"
+              />
+            </v-card>
           </v-col>
         </v-row>
 
@@ -88,12 +88,14 @@ import {
 
 import Vue from "vue";
 
+import Header from "./Header.vue"
 import WorkflowManager from "./WorkflowManager.vue";
 
 export default Vue.extend({
   name: "Workflow",
 
   components: {
+    Header,
     WorkflowManager,
   },
 

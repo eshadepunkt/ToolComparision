@@ -117,7 +117,7 @@ export default Vue.extend({
       type: Object as () => Typ.toolCriteriumSuitability,
     },
     propModuleState: {
-      type: Object as () => Typ.simpleModuleState,
+      type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
   },

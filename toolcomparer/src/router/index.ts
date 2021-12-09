@@ -1,14 +1,12 @@
 import Workflow from "../components/Other/Workflow.vue";
 
 import CriteriumFirstCreation from "../components/Criterium/CriteriumFirstCreation.vue";
-import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
 
 import ToolLastCreation from "../components/Tool/ToolLastCreation.vue";
 import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
-import ToolListBox from "../components/Tool/ToolListBox.vue";
 
-import ComparisionDataIterator from "../components/Comparision/ComparisionDataIterator.vue";
-import ComparisionDataTable from "../components/Comparision/ComparisionDataTable.vue";
+import Comparision from "../components/Comparision/Comparision.vue";
+
 
 import App from "../App.vue";
 
@@ -46,15 +44,9 @@ const routes: Array<RouteConfig> = [
   },
 
   {
-    path: "/Comparision/DataIterator/",
-    component: ComparisionDataIterator,
-    name: "ComparisionDataIterator",
-  },
-
-  {
-    path: "/Comparision/DataTable/",
-    component: ComparisionDataTable,
-    name: "ComparisionDataTable",
+    path: "/Start/Comparision/",
+    component: Comparision,
+    name: "Comparision",
   },
 
   {

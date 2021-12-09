@@ -1,6 +1,6 @@
 <template>
   <div id="ToolListBox">
-    <v-list style="height: 72vh; overflow-y: auto">
+    <v-list>
       <v-item-group>
         <v-item v-for="item in getTools" :key="item.key">
           <ToolListItem :propToolKV="item" />
@@ -36,7 +36,7 @@ export default Vue.extend({
 
   props: {
     tools: {
-      type: Object as () => Array<Typ.toolKeyValue>,
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 
