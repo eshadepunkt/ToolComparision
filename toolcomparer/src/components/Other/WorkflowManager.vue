@@ -2,9 +2,12 @@
   <div id="WorkflowManager">
     <CriteriumListBox
       v-if="currentListBox === 'Criteria'"
-      :citeria="criteria"
+      :criteria="criteria"
     />
-    <ToolListBox v-else-if="currentListBox === 'Tools'" :tools="tools" />
+    <ToolListBox 
+      v-else-if="currentListBox === 'Tools'" 
+      :tools="tools" 
+    />
   </div>
 </template>
 
