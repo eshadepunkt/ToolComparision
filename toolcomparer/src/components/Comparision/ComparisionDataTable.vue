@@ -1,58 +1,52 @@
 <template>
   <div id="ComparisionDataTable">
     <v-simple-table>
-        <template>
-          <thead>
-            <tr>
-              <th>
-                Tools
-              </th>
-              <th v-on:click="changeSort($event, '')">
-                <v-row>
-                  <v-col cols="9">
-                    Score
-                  </v-col>
-                  <v-col cols="1">
-                    <v-icon
-                      v-if="'' === sortBy"
-                      class="ma-2"
-                      v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
-                      icon
-                    >
-                      {{ icons.mdiSort }}
-                    </v-icon>
-                  </v-col>
-                </v-row>
-              </th>
+      <template>
+        <thead>
+          <tr>
+            <th>Tools</th>
+            <th v-on:click="changeSort($event, '')">
+              <v-row>
+                <v-col cols="9"> Score </v-col>
+                <v-col cols="1">
+                  <v-icon
+                    v-if="'' === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                  >
+                    {{ icons.mdiSort }}
+                  </v-icon>
+                </v-col>
+              </v-row>
+            </th>
 
-              <ComparisionDataTableHeader
-                v-for="criteriumKV in criteria"
-                :key="criteriumKV.key"
-                :criteriumKV="criteriumKV"
-                :sortBy="sortBy"
-                :sortDesc="sortDesc"
-                v-on:click.native="changeSort($event, criteriumKV.value.name)"
-              />
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <div v-if="results.lenght === 0">
-              No data available
-            </div>
-            <ComparisionDataTableRow
-              v-for="(result, index) in results"
-              :key="result.toolKV.key"
-              :result="result"
-              :propSuitabilityIndex="index"
+            <ComparisionDataTableHeader
+              v-for="criteriumKV in criteria"
+              :key="criteriumKV.key"
+              :criteriumKV="criteriumKV"
               :sortBy="sortBy"
-              :criteria="criteria"
-              class="text-left"
-              :style="getColor(result.score)"
+              :sortDesc="sortDesc"
+              v-on:click.native="changeSort($event, criteriumKV.value.name)"
             />
-          </tbody>
-        </template>
-      </v-simple-table>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div v-if="results.lenght === 0">No data available</div>
+          <ComparisionDataTableRow
+            v-for="(result, index) in results"
+            :key="result.toolKV.key"
+            :result="result"
+            :propSuitabilityIndex="index"
+            :sortBy="sortBy"
+            :criteria="criteria"
+            class="text-left"
+            :style="getColor(result.score)"
+          />
+        </tbody>
+      </template>
+    </v-simple-table>
   </div>
 </template>
 
@@ -83,30 +77,29 @@ export default Vue.extend({
   },
 
   props: {
-      results: {
-        type: Array as () => Array<Typ.toolRating>,
-        default() {
-         return Array<Typ.toolRating>();
+    results: {
+      type: Array as () => Array<Typ.toolRating>,
+      default() {
+        return Array<Typ.toolRating>();
       },
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
 
-      },
-      criteria: {
-        type: Array as () => Array<Typ.criteriumKeyValue>,
-      },
+    maxScore: {
+      type: Number,
+    },
 
-      maxScore: {
-        type: Number,
-      },
-
-      search: {
-        type: String,
-      },
-      sortDesc:  {
-        type: Boolean,
-      },
-      sortBy:  {
-        type: String,
-      },
+    search: {
+      type: String,
+    },
+    sortDesc: {
+      type: Boolean,
+    },
+    sortBy: {
+      type: String,
+    },
   },
 
   //DATA
@@ -137,11 +130,11 @@ export default Vue.extend({
     },
     changeSort(event: any, sortBy: string) {
       if (this.sortBy == sortBy) {
-        this.$emit('sortDescChanged', !this.sortDesc);
+        this.$emit("sortDescChanged", !this.sortDesc);
       } else {
-        this.$emit('sortByChanged', sortBy);
+        this.$emit("sortByChanged", sortBy);
       }
     },
-  }
+  },
 });
 </script>

@@ -23,7 +23,6 @@ import Vue from "vue";
 export default Vue.extend({
   name: "App",
 
-
   data: () => ({
     currentState: Typ.appState.criteria as Typ.appState,
   }),

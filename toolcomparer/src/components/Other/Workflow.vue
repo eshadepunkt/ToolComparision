@@ -5,9 +5,7 @@
         <!-- Head -->
         <v-row>
           <v-col xl="12">
-            <Header
-              :headerText="currentListBox"
-            />
+            <Header :headerText="currentListBox" />
           </v-col>
         </v-row>
 
@@ -19,6 +17,9 @@
                 :currentListBox="currentListBox"
                 :criteria="criteria"
                 :tools="tools"
+                :showDialog="showDialog"
+                :workflow="workflow"
+                v-on:closeDialog="closeDialog()"
               />
             </v-card>
           </v-col>
@@ -36,10 +37,7 @@
             </v-btn>
           </v-col>
           <v-col xl="1">
-            <v-btn
-              @click="navigateTo(btnAddNavi + 'Add/' + uuidNIL)"
-              color="teal lighten-5"
-            >
+            <v-btn @click="showDialog = true" color="teal lighten-5">
               {{ btnAddTxt }}
             </v-btn>
           </v-col>
@@ -88,7 +86,7 @@ import {
 
 import Vue from "vue";
 
-import Header from "./Header.vue"
+import Header from "./Header.vue";
 import WorkflowManager from "./WorkflowManager.vue";
 
 export default Vue.extend({
@@ -106,7 +104,9 @@ export default Vue.extend({
       criteria: this.$store.getters.getCriteria,
       tools: this.$store.getters.getTools,
 
+      showDialog: false as boolean,
       workflow: "" as string,
+
       btnBackTxt: "" as string,
       btnNextTxt: "" as string,
       btnAddTxt: "" as string,
@@ -239,10 +239,16 @@ export default Vue.extend({
         : "Criteria";
 
       this.btnAddTxt = isListBoxCriteria ? "Add Criterium" : "Add Tool";
-      this.btnAddNavi = 
-        (isCriteriaFirst ? "/CriteriaFirst/" : "/ToolsFirst/") + 
+      this.btnAddNavi =
+        (isCriteriaFirst ? "/CriteriaFirst/" : "/ToolsFirst/") +
         (isListBoxCriteria ? "CriteriumCreation/" : "ToolCreation/");
     },
+    closeDialog() {
+      this.showDialog = false;
+    },
+    criteriax() {
+      return this.$store.getters.getCriteria;
+    }
   },
   //COMPUTED
   computed: {

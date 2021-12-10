@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="10">
             <CriteriumCard
-              :propCriterium="propCriteriumKV.value"
+              :propCriteriumKV="propCriteriumKV"
               :propModuleState="moduleState"
             />
           </v-col>
@@ -27,6 +27,13 @@
         </v-row>
       </v-container>
     </v-card>
+    <CriteriumFirstCreationDialog
+      v-if="workflow === 'CriteriaFirst'"
+      :showDialog="showDialog"
+      :btnText="'Update'"
+      :propCriteriumKV="propCriteriumKV"
+      v-on:closeDialog="showDialog = false"
+    />
   </div>
 </template>
 
@@ -46,22 +53,24 @@ import {
 import Vue from "vue";
 
 import CriteriumCard from "./CriteriumCard.vue";
+import CriteriumFirstCreationDialog from "./CriteriumFirstCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumListItem",
 
   components: {
     CriteriumCard,
+    CriteriumFirstCreationDialog,
   },
 
   //PROPS
   props: {
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     propCriteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,
-    },
-    btnText: {
-      type: String,
-      default: "Add",
     },
   },
 
@@ -69,6 +78,7 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
+      showDialog: false as boolean,
 
       icons: {
         mdiAccount,
@@ -77,23 +87,16 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-
-      debug: true as boolean,
     };
   },
 
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string = this.propCriteriumKV.key;
-      this.navigateTo("/CriteriumFirstCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeCriterium", this.propCriteriumKV);
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 });

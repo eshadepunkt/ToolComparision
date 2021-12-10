@@ -3,10 +3,16 @@
     <CriteriumListBox
       v-if="currentListBox === 'Criteria'"
       :criteria="criteria"
+      :showDialog="showDialog"
+      :workflow="workflow"
+      v-on:closeDialog="closeDialog()"
     />
-    <ToolListBox 
-      v-else-if="currentListBox === 'Tools'" 
-      :tools="tools" 
+    <ToolListBox
+      v-else-if="currentListBox === 'Tools'"
+      :tools="tools"
+      :showDialog="showDialog"
+      :workflow="workflow"
+      v-on:closeDialog="closeDialog()"
     />
   </div>
 </template>
@@ -32,12 +38,19 @@ import ToolListBox from "../Tool/ToolListBox.vue";
 export default Vue.extend({
   name: "WorkflowManager",
 
-   components: {
-      CriteriumListBox,
-      ToolListBox,
-   },
+  components: {
+    CriteriumListBox,
+    ToolListBox,
+  },
 
   props: {
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    workflow: {
+      type: String,
+    },
     currentListBox: {
       type: String,
     },
@@ -46,6 +59,12 @@ export default Vue.extend({
     },
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
+    },
+  },
+
+  methods: {
+    closeDialog() {
+      this.$emit("closeDialog");
     },
   },
 

@@ -18,7 +18,6 @@
                 ref="tool_card"
                 :propToolKV="toolKV"
                 :propModuleState="moduleState"
-                @update_tool="updateTool"
               />
             </v-card>
           </v-col>
@@ -40,7 +39,7 @@
           </v-col>
           <v-col xl="1">
             <v-btn @click="btnSave()" color="teal lighten-5">
-              {{ btnText }}
+              {{ tbtnText }}
             </v-btn>
           </v-col>
         </v-row>
@@ -76,6 +75,18 @@ export default Vue.extend({
 
   //PROPS
   props: {
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    btnText: {
+      type: String,
+      default: "Next",
+    },
+    mode: {
+      type: String,
+      default: "Add",
+    },
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
       default() {
@@ -106,25 +117,19 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
 
-      btnText: "Next" as string,
-      mode: "Add" as string,
-
-      debug: true as boolean,
+      tbtnText: this.btnText as string,
     };
   },
 
   //METHODS
   methods: {
-    updateTool(newVal: Typ.toolKeyValue) {
-      this.toolKV = newVal;
-    },
     btnCancel() {
       if (this.mode === "Add") {
         this.$store.commit("removeTool", this.toolKV);
       }
 
       this.resetToolKV();
-      this.navigateTo("/Tools/CriteriaFirst");
+      this.closeDialog();
     },
     btnSave() {
       const isValid: boolean = (
@@ -133,12 +138,8 @@ export default Vue.extend({
       if (isValid) {
         this.$store.dispatch("updateTool", this.toolKV);
 
-        const appendix: string =
-          this.mode + "/" + this.toolKV.key + "/" + uuidNIL;
-
         this.resetToolKV();
-
-        this.navigateTo("/ToolCriteriumSuitabilityCreation/" + appendix);
+        this.closeDialog();
       }
     },
     btnUpdate() {
@@ -149,7 +150,7 @@ export default Vue.extend({
         this.$store.dispatch("updateTool", this.toolKV);
 
         this.resetToolKV();
-        this.navigateTo("/Tools/CriteriaFirst");
+        this.closeDialog();
       }
     },
 
@@ -163,37 +164,9 @@ export default Vue.extend({
         } as Typ.tool,
       };
     },
-    navigateTo(route: string): void {
-      this.$router.push(route);
+    closeDialog() {
+      this.$emit("closeDialog");
     },
-  },
-
-  //WATCH
-  watch: {
-    propTool: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.toolKV = newVal;
-      },
-      deep: true,
-    },
-  },
-
-  //MOUNTED
-  mounted() {
-    this.mode = this.$route.params.mode;
-    const tooluuid: string = this.$route.params.toolid;
-
-    if (tooluuid !== "" && tooluuid !== uuidNIL) {
-      const result = this.$store.getters.getTool(tooluuid);
-      if (result !== null) {
-        this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
-
-        //LOG
-        console.log("ToolLastCreation: Loaded tool with key: " + tooluuid);
-
-        return;
-      }
-    }
   },
 });
 </script>

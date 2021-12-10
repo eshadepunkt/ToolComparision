@@ -1,44 +1,44 @@
 <template>
   <div id="Comparision">
     <v-card min-height="100vh" color="grey lighten-5">
-        <v-container>
-           <!-- Head -->
-            <v-row>
-               <v-col xl="12">
-                  <Header :headerText="'Comparision'" />
-               </v-col>
-            </v-row>
-            <v-row>
-               <v-col xl="12">
-                  <ComparisionHeader
-                     :sortItems="criteria"
-                     :search="search"
-                     :sortDesc="sortDesc"
-                     :sortBy="sortBy"
-                     v-on:searchChanged="searchChanged($event)"
-                     v-on:sortDescChanged="sortDescChanged($event)"
-                     v-on:sortByChanged="sortByChanged($event)"
-                  />
-               </v-col>
-            </v-row>
-            <v-row>
-               <v-col xl="12">
-                  <v-card style="height: 59vh; overflow-y: auto">
-                     <ComparisionManager
-                        :currentView="currentView"
-                        :results="getFilteredResults"
-                        :criteria="criteria"
-                        :maxScore="maxScore"
-                        :search="search"
-                        :sortDesc="sortDesc"
-                        :sortBy="sortBy"
-                        v-on:sortDescChanged="sortDescChanged($event)"
-                        v-on:sortByChanged="sortByChanged($event)"
-                     />
-                  </v-card>    
-               </v-col>
-            </v-row>
-            <!-- Buttons -->
+      <v-container>
+        <!-- Head -->
+        <v-row>
+          <v-col xl="12">
+            <Header :headerText="'Comparision'" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col xl="12">
+            <ComparisionHeader
+              :sortItems="criteria"
+              :search="search"
+              :sortDesc="sortDesc"
+              :sortBy="sortBy"
+              v-on:searchChanged="searchChanged($event)"
+              v-on:sortDescChanged="sortDescChanged($event)"
+              v-on:sortByChanged="sortByChanged($event)"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col xl="12">
+            <v-card style="height: 59vh; overflow-y: auto">
+              <ComparisionManager
+                :currentView="currentView"
+                :results="getFilteredResults"
+                :criteria="criteria"
+                :maxScore="maxScore"
+                :search="search"
+                :sortDesc="sortDesc"
+                :sortBy="sortBy"
+                v-on:sortDescChanged="sortDescChanged($event)"
+                v-on:sortByChanged="sortByChanged($event)"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+        <!-- Buttons -->
         <v-row
           align="center"
           align-content="space-between"
@@ -69,8 +69,8 @@
             <v-btn @click="exporter()"> Export </v-btn>
           </v-col>
         </v-row>
-        </v-container>
-      </v-card>
+      </v-container>
+    </v-card>
   </div>
 </template>
 
@@ -89,9 +89,9 @@ export default Vue.extend({
   name: "Comparision",
 
   components: {
-      Header,
-      ComparisionHeader,
-      ComparisionManager,
+    Header,
+    ComparisionHeader,
+    ComparisionManager,
   },
 
   //DATA
@@ -292,17 +292,17 @@ export default Vue.extend({
     },
 
     searchChanged(val: string) {
-       this.search = val;
+      this.search = val;
     },
     sortDescChanged(val: boolean) {
-       this.sortDesc = val;
+      this.sortDesc = val;
     },
     sortByChanged(val: string) {
-       this.sortBy = val;
+      this.sortBy = val;
     },
     changeView() {
-       const isTableView: boolean = (this.currentView === "DataTable");
-       this.currentView = isTableView ? "DataIterator" : "DataTable";
+      const isTableView: boolean = this.currentView === "DataTable";
+      this.currentView = isTableView ? "DataIterator" : "DataTable";
     },
   },
 

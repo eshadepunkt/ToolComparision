@@ -9,8 +9,8 @@
       :sortDesc="sortDesc"
       :sortBy="sortBy"
     />
-    <ComparisionDataTable 
-      v-else-if="currentView === 'DataTable'" 
+    <ComparisionDataTable
+      v-else-if="currentView === 'DataTable'"
       :results="results"
       :criteria="criteria"
       :maxScore="maxScore"
@@ -19,7 +19,7 @@
       :sortBy="sortBy"
       v-on:sortDescChanged="sortDescChanged($event)"
       v-on:sortByChanged="sortByChanged($event)"
-   />
+    />
   </div>
 </template>
 
@@ -44,43 +44,43 @@ import ComparisionDataTable from "./ComparisionDataTable.vue";
 export default Vue.extend({
   name: "WorkflowManager",
 
-   components: {
-      ComparisionDataIterator,
-      ComparisionDataTable,
-   },
+  components: {
+    ComparisionDataIterator,
+    ComparisionDataTable,
+  },
 
   props: {
-      currentView: {
-         type: String,
-      },
-      results: {
-        type: Array as () => Array<Typ.toolRating>,
-      },
-      criteria: {
-        type: Array as () => Array<Typ.criteriumKeyValue>,
-      },
+    currentView: {
+      type: String,
+    },
+    results: {
+      type: Array as () => Array<Typ.toolRating>,
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
 
-      maxScore: {
-        type: Number,
-      },
+    maxScore: {
+      type: Number,
+    },
 
-      search: {
-        type: String,
-      },
-      sortDesc:  {
-        type: Boolean,
-      },
-      sortBy:  {
-        type: String,
-      },
+    search: {
+      type: String,
+    },
+    sortDesc: {
+      type: Boolean,
+    },
+    sortBy: {
+      type: String,
+    },
   },
   methods: {
-     sortDescChanged(newVal: boolean) {
-        this.$emit('sortDescChanged', newVal);
-     },
-     sortByChanged(newVal: string) {
-        this.$emit('sortByChanged', newVal);
-     },
-  }
+    sortDescChanged(newVal: boolean) {
+      this.$emit("sortDescChanged", newVal);
+    },
+    sortByChanged(newVal: string) {
+      this.$emit("sortByChanged", newVal);
+    },
+  },
 });
 </script>

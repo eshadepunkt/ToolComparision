@@ -33,26 +33,26 @@ export default Vue.extend({
   },
 
   props: {
-      results: {
-        type: Array as () => Array<Typ.toolRating>,
-      },
-      criteria: {
-        type: Array as () => Array<Typ.criteriumKeyValue>,
-      },
+    results: {
+      type: Array as () => Array<Typ.toolRating>,
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
 
-      maxScore: {
-        type: Number,
-      },
+    maxScore: {
+      type: Number,
+    },
 
-      search: {
-        type: String,
-      },
-      sortDesc:  {
-        type: Boolean,
-      },
-      sortBy:  {
-        type: String,
-      },
-  }
+    search: {
+      type: String,
+    },
+    sortDesc: {
+      type: Boolean,
+    },
+    sortBy: {
+      type: String,
+    },
+  },
 });
 </script>

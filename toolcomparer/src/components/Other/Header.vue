@@ -1,11 +1,11 @@
 <template>
-<div id="Header">
-   <v-card color="indigo darken-4">
+  <div id="Header">
+    <v-card color="indigo darken-4">
       <h1 style="text-align: center; color: white">
-         {{ headerText }}
+        {{ headerText }}
       </h1>
-   </v-card>
-</div>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,10 +15,9 @@ export default Vue.extend({
   name: "Header",
 
   props: {
-     headerText: {
-        type: String,
-     }
+    headerText: {
+      type: String,
+    },
   },
 });
 </script>
-
