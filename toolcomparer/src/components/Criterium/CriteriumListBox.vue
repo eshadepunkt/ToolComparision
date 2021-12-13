@@ -2,7 +2,7 @@
   <div id="CriteriumListBox">
     <v-list>
       <v-item-group>
-        <v-item v-for="item in getCriteria" :key="item.key">
+        <v-item v-for="item in getCriteria" :key="noSecHash(item)">
           <CriteriumListItem :propCriteriumKV="item" :workflow="workflow" />
         </v-item>
       </v-item-group>
@@ -19,6 +19,7 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -60,6 +61,7 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      noSecHash,
     };
   },
 
@@ -72,6 +74,10 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      console.log("Lst: Criteria changes detected");
+    this.criteria.forEach(element => {
+      console.log(element.value.name);
+    });
       return this.criteria;
     },
   },

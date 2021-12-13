@@ -15,8 +15,8 @@
             <v-card style="height: 71vh; overflow-y: auto">
               <WorkflowManager
                 :currentListBox="currentListBox"
-                :criteria="criteria"
-                :tools="tools"
+                :criteria="getCriteria"
+                :tools="getTools"
                 :showDialog="showDialog"
                 :workflow="workflow"
                 v-on:closeDialog="closeDialog()"
@@ -101,8 +101,6 @@ export default Vue.extend({
   data() {
     return {
       currentListBox: "" as string,
-      criteria: this.$store.getters.getCriteria,
-      tools: this.$store.getters.getTools,
 
       showDialog: false as boolean,
       workflow: "" as string,
@@ -246,17 +244,16 @@ export default Vue.extend({
     closeDialog() {
       this.showDialog = false;
     },
-    criteriax() {
-      return this.$store.getters.getCriteria;
-    }
   },
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      return this.criteria;
+      console.log("Criteria changes detected");
+      return this.$store.getters.getCriteria;
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      return this.tools;
+      console.log("Tools changes detected");
+      return this.$store.getters.getTools;
     },
   },
 
