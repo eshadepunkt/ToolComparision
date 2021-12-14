@@ -196,6 +196,15 @@ export default Vue.extend({
 
       return isValid;
     },
+    getToolKVIfValid(): Typ.toolKeyValue | null {
+      const isValid: boolean = this.validate();
+      let toolKV = null;
+      if (isValid) {
+        toolKV = this.toolKV;
+      }
+
+      return toolKV;
+    }
   },
 
   //DATA
