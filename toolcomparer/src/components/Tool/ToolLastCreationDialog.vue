@@ -142,20 +142,21 @@ export default Vue.extend({
       this.closeDialog();
     },
     btnSave(closeDialog: boolean = false) {
-        if (closeDialog || this.mode !== "Add") {
-          const isSuccessful: boolean = (
-            this.$refs.tool_card as Vue & { save: () => boolean }
-          ).save();
-          if (isSuccessful)  {
-            this.$store.dispatch("updateTool", this.toolKV);
-            this.resetToolKV();
-            this.closeDialog();
-          }
-        }
-        else if (this.mode === "Add") {
-          this.toolKVHash = this.noSecHash(this.toolKV);
-          this.isInSuitabilityCreation = true;
-        }
+       const toolKV: Typ.toolKeyValue | null = (
+            this.$refs.tool_card as Vue & { getToolKVIfValid: () => Typ.toolKeyValue | null }
+          ).getToolKVIfValid();
+          if (toolKV !== null)  {
+            this.toolKV = toolKV;
+
+            if (closeDialog || this.mode !== "Add") {
+              (this.$refs.tool_card as Vue & { save: () => boolean }).save();
+              this.closeDialog();
+            }
+            else if (this.mode === "Add") {
+              this.toolKVHash = this.noSecHash(this.toolKV);
+              this.isInSuitabilityCreation = true;
+            }
+          }       
     },
 
     resetToolKV(): void {
