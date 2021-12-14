@@ -122,6 +122,47 @@ export default Vue.extend({
     },
   },
 
+  
+  //DATA
+  data() {
+    return {
+      toolCriteriumSuitability: JSON.parse(
+        JSON.stringify(this.propToolCriteriumSuitability)
+      ) as Typ.toolCriteriumSuitability,
+
+      moduleState: this.propModuleState as Typ.simpleModuleState,
+
+      fullfillmentItems: [
+        "very good",
+        "good",
+        "normal",
+        "bad",
+        "very bad",
+        "does not",
+      ] as string[],
+
+      selectedFullfillment: "" as string,
+
+      rules: {
+        required: (value: boolean | string) => !!value || "Required",
+        str: [
+          (val: string) => (val || "").length > 0 || "This field is required",
+        ],
+      },
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiContentSaveEdit,
+        mdiFileRestoreOutline,
+      },
+
+      isValid: true as boolean,
+    };
+  },
+
   //METHODS
   methods: {
     isMinimized(): boolean {
@@ -173,47 +214,17 @@ export default Vue.extend({
 
       return min + "/" + max;
     },
+    getSuitabilityIfValid(): Typ.toolCriteriumSuitability | null {
+      const isValid: boolean = this.validate();
+      let suitability = null;
+      if (isValid) {
+        suitability = this.toolCriteriumSuitability;
+      }
+
+      return suitability;
+    }
   },
 
-  //DATA
-  data() {
-    return {
-      toolCriteriumSuitability: JSON.parse(
-        JSON.stringify(this.propToolCriteriumSuitability)
-      ) as Typ.toolCriteriumSuitability,
-
-      moduleState: this.propModuleState as Typ.simpleModuleState,
-
-      fullfillmentItems: [
-        "very good",
-        "good",
-        "normal",
-        "bad",
-        "very bad",
-        "does not",
-      ] as string[],
-
-      selectedFullfillment: "" as string,
-
-      rules: {
-        required: (value: boolean | string) => !!value || "Required",
-        str: [
-          (val: string) => (val || "").length > 0 || "This field is required",
-        ],
-      },
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-        mdiContentSaveEdit,
-        mdiFileRestoreOutline,
-      },
-
-      isValid: true as boolean,
-    };
-  },
 
   //MOUNTED
   mounted: function () {

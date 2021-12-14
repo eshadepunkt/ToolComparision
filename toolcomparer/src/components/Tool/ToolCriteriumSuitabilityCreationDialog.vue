@@ -7,7 +7,7 @@
       persistent
       transition="dialog-bottom-transition"
     >
-      <v-card min-height="100vh" color="grey lighten-5">
+      <v-card color="grey lighten-5">
         <v-container>
           <!-- Head -->
           <v-row>
@@ -43,10 +43,10 @@
             <v-col xl="1">
               <v-btn
                 v-if="mode === 'Update'"
-                @click="btnUpdate()"
+                @click="btnSave(true)"
                 color="blue lighten-5"
               >
-                Update-Save-Return
+                Update All &amp; Close
               </v-btn>
             </v-col>
             <v-col xl="1">
@@ -114,6 +114,7 @@ export default Vue.extend({
 
       currentSuitability: {} as Typ.toolCriteriumSuitability,
       currentSuitabilityIndex: -1 as number,
+      updateSuitabilities: Array<Typ.toolCriteriumSuitability>(),
 
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
@@ -128,11 +129,9 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
 
-      btnText: "Save & Next" as string,
+      btnText: "Next" as string,
       mode: "Add" as string,
       updateSingle: false as boolean,
-
-      debug: true as boolean,
     };
   },
 
@@ -144,8 +143,11 @@ export default Vue.extend({
         this.resetToolKV();
         this.closeDialog();
       } else {
-        this.currentSuitabilityIndex -= 2;
+        if (this.currentSuitabilityIndex > -1) {
+          this.updateSuitabilities.splice(this.currentSuitabilityIndex, 1);
+        }    
 
+        this.currentSuitabilityIndex -= 2;
         if (this.currentSuitabilityIndex < -1) {
           this.closeDialog();
         } else {
@@ -153,43 +155,28 @@ export default Vue.extend({
         }
       }
     },
-    btnSave() {
-      const isValid: boolean = (
-        this.$refs.tool_card as Vue & { validate: () => boolean }
-      ).validate();
-      if (isValid) {
-        this.$store.dispatch("updateToolSuitability", {
-          toolKV: this.toolKV,
-          criteriumSuitability: this.currentSuitability,
-        });
+    btnSave(closeDialog: boolean = true) {
+      const suitability: Typ.toolCriteriumSuitability | null = (
+            this.$refs.tool_card as Vue & { getSuitabilityIfValid: () => Typ.toolCriteriumSuitability | null }
+          ).getSuitabilityIfValid();
+      if (suitability !== null) {
+        this.currentSuitability = suitability;
 
-        const result = this.$store.getters.getTool(this.toolKV.key);
-        if (result !== null) {
-          this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
-        }
+         if (closeDialog || this.mode !== "Add") {
+              (this.$refs.tool_card as Vue & { save: () => boolean }).save();
+              this.closeDialog();
+            }
+            else if (this.mode === "Add") {
+              this.updateSuitabilities.push(this.currentSuitability);
 
-        this.setCurrentSuitability();
+              this.setCurrentSuitability();
 
-        if (this.currentSuitabilityIndex >= this.criteria.length) {
-          this.currentSuitabilityIndex = -1;
-          this.resetToolKV();
-          this.closeDialog();
-        }
-      }
-    },
-    btnUpdate() {
-      const isValid: boolean = (
-        this.$refs.tool_card as Vue & { validate: () => boolean }
-      ).validate();
-      if (isValid) {
-        this.$store.dispatch("updateToolSuitability", {
-          toolKV: this.toolKV,
-          criteriumSuitability: this.currentSuitability,
-        });
-
-        this.currentSuitabilityIndex = -1;
-        this.resetToolKV();
-        this.closeDialog();
+              if (this.currentSuitabilityIndex >= this.criteria.length) {
+                this.currentSuitabilityIndex = -1;
+                this.resetToolKV();
+                this.closeDialog();
+              }
+            }      
       }
     },
 
@@ -248,7 +235,7 @@ export default Vue.extend({
         ).resetValidation();
 
         if (this.currentSuitabilityIndex === lenght - 1) {
-          this.btnText = "Save & Finish";
+          this.btnText = "Save All";
         }
       }
     },
@@ -276,7 +263,7 @@ export default Vue.extend({
       if (result !== null) {
         this.toolKV = JSON.parse(JSON.stringify(result)) as Typ.toolKeyValue;
 
-        this.btnText = this.mode + " & Next";
+        this.btnText = "Next";
 
         if (criteriumuuid !== "" && criteriumuuid !== uuidNIL) {
           const suitabilities = this.toolKV.value.criteriaSuitabilities;

@@ -41,7 +41,7 @@
                 @click="btnSave(true)"
                 color="blue lighten-5"
               >
-                Update-Save-Return
+                Update All &amp; Close
               </v-btn>
             </v-col>
             <v-col xl="1">
