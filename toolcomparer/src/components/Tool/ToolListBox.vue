@@ -2,7 +2,7 @@
   <div id="ToolListBox">
     <v-list>
       <v-item-group>
-        <v-item v-for="item in getTools" :key="item.key">
+        <v-item v-for="item in getTools" :key="noSecHash(item)">
           <ToolListItem :propToolKV="item" />
         </v-item>
       </v-item-group>
@@ -13,6 +13,7 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -44,6 +45,7 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      noSecHash,
     };
   },
 

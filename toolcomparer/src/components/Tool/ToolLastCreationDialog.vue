@@ -1,56 +1,65 @@
 <template>
   <div id="ToolLastCreation">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">{{ mode }} tool</h1>
-            </v-card>
-          </v-col>
-        </v-row>
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-card outlined>
-              <ToolCard
-                ref="tool_card"
-                :propToolKV="toolKV"
-                :propModuleState="moduleState"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
-        <!-- Buttons -->
-        <v-row>
-          <v-col xl="8"> </v-col>
-          <v-col xl="1">
-            <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              v-if="mode === 'Update'"
-              @click="btnUpdate()"
-              color="blue lighten-5"
-            >
-              Update-Save-Return
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="btnSave()" color="teal lighten-5">
-              {{ tbtnText }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+    <v-dialog v-if="!isInSuitabilityCreation"
+      v-model="showDialog"
+      width="33vw"
+      hide-overlay
+      persistent
+      transition="dialog-bottom-transition"
+    >
+      <v-card color="grey lighten-5">
+        <v-container>
+          <!-- Head -->
+          <v-row>
+            <v-col xl="12">
+              <v-card color="indigo darken-4">
+                <h1 style="text-align: center; color: white">{{ mode }} tool</h1>
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- Body -->
+          <v-row>
+            <v-col xl="12">
+              <v-card outlined>
+                <ToolCard
+                  ref="tool_card"
+                  :propToolKV="toolKV"
+                  :propModuleState="moduleState"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- Buttons -->
+          <v-row>
+            <v-col xl="8"> </v-col>
+            <v-col xl="1">
+              <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
+            </v-col>
+            <v-col xl="1">
+              <v-btn
+                v-if="mode === 'Update'"
+                @click="btnSave(true)"
+                color="blue lighten-5"
+              >
+                Update-Save-Return
+              </v-btn>
+            </v-col>
+            <v-col xl="1">
+              <v-btn @click="btnSave()" color="teal lighten-5">
+                {{ tbtnText }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -117,41 +126,36 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
 
+      noSecHash,
+      toolKVHash: "" as string,
+
       tbtnText: this.btnText as string,
+
+      isInSuitabilityCreation: false as boolean,
     };
   },
 
   //METHODS
   methods: {
     btnCancel() {
-      if (this.mode === "Add") {
-        this.$store.commit("removeTool", this.toolKV);
-      }
-
       this.resetToolKV();
       this.closeDialog();
     },
-    btnSave() {
-      const isValid: boolean = (
-        this.$refs.tool_card as Vue & { validate: () => boolean }
-      ).validate();
-      if (isValid) {
-        this.$store.dispatch("updateTool", this.toolKV);
-
-        this.resetToolKV();
-        this.closeDialog();
-      }
-    },
-    btnUpdate() {
-      const isValid: boolean = (
-        this.$refs.tool_card as Vue & { validate: () => boolean }
-      ).validate();
-      if (isValid) {
-        this.$store.dispatch("updateTool", this.toolKV);
-
-        this.resetToolKV();
-        this.closeDialog();
-      }
+    btnSave(closeDialog: boolean = false) {
+        if (closeDialog || this.mode !== "Add") {
+          const isSuccessful: boolean = (
+            this.$refs.tool_card as Vue & { save: () => boolean }
+          ).save();
+          if (isSuccessful)  {
+            this.$store.dispatch("updateTool", this.toolKV);
+            this.resetToolKV();
+            this.closeDialog();
+          }
+        }
+        else if (this.mode === "Add") {
+          this.toolKVHash = this.noSecHash(this.toolKV);
+          this.isInSuitabilityCreation = true;
+        }
     },
 
     resetToolKV(): void {

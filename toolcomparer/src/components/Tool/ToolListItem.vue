@@ -85,8 +85,6 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-
-      debug: true as boolean,
     };
   },
 

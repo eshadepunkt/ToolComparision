@@ -215,28 +215,6 @@ export default Vue.extend({
     };
   },
 
-  //WATCH
-  watch: {
-    propToolCriteriumSuitability: {
-      handler(newVal: Typ.toolCriteriumSuitability) {
-        this.toolCriteriumSuitability = newVal;
-        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfillment
-        );
-      },
-      deep: true,
-    },
-    toolCriteriumSuitability: {
-      handler(newVal: Typ.toolCriteriumSuitability) {
-        this.$emit("update_tool_suitability", newVal);
-        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfillment
-        );
-      },
-      deep: true,
-    },
-  },
-
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;

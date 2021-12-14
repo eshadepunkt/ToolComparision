@@ -188,6 +188,14 @@ export default Vue.extend({
         this.changeModuleState("minimized");
       }
     },
+    save(): boolean {
+      const isValid: boolean = this.validate();
+      if (isValid) {
+        this.$store.dispatch("updateTool", this.toolKV);
+      }
+
+      return isValid;
+    },
   },
 
   //DATA
@@ -214,22 +222,6 @@ export default Vue.extend({
 
       isValid: true as boolean,
     };
-  },
-
-  //WATCH
-  watch: {
-    propToolKV: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.toolKV = newVal;
-      },
-      deep: true,
-    },
-    toolKV: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.$emit("update_tool", newVal);
-      },
-      deep: true,
-    },
   },
 
   //MOUNTED

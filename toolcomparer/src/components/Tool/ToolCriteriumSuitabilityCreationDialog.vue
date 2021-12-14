@@ -1,59 +1,67 @@
 <template>
   <div id="ToolCriteriumSuitabilityCreation">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="11">
-            <v-card color="indigo darken-4">
-              <h1 style="text-align: center; color: white">
-                {{ mode }} tool criterium suitability
-              </h1>
-            </v-card>
-          </v-col>
-        </v-row>
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <v-card outlined>
-              <ToolCriteriumSuitabilityCard
-                ref="tool_card"
-                :propToolCriteriumSuitability="currentSuitability"
-                :propModuleState="moduleState"
-                @update_tool_suitability="updateCurrentSuitability"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
-        <!-- Buttons -->
-        <v-row>
-          <v-col xl="8"> </v-col>
-          <v-col xl="1">
-            <v-btn @click="btnGoBack()" color="red lighten-5">
-              Cancel &amp; Go Back
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              v-if="mode === 'Update'"
-              @click="btnUpdate()"
-              color="blue lighten-5"
-            >
-              Update-Save-Return
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn
-              v-if="!updateSingle"
-              @click="btnSave()"
-              color="teal lighten-5"
-            >
-              {{ btnText }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+    <v-dialog
+      v-model="showDialog"
+      width="33vw"
+      hide-overlay
+      persistent
+      transition="dialog-bottom-transition"
+    >
+      <v-card min-height="100vh" color="grey lighten-5">
+        <v-container>
+          <!-- Head -->
+          <v-row>
+            <v-col xl="11">
+              <v-card color="indigo darken-4">
+                <h1 style="text-align: center; color: white">
+                  {{ mode }} tool criterium suitability
+                </h1>
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- Body -->
+          <v-row>
+            <v-col xl="12">
+              <v-card outlined>
+                <ToolCriteriumSuitabilityCard
+                  ref="tool_card"
+                  :propToolCriteriumSuitability="currentSuitability"
+                  :propModuleState="moduleState"
+                  @update_tool_suitability="updateCurrentSuitability"
+                />
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- Buttons -->
+          <v-row>
+            <v-col xl="8"> </v-col>
+            <v-col xl="1">
+              <v-btn @click="btnGoBack()" color="red lighten-5">
+                Cancel &amp; Go Back
+              </v-btn>
+            </v-col>
+            <v-col xl="1">
+              <v-btn
+                v-if="mode === 'Update'"
+                @click="btnUpdate()"
+                color="blue lighten-5"
+              >
+                Update-Save-Return
+              </v-btn>
+            </v-col>
+            <v-col xl="1">
+              <v-btn
+                v-if="!updateSingle"
+                @click="btnSave()"
+                color="teal lighten-5"
+              >
+                {{ btnText }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -134,13 +142,12 @@ export default Vue.extend({
       if (this.updateSingle) {
         this.currentSuitabilityIndex = -1;
         this.resetToolKV();
-        this.navigateTo("/Tools/CriteriaFirst");
+        this.closeDialog();
       } else {
         this.currentSuitabilityIndex -= 2;
 
         if (this.currentSuitabilityIndex < -1) {
-          let appendix: string = this.mode + "/" + this.toolKV.key;
-          this.navigateTo("/ToolLastCreation/" + appendix);
+          this.closeDialog();
         } else {
           this.setCurrentSuitability();
         }
@@ -166,7 +173,7 @@ export default Vue.extend({
         if (this.currentSuitabilityIndex >= this.criteria.length) {
           this.currentSuitabilityIndex = -1;
           this.resetToolKV();
-          this.navigateTo("/Tools/CriteriaFirst");
+          this.closeDialog();
         }
       }
     },
@@ -182,7 +189,7 @@ export default Vue.extend({
 
         this.currentSuitabilityIndex = -1;
         this.resetToolKV();
-        this.navigateTo("/Tools/CriteriaFirst");
+        this.closeDialog();
       }
     },
 
@@ -195,9 +202,6 @@ export default Vue.extend({
           criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
         } as Typ.tool,
       };
-    },
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
     getCriteria(): Array<Typ.criteriumKeyValue> {
       return this.$store.getters.getCriteria;
@@ -251,15 +255,8 @@ export default Vue.extend({
     updateCurrentSuitability(newVal: Typ.toolCriteriumSuitability) {
       this.currentSuitability = newVal;
     },
-  },
-
-  //WATCH
-  watch: {
-    propToolKV: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.toolKV = newVal;
-      },
-      deep: true,
+    closeDialog() {
+      this.$emit("closeDialog");
     },
   },
 
@@ -307,7 +304,7 @@ export default Vue.extend({
 
     this.criteria = this.getFilteredCriteria();
     if (this.criteria.length === 0) {
-      this.navigateTo("/Tools/CriteriaFirst");
+      this.closeDialog();
     }
 
     this.setCurrentSuitability();
