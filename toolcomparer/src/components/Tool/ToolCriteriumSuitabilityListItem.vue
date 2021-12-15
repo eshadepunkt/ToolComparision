@@ -5,9 +5,7 @@
         <v-row>
           <v-col cols="10">
             <ToolCriteriumSuitabilityCard
-              :propToolCriteriumSuitability="
-                propToolKV.value.criteriaSuitabilities[propSuitabilityIndex]
-              "
+              :propToolCriteriumSuitability="suitability"
               :propModuleState="moduleState"
             />
           </v-col>
@@ -29,6 +27,13 @@
         </v-row>
       </v-container>
     </v-card>
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="toolKV"
+      :mode="mode"
+      :showDialog="showDialog"
+      :criteria="[].Add(suitability)"
+      v-on:closeDialog="saveAndCloseDialog()"
+    />
   </div>
 </template>
 
@@ -48,12 +53,14 @@ import {
 import Vue from "vue";
 
 import ToolCriteriumSuitabilityCard from "./ToolCriteriumSuitabilityCard.vue";
+import ToolCriteriumSuitabilityCreationDialog from "./ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolCriteriumSuitabilityListItem",
 
   components: {
     ToolCriteriumSuitabilityCard,
+    ToolCriteriumSuitabilityCreationDialog,
   },
 
   //PROPS
@@ -74,6 +81,9 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
+      editMode: Typ.simpleEditMode.UpdateSingle,
+      showDialog: false as boolean,
+      suitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
 
       icons: {
         mdiAccount,
@@ -82,22 +92,13 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-
-      debug: true as boolean,
     };
   },
 
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string =
-        this.propToolKV.key +
-        "/" +
-        this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex]
-          .criteriumKV.key;
-      this.navigateTo(
-        "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
-      );
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeToolSuitability", {
@@ -107,10 +108,6 @@ export default Vue.extend({
             this.propSuitabilityIndex
           ],
       });
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 });

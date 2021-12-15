@@ -30,6 +30,13 @@
         </v-row>
       </v-container>
     </v-card>
+    <ToolLastCreationDialog
+      v-if="workflow === 'CriteriaFirst'"
+      :showDialog="showDialog"
+      :mode="editMode"
+      :propToolKV="propToolKV"
+      v-on:closeDialog="showDialog = false"
+    />
   </div>
 </template>
 
@@ -59,12 +66,12 @@ export default Vue.extend({
 
   //PROPS
   props: {
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
-    },
-    btnText: {
-      type: String,
-      default: "Add",
     },
 
     propToolRating: {
@@ -80,6 +87,8 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
+      editMode: Typ.simpleEditMode.Update,
+      showDialog: false as boolean,
 
       icons: {
         mdiAccount,
@@ -94,15 +103,10 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string = this.propToolKV.key;
-      this.navigateTo("/ToolLastCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.propToolKV);
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 });

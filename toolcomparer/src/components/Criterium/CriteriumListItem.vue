@@ -30,7 +30,7 @@
     <CriteriumFirstCreationDialog
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
-      :btnText="'Update'"
+      :mode="editMode"
       :propCriteriumKV="propCriteriumKV"
       v-on:closeDialog="showDialog = false"
     />
@@ -79,6 +79,8 @@ export default Vue.extend({
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
+
+      editMode: Typ.simpleEditMode.Update,
 
       icons: {
         mdiAccount,

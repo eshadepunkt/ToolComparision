@@ -109,7 +109,10 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
-
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
     mode: {
       type: Number as () => Typ.simpleEditMode,
       default: Typ.simpleEditMode.Add,
@@ -140,7 +143,6 @@ export default Vue.extend({
 
       btnPrevText: "Go Back" as string,
       btnNextText: "Next" as string,
-      updateSingle: false as boolean,
     };
   },
 
@@ -259,7 +261,7 @@ export default Vue.extend({
         if (this.currentSuitabilityIndex === lenght - 1) {
           this.btnNextText = (this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All");
         }
-        else if (this.updateSingle) {
+        else if (this.mode === Typ.simpleEditMode.UpdateSingle) {
           this.btnPrevText = "Cancel";
           this.btnNextText = "Update";
         }

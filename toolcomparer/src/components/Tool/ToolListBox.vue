@@ -7,6 +7,12 @@
         </v-item>
       </v-item-group>
     </v-list>
+    <ToolLastCreationDialog 
+      v-if="workflow === 'CriteriaFirst'"
+      :showDialog="showDialog"
+      :mode="editMode"
+      v-on:closeDialog="closeDialog()"
+    />
   </div>
 </template>
 
@@ -27,15 +33,25 @@ import {
 import Vue from "vue";
 
 import ToolListItem from "./ToolListItem.vue";
+import ToolLastCreationDialog from "./ToolLastCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolListBox",
 
   components: {
     ToolListItem,
+    ToolLastCreationDialog,
   },
 
   props: {
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
@@ -49,6 +65,7 @@ export default Vue.extend({
     return {
       uuidNIL,
       noSecHash,
+      editMode: Typ.simpleEditMode.Add,
     };
   },
 

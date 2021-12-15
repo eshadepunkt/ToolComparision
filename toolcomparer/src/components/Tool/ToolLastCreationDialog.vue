@@ -48,18 +48,19 @@
             </v-col>
             <v-col xl="1">
               <v-btn @click="btnSave()" color="teal lighten-5">
-                {{ tbtnText }}
+                {{ btnText }}
               </v-btn>
             </v-col>
           </v-row>
         </v-container>
       </v-card>
     </v-dialog>
-    <ToolCriteriumSuitabilityCreationDialog ref="suit_creation" v-if="ToolCriteriumSuitabilityCreationDialog"
+    <ToolCriteriumSuitabilityCreationDialog ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"
+      :showDialog="showDialog"
       :criteria="criteria"
-      v-on:closeDialog="saveAndCloseDialog()"
+      v-on:closeDialog="showDialog = false"
     />
   </div>
 </template>
@@ -97,10 +98,6 @@ export default Vue.extend({
     showDialog: {
       type: Boolean,
       default: false,
-    },
-    btnText: {
-      type: String,
-      default: "Next",
     },
     mode: {
       type: Number as () => Typ.simpleEditMode,
@@ -141,7 +138,7 @@ export default Vue.extend({
 
       noSecHash,
 
-      tbtnText: this.btnText as string,
+      btnText: "Next" as string,
 
       isInSuitabilityCreation: false as boolean,
     };
