@@ -204,7 +204,7 @@ export default Vue.extend({
       }
 
       return toolKV;
-    }
+    },
   },
 
   //DATA

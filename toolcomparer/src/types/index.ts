@@ -18,12 +18,10 @@ export enum simpleModuleState {
 export enum simpleEditMode {
   Add,
   Update,
-  UpdateSingle
+  UpdateSingle,
 }
 
-export function convertStringToEditModeEnum(
-  convert: string
-): simpleEditMode {
+export function convertStringToEditModeEnum(convert: string): simpleEditMode {
   convert = convert.replaceAll(" ", "");
   convert = convert.toLowerCase();
 
@@ -36,9 +34,7 @@ export function convertStringToEditModeEnum(
       return simpleEditMode.Add;
   }
 }
-export function convertEditModeEnumToString(
-  convert: simpleEditMode
-): string {
+export function convertEditModeEnumToString(convert: simpleEditMode): string {
   switch (convert) {
     case simpleEditMode.Update:
       return "Update";
@@ -48,7 +44,6 @@ export function convertEditModeEnumToString(
       return "Add";
   }
 }
-
 
 //CRITERIA
 export enum criteriumImportance {

@@ -122,7 +122,6 @@ export default Vue.extend({
     },
   },
 
-  
   //DATA
   data() {
     return {
@@ -222,9 +221,8 @@ export default Vue.extend({
       }
 
       return suitability;
-    }
+    },
   },
-
 
   //MOUNTED
   mounted: function () {

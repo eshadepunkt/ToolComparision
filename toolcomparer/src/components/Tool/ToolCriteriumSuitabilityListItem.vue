@@ -83,7 +83,8 @@ export default Vue.extend({
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       editMode: Typ.simpleEditMode.UpdateSingle,
       showDialog: false as boolean,
-      suitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
+      suitability:
+        this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
 
       icons: {
         mdiAccount,

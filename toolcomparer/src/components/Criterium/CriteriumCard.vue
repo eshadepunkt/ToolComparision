@@ -218,8 +218,6 @@ export default Vue.extend({
     },
   },
 
-  
-
   //MOUNTED
   mounted: function () {
     this.moduleState = this.propModuleState;

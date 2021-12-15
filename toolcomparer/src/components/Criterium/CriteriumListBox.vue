@@ -76,9 +76,9 @@ export default Vue.extend({
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
       console.log("Lst: Criteria changes detected");
-    this.criteria.forEach(element => {
-      console.log(element.value.name);
-    });
+      this.criteria.forEach((element) => {
+        console.log(element.value.name);
+      });
       return this.criteria;
     },
   },

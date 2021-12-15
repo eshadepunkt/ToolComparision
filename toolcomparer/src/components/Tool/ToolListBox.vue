@@ -7,7 +7,7 @@
         </v-item>
       </v-item-group>
     </v-list>
-    <ToolLastCreationDialog 
+    <ToolLastCreationDialog
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"

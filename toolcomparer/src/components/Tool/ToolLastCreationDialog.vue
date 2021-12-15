@@ -1,6 +1,7 @@
 <template>
   <div id="ToolLastCreation">
-    <v-dialog v-if="!isInSuitabilityCreation"
+    <v-dialog
+      v-if="!isInSuitabilityCreation"
       v-model="showDialog"
       width="33vw"
       hide-overlay
@@ -55,7 +56,8 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <ToolCriteriumSuitabilityCreationDialog ref="suit_creation"
+    <ToolCriteriumSuitabilityCreationDialog
+      ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"
       :showDialog="showDialog"
@@ -150,20 +152,21 @@ export default Vue.extend({
       this.resetToolKV();
       this.closeDialog();
     },
-    btnSave(saveAndCloseDialog: boolean = false) {
-       const toolKV: Typ.toolKeyValue | null = (
-            this.$refs.tool_card as Vue & { getToolKVIfValid: () => Typ.toolKeyValue | null }
-          ).getToolKVIfValid();
-          if (toolKV !== null)  {
-            this.toolKV = toolKV;
+    btnSave(saveAndCloseDialog = false) {
+      const toolKV: Typ.toolKeyValue | null = (
+        this.$refs.tool_card as Vue & {
+          getToolKVIfValid: () => Typ.toolKeyValue | null;
+        }
+      ).getToolKVIfValid();
+      if (toolKV !== null) {
+        this.toolKV = toolKV;
 
-            if (saveAndCloseDialog) {        
-              this.saveAndCloseDialog();
-            }
-            else if (this.mode === Typ.simpleEditMode.Add) {
-              this.isInSuitabilityCreation = true;
-            }
-          }       
+        if (saveAndCloseDialog) {
+          this.saveAndCloseDialog();
+        } else if (this.mode === Typ.simpleEditMode.Add) {
+          this.isInSuitabilityCreation = true;
+        }
+      }
     },
 
     resetToolKV(): void {
@@ -177,31 +180,34 @@ export default Vue.extend({
       };
     },
     saveAndCloseDialog() {
-      const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = 
-      (this.$refs.suit_creation as Vue & { getSuitabilities: () => Array<Typ.toolCriteriumSuitability> }
-        ).getSuitabilities();
-      if (this.mode !== Typ.simpleEditMode.Add
-        || this.criteria.length === updateSuitabilities.length) {
-          const propHash = this.noSecHash(this.propToolKV);
-          const newHash = this.noSecHash(this.toolKV);
-          if (propHash !== newHash) {
-            (this.$refs.tool_card as Vue & { save: () => boolean }
-            ).save();
-          }
-
-          updateSuitabilities.forEach(element => {
-            this.$store.dispatch("updateToolSuitability", {
-                toolKV: this.toolKV,
-                criteriumSuitability: element
-              });
-          });  
+      const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
+        this.$refs.suit_creation as Vue & {
+          getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
+        }
+      ).getSuitabilities();
+      if (
+        this.mode !== Typ.simpleEditMode.Add ||
+        this.criteria.length === updateSuitabilities.length
+      ) {
+        const propHash = this.noSecHash(this.propToolKV);
+        const newHash = this.noSecHash(this.toolKV);
+        if (propHash !== newHash) {
+          (this.$refs.tool_card as Vue & { save: () => boolean }).save();
         }
 
-        this.closeDialog();
+        updateSuitabilities.forEach((element) => {
+          this.$store.dispatch("updateToolSuitability", {
+            toolKV: this.toolKV,
+            criteriumSuitability: element,
+          });
+        });
+      }
+
+      this.closeDialog();
     },
     closeDialog() {
       this.$emit("closeDialog");
-    }
+    },
   },
 });
 </script>
