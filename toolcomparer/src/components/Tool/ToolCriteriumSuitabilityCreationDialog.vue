@@ -230,6 +230,7 @@ export default Vue.extend({
       this.btnNextText = "Next";
 
       let lenght: number = this.criteria.length;
+
       if (this.currentSuitabilityIndex < lenght) {
         if (
           this.updateSuitabilities.length >
@@ -270,7 +271,7 @@ export default Vue.extend({
     },
     getCurrentSuitability(): Typ.toolCriteriumSuitability {
       if (this.currentSuitabilityIndex < 0) {
-        this.setCurrentSuitability;
+        this.setCurrentSuitability();
       }
 
       return this.currentSuitability;

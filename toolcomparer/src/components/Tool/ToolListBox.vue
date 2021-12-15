@@ -71,6 +71,12 @@ export default Vue.extend({
     };
   },
 
+  methods: {
+    closeDialog() {
+      this.$emit("closeDialog");
+    },
+  },
+
   //COMPUTED
   computed: {
     getTools: function (): Array<Typ.toolKeyValue> {
