@@ -49,6 +49,7 @@ export default Vue.extend({
         this.propSuitabilityIndex
       ] as Typ.toolCriteriumSuitability,
       uuidNIL,
+      Typ,
     };
   },
 

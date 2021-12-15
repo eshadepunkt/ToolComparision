@@ -140,6 +140,33 @@ export default Vue.extend({
     },
   },
 
+  //DATA
+  data() {
+    return {
+      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
+      moduleState: this.propModuleState as Typ.simpleModuleState,
+
+      rules: {
+        required: (value: boolean | string) => !!value || "Required",
+        str: [
+          (val: string) => (val || "").length > 0 || "This field is required",
+        ],
+      },
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiContentSaveEdit,
+        mdiFileRestoreOutline,
+      },
+      Typ,
+
+      isValid: true as boolean,
+    };
+  },
+
   //METHODS
   methods: {
     isMinimized(): boolean {
@@ -207,31 +234,7 @@ export default Vue.extend({
     },
   },
 
-  //DATA
-  data() {
-    return {
-      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
-      moduleState: this.propModuleState as Typ.simpleModuleState,
-
-      rules: {
-        required: (value: boolean | string) => !!value || "Required",
-        str: [
-          (val: string) => (val || "").length > 0 || "This field is required",
-        ],
-      },
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-        mdiContentSaveEdit,
-        mdiFileRestoreOutline,
-      },
-
-      isValid: true as boolean,
-    };
-  },
+  
 
   //MOUNTED
   mounted: function () {

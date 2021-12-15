@@ -110,6 +110,7 @@ export default Vue.extend({
       btnAddTxt: "" as string,
       btnAddNavi: "" as string,
       uuidNIL,
+      Typ,
     };
   },
 

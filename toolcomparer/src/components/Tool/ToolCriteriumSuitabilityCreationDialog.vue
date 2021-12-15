@@ -138,6 +138,7 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiContentSaveEdit,
       },
+      Typ,
       noSecHash,
       suitabilityHash: "" as string,
 

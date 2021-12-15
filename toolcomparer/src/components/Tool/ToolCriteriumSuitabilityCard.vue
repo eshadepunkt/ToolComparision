@@ -157,6 +157,7 @@ export default Vue.extend({
         mdiContentSaveEdit,
         mdiFileRestoreOutline,
       },
+      Typ,
 
       isValid: true as boolean,
     };

@@ -117,6 +117,7 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiContentSaveEdit,
       },
+      Typ,
     };
   },
 

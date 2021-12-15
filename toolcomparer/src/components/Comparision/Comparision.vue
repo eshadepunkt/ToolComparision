@@ -103,6 +103,7 @@ export default Vue.extend({
 
       maxScore: -1 as number,
       uuidNIL,
+      Typ,
 
       search: "",
       sortDesc: true,

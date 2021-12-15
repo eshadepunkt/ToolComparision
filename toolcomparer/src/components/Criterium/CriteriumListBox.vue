@@ -61,6 +61,7 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      Typ,
       noSecHash,
       editMode: Typ.simpleEditMode.Add,
     };

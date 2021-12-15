@@ -93,6 +93,7 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
+      Typ,
     };
   },
 

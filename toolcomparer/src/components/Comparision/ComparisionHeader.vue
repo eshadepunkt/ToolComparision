@@ -69,6 +69,7 @@ export default Vue.extend({
       hsearch: this.search,
       hsortDesc: this.sortDesc,
       hsortBy: this.sortBy,
+      Typ,
     };
   },
 
