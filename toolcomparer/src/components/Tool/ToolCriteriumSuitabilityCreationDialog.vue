@@ -184,7 +184,7 @@ export default Vue.extend({
               this.resetToolKV();
               this.closeDialog();
             }
-            else if (this.mode === Typ.simpleEditMode.Add) {            
+            else {            
               this.setCurrentSuitability();
 
               if (this.currentSuitabilityIndex >= this.criteria.length) {
@@ -257,10 +257,11 @@ export default Vue.extend({
         this.suitabilityHash = noSecHash(this.currentSuitability);
 
         if (this.currentSuitabilityIndex === lenght - 1) {
-          this.btnNextText = "Save All";
+          this.btnNextText = (this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All");
         }
         else if (this.updateSingle) {
-          this.btnPrevText = "Cancel"
+          this.btnPrevText = "Cancel";
+          this.btnNextText = "Update";
         }
       }
     },
