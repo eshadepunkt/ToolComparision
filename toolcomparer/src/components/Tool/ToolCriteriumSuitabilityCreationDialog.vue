@@ -14,8 +14,7 @@
             <v-col xl="11">
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
-                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium
-                  suitability
+                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium suitability
                 </h1>
               </v-card>
             </v-col>
@@ -42,7 +41,7 @@
             </v-col>
             <v-col xl="1">
               <v-btn
-                v-if="Typ.convertEditModeEnumToString(mode) === 'Update'"
+                v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
                 color="blue lighten-5"
               >
@@ -51,7 +50,6 @@
             </v-col>
             <v-col xl="1">
               <v-btn
-                v-if="!updateSingle"
                 @click="btnSave()"
                 color="teal lighten-5"
               >

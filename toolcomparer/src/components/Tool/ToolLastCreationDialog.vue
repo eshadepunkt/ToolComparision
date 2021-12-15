@@ -40,7 +40,7 @@
             </v-col>
             <v-col xl="1">
               <v-btn
-                v-if="Typ.convertEditModeEnumToString(mode) === 'Update'"
+                v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
                 color="blue lighten-5"
               >
