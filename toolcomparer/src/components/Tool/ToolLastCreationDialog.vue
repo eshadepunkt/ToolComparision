@@ -53,6 +53,10 @@
         </v-container>
       </v-card>
     </v-dialog>
+    <ToolCriteriumSuitabilityCreationDialog ref="suit_creation" v-if="ToolCriteriumSuitabilityCreationDialog"
+      :propToolKV="toolKV"
+      v-on:closeDialog="saveAndCloseDialog()"
+    />
   </div>
 </template>
 
@@ -74,12 +78,14 @@ import {
 import Vue from "vue";
 
 import ToolCard from "./ToolCard.vue";
+import ToolCriteriumSuitabilityCreationDialog from "./ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolLastCreation",
 
   components: {
     ToolCard,
+    ToolCriteriumSuitabilityCreationDialog,
   },
 
   //PROPS
@@ -109,6 +115,9 @@ export default Vue.extend({
         } as Typ.toolKeyValue;
       },
     },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
   },
 
   //DATA
@@ -127,7 +136,6 @@ export default Vue.extend({
       },
 
       noSecHash,
-      toolKVHash: "" as string,
 
       tbtnText: this.btnText as string,
 
@@ -141,19 +149,17 @@ export default Vue.extend({
       this.resetToolKV();
       this.closeDialog();
     },
-    btnSave(closeDialog: boolean = false) {
+    btnSave(saveAndCloseDialog: boolean = false) {
        const toolKV: Typ.toolKeyValue | null = (
             this.$refs.tool_card as Vue & { getToolKVIfValid: () => Typ.toolKeyValue | null }
           ).getToolKVIfValid();
           if (toolKV !== null)  {
             this.toolKV = toolKV;
 
-            if (closeDialog || this.mode !== "Add") {
-              (this.$refs.tool_card as Vue & { save: () => boolean }).save();
-              this.closeDialog();
+            if (saveAndCloseDialog) {        
+              this.saveAndCloseDialog();
             }
             else if (this.mode === "Add") {
-              this.toolKVHash = this.noSecHash(this.toolKV);
               this.isInSuitabilityCreation = true;
             }
           }       
@@ -169,9 +175,32 @@ export default Vue.extend({
         } as Typ.tool,
       };
     },
+    saveAndCloseDialog() {
+      const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = 
+      (this.$refs.suit_creation as Vue & { getSuitabilities: () => Array<Typ.toolCriteriumSuitability> }
+        ).getSuitabilities();
+      if (this.mode !== "Add" 
+        || this.criteria.length === updateSuitabilities.length) {
+          const propHash = this.noSecHash(this.propToolKV);
+          const newHash = this.noSecHash(this.toolKV);
+          if (propHash !== newHash) {
+            (this.$refs.tool_card as Vue & { save: () => boolean }
+            ).save();
+          }
+
+          updateSuitabilities.forEach(element => {
+            this.$store.dispatch("updateToolSuitability", {
+                toolKV: this.toolKV,
+                criteriumSuitability: element
+              });
+          });  
+        }
+
+        this.closeDialog();
+    },
     closeDialog() {
       this.$emit("closeDialog");
-    },
+    }
   },
 });
 </script>
