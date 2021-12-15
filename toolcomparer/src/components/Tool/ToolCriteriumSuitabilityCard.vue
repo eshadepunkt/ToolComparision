@@ -46,6 +46,7 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="6em"
               outlined
               label="Criterium description"
               v-model="toolCriteriumSuitability.criteriumKV.value.description"
@@ -77,6 +78,7 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="6em"
               outlined
               label="Justification"
               v-model="toolCriteriumSuitability.justification"

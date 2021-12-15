@@ -2,6 +2,7 @@
   <div id="ToolCriteriumSuitabilityCreation">
     <v-dialog
       v-model="showDialog"
+      height="67vh"
       width="33vw"
       hide-overlay
       persistent
@@ -231,6 +232,7 @@ export default Vue.extend({
 
       let lenght: number = this.criteria.length;
 
+      console.log("Onamae: " + this.propToolKV.value.name);
       console.log("CRITL: " + lenght);
 
       if (this.currentSuitabilityIndex < lenght) {
@@ -238,6 +240,9 @@ export default Vue.extend({
           this.updateSuitabilities.length >
           this.currentSuitabilityIndex + 1
         ) {
+          this.currentSuitability =
+            this.updateSuitabilities[this.currentSuitabilityIndex];
+        } else {
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
@@ -251,9 +256,6 @@ export default Vue.extend({
                   fullfillment: Typ.toolCriteriumFullfillment.undefined,
                   justification: "" as string,
                 };
-        } else {
-          this.currentSuitability =
-            this.updateSuitabilities[this.currentSuitabilityIndex];
         }
 
         (

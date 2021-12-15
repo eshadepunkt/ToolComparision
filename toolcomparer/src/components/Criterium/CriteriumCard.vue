@@ -50,6 +50,7 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="6em"
               outlined
               label="Description"
               v-model="criteriumKV.value.description"

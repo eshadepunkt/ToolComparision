@@ -3,6 +3,7 @@
     <v-dialog
       v-if="!isInSuitabilityCreation"
       v-model="showDialog"
+      height="67vh"
       width="33vw"
       hide-overlay
       persistent
