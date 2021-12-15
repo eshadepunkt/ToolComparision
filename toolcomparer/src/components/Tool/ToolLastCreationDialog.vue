@@ -56,13 +56,14 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <ToolCriteriumSuitabilityCreationDialog v-if="isInSuitabilityCreation"
+    <ToolCriteriumSuitabilityCreationDialog
+      v-if="isInSuitabilityCreation"
       ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"
       :showDialog="showDialog"
       :criteria="criteria"
-      v-on:closeDialog="showDialog = false"
+      v-on:closeDialog="saveAndCloseDialog"
     />
   </div>
 </template>
@@ -180,7 +181,11 @@ export default Vue.extend({
         } as Typ.tool,
       };
     },
-    saveAndCloseDialog() {
+    saveAndCloseDialog(finished = true) {
+      if (!finished) {
+        this.isInSuitabilityCreation = false;
+        return;
+      }
       const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
         this.$refs.suit_creation as Vue & {
           getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
@@ -202,9 +207,9 @@ export default Vue.extend({
             criteriumSuitability: element,
           });
         });
+
+        this.closeDialog();
       }
-   
-      this.closeDialog();
     },
     closeDialog() {
       this.isInSuitabilityCreation = false;

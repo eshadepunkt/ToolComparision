@@ -14,7 +14,8 @@
             <v-col xl="11">
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
-                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium suitability
+                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium
+                  suitability
                 </h1>
               </v-card>
             </v-col>
@@ -49,10 +50,7 @@
               </v-btn>
             </v-col>
             <v-col xl="1">
-              <v-btn
-                @click="btnSave()"
-                color="teal lighten-5"
-              >
+              <v-btn @click="btnSave()" color="teal lighten-5">
                 {{ btnNextText }}
               </v-btn>
             </v-col>
@@ -278,7 +276,11 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog() {
-      this.$emit("closeDialog");
+      let finished = false;
+      if (this.currentSuitabilityIndex >= this.criteria.length) {
+        finished = true;
+      }
+      this.$emit("closeDialog", finished);
     },
     getSuitabilities(): Array<Typ.toolCriteriumSuitability> {
       return this.updateSuitabilities;
