@@ -56,7 +56,7 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <ToolCriteriumSuitabilityCreationDialog
+    <ToolCriteriumSuitabilityCreationDialog v-if="isInSuitabilityCreation"
       ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"
@@ -203,10 +203,11 @@ export default Vue.extend({
           });
         });
       }
-
+   
       this.closeDialog();
     },
     closeDialog() {
+      this.isInSuitabilityCreation = false;
       this.$emit("closeDialog");
     },
   },

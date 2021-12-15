@@ -11,6 +11,7 @@
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
+      :criteria="criteria"
       v-on:closeDialog="closeDialog()"
     />
   </div>
