@@ -27,7 +27,6 @@
                   ref="tool_card"
                   :propToolCriteriumSuitability="currentSuitability"
                   :propModuleState="moduleState"
-                  @update_tool_suitability="updateCurrentSuitability"
                 />
               </v-card>
             </v-col>
@@ -66,8 +65,10 @@
 </template>
 
 <script lang="ts">
-import { v4 as uuidv4 } from "uuid";
+import { stringify, v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
+
 
 import * as Typ from "../../types/index";
 import {
@@ -113,6 +114,7 @@ export default Vue.extend({
       toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
 
       currentSuitability: {} as Typ.toolCriteriumSuitability,
+      suitabilityHash: "" as string,
       currentSuitabilityIndex: -1 as number,
       updateSuitabilities: Array<Typ.toolCriteriumSuitability>(),
 
@@ -128,6 +130,7 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiContentSaveEdit,
       },
+      noSecHash,
 
       btnText: "Next" as string,
       mode: "Add" as string,
@@ -162,13 +165,23 @@ export default Vue.extend({
       if (suitability !== null) {
         this.currentSuitability = suitability;
 
-         if (closeDialog || this.mode !== "Add") {
-              (this.$refs.tool_card as Vue & { save: () => boolean }).save();
+        const newHash: string = noSecHash(this.currentSuitability);
+        if (this.suitabilityHash !== newHash) {
+           this.updateSuitabilities.push(this.currentSuitability);
+        }   
+
+         if (closeDialog) {
+              this.updateSuitabilities.forEach(element => {
+                this.$store.dispatch("updateToolSuitability", {
+                    toolKV: this.toolKV,
+                    criteriumSuitability: element
+                  });
+              });
+              
+              this.resetToolKV();
               this.closeDialog();
             }
-            else if (this.mode === "Add") {
-              this.updateSuitabilities.push(this.currentSuitability);
-
+            else if (this.mode === "Add") {            
               this.setCurrentSuitability();
 
               if (this.currentSuitabilityIndex >= this.criteria.length) {
@@ -234,17 +247,19 @@ export default Vue.extend({
           this.$refs.tool_card as Vue & { resetValidation: () => boolean }
         ).resetValidation();
 
+        this.suitabilityHash = noSecHash(this.currentSuitability);
+
         if (this.currentSuitabilityIndex === lenght - 1) {
           this.btnText = "Save All";
         }
       }
     },
-    updateCurrentSuitability(newVal: Typ.toolCriteriumSuitability) {
-      this.currentSuitability = newVal;
-    },
     closeDialog() {
       this.$emit("closeDialog");
     },
+    getSuitabilities(): Array<Typ.toolCriteriumSuitability> {
+      return this.updateSuitabilities;
+    }
   },
 
   //MOUNTED
