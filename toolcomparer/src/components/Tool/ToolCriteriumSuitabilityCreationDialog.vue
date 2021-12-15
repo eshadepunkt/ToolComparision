@@ -231,6 +231,8 @@ export default Vue.extend({
 
       let lenght: number = this.criteria.length;
 
+      console.log("CRITL: " + lenght);
+
       if (this.currentSuitabilityIndex < lenght) {
         if (
           this.updateSuitabilities.length >

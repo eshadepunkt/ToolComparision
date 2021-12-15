@@ -228,5 +228,14 @@ export default Vue.extend({
 
     this.resetValidation();
   },
+
+  //WATCH
+  watch: {
+    propCriteriumKV: function(newVal: Typ.criteriumKeyValue) {
+      this.criteriumKV = newVal;
+      this.selectedImportance = "";
+      this.resetValidation();
+    }
+  }
 });
 </script>

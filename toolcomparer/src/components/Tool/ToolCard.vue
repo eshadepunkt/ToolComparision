@@ -243,5 +243,13 @@ export default Vue.extend({
 
     this.resetValidation();
   },
+
+  //WATCH
+  watch: {
+    propToolKV: function(newVal: Typ.toolKeyValue) {
+      this.toolKV = newVal;
+      this.resetValidation();
+    }
+  }
 });
 </script>

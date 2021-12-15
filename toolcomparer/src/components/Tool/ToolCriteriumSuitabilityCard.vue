@@ -234,5 +234,13 @@ export default Vue.extend({
 
     this.resetValidation();
   },
+
+  //WATCH
+  watch: {
+    propToolCriteriumSuitability: function(newVal: Typ.toolCriteriumSuitability) {
+      this.toolCriteriumSuitability = newVal;
+      this.resetValidation();
+    }
+  }
 });
 </script>
