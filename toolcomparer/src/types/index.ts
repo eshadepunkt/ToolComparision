@@ -18,7 +18,37 @@ export enum simpleModuleState {
 export enum simpleEditMode {
   Add,
   Update,
+  UpdateSingle
 }
+
+export function convertStringToEditModeEnum(
+  convert: string
+): simpleEditMode {
+  convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
+
+  switch (convert) {
+    case "update":
+      return simpleEditMode.Update;
+    case "updatesingle":
+      return simpleEditMode.UpdateSingle;
+    default:
+      return simpleEditMode.Add;
+  }
+}
+export function convertEditModeEnumToString(
+  convert: simpleEditMode
+): string {
+  switch (convert) {
+    case simpleEditMode.Update:
+      return "Update";
+    case simpleEditMode.UpdateSingle:
+      return "Update single";
+    default:
+      return "Add";
+  }
+}
+
 
 //CRITERIA
 export enum criteriumImportance {
@@ -33,6 +63,7 @@ export function convertStringToImportanceEnum(
   convert: string
 ): criteriumImportance {
   convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
 
   switch (convert) {
     case "veryimportant":
@@ -115,6 +146,7 @@ export function convertStringToFullfillmentEnum(
   convert: string
 ): toolCriteriumFullfillment {
   convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
 
   switch (convert) {
     case "verygood":

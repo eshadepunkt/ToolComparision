@@ -39,6 +39,9 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
   },
 
   //DATA

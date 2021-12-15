@@ -14,7 +14,7 @@
             <v-col xl="11">
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
-                  {{ mode }} tool criterium suitability
+                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium suitability
                 </h1>
               </v-card>
             </v-col>
@@ -41,7 +41,7 @@
             </v-col>
             <v-col xl="1">
               <v-btn
-                v-if="mode === 'Update'"
+                v-if="Typ.convertEditModeEnumToString(mode) === 'Update'"
                 @click="btnSave(true)"
                 color="blue lighten-5"
               >
@@ -111,12 +111,8 @@ export default Vue.extend({
     },
 
     mode: {
-      type: String,
-      default: "Add",
-    },
-    updateSingle: {
-      type: Boolean,
-      default: false,
+      type: Number as () => Typ.simpleEditMode,
+      default: Typ.simpleEditMode.Add,
     },
   },
 
@@ -144,7 +140,6 @@ export default Vue.extend({
 
       btnPrevText: "Go Back" as string,
       btnNextText: "Next" as string,
-      mode: "Add" as string,
       updateSingle: false as boolean,
     };
   },
@@ -152,7 +147,7 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnGoBack() {
-      if (this.updateSingle) {
+      if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
         this.resetToolKV();
         this.closeDialog();
@@ -189,7 +184,7 @@ export default Vue.extend({
               this.resetToolKV();
               this.closeDialog();
             }
-            else if (this.mode === "Add") {            
+            else if (this.mode === Typ.simpleEditMode.Add) {            
               this.setCurrentSuitability();
 
               if (this.currentSuitabilityIndex >= this.criteria.length) {

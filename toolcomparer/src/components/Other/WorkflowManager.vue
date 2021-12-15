@@ -10,6 +10,7 @@
     <ToolListBox
       v-else-if="currentListBox === 'Tools'"
       :tools="tools"
+      :criteria="criteria"
       :showDialog="showDialog"
       :workflow="workflow"
       v-on:closeDialog="closeDialog()"

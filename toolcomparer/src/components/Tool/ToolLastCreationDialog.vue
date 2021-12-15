@@ -13,7 +13,9 @@
           <v-row>
             <v-col xl="12">
               <v-card color="indigo darken-4">
-                <h1 style="text-align: center; color: white">{{ mode }} tool</h1>
+                <h1 style="text-align: center; color: white">
+                  {{ Typ.convertEditModeEnumToString(mode) }} tool
+                </h1>
               </v-card>
             </v-col>
           </v-row>
@@ -37,7 +39,7 @@
             </v-col>
             <v-col xl="1">
               <v-btn
-                v-if="mode === 'Update'"
+                v-if="Typ.convertEditModeEnumToString(mode) === 'Update'"
                 @click="btnSave(true)"
                 color="blue lighten-5"
               >
@@ -55,6 +57,8 @@
     </v-dialog>
     <ToolCriteriumSuitabilityCreationDialog ref="suit_creation" v-if="ToolCriteriumSuitabilityCreationDialog"
       :propToolKV="toolKV"
+      :mode="mode"
+      :criteria="criteria"
       v-on:closeDialog="saveAndCloseDialog()"
     />
   </div>
@@ -99,8 +103,8 @@ export default Vue.extend({
       default: "Next",
     },
     mode: {
-      type: String,
-      default: "Add",
+      type: Number as () => Typ.simpleEditMode,
+      default: Typ.simpleEditMode.Add,
     },
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
@@ -159,7 +163,7 @@ export default Vue.extend({
             if (saveAndCloseDialog) {        
               this.saveAndCloseDialog();
             }
-            else if (this.mode === "Add") {
+            else if (this.mode === Typ.simpleEditMode.Add) {
               this.isInSuitabilityCreation = true;
             }
           }       
@@ -179,7 +183,7 @@ export default Vue.extend({
       const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = 
       (this.$refs.suit_creation as Vue & { getSuitabilities: () => Array<Typ.toolCriteriumSuitability> }
         ).getSuitabilities();
-      if (this.mode !== "Add" 
+      if (this.mode !== Typ.simpleEditMode.Add
         || this.criteria.length === updateSuitabilities.length) {
           const propHash = this.noSecHash(this.propToolKV);
           const newHash = this.noSecHash(this.toolKV);

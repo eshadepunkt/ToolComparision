@@ -10,7 +10,7 @@
     <CriteriumFirstCreationDialog
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
-      :btnText="'Add'"
+      :mode="editMode"
       v-on:closeDialog="closeDialog()"
     />
   </div>
@@ -62,6 +62,7 @@ export default Vue.extend({
     return {
       uuidNIL,
       noSecHash,
+      editMode: Typ.simpleEditMode.Add,
     };
   },
 

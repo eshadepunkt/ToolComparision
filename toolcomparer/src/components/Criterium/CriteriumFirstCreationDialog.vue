@@ -14,7 +14,7 @@
             <v-col xl="3">
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
-                  {{ btnText }} Criterium
+                  {{ Typ.convertEditModeEnumToString(mode) }} Criterium
                 </h1>
               </v-card>
             </v-col>
@@ -40,7 +40,7 @@
             <v-col xl="1"> </v-col>
             <v-col xl="1">
               <v-btn @click="btnSave()" color="teal lighten-5">
-                {{ btnText }}
+                {{ Typ.convertEditModeEnumToString(mode) }}
               </v-btn>
             </v-col>
           </v-row>
@@ -81,9 +81,9 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
-    btnText: {
-      type: String,
-      default: "Add",
+    mode: {
+      type: Number as () => Typ.simpleEditMode,
+      default: Typ.simpleEditMode.Add,
     },
     propCriteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,

@@ -71,6 +71,9 @@ export default Vue.extend({
       type: Object as () => Typ.toolRating,
       default: undefined,
     },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
+    },
   },
 
   //DATA
