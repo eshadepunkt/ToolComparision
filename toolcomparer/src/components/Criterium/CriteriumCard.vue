@@ -216,12 +216,15 @@ export default Vue.extend({
         this.$store.dispatch("updateCriterium", this.criteriumKV);
       }
 
+      this.criteriumKV = this.propCriteriumKV;
+
       return isValid;
     },
   },
 
   //MOUNTED
   mounted: function () {
+    this.criteriumKV = this.propCriteriumKV;
     this.moduleState = this.propModuleState;
     this.selectedImportance = Typ.convertImportanceEnumToString(
       this.propCriteriumKV.value.importance

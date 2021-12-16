@@ -241,6 +241,7 @@ export default Vue.extend({
   watch: {
     propToolCriteriumSuitability: function(newVal: Typ.toolCriteriumSuitability) {
       this.toolCriteriumSuitability = newVal;
+      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(this.toolCriteriumSuitability.fullfillment);
       this.resetValidation();
     }
   }

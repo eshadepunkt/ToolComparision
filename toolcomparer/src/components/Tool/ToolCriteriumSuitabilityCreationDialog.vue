@@ -160,7 +160,7 @@ export default Vue.extend({
         }
       }
     },
-    btnSave(closeDialog = true) {
+    btnSave(closeDialog = false) {
       const suitability: Typ.toolCriteriumSuitability | null = (
         this.$refs.tool_card as Vue & {
           getSuitabilityIfValid: () => Typ.toolCriteriumSuitability | null;
@@ -170,6 +170,7 @@ export default Vue.extend({
         this.currentSuitability = suitability;
 
         const newHash: string = noSecHash(this.currentSuitability);
+        console.log(this.suitabilityHash + "  : " + newHash);
         if (this.suitabilityHash !== newHash) {
           this.updateSuitabilities.push(this.currentSuitability);
         }
@@ -231,18 +232,17 @@ export default Vue.extend({
       this.btnNextText = "Next";
 
       let lenght: number = this.criteria.length;
-
-      console.log("Onamae: " + this.propToolKV.value.name);
-      console.log("CRITL: " + lenght);
-
       if (this.currentSuitabilityIndex < lenght) {
+        console.log("CI vs L: " + this.currentSuitabilityIndex + " : " + lenght);
         if (
           this.updateSuitabilities.length >
           this.currentSuitabilityIndex + 1
         ) {
+          console.log("Load updated");
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
         } else {
+          console.log("Load new or existing");
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
@@ -261,6 +261,8 @@ export default Vue.extend({
         (
           this.$refs.tool_card as Vue & { resetValidation: () => boolean }
         ).resetValidation();
+
+        console.log("SUITI: " + this.currentSuitabilityIndex);
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
 

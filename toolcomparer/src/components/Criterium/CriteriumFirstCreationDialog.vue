@@ -125,7 +125,6 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnCancel() {
-      this.resetCriteriumKV();
       this.closeDialog();
     },
     btnSave() {
@@ -133,22 +132,11 @@ export default Vue.extend({
         this.$refs.criterium_card as Vue & { save: () => boolean }
       ).save();
       if (isSuccessful) {
-        this.resetCriteriumKV();
         this.closeDialog();
       }
     },
-    resetCriteriumKV(): void {
-      this.criteriumKV = {
-        key: uuidv4() as string,
-        value: {
-          name: "",
-          description: "",
-          importance: Typ.criteriumImportance.undefined,
-          isExclusionCriterium: false,
-        } as Typ.criterium,
-      };
-    },
     closeDialog() {
+      this.criteriumKV = this.propCriteriumKV;
       this.$emit("closeDialog");
     },
   },
