@@ -139,7 +139,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: this.propCriteriumKV as Typ.criteriumKeyValue,
+      criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
       importanceItems: [
@@ -211,33 +211,31 @@ export default Vue.extend({
       const isValid: boolean = this.validate();
       if (isValid) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
+
+        this.resetCriteriumKV();
       }
 
-      this.criteriumKV = this.propCriteriumKV;
-
       return isValid;
+    },
+    resetCriteriumKV(): void {
+      this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
+      this.selectedImportance = Typ.convertImportanceEnumToString(
+      this.propCriteriumKV.value.importance
+    );
+
+    this.resetValidation();
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.criteriumKV = this.propCriteriumKV;
-    this.moduleState = this.propModuleState;
-    this.selectedImportance = Typ.convertImportanceEnumToString(
-      this.propCriteriumKV.value.importance
-    );
-
-    this.resetValidation();
+    this.resetCriteriumKV();
   },
 
   //WATCH
   watch: {
-    propCriteriumKV: function(newVal: Typ.criteriumKeyValue) {
-      this.criteriumKV = newVal;
-      this.selectedImportance = Typ.convertImportanceEnumToString(
-      this.criteriumKV.value.importance
-    );
-      this.resetValidation();
+    propCriteriumKV: function() {
+      this.resetCriteriumKV();
     }
   }
 });

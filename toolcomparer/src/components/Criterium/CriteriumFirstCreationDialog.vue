@@ -26,7 +26,7 @@
               <v-card outlined>
                 <CriteriumCard
                   ref="criterium_card"
-                  :propCriteriumKV="propCriteriumKV"
+                  :propCriteriumKV="criteriumKV"
                   :propModuleState="moduleState"
                 />
               </v-card>
@@ -105,6 +105,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
+      criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
       icons: {
@@ -133,8 +134,25 @@ export default Vue.extend({
       }
     },
     closeDialog() {
+      
+      this.criteriumKV.key = uuidv4();
       this.$emit("closeDialog");
     },
+    resetCriteriumKV() {
+      this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
+      if (this.criteriumKV.value.name === ""
+        && this.criteriumKV.value.description === ""
+        && this.criteriumKV.value.importance === Typ.criteriumImportance.undefined) {
+          this.criteriumKV.key = uuidv4();
+        }
+    }
   },
+
+  //WATCH
+  watch: {
+    propCriteriumKV: function() {
+      this.resetCriteriumKV();
+    }
+  }
 });
 </script>
