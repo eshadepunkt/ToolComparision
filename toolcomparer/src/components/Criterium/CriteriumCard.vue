@@ -220,10 +220,15 @@ export default Vue.extend({
     resetCriteriumKV(): void {
       this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
       this.selectedImportance = Typ.convertImportanceEnumToString(
-      this.propCriteriumKV.value.importance
-    );
+        this.propCriteriumKV.value.importance
+      );
+      if (this.criteriumKV.value.name === ""
+        && this.criteriumKV.value.description === ""
+        && this.criteriumKV.value.importance === Typ.criteriumImportance.undefined) {
+          this.criteriumKV.key = uuidv4();
+      }
 
-    this.resetValidation();
+      this.resetValidation();
     },
   },
 
@@ -234,8 +239,11 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriteriumKV: function() {
-      this.resetCriteriumKV();
+    propCriteriumKV: {
+      handler() {
+        this.resetCriteriumKV();
+      },
+      deep: true,
     }
   }
 });

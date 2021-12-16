@@ -150,8 +150,11 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propCriteriumKV: function() {
-      this.resetCriteriumKV();
+    propCriteriumKV: {
+      handler() {
+        this.resetCriteriumKV();
+      },
+      deep: true,
     }
   }
 });
