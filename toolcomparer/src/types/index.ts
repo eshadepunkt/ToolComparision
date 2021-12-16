@@ -67,8 +67,10 @@ export function convertStringToImportanceEnum(
       return criteriumImportance.important;
     case "neutral":
       return criteriumImportance.neutral;
-    default:
+    case "unimportant":
       return criteriumImportance.unimportant;
+    default:
+      return criteriumImportance.undefined;
   }
 }
 export function convertImportanceEnumToString(
@@ -154,8 +156,10 @@ export function convertStringToFullfillmentEnum(
       return toolCriteriumFullfillment.bad;
     case "verybad":
       return toolCriteriumFullfillment.verybad;
-    default:
+    case "doesnot":
       return toolCriteriumFullfillment.doesnot;
+    default:
+      return toolCriteriumFullfillment.undefined;
   }
 }
 

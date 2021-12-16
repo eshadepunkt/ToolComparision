@@ -171,17 +171,6 @@ export default Vue.extend({
         }
       }
     },
-
-    resetToolKV(): void {
-      this.toolKV = {
-        key: uuidv4() as string,
-        value: {
-          name: "",
-          description: "",
-          criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
-        } as Typ.tool,
-      };
-    },
     saveAndCloseDialog(finished = true) {
       if (!finished) {
         this.isInSuitabilityCreation = false;
@@ -216,6 +205,23 @@ export default Vue.extend({
       this.isInSuitabilityCreation = false;
       this.$emit("closeDialog");
     },
+    resetToolKV() {
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
+      if (this.toolKV.value.name === ""
+        && this.toolKV.value.description === "") {
+          this.toolKV.key = uuidv4();
+      }
+    },
   },
+
+  //WATCH
+  watch: {
+    propToolKV: {
+      handler() {
+        this.resetToolKV();
+      },
+      deep: true,
+    }
+  }
 });
 </script>

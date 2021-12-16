@@ -133,9 +133,8 @@ export default Vue.extend({
         this.closeDialog();
       }
     },
-    closeDialog() {
-      
-      this.criteriumKV.key = uuidv4();
+    closeDialog() {    
+      this.resetCriteriumKV();
       this.$emit("closeDialog");
     },
     resetCriteriumKV() {

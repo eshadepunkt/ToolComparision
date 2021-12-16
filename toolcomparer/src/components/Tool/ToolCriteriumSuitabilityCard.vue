@@ -225,24 +225,25 @@ export default Vue.extend({
 
       return suitability;
     },
+    resetSuitability() {
+      this.toolCriteriumSuitability = JSON.parse(JSON.stringify(this.propToolCriteriumSuitability));
+      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(this.toolCriteriumSuitability.fullfillment);
+      this.resetValidation();
+    }
   },
 
   //MOUNTED
   mounted: function () {
-    this.moduleState = this.propModuleState;
-    this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-      this.toolCriteriumSuitability.fullfillment
-    );
-
-    this.resetValidation();
+    this.resetSuitability();
   },
 
   //WATCH
   watch: {
-    propToolCriteriumSuitability: function(newVal: Typ.toolCriteriumSuitability) {
-      this.toolCriteriumSuitability = newVal;
-      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(this.toolCriteriumSuitability.fullfillment);
-      this.resetValidation();
+    propToolCriteriumSuitability:  {
+      handler() {
+        this.resetSuitability();
+      },
+      deep: true,  
     }
   }
 });

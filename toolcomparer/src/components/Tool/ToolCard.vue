@@ -220,6 +220,7 @@ export default Vue.extend({
       const isValid: boolean = this.validate();
       if (isValid) {
         this.$store.dispatch("updateTool", this.toolKV);
+        this.resetToolKV();
       }
 
       return isValid;
@@ -233,23 +234,29 @@ export default Vue.extend({
 
       return toolKV;
     },
+    resetToolKV() {
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
+      if (this.toolKV.value.name === ""
+        && this.toolKV.value.description === "") {
+          this.toolKV.key = uuidv4();
+      }
+
+      this.resetValidation();
+    },
   },
 
   //MOUNTED
   mounted: function () {
-    this.moduleState = this.propModuleState;
-    if (this.propToolRating !== undefined) {
-      this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.toolKV));
-    }
-
-    this.resetValidation();
+    this.resetToolKV();
   },
 
   //WATCH
   watch: {
-    propToolKV: function(newVal: Typ.toolKeyValue) {
-      this.toolKV = newVal;
-      this.resetValidation();
+    propToolKV: {
+      handler() {
+        this.resetToolKV();
+      },
+      deep: true,
     }
   }
 });

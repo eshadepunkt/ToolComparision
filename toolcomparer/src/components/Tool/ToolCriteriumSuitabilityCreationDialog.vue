@@ -149,7 +149,6 @@ export default Vue.extend({
     btnGoBack() {
       if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
-        this.resetToolKV();
         this.closeDialog();
       } else {
         this.currentSuitabilityIndex -= 2;
@@ -182,30 +181,16 @@ export default Vue.extend({
               criteriumSuitability: element,
             });
           });
-
-          this.resetToolKV();
           this.closeDialog();
         } else {
           this.setCurrentSuitability();
 
           if (this.currentSuitabilityIndex >= this.criteria.length) {
             this.currentSuitabilityIndex = -1;
-            this.resetToolKV();
             this.closeDialog();
           }
         }
       }
-    },
-
-    resetToolKV(): void {
-      this.toolKV = {
-        key: uuidv4() as string,
-        value: {
-          name: "" as string,
-          description: "" as string,
-          criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
-        } as Typ.tool,
-      };
     },
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
       let currentCriteria: Array<Typ.criteriumKeyValue> = this.criteria;
@@ -287,11 +272,30 @@ export default Vue.extend({
       if (this.currentSuitabilityIndex >= this.criteria.length) {
         finished = true;
       }
+
+      this.resetToolKV();
       this.$emit("closeDialog", finished);
     },
     getSuitabilities(): Array<Typ.toolCriteriumSuitability> {
       return this.updateSuitabilities;
     },
+    resetToolKV() {
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
+      if (this.toolKV.value.name === ""
+        && this.toolKV.value.description === "") {
+          this.toolKV.key = uuidv4();
+      }
+    },
   },
+
+  //WATCH
+  watch: {
+    propToolKV: {
+      handler() {
+        this.resetToolKV();
+      },
+      deep: true,
+    }
+  }
 });
 </script>
