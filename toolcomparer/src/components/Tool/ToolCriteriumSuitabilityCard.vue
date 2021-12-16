@@ -177,7 +177,6 @@ export default Vue.extend({
       let stateEnum = Typ.convertStringToModuleStateEnum(state);
       this.moduleState = stateEnum;
     },
-
     updateFullfillment(fullfillment: string): void {
       let fullfillmentEnum: Typ.toolCriteriumFullfillment =
         Typ.convertStringToFullfillmentEnum(fullfillment);
@@ -224,6 +223,9 @@ export default Vue.extend({
       }
 
       return suitability;
+    },
+    getSuitabilityIfIncomplete(): Typ.toolCriteriumSuitability {
+      return this.toolCriteriumSuitability;
     },
     resetSuitability() {
       this.toolCriteriumSuitability = JSON.parse(

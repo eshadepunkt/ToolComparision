@@ -147,6 +147,22 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnGoBack() {
+      const suitability: Typ.toolCriteriumSuitability = (
+        this.$refs.tool_card as Vue & {
+          getSuitabilityIfIncomplete: () => Typ.toolCriteriumSuitability;
+        }
+      ).getSuitabilityIfIncomplete();
+      const newHash: string = noSecHash(suitability);
+      console.log(this.suitabilityHash + "  : " + newHash);
+      if (this.suitabilityHash !== newHash) {
+        if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
+          this.updateSuitabilities.push(this.currentSuitability);
+        }
+        else {
+          this.updateSuitabilities[this.currentSuitabilityIndex] = suitability;
+        }      
+      }
+
       if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
         this.closeDialog();
@@ -171,7 +187,12 @@ export default Vue.extend({
         const newHash: string = noSecHash(this.currentSuitability);
         console.log(this.suitabilityHash + "  : " + newHash);
         if (this.suitabilityHash !== newHash) {
-          this.updateSuitabilities.push(this.currentSuitability);
+          if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
+            this.updateSuitabilities.push(this.currentSuitability);
+          }
+          else {
+            this.updateSuitabilities[this.currentSuitabilityIndex] = this.currentSuitability;
+          }      
         }
 
         if (closeDialog) {
@@ -219,7 +240,7 @@ export default Vue.extend({
       let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
         console.log(
-          "CI vs L: " + this.currentSuitabilityIndex + " : " + lenght
+          "Cou: " + this.updateSuitabilities.length
         );
         if (this.updateSuitabilities.length > this.currentSuitabilityIndex) {
           console.log("Load updated");
