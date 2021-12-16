@@ -139,10 +139,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: JSON.parse(
-        JSON.stringify(this.propCriteriumKV)
-      ) as Typ.criteriumKeyValue,
-
+      criteriumKV: this.propCriteriumKV as Typ.criteriumKeyValue,
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
       importanceItems: [
@@ -237,7 +234,9 @@ export default Vue.extend({
   watch: {
     propCriteriumKV: function(newVal: Typ.criteriumKeyValue) {
       this.criteriumKV = newVal;
-      this.selectedImportance = "";
+      this.selectedImportance = Typ.convertImportanceEnumToString(
+      this.criteriumKV.value.importance
+    );
       this.resetValidation();
     }
   }
