@@ -139,7 +139,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
+      criteriumKV: JSON.parse(
+        JSON.stringify(this.propCriteriumKV)
+      ) as Typ.criteriumKeyValue,
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
       importanceItems: [
@@ -222,10 +224,12 @@ export default Vue.extend({
       this.selectedImportance = Typ.convertImportanceEnumToString(
         this.propCriteriumKV.value.importance
       );
-      if (this.criteriumKV.value.name === ""
-        && this.criteriumKV.value.description === ""
-        && this.criteriumKV.value.importance === Typ.criteriumImportance.undefined) {
-          this.criteriumKV.key = uuidv4();
+      if (
+        this.criteriumKV.value.name === "" &&
+        this.criteriumKV.value.description === "" &&
+        this.criteriumKV.value.importance === Typ.criteriumImportance.undefined
+      ) {
+        this.criteriumKV.key = uuidv4();
       }
 
       this.resetValidation();
@@ -244,7 +248,7 @@ export default Vue.extend({
         this.resetCriteriumKV();
       },
       deep: true,
-    }
-  }
+    },
+  },
 });
 </script>

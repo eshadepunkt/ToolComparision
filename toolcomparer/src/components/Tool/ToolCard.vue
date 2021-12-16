@@ -236,9 +236,11 @@ export default Vue.extend({
     },
     resetToolKV() {
       this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
-      if (this.toolKV.value.name === ""
-        && this.toolKV.value.description === "") {
-          this.toolKV.key = uuidv4();
+      if (
+        this.toolKV.value.name === "" &&
+        this.toolKV.value.description === ""
+      ) {
+        this.toolKV.key = uuidv4();
       }
 
       this.resetValidation();
@@ -257,7 +259,7 @@ export default Vue.extend({
         this.resetToolKV();
       },
       deep: true,
-    }
-  }
+    },
+  },
 });
 </script>

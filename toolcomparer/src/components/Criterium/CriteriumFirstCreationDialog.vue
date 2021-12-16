@@ -105,7 +105,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      criteriumKV: JSON.parse(JSON.stringify(this.propCriteriumKV)) as Typ.criteriumKeyValue,
+      criteriumKV: JSON.parse(
+        JSON.stringify(this.propCriteriumKV)
+      ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
       icons: {
@@ -133,18 +135,20 @@ export default Vue.extend({
         this.closeDialog();
       }
     },
-    closeDialog() {    
+    closeDialog() {
       this.resetCriteriumKV();
       this.$emit("closeDialog");
     },
     resetCriteriumKV() {
       this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
-      if (this.criteriumKV.value.name === ""
-        && this.criteriumKV.value.description === ""
-        && this.criteriumKV.value.importance === Typ.criteriumImportance.undefined) {
-          this.criteriumKV.key = uuidv4();
-        }
-    }
+      if (
+        this.criteriumKV.value.name === "" &&
+        this.criteriumKV.value.description === "" &&
+        this.criteriumKV.value.importance === Typ.criteriumImportance.undefined
+      ) {
+        this.criteriumKV.key = uuidv4();
+      }
+    },
   },
 
   //WATCH
@@ -154,7 +158,7 @@ export default Vue.extend({
         this.resetCriteriumKV();
       },
       deep: true,
-    }
-  }
+    },
+  },
 });
 </script>

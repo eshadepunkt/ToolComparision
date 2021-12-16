@@ -218,11 +218,10 @@ export default Vue.extend({
 
       let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
-        console.log("CI vs L: " + this.currentSuitabilityIndex + " : " + lenght);
-        if (
-          this.updateSuitabilities.length >
-          this.currentSuitabilityIndex + 1
-        ) {
+        console.log(
+          "CI vs L: " + this.currentSuitabilityIndex + " : " + lenght
+        );
+        if (this.updateSuitabilities.length > this.currentSuitabilityIndex) {
           console.log("Load updated");
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
@@ -281,10 +280,13 @@ export default Vue.extend({
     },
     resetToolKV() {
       this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
-      if (this.toolKV.value.name === ""
-        && this.toolKV.value.description === "") {
-          this.toolKV.key = uuidv4();
+      if (
+        this.toolKV.value.name === "" &&
+        this.toolKV.value.description === ""
+      ) {
+        this.toolKV.key = uuidv4();
       }
+      this.updateSuitabilities = Array<Typ.toolCriteriumSuitability>();
     },
   },
 
@@ -295,7 +297,7 @@ export default Vue.extend({
         this.resetToolKV();
       },
       deep: true,
-    }
-  }
+    },
+  },
 });
 </script>

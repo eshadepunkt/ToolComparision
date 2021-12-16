@@ -226,10 +226,14 @@ export default Vue.extend({
       return suitability;
     },
     resetSuitability() {
-      this.toolCriteriumSuitability = JSON.parse(JSON.stringify(this.propToolCriteriumSuitability));
-      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(this.toolCriteriumSuitability.fullfillment);
+      this.toolCriteriumSuitability = JSON.parse(
+        JSON.stringify(this.propToolCriteriumSuitability)
+      );
+      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
+        this.toolCriteriumSuitability.fullfillment
+      );
       this.resetValidation();
-    }
+    },
   },
 
   //MOUNTED
@@ -239,12 +243,12 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propToolCriteriumSuitability:  {
+    propToolCriteriumSuitability: {
       handler() {
         this.resetSuitability();
       },
-      deep: true,  
-    }
-  }
+      deep: true,
+    },
+  },
 });
 </script>
