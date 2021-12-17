@@ -49,7 +49,7 @@
               </v-btn>
             </v-col>
             <v-col xl="1">
-              <v-btn @click="btnSave()" color="teal lighten-5">
+              <v-btn @click="btnSave(false)" color="teal lighten-5">
                 {{ btnText }}
               </v-btn>
             </v-col>
@@ -62,7 +62,7 @@
       ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"
-      :showDialog="showDialog"
+      :showDialog="isInSuitabilityCreation"
       :criteria="criteria"
       v-on:closeDialog="saveAndCloseDialog"
     />
@@ -165,13 +165,14 @@ export default Vue.extend({
         this.toolKV = toolKV;
 
         if (saveAndCloseDialog) {
-          this.saveAndCloseDialog();
+          this.saveAndCloseDialog(true);
         } else if (this.mode === Typ.simpleEditMode.Add) {
           this.isInSuitabilityCreation = true;
         }
       }
     },
-    saveAndCloseDialog(finished = true) {
+    saveAndCloseDialog(finished: boolean) {
+      console.log("F: " + finished)
       if (!finished) {
         this.isInSuitabilityCreation = false;
         return;

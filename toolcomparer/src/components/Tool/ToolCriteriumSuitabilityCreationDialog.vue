@@ -157,19 +157,18 @@ export default Vue.extend({
       if (this.suitabilityHash !== newHash) {
         if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
           this.updateSuitabilities.push(this.currentSuitability);
-        }
-        else {
+        } else {
           this.updateSuitabilities[this.currentSuitabilityIndex] = suitability;
-        }      
+        }
       }
 
       if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
-        this.closeDialog();
+        this.closeDialog(true);
       } else {
         this.currentSuitabilityIndex -= 2;
         if (this.currentSuitabilityIndex < -1) {
-          this.closeDialog();
+          this.closeDialog(false);
         } else {
           this.setCurrentSuitability();
         }
@@ -187,12 +186,14 @@ export default Vue.extend({
         const newHash: string = noSecHash(this.currentSuitability);
         console.log(this.suitabilityHash + "  : " + newHash);
         if (this.suitabilityHash !== newHash) {
-          if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
+          if (
+            this.currentSuitabilityIndex === this.updateSuitabilities.length
+          ) {
             this.updateSuitabilities.push(this.currentSuitability);
+          } else {
+            this.updateSuitabilities[this.currentSuitabilityIndex] =
+              this.currentSuitability;
           }
-          else {
-            this.updateSuitabilities[this.currentSuitabilityIndex] = this.currentSuitability;
-          }      
         }
 
         if (closeDialog) {
@@ -202,13 +203,13 @@ export default Vue.extend({
               criteriumSuitability: element,
             });
           });
-          this.closeDialog();
+          this.closeDialog(true);
         } else {
           this.setCurrentSuitability();
 
           if (this.currentSuitabilityIndex >= this.criteria.length) {
             this.currentSuitabilityIndex = -1;
-            this.closeDialog();
+            this.closeDialog(true);
           }
         }
       }
@@ -239,9 +240,7 @@ export default Vue.extend({
 
       let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
-        console.log(
-          "Cou: " + this.updateSuitabilities.length
-        );
+        console.log("Cou: " + this.updateSuitabilities.length);
         if (this.updateSuitabilities.length > this.currentSuitabilityIndex) {
           console.log("Load updated");
           this.currentSuitability =
@@ -287,11 +286,8 @@ export default Vue.extend({
 
       return this.currentSuitability;
     },
-    closeDialog() {
-      let finished = false;
-      if (this.currentSuitabilityIndex >= this.criteria.length) {
-        finished = true;
-      }
+    closeDialog(finished: boolean) {
+      console.log("FC: " + finished)
 
       this.resetToolKV();
       this.$emit("closeDialog", finished);
