@@ -1,7 +1,7 @@
 <template>
   <div id="ToolLastCreation">
     <v-dialog
-      v-if="!isInSuitabilityCreation"
+      v-show="!isInSuitabilityCreation"
       v-model="showDialog"
       height="67vh"
       width="33vw"
@@ -58,7 +58,7 @@
       </v-card>
     </v-dialog>
     <ToolCriteriumSuitabilityCreationDialog
-      v-if="isInSuitabilityCreation"
+      v-show="isInSuitabilityCreation"
       ref="suit_creation"
       :propToolKV="toolKV"
       :mode="mode"

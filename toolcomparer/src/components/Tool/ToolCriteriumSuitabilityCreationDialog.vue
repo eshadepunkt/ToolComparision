@@ -307,15 +307,17 @@ export default Vue.extend({
       ) {
         this.toolKV.key = uuidv4();
       }
-      this.updateSuitabilities = Array<Typ.toolCriteriumSuitability>();
     },
   },
 
   //WATCH
   watch: {
     propToolKV: {
-      handler() {
+      handler(oldVal: Typ.toolKeyValue, newVal: Typ.toolKeyValue) {
         this.resetToolKV();
+        if (oldVal.key !== newVal.key) {
+          this.updateSuitabilities = Array<Typ.toolCriteriumSuitability>();
+        }
       },
       deep: true,
     },

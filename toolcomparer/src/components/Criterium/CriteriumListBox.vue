@@ -8,7 +8,7 @@
       </v-item-group>
     </v-list>
     <CriteriumFirstCreationDialog
-      v-if="workflow === 'CriteriaFirst'"
+      v-show="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
       v-on:closeDialog="closeDialog()"
