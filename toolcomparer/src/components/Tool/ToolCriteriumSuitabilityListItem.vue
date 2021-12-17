@@ -31,7 +31,7 @@
       :propToolKV="toolKV"
       :mode="mode"
       :showDialog="showDialog"
-      :criteria="[].Add(suitability)"
+      :criteria="[].push(suitability)"
       v-on:closeDialog="saveAndCloseDialog()"
     />
   </div>
