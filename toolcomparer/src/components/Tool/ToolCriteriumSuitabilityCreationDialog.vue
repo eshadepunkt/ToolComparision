@@ -3,7 +3,7 @@
     <v-dialog
       v-model="showDialog"
       height="67vh"
-      width="33vw"
+      width="50vw"
       persistent
       transition="dialog-bottom-transition"
     >
@@ -151,9 +151,9 @@ export default Vue.extend({
     btnGoBack() {
       const suitability: Typ.toolCriteriumSuitability = (
         this.$refs.tool_card as Vue & {
-          getSuitabilityIfIncomplete: () => Typ.toolCriteriumSuitability;
+          getSuitabilityEvenIncomplete: () => Typ.toolCriteriumSuitability;
         }
-      ).getSuitabilityIfIncomplete();
+      ).getSuitabilityEvenIncomplete();
       const newHash: string = noSecHash(suitability);
       console.log(this.suitabilityHash + "  : " + newHash);
       if (this.suitabilityHash !== newHash) {

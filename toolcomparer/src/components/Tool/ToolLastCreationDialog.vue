@@ -4,7 +4,7 @@
       v-show="!isInSuitabilityCreation"
       v-model="showDialog"
       height="67vh"
-      width="33vw"
+      width="50vw"
       persistent
       transition="dialog-bottom-transition"
     >

@@ -95,7 +95,8 @@
 </template>
 
 <script lang="ts">
-console.dir();
+import { v4 as uuidv4 } from "uuid";
+import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
 import {
@@ -117,6 +118,21 @@ export default Vue.extend({
   props: {
     propToolCriteriumSuitability: {
       type: Object as () => Typ.toolCriteriumSuitability,
+      default() {
+        return {
+          criteriumKV: {
+            key: uuidv4() as string,
+            value: {
+              name: "",
+              description: "",
+              importance: Typ.criteriumImportance.undefined,
+              isExclusionCriterium: false,
+            } as Typ.criterium,
+          } as Typ.criteriumKeyValue,
+          fullfillment: Typ.toolCriteriumFullfillment.undefined,
+          justification: "" as string,
+        } as Typ.toolCriteriumSuitability;
+      }
     },
     propModuleState: {
       type: Number as () => Typ.simpleModuleState,
@@ -224,7 +240,7 @@ export default Vue.extend({
 
       return suitability;
     },
-    getSuitabilityIfIncomplete(): Typ.toolCriteriumSuitability {
+    getSuitabilityEvenIncomplete(): Typ.toolCriteriumSuitability {
       return this.toolCriteriumSuitability;
     },
     resetSuitability() {
