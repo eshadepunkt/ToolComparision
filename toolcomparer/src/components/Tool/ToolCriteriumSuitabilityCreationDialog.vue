@@ -4,7 +4,6 @@
       v-model="showDialog"
       height="67vh"
       width="33vw"
-      hide-overlay
       persistent
       transition="dialog-bottom-transition"
     >

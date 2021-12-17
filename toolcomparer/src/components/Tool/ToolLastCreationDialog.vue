@@ -5,7 +5,6 @@
       v-model="showDialog"
       height="67vh"
       width="33vw"
-      hide-overlay
       persistent
       transition="dialog-bottom-transition"
     >
@@ -166,7 +165,7 @@ export default Vue.extend({
 
         if (saveAndCloseDialog) {
           this.saveAndCloseDialog(true);
-        } else if (this.mode === Typ.simpleEditMode.Add) {
+        } else if (this.mode !== Typ.simpleEditMode.UpdateSingle) {
           this.isInSuitabilityCreation = true;
         }
       }
