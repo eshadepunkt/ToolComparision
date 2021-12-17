@@ -28,11 +28,11 @@
       </v-container>
     </v-card>
     <ToolCriteriumSuitabilityCreationDialog
-      :propToolKV="toolKV"
-      :mode="mode"
+      :propToolKV="propToolKV"
+      :mode="editMode"
       :showDialog="showDialog"
-      :criteria="[].push(suitability)"
-      v-on:closeDialog="saveAndCloseDialog()"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
     />
   </div>
 </template>

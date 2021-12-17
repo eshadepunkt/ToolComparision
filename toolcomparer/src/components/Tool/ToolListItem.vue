@@ -56,12 +56,14 @@ import {
 import Vue from "vue";
 
 import ToolCard from "./ToolCard.vue";
+import ToolLastCreationDialog from "./ToolLastCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolListItem",
 
   components: {
     ToolCard,
+    ToolLastCreationDialog,
   },
 
   //PROPS

@@ -12,7 +12,7 @@
         <v-container>
           <!-- Head -->
           <v-row>
-            <v-col xl="11">
+            <v-col xl="12">
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
                   {{ Typ.convertEditModeEnumToString(mode) }} tool criterium
@@ -105,6 +105,9 @@ export default Vue.extend({
     },
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
+      default() {
+        return Array<Typ.criteriumKeyValue>();
+      },
     },
     showDialog: {
       type: Boolean,
@@ -164,7 +167,7 @@ export default Vue.extend({
 
       if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
-        this.closeDialog(true);
+        this.closeDialog(false);
       } else {
         this.currentSuitabilityIndex -= 2;
         if (this.currentSuitabilityIndex < -1) {
@@ -196,7 +199,7 @@ export default Vue.extend({
           }
         }
 
-        if (closeDialog) {
+        if (closeDialog || this.mode === Typ.simpleEditMode.UpdateSingle) {
           this.updateSuitabilities.forEach((element) => {
             this.$store.dispatch("updateToolSuitability", {
               toolKV: this.toolKV,
@@ -241,6 +244,8 @@ export default Vue.extend({
       let lenght: number = this.criteria.length;
       if (this.currentSuitabilityIndex < lenght) {
         console.log("Cou: " + this.updateSuitabilities.length);
+        console.log("Len: " + length);
+
         if (this.updateSuitabilities.length > this.currentSuitabilityIndex) {
           console.log("Load updated");
           this.currentSuitability =
@@ -280,6 +285,8 @@ export default Vue.extend({
       }
     },
     getCurrentSuitability(): Typ.toolCriteriumSuitability {
+      console.log("CSI: " + this.currentSuitabilityIndex);
+
       if (this.currentSuitabilityIndex < 0) {
         this.setCurrentSuitability();
       }
