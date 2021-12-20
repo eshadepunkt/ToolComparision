@@ -3,7 +3,11 @@
     <v-list>
       <v-item-group>
         <v-item v-for="item in getTools" :key="noSecHash(item)">
-          <ToolListItem :propToolKV="item" />
+          <ToolListItem
+            :workflow="workflow"
+            :propToolKV="item" 
+            :criteria="criteria"
+          />
         </v-item>
       </v-item-group>
     </v-list>

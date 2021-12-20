@@ -248,9 +248,10 @@ export default Vue.extend({
 
       if (length <= 0) {
         console.log("No data");
-        this.closeDialog(true);
+        //this.closeDialog(true);
         return;
-      } else if (this.currentSuitabilityIndex < length) {
+      } 
+      else if (this.currentSuitabilityIndex < length) {
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.updateSuitabilities.length > this.currentSuitabilityIndex
@@ -258,7 +259,8 @@ export default Vue.extend({
           console.log("Load updated");
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
-        } else {
+        } 
+        else {
           console.log("Load new or existing");
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
