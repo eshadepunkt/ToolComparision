@@ -241,12 +241,16 @@ export default Vue.extend({
       this.btnNextText = "Go Back";
       this.btnNextText = "Next";
 
-      let lenght: number = this.criteria.length;
+      let length: number = this.criteria.length;
 
       console.log("Cou: " + this.updateSuitabilities.length);
       console.log("Len: " + length);
 
-      if (this.currentSuitabilityIndex < lenght) {
+      if (length <= 0) {
+        this.closeDialog(true);
+        return;
+      }
+      else if (this.currentSuitabilityIndex < length) {
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.updateSuitabilities.length > this.currentSuitabilityIndex
@@ -279,7 +283,7 @@ export default Vue.extend({
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
 
-        if (this.currentSuitabilityIndex === lenght - 1) {
+        if (this.currentSuitabilityIndex === length - 1) {
           this.btnNextText =
             this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All";
         } else if (this.mode === Typ.simpleEditMode.UpdateSingle) {
