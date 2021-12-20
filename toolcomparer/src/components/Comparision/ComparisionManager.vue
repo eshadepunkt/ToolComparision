@@ -17,8 +17,8 @@
       :search="search"
       :sortDesc="sortDesc"
       :sortBy="sortBy"
-      v-on:sortDescChanged="sortDescChanged($event)"
-      v-on:sortByChanged="sortByChanged($event)"
+      v-on:sortDescChanged="sortDescChanged"
+      v-on:sortByChanged="sortByChanged"
     />
   </div>
 </template>

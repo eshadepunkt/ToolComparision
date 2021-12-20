@@ -75,6 +75,15 @@ export default Vue.extend({
 
   //WATCH
   watch: {
+    search: function (newVal) {
+      this.hsearch = newVal;
+    },
+    sortDesc: function (newVal) {
+      this.hsortDesc = newVal;
+    },
+    sortBy: function (newVal) {
+      this.hsortBy = newVal;
+    },
     hsearch: function (newVal) {
       this.$emit("searchChanged", newVal);
     },

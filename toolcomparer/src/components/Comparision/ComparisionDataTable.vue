@@ -27,7 +27,7 @@
               :criteriumKV="criteriumKV"
               :sortBy="sortBy"
               :sortDesc="sortDesc"
-              v-on:click.native="changeSort($event, criteriumKV.value.name)"
+              v-on:click.native="changeSort(criteriumKV.value.name)"
             />
             <th>Actions</th>
           </tr>
@@ -129,7 +129,7 @@ export default Vue.extend({
         return "background-color: orange;";
       }
     },
-    changeSort(event: any, sortBy: string) {
+    changeSort(sortBy: string) {
       if (this.sortBy == sortBy) {
         this.$emit("sortDescChanged", !this.sortDesc);
       } else {
