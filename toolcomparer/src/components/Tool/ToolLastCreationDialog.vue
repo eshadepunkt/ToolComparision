@@ -171,7 +171,7 @@ export default Vue.extend({
       }
     },
     saveAndCloseDialog(finished: boolean) {
-      console.log("F: " + finished)
+      console.log("F: " + finished);
       if (!finished) {
         this.isInSuitabilityCreation = false;
         return;

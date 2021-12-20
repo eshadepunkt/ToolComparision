@@ -35,6 +35,7 @@
       :showDialog="showDialog"
       :mode="editMode"
       :propToolKV="propToolKV"
+      :criteria="criteria"
       v-on:closeDialog="showDialog = false"
     />
   </div>

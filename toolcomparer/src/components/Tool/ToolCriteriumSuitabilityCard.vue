@@ -132,7 +132,7 @@ export default Vue.extend({
           fullfillment: Typ.toolCriteriumFullfillment.undefined,
           justification: "" as string,
         } as Typ.toolCriteriumSuitability;
-      }
+      },
     },
     propModuleState: {
       type: Number as () => Typ.simpleModuleState,

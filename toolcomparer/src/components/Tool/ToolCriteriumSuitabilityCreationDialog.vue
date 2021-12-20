@@ -236,16 +236,21 @@ export default Vue.extend({
       return currentCriteria;
     },
     setCurrentSuitability() {
+      console.log("Inside");
       this.currentSuitabilityIndex++;
       this.btnNextText = "Go Back";
       this.btnNextText = "Next";
 
       let lenght: number = this.criteria.length;
-      if (this.currentSuitabilityIndex < lenght) {
-        console.log("Cou: " + this.updateSuitabilities.length);
-        console.log("Len: " + length);
 
-        if (this.updateSuitabilities.length > this.currentSuitabilityIndex) {
+      console.log("Cou: " + this.updateSuitabilities.length);
+      console.log("Len: " + length);
+
+      if (this.currentSuitabilityIndex < lenght) {
+        if (
+          this.mode === Typ.simpleEditMode.Add &&
+          this.updateSuitabilities.length > this.currentSuitabilityIndex
+        ) {
           console.log("Load updated");
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
@@ -287,13 +292,14 @@ export default Vue.extend({
       console.log("CSI: " + this.currentSuitabilityIndex);
 
       if (this.currentSuitabilityIndex < 0) {
+        console.log("SET");
         this.setCurrentSuitability();
       }
 
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
-      console.log("FC: " + finished)
+      console.log("FC: " + finished);
 
       this.resetToolKV();
       this.$emit("closeDialog", finished);
@@ -309,6 +315,7 @@ export default Vue.extend({
       ) {
         this.toolKV.key = uuidv4();
       }
+      this.currentSuitabilityIndex = -1;
     },
   },
 
