@@ -247,10 +247,10 @@ export default Vue.extend({
       console.log("Len: " + length);
 
       if (length <= 0) {
+        console.log("No data");
         this.closeDialog(true);
         return;
-      }
-      else if (this.currentSuitabilityIndex < length) {
+      } else if (this.currentSuitabilityIndex < length) {
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.updateSuitabilities.length > this.currentSuitabilityIndex
