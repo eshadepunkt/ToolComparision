@@ -23,7 +23,7 @@
 
             <ComparisionDataTableHeader
               v-for="criteriumKV in criteria"
-              :key="criteriumKV.key"
+              :key="noSecHash(criteriumKV)"
               :criteriumKV="criteriumKV"
               :sortBy="sortBy"
               :sortDesc="sortDesc"
@@ -36,7 +36,7 @@
           <div v-if="results.lenght === 0">No data available</div>
           <ComparisionDataTableRow
             v-for="(result, index) in results"
-            :key="result.toolKV.key"
+            :key="noSecHash(result)"
             :result="result"
             :propSuitabilityIndex="index"
             :sortBy="sortBy"
@@ -52,6 +52,7 @@
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -113,6 +114,7 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiSort,
       },
+      noSecHash,
       Typ,
     };
   },

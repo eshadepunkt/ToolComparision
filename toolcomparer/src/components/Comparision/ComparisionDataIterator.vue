@@ -3,7 +3,8 @@
     <v-data-iterator :items="results" hide-default-footer>
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="result in props.items" :key="result.toolKV.key">
+          <v-col v-for="result in props.items" 
+            :key="noSecHash(result)">
             <ComparisionDataIteratorCard
               :result="result"
               :criteria="criteria"
@@ -18,6 +19,7 @@
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 
@@ -53,6 +55,15 @@ export default Vue.extend({
     sortBy: {
       type: String,
     },
+  },
+  
+  //DATA
+  data() {
+    return {
+      uuidNIL,
+      noSecHash,
+      Typ,
+    };
   },
 });
 </script>

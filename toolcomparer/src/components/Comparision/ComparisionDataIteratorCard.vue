@@ -57,15 +57,23 @@
           :result="result"
           :propSuitabilityIndex="index"
           :sortBy="sortBy"
-          :key="suitability.criteriumKV.key"
+          :key="noSecHash(suitability)"
         />
       </v-list>
     </div>
+    <ToolLastCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :propToolKV="result.toolKV"
+      :criteria="criteria"
+      v-on:closeDialog="showDialog = false"
+    />
   </v-card>
 </template>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -79,12 +87,14 @@ import {
 import Vue from "vue";
 
 import ComparisionDataIteratorCardItem from "./ComparisionDataIteratorCardItem.vue";
+import ToolLastCreationDialog from "../Tool/ToolLastCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataIteratorCard",
 
   components: {
     ComparisionDataIteratorCardItem,
+    ToolLastCreationDialog,
   },
 
   props: {
@@ -99,6 +109,25 @@ export default Vue.extend({
     },
   },
 
+  //DATA
+  data() {
+    return {
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.Update,
+
+      uuidNIL,
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+      },
+      noSecHash,
+      Typ,
+    };
+  },
+
   methods: {
     getToolInfo(): string {
       const text =
@@ -111,31 +140,11 @@ export default Vue.extend({
     },
 
     btnEdit() {
-      const appendix: string = this.result.toolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
     },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
-    },
-  },
-
-  //DATA
-  data() {
-    return {
-      uuidNIL,
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-      },
-      Typ,
-    };
   },
 
   //COMPUTED

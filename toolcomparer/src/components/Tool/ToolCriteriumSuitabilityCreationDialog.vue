@@ -238,8 +238,8 @@ export default Vue.extend({
     setCurrentSuitability() {
       console.log("Inside");
       this.currentSuitabilityIndex++;
-      this.btnNextText = "Go Back";
-      this.btnNextText = "Next";
+      this.btnNextText = this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
+      this.btnNextText = this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
 
       let length: number = this.criteria.length;
 

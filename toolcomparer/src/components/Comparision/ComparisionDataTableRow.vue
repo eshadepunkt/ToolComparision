@@ -20,7 +20,7 @@
       :result="result"
       :propSuitabilityIndex="index"
       :sortBy="sortBy"
-      :key="suitability.criteriumKV.key"
+      :key="noSecHash(suitability)"
     />
     <td>
       <v-row>
@@ -40,11 +40,19 @@
         </v-col>
       </v-row>
     </td>
+    <ToolLastCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :propToolKV="result.toolKV"
+      :criteria="criteria"
+      v-on:closeDialog="showDialog = false"
+    />
   </tr>
 </template>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -57,12 +65,14 @@ import {
 
 import Vue from "vue";
 import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
+import ToolLastCreationDialog from "../Tool/ToolLastCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
     ComparisionDataTableRowItem,
+    ToolLastCreationDialog,
   },
 
   props: {
@@ -80,6 +90,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.Update,
+
       uuidNIL,
       icons: {
         mdiAccount,
@@ -88,6 +101,7 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
+      noSecHash,
       Typ,
     };
   },
@@ -103,15 +117,10 @@ export default Vue.extend({
       return text;
     },
     btnEdit() {
-      const appendix: string = this.result.toolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 
