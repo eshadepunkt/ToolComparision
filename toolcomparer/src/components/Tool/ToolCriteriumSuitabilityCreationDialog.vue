@@ -238,8 +238,10 @@ export default Vue.extend({
     setCurrentSuitability() {
       console.log("Inside");
       this.currentSuitabilityIndex++;
-      this.btnNextText = this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
-      this.btnNextText = this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
+      this.btnNextText =
+        this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
+      this.btnNextText =
+        this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
 
       let length: number = this.criteria.length;
 
@@ -250,8 +252,7 @@ export default Vue.extend({
         console.log("No data");
         //this.closeDialog(true);
         return;
-      } 
-      else if (this.currentSuitabilityIndex < length) {
+      } else if (this.currentSuitabilityIndex < length) {
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.updateSuitabilities.length > this.currentSuitabilityIndex
@@ -259,8 +260,7 @@ export default Vue.extend({
           console.log("Load updated");
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
-        } 
-        else {
+        } else {
           console.log("Load new or existing");
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>

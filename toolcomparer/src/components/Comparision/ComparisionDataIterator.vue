@@ -3,8 +3,7 @@
     <v-data-iterator :items="results" hide-default-footer>
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="result in props.items" 
-            :key="noSecHash(result)">
+          <v-col v-for="result in props.items" :key="noSecHash(result)">
             <ComparisionDataIteratorCard
               :result="result"
               :criteria="criteria"
@@ -56,7 +55,7 @@ export default Vue.extend({
       type: String,
     },
   },
-  
+
   //DATA
   data() {
     return {

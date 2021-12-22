@@ -59,7 +59,7 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.$router.push("/Start/Comparision");
+    this.$router.push("/Start/");
   },
 });
 </script>

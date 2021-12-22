@@ -1,9 +1,5 @@
+import Navigation from "../components/Other/Navigation.vue";
 import Workflow from "../components/Other/Workflow.vue";
-
-import ToolLastCreation from "../components/Tool/ToolLastCreationDialog.vue";
-import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreationDialog.vue";
-
-import Comparision from "../components/Comparision/Comparision.vue";
 
 import App from "../App.vue";
 
@@ -24,21 +20,11 @@ const routes: Array<RouteConfig> = [
     component: Workflow,
     name: "Workflow",
   },
-  {
-    path: "/CriteriaFirst/ToolCreation/:mode/:toolid",
-    component: ToolLastCreation,
-    name: "ToolLastCreation",
-  },
-  {
-    path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",
-    component: ToolCriteriumSuitabilityCreation,
-    name: "ToolCriteriumSuitabilityCreation",
-  },
 
   {
-    path: "/Start/Comparision/",
-    component: Comparision,
-    name: "Comparision",
+    path: "/Start/",
+    component: Navigation,
+    name: "Navigation",
   },
 
   {

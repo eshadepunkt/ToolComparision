@@ -105,10 +105,10 @@ export default Vue.extend({
       suitability: this.result.toolKV.value.criteriaSuitabilities[
         this.propSuitabilityIndex
       ] as Typ.toolCriteriumSuitability,
-      
+
       showDialog: false as boolean,
       editMode: Typ.simpleEditMode.UpdateSingle,
-      
+
       uuidNIL,
       icons: {
         mdiAccount,

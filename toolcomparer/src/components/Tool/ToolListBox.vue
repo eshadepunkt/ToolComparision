@@ -5,7 +5,7 @@
         <v-item v-for="item in getTools" :key="noSecHash(item)">
           <ToolListItem
             :workflow="workflow"
-            :propToolKV="item" 
+            :propToolKV="item"
             :criteria="criteria"
           />
         </v-item>
