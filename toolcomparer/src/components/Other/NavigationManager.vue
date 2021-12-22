@@ -1,6 +1,6 @@
 <template>
   <div id="PageManager">
-    <Comparision :v-if="currentPage === 'Start'" />
+    <Comparision :v-if="currentPage === 'Comparision'" />
     <CriteriumListBox
       v-if="currentPage === 'Criteria'"
       :criteria="criteria"

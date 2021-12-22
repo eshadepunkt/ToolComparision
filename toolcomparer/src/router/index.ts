@@ -13,7 +13,8 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
+    component: App,
+    name: "Start",
   },
   {
     path: "/Workflow/:workflow",

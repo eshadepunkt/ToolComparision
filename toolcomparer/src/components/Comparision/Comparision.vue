@@ -1,6 +1,5 @@
 <template>
   <div id="Comparision">
-    <v-card min-height="100vh" color="grey lighten-5">
       <v-container>
         <!-- Head -->
         <v-row>
@@ -50,27 +49,7 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importer()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
-            />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exporter()"> Export </v-btn>
-          </v-col>
-        </v-row>
       </v-container>
-    </v-card>
   </div>
 </template>
 

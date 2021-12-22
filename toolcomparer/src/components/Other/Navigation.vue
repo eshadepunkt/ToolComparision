@@ -1,65 +1,60 @@
 <template>
-  <div class="ma-12 pa-12" id="Navigation">
-    <v-sheet
-      class="overflow-hidden"
-      style="position: relative;"
-    >
-            <v-navigation-drawer 
-              permanent 
-              expand-on-hover 
-              absolute
-            >
-              <v-list nav>
-                <v-list-item link class="px-2">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>
-                <v-list-item link class="px-2">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiCog }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Settings </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item link class="px-2">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiPlus }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> New Workflow </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item link class="px-2" @click="currentPage = 'Start'">
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiHome }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Start </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item link @click="currentPage = 'Criteria'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6"> Criteria </v-list-item-title>
-                    <v-list-item-subtitle> Manage Criteria </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item link @click="currentPage = 'Tools'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6"> Tools </v-list-item-title>
-                    <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-navigation-drawer>
-            <v-container>
-              <PageManager
-              :criteria="getCriteria"
-              :tools="getTools"
-              :currentPage="currentPage"
-              />
-            </v-container>
-          />  
-    </v-sheet>
+  <div id="Navigation">
+    <v-card 
+      style="position: relative; height: 100vh" 
+      class="overflow-hidden" 
+      color="grey lighten-5">
+        <v-navigation-drawer permanent expand-on-hover absolute>
+          <v-list nav>
+            <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>{{ icons.mdiCog }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title> Settings </v-list-item-title>
+            </v-list-item>
+            <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title> More Features </v-list-item-title>
+            </v-list-item>    
+            <v-divider> </v-divider>
+            <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>{{ icons.mdiPlus }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title> New Workflow </v-list-item-title>
+            </v-list-item>
+            <v-divider> </v-divider>
+            <v-list-item link class="px-2" @click="currentPage = 'Comparision'">
+              <v-list-item-icon>
+                <v-icon>{{ icons.mdiHome }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title> Start </v-list-item-title>
+            </v-list-item>
+            <v-divider> </v-divider>
+            <v-list-item link @click="currentPage = 'Criteria'">
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">
+                  Criteria
+                </v-list-item-title>
+                <v-list-item-subtitle> Manage Criteria </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link @click="currentPage = 'Tools'">
+              <v-list-item-content>
+                <v-list-item-title class="text-h6"> Tools </v-list-item-title>
+                <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
+          <PageManager
+            :criteria="getCriteria"
+            :tools="getTools"
+            :currentPage="currentPage"
+          />
+    </v-card>
   </div>
 </template>
 
