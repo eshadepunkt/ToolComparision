@@ -1,49 +1,49 @@
 <template>
   <div id="Comparision">
-      <v-container>
-        <v-row>
-          <v-col xl="12">
-            <ComparisionHeader
-              :sortItems="criteria"
+    <v-container>
+      <v-row>
+        <v-col xl="12">
+          <ComparisionHeader
+            :sortItems="criteria"
+            :search="search"
+            :sortDesc="sortDesc"
+            :sortBy="sortBy"
+            v-on:searchChanged="searchChanged"
+            v-on:sortDescChanged="sortDescChanged"
+            v-on:sortByChanged="sortByChanged"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col xl="12">
+          <v-card style="height: 59vh; overflow-y: auto">
+            <ComparisionManager
+              :currentView="currentView"
+              :results="getFilteredResults"
+              :criteria="criteria"
+              :maxScore="maxScore"
               :search="search"
               :sortDesc="sortDesc"
               :sortBy="sortBy"
-              v-on:searchChanged="searchChanged"
               v-on:sortDescChanged="sortDescChanged"
               v-on:sortByChanged="sortByChanged"
             />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col xl="12">
-            <v-card style="height: 59vh; overflow-y: auto">
-              <ComparisionManager
-                :currentView="currentView"
-                :results="getFilteredResults"
-                :criteria="criteria"
-                :maxScore="maxScore"
-                :search="search"
-                :sortDesc="sortDesc"
-                :sortBy="sortBy"
-                v-on:sortDescChanged="sortDescChanged"
-                v-on:sortByChanged="sortByChanged"
-              />
-            </v-card>
-          </v-col>
-        </v-row>
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="changeView()" color="blue lighten-5">
-              Change View
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- Buttons -->
+      <v-row
+        align="center"
+        align-content="space-between"
+        justify="space-between"
+      >
+        <v-col xl="1">
+          <v-btn @click="changeView()" color="blue lighten-5">
+            Change View
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

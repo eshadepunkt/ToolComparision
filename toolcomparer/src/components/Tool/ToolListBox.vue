@@ -1,5 +1,6 @@
 <template>
   <div id="ToolListBox">
+    <div v-if="!getTools || getTools.length == 0">No data available</div>
     <v-list>
       <v-item-group>
         <v-item v-for="item in getTools" :key="noSecHash(item)">

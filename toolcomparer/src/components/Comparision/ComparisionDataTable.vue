@@ -1,6 +1,7 @@
 <template>
   <div id="ComparisionDataTable">
-    <v-simple-table>
+    <div v-if="!results || results.length == 0">No data available</div>
+    <v-simple-table v-else>
       <template>
         <thead>
           <tr>
@@ -33,7 +34,6 @@
           </tr>
         </thead>
         <tbody>
-          <div v-if="results.lenght === 0">No data available</div>
           <ComparisionDataTableRow
             v-for="(result, index) in results"
             :key="noSecHash(result)"

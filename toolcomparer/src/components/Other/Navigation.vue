@@ -1,9 +1,10 @@
 <template>
   <div id="Navigation">
-    <v-card 
-      style="position: relative; height: 100vh" 
-      class="overflow-hidden" 
-      color="grey lighten-5">
+    <v-card
+      style="position: relative; height: 100vh"
+      class="overflow-hidden"
+      color="grey lighten-5"
+    >
       <v-container>
         <!-- Head -->
         <v-row>
@@ -28,7 +29,7 @@
                     <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>    
+                </v-list-item>
                 <v-divider> </v-divider>
                 <v-list-item link class="px-2">
                   <v-list-item-icon>
@@ -37,7 +38,11 @@
                   <v-list-item-title> New Workflow </v-list-item-title>
                 </v-list-item>
                 <v-divider> </v-divider>
-                <v-list-item link class="px-2" v-on:click.native="currentPage = 'Comparision'">
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="currentPage = 'Comparision'"
+                >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiHome }}</v-icon>
                   </v-list-item-icon>
@@ -49,22 +54,26 @@
                     <v-list-item-title class="text-h6">
                       Criteria
                     </v-list-item-title>
-                    <v-list-item-subtitle> Manage Criteria </v-list-item-subtitle>
+                    <v-list-item-subtitle>
+                      Manage Criteria
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item link v-on:click.native="currentPage = 'Tools'">
                   <v-list-item-content>
-                    <v-list-item-title class="text-h6"> Tools </v-list-item-title>
+                    <v-list-item-title class="text-h6">
+                      Tools
+                    </v-list-item-title>
                     <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-              <PageManager
-                :criteria="getCriteria"
-                :tools="getTools"
-                :currentPage="currentPage"
-              />
+            <PageManager
+              :criteria="getCriteria"
+              :tools="getTools"
+              :currentPage="currentPage"
+            />
           </v-col>
         </v-row>
       </v-container>

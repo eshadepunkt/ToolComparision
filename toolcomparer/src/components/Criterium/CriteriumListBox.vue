@@ -1,5 +1,6 @@
 <template>
   <div id="CriteriumListBox">
+    <div v-if="!getCriteria || getCriteria.length == 0">No data available</div>
     <v-list>
       <v-item-group>
         <v-item v-for="item in getCriteria" :key="noSecHash(item)">
