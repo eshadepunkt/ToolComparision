@@ -1,61 +1,70 @@
 <template>
-  <div id="ComparisionContainer">
-    <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <Header :headerText="'Comparision'" />
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col xl="12">
-            <slot> </slot>
-          </v-col>
-        </v-row>
-
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
+  <div class="ma-12 pa-12" id="Navigation">
+    <v-card>
+      <v-navigation-drawer
+        permanent
+        expand-on-hover
+      >
+        <v-list
+          nav
         >
-          <v-col xl="1">
-            <v-btn
-              @click="navigateTo('/Tools/CriteriumFirst')"
-              color="red lighten-5"
-            >
-              Change Tools
-            </v-btn>
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="navigateTo(redirectTo)" color="blue lighten-5">
-              Change View
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-col xl="1">
-            <v-btn @click="importer()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
-            />
-          </v-col>
-          <v-col xl="1">
-            <v-btn @click="exporter()"> Export </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
+          <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>mdiDotsHorizontal</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                More Features
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>mdiCog</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Settings
+              </v-list-item-title>
+            </v-list-item>
+            <v-divider> </v-divider>
+              <v-list-item link class="px-2">
+                <v-list-item-icon>
+                  <v-icon>mdiPlus</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  New Workflow
+                </v-list-item-title>
+            </v-list-item>
+            <v-divider> </v-divider>
+            <v-list-item link class="px-2">
+              <v-list-item-icon>
+                <v-icon>mdiHome</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Start
+              </v-list-item-title>
+            </v-list-item>
+          <v-divider> </v-divider>
+          <v-list-item link>
+            <v-list-item-content>
+                <v-list-item-title class="text-h6">
+                  Criteria
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  Manage Criteria
+                </v-list-item-subtitle>
+              </v-list-item-content>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-content>
+              <v-list-item-title class="text-h6">
+                Tools
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Manage Tools
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
     </v-card>
   </div>
 </template>
@@ -71,16 +80,17 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiCog, 
+  mdiMenu,
+  mdiHome,
+  mdiPlus,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 import Vue from "vue";
 
-import Header from "../Other/Header.vue";
-import ToolListItem from "../Tool/ToolListItem.vue";
-import { filter } from "vue/types/umd";
-
 export default Vue.extend({
-  name: "ComparisionContainer",
+  name: "Navigation",
 
   props: {
     redirectTo: {
