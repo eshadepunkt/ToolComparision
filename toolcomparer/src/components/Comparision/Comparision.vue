@@ -1,12 +1,6 @@
 <template>
   <div id="Comparision">
       <v-container>
-        <!-- Head -->
-        <v-row>
-          <v-col xl="12">
-            <Header :headerText="'Comparision'" />
-          </v-col>
-        </v-row>
         <v-row>
           <v-col xl="12">
             <ComparisionHeader

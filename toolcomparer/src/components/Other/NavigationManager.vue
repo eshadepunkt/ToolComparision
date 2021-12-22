@@ -1,8 +1,8 @@
 <template>
   <div id="PageManager">
-    <Comparision :v-if="currentPage === 'Comparision'" />
+    <Comparision v-if="currentPage === 'Comparision'" />
     <CriteriumListBox
-      v-if="currentPage === 'Criteria'"
+      v-else-if="currentPage === 'Criteria'"
       :criteria="criteria"
       :workflow="workflow"
     />
@@ -54,6 +54,7 @@ export default Vue.extend({
     },
     currentPage: {
       type: String,
+      default: "Comparision",
     },
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
