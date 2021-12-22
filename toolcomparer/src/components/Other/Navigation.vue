@@ -1,11 +1,14 @@
 <template>
   <div class="ma-12 pa-12" id="Navigation">
-    
-          <v-card>
-            <v-container>
-      <v-row>
-        <v-col>
-            <v-navigation-drawer permanent expand-on-hover>
+    <v-sheet
+      class="overflow-hidden"
+      style="position: relative;"
+    >
+            <v-navigation-drawer 
+              permanent 
+              expand-on-hover 
+              absolute
+            >
               <v-list nav>
                 <v-list-item link class="px-2">
                   <v-list-item-icon>
@@ -48,20 +51,15 @@
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-            </v-col>
-        <v-col>
-            <PageManager
-            :criteria="getCriteria"
-            :tools="getTools"
-            :currentPage="currentPage"
-          />
-          
-          
-        </v-col>
-      </v-row>
-    </v-container>
-            </v-card>
-        
+            <v-container>
+              <PageManager
+              :criteria="getCriteria"
+              :tools="getTools"
+              :currentPage="currentPage"
+              />
+            </v-container>
+          />  
+    </v-sheet>
   </div>
 </template>
 
