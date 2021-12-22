@@ -1,13 +1,13 @@
 <template>
   <div id="PageManager">
-    <Comparision v-if="currentPage === 'Comparision'" />
+    <Comparision v-show="currentPage === 'Comparision'" />
     <CriteriumListBox
-      v-else-if="currentPage === 'Criteria'"
+      v-show="currentPage === 'Criteria'"
       :criteria="criteria"
       :workflow="workflow"
     />
     <ToolListBox
-      v-else-if="currentPage === 'Tools'"
+      v-show="currentPage === 'Tools'"
       :tools="tools"
       :criteria="criteria"
       :workflow="workflow"

@@ -1,14 +1,14 @@
 <template>
   <div id="WorkflowManager">
     <CriteriumListBox
-      v-if="currentListBox === 'Criteria'"
+      v-show="currentListBox === 'Criteria'"
       :criteria="criteria"
       :showDialog="showDialog"
       :workflow="workflow"
       v-on:closeDialog="closeDialog()"
     />
     <ToolListBox
-      v-else-if="currentListBox === 'Tools'"
+      v-show="currentListBox === 'Tools'"
       :tools="tools"
       :criteria="criteria"
       :showDialog="showDialog"

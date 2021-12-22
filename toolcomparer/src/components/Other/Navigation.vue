@@ -69,11 +69,13 @@
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-            <PageManager
-              :criteria="getCriteria"
-              :tools="getTools"
-              :currentPage="currentPage"
-            />
+            <v-card style="height: 85vh; overflow-y: auto">
+              <PageManager
+                :criteria="getCriteria"
+                :tools="getTools"
+                :currentPage="currentPage"
+              />
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
