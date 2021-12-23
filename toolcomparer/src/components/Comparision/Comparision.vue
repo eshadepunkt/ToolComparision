@@ -4,7 +4,7 @@
       <v-row>
         <v-col xl="12">
           <ComparisionHeader
-            :sortItems="criteria"
+            :sortItems="getCriteria"
             :search="search"
             :sortDesc="sortDesc"
             :sortBy="sortBy"
@@ -20,8 +20,8 @@
             <ComparisionManager
               :currentView="currentView"
               :results="getFilteredResults"
-              :criteria="criteria"
-              :maxScore="maxScore"
+              :criteria="getCriteria"
+              :maxScore="getMaxScore"
               :search="search"
               :sortDesc="sortDesc"
               :sortBy="sortBy"
@@ -72,9 +72,7 @@ export default Vue.extend({
     return {
       currentView: "DataIterator" as string,
       tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
-      criteria: Array<Typ.criteriumKeyValue>(),
 
-      maxScore: -1 as number,
       uuidNIL,
       Typ,
 
@@ -89,21 +87,7 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    cacheCriteria() {
-      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
-        JSON.stringify(this.$store.getters.getCriteria)
-      );
-
-      this.criteria = unsorted.sort((a, b) => {
-        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-          return b.value.importance - a.value.importance;
-        } else if (a.value.isExclusionCriterium) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-    },
+    
 
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
@@ -120,13 +104,13 @@ export default Vue.extend({
       let toolCriteria: Array<Typ.criteriumKeyValue> =
         toolKV.value.criteriaSuitabilities.map((x) => x.criteriumKV);
       //NOTE: A tool could have stored tools that aren't in usage
-      if (toolCriteria.length < this.criteria.length) {
+      if (toolCriteria.length < this.getCriteria.length) {
         return false;
       }
 
-      for (let i = 0; i < this.criteria.length; i++) {
+      for (let i = 0; i < this.getCriteria.length; i++) {
         let notFound =
-          toolCriteria.findIndex((x) => x.key === this.criteria[i].key) === -1;
+          toolCriteria.findIndex((x) => x.key === this.getCriteria[i].key) === -1;
         if (notFound) {
           return false;
         }
@@ -142,7 +126,7 @@ export default Vue.extend({
 
       let filtered = toolCriteriumSuitabilites.filter(
         (x) =>
-          this.criteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
+          this.getCriteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
       );
 
       return filtered;
@@ -166,19 +150,9 @@ export default Vue.extend({
 
       return {
         currentValue: currentScore,
-        maxValue: this.maxScore,
+        maxValue: this.getMaxScore,
         isExcluded: isExcluded,
       } as Typ.score;
-    },
-    cacheMaxScore() {
-      let score = 0;
-      this.criteria.forEach((element) => {
-        score +=
-          Math.pow(element.value.importance, 2) *
-          Typ.toolCriteriumFullfillment.verygood;
-      });
-
-      this.maxScore = score;
     },
 
     //NOTE: Sort DESCending
@@ -280,12 +254,6 @@ export default Vue.extend({
     },
   },
 
-  //MOUNTED
-  mounted: function () {
-    this.cacheCriteria();
-    this.cacheMaxScore();
-  },
-
   //COMPUTED
   computed: {
     getResults: function (): Array<Typ.toolRating> {
@@ -350,6 +318,30 @@ export default Vue.extend({
           }
         });
       }
+    },
+    getCriteria(): Array<Typ.criteriumKeyValue> {
+      const unsorted: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+
+      return unsorted.sort((a, b) => {
+        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
+          return b.value.importance - a.value.importance;
+        } else if (a.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    },
+    getMaxScore(): number {
+      let score = 0;
+      const criteria: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+      criteria.forEach((element) => {
+        score +=
+          Math.pow(element.value.importance, 2) *
+          Typ.toolCriteriumFullfillment.verygood;
+      });
+
+      return score;
     },
   },
 });
