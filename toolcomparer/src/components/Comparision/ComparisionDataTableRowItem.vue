@@ -7,7 +7,12 @@
           v-on="on"
         >
           <v-chip
-            :style="getColor() + (criteriumKV.value.name === sortBy ? 'color: blue;' : '')"
+            :style="getColor() + 
+            (result.score.isExcluded 
+            ? 'color: grey' 
+            : (criteriumKV.value.name === sortBy 
+            ? 'color: blue;' 
+            : ''))"
           >
             {{ getResultString(result, criteriumKV) }}
           </v-chip>
@@ -91,7 +96,7 @@ export default Vue.extend({
         this.suitability.fullfillment;
 
       if (current === 0) {
-        return "background-color: grey;";
+        return "background-color: lightgrey;";
       }
       else if (current >= max * 0.8) {
         return "background-color: lightgreen;";
