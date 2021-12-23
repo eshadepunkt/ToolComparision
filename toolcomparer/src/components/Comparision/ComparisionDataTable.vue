@@ -6,7 +6,7 @@
         <thead>
           <tr>
             <th>Tools</th>
-            <th v-on:click="changeSort($event, '')">
+            <th v-on:click="changeSort('')">
               <v-row>
                 <v-col cols="9"> Score </v-col>
                 <v-col cols="1">
