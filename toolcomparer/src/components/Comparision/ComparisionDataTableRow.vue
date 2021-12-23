@@ -13,7 +13,11 @@
       </v-tooltip>
     </td>
     <td>
-      {{ result.score.currentValue + "/" + result.score.maxValue }}
+      <v-chip
+        :style="getColor(result.score)"
+      >
+        {{ result.score.currentValue + "/" + result.score.maxValue }}
+      </v-chip>
     </td>
     <ComparisionDataTableRowItem
       v-for="(suitability, index) in getSortedSuitabilities"
@@ -121,6 +125,15 @@ export default Vue.extend({
     },
     btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
+    },
+    getColor(score: Typ.score): string {
+      if (score.currentValue >= score.maxValue * 0.8) {
+        return "background-color: lightgreen;";
+      } else if (score.currentValue >= score.maxValue * 0.6) {
+        return "background-color: yellow;";
+      } else {
+        return "background-color: red;";
+      }
     },
   },
 

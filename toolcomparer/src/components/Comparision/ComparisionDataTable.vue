@@ -42,7 +42,7 @@
             :sortBy="sortBy"
             :criteria="criteria"
             class="text-left"
-            :style="getColor(result.score)"
+            :style="result.score.isExcluded ? 'color: grey;' : ''"
           />
         </tbody>
       </template>
@@ -120,17 +120,6 @@ export default Vue.extend({
   },
 
   methods: {
-    getColor(score: Typ.score): string {
-      if (score.isExcluded) {
-        return "background-color: grey;";
-      } else if (score.currentValue >= score.maxValue * 0.8) {
-        return "background-color: lightgreen;";
-      } else if (score.currentValue >= score.maxValue * 0.6) {
-        return "background-color: yellow;";
-      } else {
-        return "background-color: orange;";
-      }
-    },
     changeSort(sortBy: string) {
       if (this.sortBy == sortBy) {
         this.$emit("sortDescChanged", !this.sortDesc);

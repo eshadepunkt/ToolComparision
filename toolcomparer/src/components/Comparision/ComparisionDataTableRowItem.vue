@@ -5,9 +5,12 @@
         <div
           v-bind="attrs"
           v-on="on"
-          v-bind:style="criteriumKV.value.name === sortBy ? 'color: blue;' : ''"
         >
-          {{ getResultString(result, criteriumKV) }}
+          <v-chip
+            :style="getColor() + (criteriumKV.value.name === sortBy ? 'color: blue;' : '')"
+          >
+            {{ getResultString(result, criteriumKV) }}
+          </v-chip>
         </div>
       </template>
       <span>
@@ -77,6 +80,26 @@ export default Vue.extend({
         this.suitability.justification;
 
       return text;
+    },
+    getColor(): string {
+      const max: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        Typ.toolCriteriumFullfillment.verygood;
+
+      const current: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        this.suitability.fullfillment;
+
+      if (current === 0) {
+        return "background-color: grey;";
+      }
+      else if (current >= max * 0.8) {
+        return "background-color: lightgreen;";
+      } else if (current >= max * 0.6) {
+        return "background-color: yellow;";
+      } else {
+        return "background-color: red;";
+      }
     },
   },
 });
