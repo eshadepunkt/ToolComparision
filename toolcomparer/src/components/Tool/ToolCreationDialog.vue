@@ -149,9 +149,10 @@ export default Vue.extend({
 
       noSecHash,
 
-      btnText: ((this.workflow === "CriteriaFirst"
-        || (this.propToolKV.value.criteriaSuitabilities 
-          && this.propToolKV.value.criteriaSuitabilities.length > 0))  
+      btnText: (((this.propToolKV.value.criteriaSuitabilities 
+        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
+          || (this.criteria 
+          && this.criteria.length > 0))
         ? "Next" 
         : (this.mode === Typ.simpleEditMode.Add 
         ? "Add" 
