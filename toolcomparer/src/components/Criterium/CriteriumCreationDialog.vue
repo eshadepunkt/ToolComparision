@@ -85,6 +85,10 @@ export default Vue.extend({
       type: Number as () => Typ.simpleEditMode,
       default: Typ.simpleEditMode.Add,
     },
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     propCriteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,
       default() {

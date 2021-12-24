@@ -56,15 +56,18 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <ToolCriteriumSuitabilityCreationDialog
-      v-show="isInSuitabilityCreation"
-      ref="suit_creation"
-      :propToolKV="toolKV"
-      :mode="mode"
-      :showDialog="isInSuitabilityCreation"
-      :criteria="criteria"
-      v-on:closeDialog="saveAndCloseDialog"
-    />
+    <template v-if="workflow === 'CriteriaFirst'">
+      <ToolCriteriumSuitabilityCreationDialog
+        v-show="isInSuitabilityCreation"
+        ref="suit_creation"
+        :propToolKV="toolKV"
+        :mode="mode"
+        :showDialog="isInSuitabilityCreation"
+        :criteria="criteria"
+        v-on:closeDialog="saveAndCloseDialog"
+      />
+    </template>
+
   </div>
 </template>
 
@@ -105,6 +108,10 @@ export default Vue.extend({
     mode: {
       type: Number as () => Typ.simpleEditMode,
       default: Typ.simpleEditMode.Add,
+    },
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
     },
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
