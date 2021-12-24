@@ -30,7 +30,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <ToolLastCreationDialog
+    <ToolCreationDialog
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
@@ -57,14 +57,14 @@ import {
 import Vue from "vue";
 
 import ToolCard from "./ToolCard.vue";
-import ToolLastCreationDialog from "./ToolLastCreationDialog.vue";
+import ToolCreationDialog from "./ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolListItem",
 
   components: {
     ToolCard,
-    ToolLastCreationDialog,
+    ToolCreationDialog,
   },
 
   //PROPS

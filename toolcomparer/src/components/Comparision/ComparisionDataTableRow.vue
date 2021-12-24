@@ -47,7 +47,7 @@
         </v-col>
       </v-row>
     </td>
-    <ToolLastCreationDialog
+    <ToolCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
       :propToolKV="result.toolKV"
@@ -72,14 +72,14 @@ import {
 
 import Vue from "vue";
 import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
-import ToolLastCreationDialog from "../Tool/ToolLastCreationDialog.vue";
+import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
     ComparisionDataTableRowItem,
-    ToolLastCreationDialog,
+    ToolCreationDialog,
   },
 
   props: {

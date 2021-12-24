@@ -27,7 +27,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <CriteriumFirstCreationDialog
+    <CriteriumCreationDialog
       v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
@@ -53,14 +53,14 @@ import {
 import Vue from "vue";
 
 import CriteriumCard from "./CriteriumCard.vue";
-import CriteriumFirstCreationDialog from "./CriteriumFirstCreationDialog.vue";
+import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumListItem",
 
   components: {
     CriteriumCard,
-    CriteriumFirstCreationDialog,
+    CriteriumCreationDialog,
   },
 
   //PROPS

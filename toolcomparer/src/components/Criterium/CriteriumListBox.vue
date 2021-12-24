@@ -8,7 +8,7 @@
         </v-item>
       </v-item-group>
     </v-list>
-    <CriteriumFirstCreationDialog
+    <CriteriumCreationDialog
       v-show="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
@@ -34,14 +34,14 @@ import {
 import Vue from "vue";
 
 import CriteriumListItem from "./CriteriumListItem.vue";
-import CriteriumFirstCreationDialog from "./CriteriumFirstCreationDialog.vue";
+import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumListBox",
 
   components: {
     CriteriumListItem,
-    CriteriumFirstCreationDialog,
+    CriteriumCreationDialog,
   },
 
   props: {

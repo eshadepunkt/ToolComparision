@@ -61,7 +61,7 @@
         />
       </v-list>
     </div>
-    <ToolLastCreationDialog
+    <ToolCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
       :propToolKV="result.toolKV"
@@ -87,14 +87,14 @@ import {
 import Vue from "vue";
 
 import ComparisionDataIteratorCardItem from "./ComparisionDataIteratorCardItem.vue";
-import ToolLastCreationDialog from "../Tool/ToolLastCreationDialog.vue";
+import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataIteratorCard",
 
   components: {
     ComparisionDataIteratorCardItem,
-    ToolLastCreationDialog,
+    ToolCreationDialog,
   },
 
   props: {

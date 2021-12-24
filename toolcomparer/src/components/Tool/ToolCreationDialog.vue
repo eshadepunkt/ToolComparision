@@ -1,5 +1,5 @@
 <template>
-  <div id="ToolLastCreation">
+  <div id="ToolCreation">
     <v-dialog
       v-show="!isInSuitabilityCreation"
       v-model="showDialog"
@@ -89,7 +89,7 @@ import ToolCard from "./ToolCard.vue";
 import ToolCriteriumSuitabilityCreationDialog from "./ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
-  name: "ToolLastCreation",
+  name: "ToolCreation",
 
   components: {
     ToolCard,

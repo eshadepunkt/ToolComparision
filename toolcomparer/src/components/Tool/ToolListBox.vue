@@ -12,7 +12,7 @@
         </v-item>
       </v-item-group>
     </v-list>
-    <ToolLastCreationDialog
+    <ToolCreationDialog
       v-show="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
@@ -39,14 +39,14 @@ import {
 import Vue from "vue";
 
 import ToolListItem from "./ToolListItem.vue";
-import ToolLastCreationDialog from "./ToolLastCreationDialog.vue";
+import ToolCreationDialog from "./ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolListBox",
 
   components: {
     ToolListItem,
-    ToolLastCreationDialog,
+    ToolCreationDialog,
   },
 
   props: {

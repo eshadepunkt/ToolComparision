@@ -1,5 +1,5 @@
 <template>
-  <div id="CriteriumFirstCreation">
+  <div id="CriteriumCreation">
     <v-dialog
       v-model="showDialog"
       height="67vh"
@@ -69,7 +69,7 @@ import Vue from "vue";
 import CriteriumCard from "./CriteriumCard.vue";
 
 export default Vue.extend({
-  name: "CriteriumFirstCreation",
+  name: "CriteriumCreation",
 
   components: {
     CriteriumCard,
