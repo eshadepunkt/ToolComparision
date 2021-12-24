@@ -50,13 +50,14 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
-              height="6em"
+              height="5em"
               outlined
               label="Description"
               v-model="criteriumKV.value.description"
               :rules="rules.str"
               required
               :readonly="!isInCreation()"
+              no-resize
             >
             </v-textarea>
           </v-col>

@@ -7,11 +7,33 @@
   >
     <v-card>
       <v-container>
+        <v-row v-if="isInCreation()">
+          <v-col cols="9">
+            <div style="font-size: 1.5em; position: relative; top: 0.5em">
+              {{ "Tool: " + propToolKV.value.name }}
+            </div>
+          </v-col>
+        </v-row>
+        <v-row v-if="isInCreation()">
+          <v-col cols="12">
+            <v-textarea
+              height="5em"
+              outlined
+              label="Tool description"
+              v-model="propToolKV.value.description"
+              :rules="rules.str"
+              required
+              :readonly="true"
+              no-resize
+            >
+            </v-textarea>
+        </v-col>
+        </v-row>
         <!-- Head -->
         <v-row>
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ toolCriteriumSuitability.criteriumKV.value.name }}
+              {{ "Criterium: " + toolCriteriumSuitability.criteriumKV.value.name }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -46,13 +68,14 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
-              height="6em"
+              height="5em"
               outlined
               label="Criterium description"
               v-model="toolCriteriumSuitability.criteriumKV.value.description"
               :rules="rules.str"
               required
               :readonly="true"
+              no-resize
             >
             </v-textarea>
           </v-col>
@@ -78,13 +101,14 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
-              height="6em"
+              height="5em"
               outlined
               label="Justification"
               v-model="toolCriteriumSuitability.justification"
               :rules="rules.str"
               required
-              :readonly="!isInCreation()"
+              :readonly="!isInCreation()"  
+              no-resize           
             >
             </v-textarea>
           </v-col>
@@ -116,6 +140,23 @@ export default Vue.extend({
 
   //PROPS
   props: {
+    propToolKV: {
+      type: Object as () => Typ.toolKeyValue,
+      default() {
+        return {
+          key: uuidv4() as string,
+          value: {
+            name: "" as string,
+            description: "" as string,
+            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+          } as Typ.tool,
+        } as Typ.toolKeyValue;
+      },
+    },
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     propToolCriteriumSuitability: {
       type: Object as () => Typ.toolCriteriumSuitability,
       default() {

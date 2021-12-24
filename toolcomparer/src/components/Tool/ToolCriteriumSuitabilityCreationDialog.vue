@@ -2,7 +2,7 @@
   <div id="ToolCriteriumSuitabilityCreation">
     <v-dialog
       v-model="showDialog"
-      height="67vh"
+      height="100vh"
       width="50vw"
       persistent
       transition="dialog-bottom-transition"
@@ -28,6 +28,7 @@
                   ref="tool_card"
                   :propToolCriteriumSuitability="getCurrentSuitability()"
                   :propModuleState="moduleState"
+                  :propToolKV="toolKV"
                 />
               </v-card>
             </v-col>
