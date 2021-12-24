@@ -149,7 +149,7 @@ export default Vue.extend({
 
       noSecHash,
 
-      btnText: "Next" as string,
+      btnText: (this.workflow === "CriteriaFirst" ? "Next" : "Add") as string,
 
       isInSuitabilityCreation: false as boolean,
     };
@@ -170,7 +170,7 @@ export default Vue.extend({
       if (toolKV !== null) {
         this.toolKV = toolKV;
 
-        if (saveAndCloseDialog) {
+        if (saveAndCloseDialog || this.workflow === "ToolsFirst") {
           this.saveAndCloseDialog(true);
         } else if (this.mode !== Typ.simpleEditMode.UpdateSingle) {
           this.isInSuitabilityCreation = true;
@@ -178,33 +178,38 @@ export default Vue.extend({
       }
     },
     saveAndCloseDialog(finished: boolean) {
-      console.log("F: " + finished);
       if (!finished) {
         this.isInSuitabilityCreation = false;
         return;
       }
-      const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
-        this.$refs.suit_creation as Vue & {
-          getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
-        }
-      ).getSuitabilities();
-      if (
-        this.mode !== Typ.simpleEditMode.Add ||
-        this.criteria.length === updateSuitabilities.length
-      ) {
-        const propHash = this.noSecHash(this.propToolKV);
-        const newHash = this.noSecHash(this.toolKV);
-        if (propHash !== newHash) {
-          (this.$refs.tool_card as Vue & { save: () => boolean }).save();
-        }
 
-        updateSuitabilities.forEach((element) => {
-          this.$store.dispatch("updateToolSuitability", {
-            toolKV: this.toolKV,
-            criteriumSuitability: element,
+      const propHash = this.noSecHash(this.propToolKV);
+      const newHash = this.noSecHash(this.toolKV);
+      if (propHash !== newHash) {
+        (this.$refs.tool_card as Vue & { save: () => boolean }).save();
+      }
+
+      if (this.workflow === "CriteriaFirst") {
+        const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
+          this.$refs.suit_creation as Vue & {
+            getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
+          }
+        ).getSuitabilities();
+        if (
+          this.mode !== Typ.simpleEditMode.Add ||
+          this.criteria.length === updateSuitabilities.length
+        ) {
+          updateSuitabilities.forEach((element) => {
+            this.$store.dispatch("updateToolSuitability", {
+              toolKV: this.toolKV,
+              criteriumSuitability: element,
+            });
           });
-        });
 
+          this.closeDialog();
+        }
+      }
+      else if (this.workflow === "ToolsFirst") {
         this.closeDialog();
       }
     },

@@ -13,9 +13,9 @@
       </v-item-group>
     </v-list>
     <ToolCreationDialog
-      v-show="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
+      :workflow="workflow"
       :criteria="criteria"
       v-on:closeDialog="closeDialog()"
     />

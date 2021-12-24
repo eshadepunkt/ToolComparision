@@ -31,9 +31,9 @@
       </v-container>
     </v-card>
     <ToolCreationDialog
-      v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
+      :workflow="workflow"
       :propToolKV="propToolKV"
       :criteria="criteria"
       v-on:closeDialog="showDialog = false"
