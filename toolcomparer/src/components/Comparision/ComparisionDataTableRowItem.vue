@@ -2,17 +2,16 @@
   <td id="ComparisionDataTableRowItem">
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <div
-          v-bind="attrs"
-          v-on="on"
-        >
+        <div v-bind="attrs" v-on="on">
           <v-chip
-            :style="getColor() + 
-            (result.score.isExcluded 
-            ? 'color: grey' 
-            : (criteriumKV.value.name === sortBy 
-            ? 'color: blue;' 
-            : ''))"
+            :style="
+              getColor() +
+              (result.score.isExcluded
+                ? 'color: grey'
+                : criteriumKV.value.name === sortBy
+                ? 'color: blue;'
+                : '')
+            "
           >
             {{ getResultString(result, criteriumKV) }}
           </v-chip>
@@ -97,8 +96,7 @@ export default Vue.extend({
 
       if (current === 0) {
         return "background-color: lightgrey;";
-      }
-      else if (current >= max * 0.8) {
+      } else if (current >= max * 0.8) {
         return "background-color: lightgreen;";
       } else if (current >= max * 0.6) {
         return "background-color: yellow;";

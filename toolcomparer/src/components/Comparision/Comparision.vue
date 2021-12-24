@@ -87,7 +87,6 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-    
 
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
@@ -110,7 +109,8 @@ export default Vue.extend({
 
       for (let i = 0; i < this.getCriteria.length; i++) {
         let notFound =
-          toolCriteria.findIndex((x) => x.key === this.getCriteria[i].key) === -1;
+          toolCriteria.findIndex((x) => x.key === this.getCriteria[i].key) ===
+          -1;
         if (notFound) {
           return false;
         }
@@ -320,7 +320,8 @@ export default Vue.extend({
       }
     },
     getCriteria(): Array<Typ.criteriumKeyValue> {
-      const unsorted: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+      const unsorted: Array<Typ.criteriumKeyValue> =
+        this.$store.getters.getCriteria;
 
       return unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
@@ -334,7 +335,8 @@ export default Vue.extend({
     },
     getMaxScore(): number {
       let score = 0;
-      const criteria: Array<Typ.criteriumKeyValue> = this.$store.getters.getCriteria;
+      const criteria: Array<Typ.criteriumKeyValue> =
+        this.$store.getters.getCriteria;
       criteria.forEach((element) => {
         score +=
           Math.pow(element.value.importance, 2) *

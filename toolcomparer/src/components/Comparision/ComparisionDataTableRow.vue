@@ -14,10 +14,10 @@
     </td>
     <td>
       <v-chip
-        :style="getColor(result.score) +
-            (result.score.isExcluded 
-            ? 'color: grey' 
-            : '')"
+        :style="
+          getColor(result.score) +
+          (result.score.isExcluded ? 'color: grey' : '')
+        "
       >
         {{ result.score.currentValue + "/" + result.score.maxValue }}
       </v-chip>
@@ -132,8 +132,7 @@ export default Vue.extend({
     getColor(score: Typ.score): string {
       if (score.isExcluded) {
         return "background-color: lightgrey;";
-      }
-      else if (score.currentValue >= score.maxValue * 0.8) {
+      } else if (score.currentValue >= score.maxValue * 0.8) {
         return "background-color: lightgreen;";
       } else if (score.currentValue >= score.maxValue * 0.6) {
         return "background-color: yellow;";
