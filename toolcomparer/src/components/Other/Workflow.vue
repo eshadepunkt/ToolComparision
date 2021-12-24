@@ -108,7 +108,6 @@ export default Vue.extend({
       btnBackTxt: "" as string,
       btnNextTxt: "" as string,
       btnAddTxt: "" as string,
-      btnAddNavi: "" as string,
       uuidNIL,
       Typ,
     };
@@ -238,9 +237,6 @@ export default Vue.extend({
         : "Criteria";
 
       this.btnAddTxt = isListBoxCriteria ? "Add Criterium" : "Add Tool";
-      this.btnAddNavi =
-        (isCriteriaFirst ? "/CriteriaFirst/" : "/ToolsFirst/") +
-        (isListBoxCriteria ? "CriteriumCreation/" : "ToolCreation/");
     },
     closeDialog() {
       this.showDialog = false;

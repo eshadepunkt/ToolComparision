@@ -49,7 +49,7 @@
             </v-col>
             <v-col xl="1">
               <v-btn @click="btnSave(false)" color="teal lighten-5">
-                {{ btnText }}
+                {{ getBtnNextTxt }}
               </v-btn>
             </v-col>
           </v-row>
@@ -149,15 +149,6 @@ export default Vue.extend({
 
       noSecHash,
 
-      btnText: (((this.propToolKV.value.criteriaSuitabilities 
-        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
-          || (this.criteria 
-          && this.criteria.length > 0))
-        ? "Next" 
-        : (this.mode === Typ.simpleEditMode.Add 
-        ? "Add" 
-        : "Update")) as string,
-
       isInSuitabilityCreation: false as boolean,
     };
   },
@@ -178,8 +169,10 @@ export default Vue.extend({
         this.toolKV = toolKV;
 
         if (!saveAndCloseDialog 
-        && (this.propToolKV.value.criteriaSuitabilities 
-          && this.propToolKV.value.criteriaSuitabilities.length > 0)) {
+        && ((this.propToolKV.value.criteriaSuitabilities 
+        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
+          || (this.criteria 
+          && this.criteria.length > 0))) {
           this.isInSuitabilityCreation = true;
         }
         else {
@@ -237,6 +230,19 @@ export default Vue.extend({
         this.toolKV.key = uuidv4();
       }
     },
+  },
+
+  computed: {
+    getBtnNextTxt: function (): string  {
+      return (((this.propToolKV.value.criteriaSuitabilities 
+        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
+          || (this.criteria 
+          && this.criteria.length > 0))
+        ? "Next" 
+        : (this.mode === Typ.simpleEditMode.Add 
+        ? "Add" 
+        : "Update")) as string;
+    }
   },
 
   //WATCH
