@@ -31,11 +31,11 @@
                   <v-list-item-title> More Features </v-list-item-title>
                 </v-list-item>
                 <v-divider> </v-divider>
-                <v-list-item link class="px-2">
+                <v-list-item link class="px-2" v-on:click.native="navigateTo('/Workflow/CriteriaFirst')">
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiPlus }}</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title> New Workflow </v-list-item-title>
+                  <v-list-item-title> Workflow </v-list-item-title>
                 </v-list-item>
                 <v-divider> </v-divider>
                 <v-list-item
