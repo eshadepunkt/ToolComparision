@@ -49,7 +49,7 @@ export default Vue.extend({
     sortItems: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
       default() {
-        return Array<Typ.criteriumKeyValue>();
+        return new Array<Typ.criteriumKeyValue>();
       },
     },
     search: {

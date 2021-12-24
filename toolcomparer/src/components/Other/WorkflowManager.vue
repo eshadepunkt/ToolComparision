@@ -3,6 +3,7 @@
     <CriteriumListBox
       v-show="currentListBox === 'Criteria'"
       :criteria="criteria"
+      :tools="tools"
       :showDialog="showDialog && currentListBox === 'Criteria'"
       :workflow="workflow"
       v-on:closeDialog="closeDialog()"

@@ -55,6 +55,9 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
+    tools: {
+      type: Array as () => Array<Typ.toolKeyValue>,
+    },
   },
 
   //DATA
@@ -64,6 +67,7 @@ export default Vue.extend({
       Typ,
       noSecHash,
       editMode: Typ.simpleEditMode.Add,
+      currentTool: {} as Typ.toolKeyValue,
     };
   },
 

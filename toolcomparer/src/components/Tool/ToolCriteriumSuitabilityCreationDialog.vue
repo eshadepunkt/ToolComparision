@@ -106,7 +106,7 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
       default() {
-        return Array<Typ.criteriumKeyValue>();
+        return new Array<Typ.criteriumKeyValue>();
       },
     },
     showDialog: {

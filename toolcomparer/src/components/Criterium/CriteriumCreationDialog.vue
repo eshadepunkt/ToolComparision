@@ -47,6 +47,18 @@
         </v-container>
       </v-card>
     </v-dialog>
+    <!-- TODO: Mk rdy fr ToolsFirst -->
+    <template v-if="workflow === 'ToolsFirst'">
+      <ToolCriteriumSuitabilityCreationDialog
+        v-show="isInSuitabilityCreation"
+        ref="suit_creation"
+        :propToolKV="toolKV"
+        :mode="mode"
+        :showDialog="isInSuitabilityCreation"
+        :criteria="criteria"
+        v-on:closeDialog="saveAndCloseDialog"
+      />
+    </template>
   </div>
 </template>
 
@@ -102,6 +114,9 @@ export default Vue.extend({
           } as Typ.criterium,
         } as Typ.criteriumKeyValue;
       },
+    },
+    tools: {
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 

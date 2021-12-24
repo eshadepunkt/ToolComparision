@@ -81,7 +81,7 @@ export default Vue.extend({
     results: {
       type: Array as () => Array<Typ.toolRating>,
       default() {
-        return Array<Typ.toolRating>();
+        return new Array<Typ.toolRating>();
       },
     },
     criteria: {
