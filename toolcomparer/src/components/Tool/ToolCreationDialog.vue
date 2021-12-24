@@ -149,7 +149,13 @@ export default Vue.extend({
 
       noSecHash,
 
-      btnText: (this.workflow === "CriteriaFirst" ? "Next" : "Add") as string,
+      btnText: ((this.workflow === "CriteriaFirst"
+        || (this.propToolKV.value.criteriaSuitabilities 
+          && this.propToolKV.value.criteriaSuitabilities.length > 0))  
+        ? "Next" 
+        : (this.mode === Typ.simpleEditMode.Add 
+        ? "Add" 
+        : "Update")) as string,
 
       isInSuitabilityCreation: false as boolean,
     };
@@ -170,10 +176,13 @@ export default Vue.extend({
       if (toolKV !== null) {
         this.toolKV = toolKV;
 
-        if (saveAndCloseDialog || this.workflow === "ToolsFirst") {
-          this.saveAndCloseDialog(true);
-        } else if (this.mode !== Typ.simpleEditMode.UpdateSingle) {
+        if (!saveAndCloseDialog 
+        && (this.propToolKV.value.criteriaSuitabilities 
+          && this.propToolKV.value.criteriaSuitabilities.length > 0)) {
           this.isInSuitabilityCreation = true;
+        }
+        else {
+          this.saveAndCloseDialog(true);
         }
       }
     },
@@ -209,7 +218,7 @@ export default Vue.extend({
           this.closeDialog();
         }
       }
-      else if (this.workflow === "ToolsFirst") {
+      else {
         this.closeDialog();
       }
     },
