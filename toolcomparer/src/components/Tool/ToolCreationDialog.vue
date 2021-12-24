@@ -158,7 +158,7 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnCancel() {
-      this.resetToolKV();
+      this.updateToolKV();
       this.closeDialog();
     },
     btnSave(saveAndCloseDialog = false) {
@@ -210,9 +210,10 @@ export default Vue.extend({
     },
     closeDialog() {
       this.isInSuitabilityCreation = false;
+      this.updateToolKV();
       this.$emit("closeDialog");
     },
-    resetToolKV() {
+    updateToolKV() {
       this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
       if (
         this.toolKV.value.name === "" &&
@@ -227,7 +228,7 @@ export default Vue.extend({
   watch: {
     propToolKV: {
       handler() {
-        this.resetToolKV();
+        this.updateToolKV();
       },
       deep: true,
     },

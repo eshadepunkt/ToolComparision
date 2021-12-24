@@ -139,10 +139,10 @@ export default Vue.extend({
       }
     },
     closeDialog() {
-      this.resetCriteriumKV();
+      this.updateCriteriumKV();
       this.$emit("closeDialog");
     },
-    resetCriteriumKV() {
+    updateCriteriumKV() {
       this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
       if (
         this.criteriumKV.value.name === "" &&
@@ -158,7 +158,7 @@ export default Vue.extend({
   watch: {
     propCriteriumKV: {
       handler() {
-        this.resetCriteriumKV();
+        this.updateCriteriumKV();
       },
       deep: true,
     },
