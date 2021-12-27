@@ -225,8 +225,6 @@ export default Vue.extend({
         if (closeDialog || this.mode === Typ.simpleEditMode.UpdateSingle) {
           if (this.workflow === "CriteriaFirst") {
             this.updateSuitabilitiesOfTool();
-          } else {
-            this.addSuitabilityToTools();
           }
 
           this.closeDialog(true);

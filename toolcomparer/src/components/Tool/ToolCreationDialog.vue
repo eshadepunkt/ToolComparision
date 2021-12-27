@@ -155,7 +155,6 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnCancel() {
-      this.updateToolKV();
       this.closeDialog();
     },
     btnSave(saveAndCloseDialog = false) {

@@ -127,6 +127,7 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
+      isInSuitabilityCreation: false,
 
       icons: {
         mdiAccount,
@@ -150,6 +151,14 @@ export default Vue.extend({
         this.$refs.criterium_card as Vue & { save: () => boolean }
       ).save();
       if (isSuccessful) {
+        if (this.workflow !== "CriteriaFirst" 
+          && this.tools 
+          && this.tools.length > 0
+        ) {
+          this.isInSuitabilityCreation = true;
+        } else {
+          this.saveAndCloseDialog(true);
+        }
         this.closeDialog();
       }
     },
