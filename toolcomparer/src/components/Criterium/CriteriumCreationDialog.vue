@@ -47,15 +47,15 @@
         </v-container>
       </v-card>
     </v-dialog>
-    <!-- TODO: Mk rdy fr ToolsFirst -->
     <template v-if="workflow === 'ToolsFirst'">
       <ToolCriteriumSuitabilityCreationDialog
         v-show="isInSuitabilityCreation"
         ref="suit_creation"
-        :propToolKV="toolKV"
         :mode="mode"
+        :workflow="workflow"
         :showDialog="isInSuitabilityCreation"
-        :criteria="criteria"
+        :propCriteriumKV="criteriumKV"
+        :tools="tools"
         v-on:closeDialog="saveAndCloseDialog"
       />
     </template>

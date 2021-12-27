@@ -11,6 +11,7 @@
     <CriteriumCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
+      :workflow="workflow"
       v-on:closeDialog="closeDialog()"
     />
   </div>
