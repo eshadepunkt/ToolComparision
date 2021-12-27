@@ -258,7 +258,7 @@ export default Vue.extend({
         this.$store.dispatch("updateToolSuitability", {
           toolKV: this.tools[index],
           criteriumSuitability: this.updateSuitabilities[index],
-        });    
+        });
       }
     },
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
@@ -306,18 +306,18 @@ export default Vue.extend({
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
-                (this.workflow === "CriteriaFirst"
-                    ? this.criteria[this.currentSuitabilityIndex].key
-                    : this.propCriteriumKV.key)
+              (this.workflow === "CriteriaFirst"
+                ? this.criteria[this.currentSuitabilityIndex].key
+                : this.propCriteriumKV.key)
           );
           this.currentSuitability =
             found.length > 0
               ? found[0]
               : {
-                  criteriumKV: 
-                    (this.workflow === "CriteriaFirst"
-                    ? this.criteria[this.currentSuitabilityIndex]
-                    : this.propCriteriumKV),
+                  criteriumKV:
+                    this.workflow === "CriteriaFirst"
+                      ? this.criteria[this.currentSuitabilityIndex]
+                      : this.propCriteriumKV,
                   fullfillment: Typ.toolCriteriumFullfillment.undefined,
                   justification: "" as string,
                 };
