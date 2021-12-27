@@ -226,6 +226,7 @@ export default Vue.extend({
           if (this.workflow === "CriteriaFirst") {
             this.updateSuitabilitiesOfTool();
           } else {
+            this.addSuitabilityToTools();
           }
 
           this.closeDialog(true);
@@ -251,7 +252,15 @@ export default Vue.extend({
         });
       });
     },
-    addSuitabilityToTools() {},
+    addSuitabilityToTools() {
+      const lenght: number = this.tools.length;
+      for (let index = 0; index < length; index++) {
+        this.$store.dispatch("updateToolSuitability", {
+          toolKV: this.tools[index],
+          criteriumSuitability: this.updateSuitabilities[index],
+        });    
+      }
+    },
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
       let currentCriteria: Array<Typ.criteriumKeyValue> = this.criteria;
 
@@ -297,7 +306,9 @@ export default Vue.extend({
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
-              this.criteria[this.currentSuitabilityIndex].key
+                (this.workflow === "CriteriaFirst"
+                    ? this.criteria[this.currentSuitabilityIndex].key
+                    : this.propCriteriumKV.key)
           );
           this.currentSuitability =
             found.length > 0
