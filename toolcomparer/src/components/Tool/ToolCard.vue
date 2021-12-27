@@ -80,10 +80,12 @@
         <v-row>
           <v-col cols="12">
             <ToolCriteriumSuitabilityListBox
-              v-if="(!isInCreation() 
-              && !isMinimized()) 
-                && (this.propToolKV.value.criteriaSuitabilities 
-                && this.propToolKV.value.criteriaSuitabilities.length > 0)"
+              v-if="
+                !isInCreation() &&
+                !isMinimized() &&
+                this.propToolKV.value.criteriaSuitabilities &&
+                this.propToolKV.value.criteriaSuitabilities.length > 0
+              "
               :propToolKV="toolKV"
             />
           </v-col>

@@ -67,7 +67,6 @@
         v-on:closeDialog="saveAndCloseDialog"
       />
     </template>
-
   </div>
 </template>
 
@@ -168,14 +167,14 @@ export default Vue.extend({
       if (toolKV !== null) {
         this.toolKV = toolKV;
 
-        if (!saveAndCloseDialog 
-        && ((this.propToolKV.value.criteriaSuitabilities 
-        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
-          || (this.criteria 
-          && this.criteria.length > 0))) {
+        if (
+          !saveAndCloseDialog &&
+          ((this.propToolKV.value.criteriaSuitabilities &&
+            this.propToolKV.value.criteriaSuitabilities.length > 0) ||
+            (this.criteria && this.criteria.length > 0))
+        ) {
           this.isInSuitabilityCreation = true;
-        }
-        else {
+        } else {
           this.saveAndCloseDialog(true);
         }
       }
@@ -211,8 +210,7 @@ export default Vue.extend({
 
           this.closeDialog();
         }
-      }
-      else {
+      } else {
         this.closeDialog();
       }
     },
@@ -233,16 +231,17 @@ export default Vue.extend({
   },
 
   computed: {
-    getBtnNextTxt: function (): string  {
-      return (((this.propToolKV.value.criteriaSuitabilities 
-        && this.propToolKV.value.criteriaSuitabilities.length > 0) 
-          || (this.criteria 
-          && this.criteria.length > 0))
-        ? "Next" 
-        : (this.mode === Typ.simpleEditMode.Add 
-        ? "Add" 
-        : "Update")) as string;
-    }
+    getBtnNextTxt: function (): string {
+      return (
+        (this.propToolKV.value.criteriaSuitabilities &&
+          this.propToolKV.value.criteriaSuitabilities.length > 0) ||
+        (this.criteria && this.criteria.length > 0)
+          ? "Next"
+          : this.mode === Typ.simpleEditMode.Add
+          ? "Add"
+          : "Update"
+      ) as string;
+    },
   },
 
   //WATCH

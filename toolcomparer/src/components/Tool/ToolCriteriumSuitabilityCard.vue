@@ -27,13 +27,15 @@
               no-resize
             >
             </v-textarea>
-        </v-col>
+          </v-col>
         </v-row>
         <!-- Head -->
         <v-row>
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ "Criterium: " + toolCriteriumSuitability.criteriumKV.value.name }}
+              {{
+                "Criterium: " + toolCriteriumSuitability.criteriumKV.value.name
+              }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -107,8 +109,8 @@
               v-model="toolCriteriumSuitability.justification"
               :rules="rules.str"
               required
-              :readonly="!isInCreation()"  
-              no-resize           
+              :readonly="!isInCreation()"
+              no-resize
             >
             </v-textarea>
           </v-col>
