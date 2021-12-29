@@ -157,6 +157,8 @@ export default Vue.extend({
         }
       ).getCriteriumKVIfValid();
       if (criteriumKV !== null) {
+        this.criteriumKV = criteriumKV;
+        
         if (
           this.workflow !== "CriteriaFirst" &&
           this.tools &&

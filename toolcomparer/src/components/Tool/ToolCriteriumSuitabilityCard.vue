@@ -34,7 +34,10 @@
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
               {{
-                "Criterium: " + toolCriteriumSuitability.criteriumKV.value.name
+                "Criterium: " + 
+                (workflow === "CriteriaFirst" 
+                  ? toolCriteriumSuitability.criteriumKV.value.name 
+                  : propCriteriumKV.value.name)
               }}
             </div>
           </v-col>
@@ -73,11 +76,14 @@
               height="5em"
               outlined
               label="Criterium description"
-              v-model="toolCriteriumSuitability.criteriumKV.value.description"
+              
               :rules="rules.str"
               required
               :readonly="true"
               no-resize
+              :value="workflow === 'CriteriaFirst' 
+              ? toolCriteriumSuitability.criteriumKV.value.description 
+              : propCriteriumKV.value.description"
             >
             </v-textarea>
           </v-col>
