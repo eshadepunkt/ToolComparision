@@ -12,6 +12,7 @@
       :showDialog="showDialog"
       :mode="editMode"
       :workflow="workflow"
+      :tools="tools"
       v-on:closeDialog="closeDialog()"
     />
   </div>

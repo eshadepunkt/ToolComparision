@@ -80,12 +80,14 @@ import {
 import Vue from "vue";
 
 import CriteriumCard from "./CriteriumCard.vue";
+import ToolCriteriumSuitabilityCreationDialog from "../Tool/ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumCreation",
 
   components: {
     CriteriumCard,
+    ToolCriteriumSuitabilityCreationDialog,
   },
 
   //PROPS
@@ -139,7 +141,7 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
       Typ,
-      noSecHash
+      noSecHash,
     };
   },
 
@@ -155,10 +157,13 @@ export default Vue.extend({
         }
       ).getCriteriumKVIfValid();
       if (criteriumKV !== null) {
-        if (this.workflow !== "CriteriaFirst" 
-          && this.tools 
-          && this.tools.length > 0
+        if (
+          this.workflow !== "CriteriaFirst" &&
+          this.tools &&
+          this.tools.length > 0
         ) {
+          console.log("SC");
+
           this.isInSuitabilityCreation = true;
         } else {
           this.saveAndCloseDialog(true);
@@ -192,7 +197,7 @@ export default Vue.extend({
             this.$store.dispatch("updateToolSuitability", {
               toolKV: this.tools[index],
               criteriumSuitability: element,
-            });       
+            });
           }
 
           this.closeDialog();
