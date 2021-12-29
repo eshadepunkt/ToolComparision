@@ -76,7 +76,7 @@
               height="5em"
               outlined
               label="Criterium description"
-              
+
               :rules="rules.str"
               required
               :readonly="true"
@@ -306,27 +306,47 @@ export default Vue.extend({
     getSuitabilityEvenIncomplete(): Typ.toolCriteriumSuitability {
       return this.toolCriteriumSuitability;
     },
-    resetSuitability() {
+    updateSuitability() {
       this.toolCriteriumSuitability = JSON.parse(
         JSON.stringify(this.propToolCriteriumSuitability)
       );
       this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
         this.toolCriteriumSuitability.fullfillment
       );
+
+      this.resetValidation();
+    },
+    updateCriteriumKV(): void {
+      this.toolCriteriumSuitability.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
+
+      if (
+        this.propToolCriteriumSuitability.criteriumKV.value.name === "" &&
+        this.propToolCriteriumSuitability.criteriumKV.value.description === "" &&
+        this.propToolCriteriumSuitability.criteriumKV.value.importance === Typ.criteriumImportance.undefined
+      ) {
+        this.toolCriteriumSuitability.criteriumKV.key = uuidv4();
+      }
+
       this.resetValidation();
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.resetSuitability();
+    this.updateSuitability();
   },
 
   //WATCH
   watch: {
     propToolCriteriumSuitability: {
       handler() {
-        this.resetSuitability();
+        this.updateSuitability();
+      },
+      deep: true,
+    },
+    propCriteriumKV: {
+      handler() {
+        this.updateCriteriumKV();
       },
       deep: true,
     },

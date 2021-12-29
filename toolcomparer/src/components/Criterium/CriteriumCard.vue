@@ -215,7 +215,7 @@ export default Vue.extend({
       if (isValid) {
         this.$store.dispatch("updateCriterium", this.criteriumKV);
 
-        this.resetCriteriumKV();
+        this.updateCriteriumKV();
       }
 
       return isValid;
@@ -229,7 +229,7 @@ export default Vue.extend({
 
       return criteriumKV;
     },
-    resetCriteriumKV(): void {
+    updateCriteriumKV(): void {
       this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
       this.selectedImportance = Typ.convertImportanceEnumToString(
         this.propCriteriumKV.value.importance
@@ -248,14 +248,14 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.resetCriteriumKV();
+    this.updateCriteriumKV();
   },
 
   //WATCH
   watch: {
     propCriteriumKV: {
       handler() {
-        this.resetCriteriumKV();
+        this.updateCriteriumKV();
       },
       deep: true,
     },
