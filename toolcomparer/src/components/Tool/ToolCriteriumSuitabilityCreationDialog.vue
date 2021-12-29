@@ -29,6 +29,8 @@
                   :propToolCriteriumSuitability="getCurrentSuitability()"
                   :propModuleState="moduleState"
                   :propToolKV="toolKV"
+                  :workflow="workflow"
+                  :propCriteriumKV="propCriteriumKV"
                 />
               </v-card>
             </v-col>

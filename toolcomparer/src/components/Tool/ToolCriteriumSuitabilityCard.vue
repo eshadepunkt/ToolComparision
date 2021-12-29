@@ -181,6 +181,20 @@ export default Vue.extend({
       type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
+    propCriteriumKV: {
+      type: Object as () => Typ.criteriumKeyValue,
+      default() {
+        return {
+          key: uuidv4() as string,
+          value: {
+            name: "",
+            description: "",
+            importance: Typ.criteriumImportance.undefined,
+            isExclusionCriterium: false,
+          } as Typ.criterium,
+        } as Typ.criteriumKeyValue;
+      },
+    },
   },
 
   //DATA
