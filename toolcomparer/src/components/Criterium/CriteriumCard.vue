@@ -220,6 +220,15 @@ export default Vue.extend({
 
       return isValid;
     },
+    getCriteriumKVIfValid(): Typ.criteriumKeyValue | null {
+      const isValid: boolean = this.validate();
+      let criteriumKV = null;
+      if (isValid) {
+        criteriumKV = this.criteriumKV;
+      }
+
+      return criteriumKV;
+    },
     resetCriteriumKV(): void {
       this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
       this.selectedImportance = Typ.convertImportanceEnumToString(

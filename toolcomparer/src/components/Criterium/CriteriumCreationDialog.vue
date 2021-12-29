@@ -65,6 +65,7 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -138,6 +139,7 @@ export default Vue.extend({
         mdiContentSaveEdit,
       },
       Typ,
+      noSecHash
     };
   },
 
@@ -147,10 +149,12 @@ export default Vue.extend({
       this.closeDialog();
     },
     btnSave() {
-      const isSuccessful: boolean = (
-        this.$refs.criterium_card as Vue & { save: () => boolean }
-      ).save();
-      if (isSuccessful) {
+      const criteriumKV: Typ.criteriumKeyValue | null = (
+        this.$refs.criterium_card as Vue & {
+          getCriteriumKVIfValid: () => Typ.criteriumKeyValue | null;
+        }
+      ).getCriteriumKVIfValid();
+      if (criteriumKV !== null) {
         if (this.workflow !== "CriteriaFirst" 
           && this.tools 
           && this.tools.length > 0
@@ -159,10 +163,46 @@ export default Vue.extend({
         } else {
           this.saveAndCloseDialog(true);
         }
+      }
+    },
+    saveAndCloseDialog(finished: boolean) {
+      if (!finished) {
+        this.isInSuitabilityCreation = false;
+        return;
+      }
+
+      const propHash = this.noSecHash(this.propCriteriumKV);
+      const newHash = this.noSecHash(this.criteriumKV);
+      if (propHash !== newHash) {
+        (this.$refs.criterium as Vue & { save: () => boolean }).save();
+      }
+
+      if (this.workflow !== "CriteriaFirst") {
+        const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
+          this.$refs.suit_creation as Vue & {
+            getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
+          }
+        ).getSuitabilities();
+        if (
+          this.mode === Typ.simpleEditMode.Add &&
+          this.tools.length === updateSuitabilities.length
+        ) {
+          for (let index = 0; index < updateSuitabilities.length; index++) {
+            const element = updateSuitabilities[index];
+            this.$store.dispatch("updateToolSuitability", {
+              toolKV: this.tools[index],
+              criteriumSuitability: element,
+            });       
+          }
+
+          this.closeDialog();
+        }
+      } else {
         this.closeDialog();
       }
     },
     closeDialog() {
+      this.isInSuitabilityCreation = false;
       this.updateCriteriumKV();
       this.$emit("closeDialog");
     },
