@@ -158,7 +158,7 @@ export default Vue.extend({
       ).getCriteriumKVIfValid();
       if (criteriumKV !== null) {
         this.criteriumKV = criteriumKV;
-        
+
         if (
           this.workflow !== "CriteriaFirst" &&
           this.tools &&
@@ -173,6 +173,8 @@ export default Vue.extend({
       }
     },
     saveAndCloseDialog(finished: boolean) {
+      console.log(finished);
+
       if (!finished) {
         this.isInSuitabilityCreation = false;
         return;
@@ -181,19 +183,24 @@ export default Vue.extend({
       const propHash = this.noSecHash(this.propCriteriumKV);
       const newHash = this.noSecHash(this.criteriumKV);
       if (propHash !== newHash) {
-        (this.$refs.criterium as Vue & { save: () => boolean }).save();
+        (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
-      if (this.workflow !== "CriteriaFirst") {
+      console.log(this.workflow);
+      if (this.workflow === "ToolsFirst") {
         const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
           this.$refs.suit_creation as Vue & {
             getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
           }
         ).getSuitabilities();
+
+        console.log("TF");
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.tools.length === updateSuitabilities.length
         ) {
+          console.log("TEU");
+
           for (let index = 0; index < updateSuitabilities.length; index++) {
             const element = updateSuitabilities[index];
             this.$store.dispatch("updateToolSuitability", {
