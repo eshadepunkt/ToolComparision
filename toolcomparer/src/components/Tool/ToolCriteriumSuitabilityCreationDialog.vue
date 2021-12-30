@@ -350,6 +350,8 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
+      console.log("TSC F");
+
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },
