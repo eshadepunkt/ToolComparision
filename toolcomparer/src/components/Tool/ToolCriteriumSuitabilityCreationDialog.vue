@@ -26,7 +26,7 @@
               <v-card outlined>
                 <ToolCriteriumSuitabilityCard
                   ref="tool_card"
-                  :propToolCriteriumSuitability="getCurrentSuitability()"
+                  :propToolKVSuitabilityItem="getCurrentSuitability()"
                   :propModuleState="moduleState"
                   :workflow="workflow"
                   :propCriteriumKV="propCriteriumKV"
@@ -251,15 +251,6 @@ export default Vue.extend({
           criteriumSuitability: element.suitability,
         });
       });
-    },
-    addSuitabilityToTools() {
-      const lenght: number = this.tools.length;
-      for (let index = 0; index < length; index++) {
-        this.$store.dispatch("updateToolSuitability", {
-          toolKV: this.currentSuitability.toolKV,
-          criteriumSuitability: this.currentSuitability.suitability,
-        });
-      }
     },
     getFilteredCriteria(): Array<Typ.criteriumKeyValue> {
       let currentCriteria: Array<Typ.criteriumKeyValue> = this.criteria;

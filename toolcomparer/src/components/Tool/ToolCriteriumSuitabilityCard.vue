@@ -10,7 +10,7 @@
         <v-row v-if="isInCreation()">
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ "Tool: " + propToolKV.value.name }}
+              {{ "Tool: " + toolKVSuitabilityItem.toolKV.value.name }}
             </div>
           </v-col>
         </v-row>
@@ -20,7 +20,7 @@
               height="5em"
               outlined
               label="Tool description"
-              v-model="propToolKV.value.description"
+              v-model="toolKVSuitabilityItem.toolKV.value.description"
               :rules="rules.str"
               required
               :readonly="true"
@@ -35,9 +35,7 @@
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
               {{
                 "Criterium: " +
-                (workflow === "CriteriaFirst"
-                  ? toolCriteriumSuitability.criteriumKV.value.name
-                  : propCriteriumKV.value.name)
+                toolKVSuitabilityItem.suitability.criteriumKV.value.name
               }}
             </div>
           </v-col>
@@ -80,11 +78,7 @@
               required
               :readonly="true"
               no-resize
-              :value="
-                workflow === 'CriteriaFirst'
-                  ? toolCriteriumSuitability.criteriumKV.value.description
-                  : propCriteriumKV.value.description
-              "
+              :value="toolKVSuitabilityItem.suitability.criteriumKV.value.description"
             >
             </v-textarea>
           </v-col>
@@ -113,7 +107,7 @@
               height="5em"
               outlined
               label="Justification"
-              v-model="toolCriteriumSuitability.justification"
+              v-model="toolKVSuitabilityItem.suitability.justification"
               :rules="rules.str"
               required
               :readonly="!isInCreation()"
@@ -149,19 +143,6 @@ export default Vue.extend({
 
   //PROPS
   props: {
-    propToolKV: {
-      type: Object as () => Typ.toolKeyValue,
-      default() {
-        return {
-          key: uuidv4() as string,
-          value: {
-            name: "" as string,
-            description: "" as string,
-            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
-          } as Typ.tool,
-        } as Typ.toolKeyValue;
-      },
-    },
     workflow: {
       type: String,
       default: "CriteriaFirst",
@@ -217,9 +198,9 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      toolCriteriumSuitability: JSON.parse(
+      toolKVSuitabilityItem: JSON.parse(
         JSON.stringify(this.propToolKVSuitabilityItem)
-      ) as Typ.toolCriteriumSuitability,
+      ) as Typ.toolKVSuitabilityItem,
 
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
@@ -270,7 +251,7 @@ export default Vue.extend({
     updateFullfillment(fullfillment: string): void {
       let fullfillmentEnum: Typ.toolCriteriumFullfillment =
         Typ.convertStringToFullfillmentEnum(fullfillment);
-      this.toolCriteriumSuitability.fullfillment = fullfillmentEnum;
+      this.toolKVSuitabilityItem.suitability.fullfillment = fullfillmentEnum;
     },
     validate(): boolean {
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
@@ -293,42 +274,42 @@ export default Vue.extend({
     getResultString(): string {
       const max: number =
         Math.pow(
-          this.toolCriteriumSuitability.criteriumKV.value.importance,
+          this.toolKVSuitabilityItem.suitability.criteriumKV.value.importance,
           2
         ) * Typ.toolCriteriumFullfillment.verygood;
 
       const min: number =
         Math.pow(
-          this.toolCriteriumSuitability.criteriumKV.value.importance,
+          this.toolKVSuitabilityItem.suitability.criteriumKV.value.importance,
           2
-        ) * this.toolCriteriumSuitability.fullfillment;
+        ) * this.toolKVSuitabilityItem.suitability.fullfillment;
 
       return min + "/" + max;
     },
-    getSuitabilityIfValid(): Typ.toolCriteriumSuitability | null {
+    getSuitabilityIfValid(): Typ.toolKVSuitabilityItem | null {
       const isValid: boolean = this.validate();
       let suitability = null;
       if (isValid) {
-        suitability = this.toolCriteriumSuitability;
+        suitability = this.toolKVSuitabilityItem;
       }
 
       return suitability;
     },
-    getSuitabilityEvenIncomplete(): Typ.toolCriteriumSuitability {
-      return this.toolCriteriumSuitability;
+    getSuitabilityEvenIncomplete(): Typ.toolKVSuitabilityItem {
+      return this.toolKVSuitabilityItem;
     },
     updateSuitability() {
-      this.toolCriteriumSuitability = JSON.parse(
+      this.toolKVSuitabilityItem = JSON.parse(
         JSON.stringify(this.propToolKVSuitabilityItem)
       );
       this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-        this.toolCriteriumSuitability.fullfillment
+        this.toolKVSuitabilityItem.suitability.fullfillment
       );
 
       this.resetValidation();
     },
     updateCriteriumKV(): void {
-      this.toolCriteriumSuitability.criteriumKV = JSON.parse(
+      this.toolKVSuitabilityItem.suitability.criteriumKV = JSON.parse(
         JSON.stringify(this.propCriteriumKV)
       );
 
@@ -339,7 +320,7 @@ export default Vue.extend({
         this.propToolKVSuitabilityItem.suitability.criteriumKV.value.importance ===
           Typ.criteriumImportance.undefined
       ) {
-        this.toolCriteriumSuitability.criteriumKV.key = uuidv4();
+        this.toolKVSuitabilityItem.suitability.criteriumKV.key = uuidv4();
       }
 
       this.resetValidation();
