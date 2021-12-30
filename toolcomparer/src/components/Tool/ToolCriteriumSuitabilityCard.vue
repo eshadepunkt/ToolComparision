@@ -34,9 +34,9 @@
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
               {{
-                "Criterium: " + 
-                (workflow === "CriteriaFirst" 
-                  ? toolCriteriumSuitability.criteriumKV.value.name 
+                "Criterium: " +
+                (workflow === "CriteriaFirst"
+                  ? toolCriteriumSuitability.criteriumKV.value.name
                   : propCriteriumKV.value.name)
               }}
             </div>
@@ -76,14 +76,15 @@
               height="5em"
               outlined
               label="Criterium description"
-
               :rules="rules.str"
               required
               :readonly="true"
               no-resize
-              :value="workflow === 'CriteriaFirst' 
-              ? toolCriteriumSuitability.criteriumKV.value.description 
-              : propCriteriumKV.value.description"
+              :value="
+                workflow === 'CriteriaFirst'
+                  ? toolCriteriumSuitability.criteriumKV.value.description
+                  : propCriteriumKV.value.description
+              "
             >
             </v-textarea>
           </v-col>
@@ -317,12 +318,16 @@ export default Vue.extend({
       this.resetValidation();
     },
     updateCriteriumKV(): void {
-      this.toolCriteriumSuitability.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
+      this.toolCriteriumSuitability.criteriumKV = JSON.parse(
+        JSON.stringify(this.propCriteriumKV)
+      );
 
       if (
         this.propToolCriteriumSuitability.criteriumKV.value.name === "" &&
-        this.propToolCriteriumSuitability.criteriumKV.value.description === "" &&
-        this.propToolCriteriumSuitability.criteriumKV.value.importance === Typ.criteriumImportance.undefined
+        this.propToolCriteriumSuitability.criteriumKV.value.description ===
+          "" &&
+        this.propToolCriteriumSuitability.criteriumKV.value.importance ===
+          Typ.criteriumImportance.undefined
       ) {
         this.toolCriteriumSuitability.criteriumKV.key = uuidv4();
       }

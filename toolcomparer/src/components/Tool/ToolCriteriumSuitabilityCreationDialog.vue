@@ -186,7 +186,8 @@ export default Vue.extend({
         if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
           this.updateSuitabilities.push(this.currentSuitability);
         } else {
-          this.updateSuitabilities[this.currentSuitabilityIndex] = this.currentSuitability;
+          this.updateSuitabilities[this.currentSuitabilityIndex] =
+            this.currentSuitability;
         }
       }
 
@@ -311,19 +312,22 @@ export default Vue.extend({
                 : this.propCriteriumKV.key)
           );
           this.currentSuitability = {
-            toolKV: (this.workflow === "CriteriaFirst" ? this.toolKV : this.tools[this.currentSuitabilityIndex]),
-            suitability: (
+            toolKV:
+              this.workflow === "CriteriaFirst"
+                ? this.toolKV
+                : this.tools[this.currentSuitabilityIndex],
+            suitability:
               found.length > 0
-              ? found[0]
-              : {
-                  criteriumKV:
-                    this.workflow === "CriteriaFirst"
-                      ? this.criteria[this.currentSuitabilityIndex]
-                      : this.propCriteriumKV,
-                  fullfillment: Typ.toolCriteriumFullfillment.undefined,
-                  justification: "" as string,
-                })
-          }          
+                ? found[0]
+                : {
+                    criteriumKV:
+                      this.workflow === "CriteriaFirst"
+                        ? this.criteria[this.currentSuitabilityIndex]
+                        : this.propCriteriumKV,
+                    fullfillment: Typ.toolCriteriumFullfillment.undefined,
+                    justification: "" as string,
+                  },
+          };
         }
 
         if (this.workflow !== "CriteriaFirst") {

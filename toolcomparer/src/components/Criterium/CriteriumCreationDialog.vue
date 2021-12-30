@@ -244,9 +244,7 @@ export default Vue.extend({
   computed: {
     getBtnNextTxt: function (): string {
       return (
-        this.workflow === "ToolsFirst" &&
-          (this.tools &&
-          this.tools.length > 0)
+        this.workflow === "ToolsFirst" && this.tools && this.tools.length > 0
           ? "Next"
           : this.mode === Typ.simpleEditMode.Add
           ? "Add"

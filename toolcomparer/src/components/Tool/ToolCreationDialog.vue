@@ -167,7 +167,8 @@ export default Vue.extend({
         this.toolKV = toolKV;
 
         if (
-          !saveAndCloseDialog && this.workflow === "CriteriaFirst" &&
+          !saveAndCloseDialog &&
+          this.workflow === "CriteriaFirst" &&
           ((this.propToolKV.value.criteriaSuitabilities &&
             this.propToolKV.value.criteriaSuitabilities.length > 0) ||
             (this.criteria && this.criteria.length > 0))
@@ -233,9 +234,9 @@ export default Vue.extend({
     getBtnNextTxt: function (): string {
       return (
         this.workflow === "CriteriaFirst" &&
-          ((this.propToolKV.value.criteriaSuitabilities &&
+        ((this.propToolKV.value.criteriaSuitabilities &&
           this.propToolKV.value.criteriaSuitabilities.length > 0) ||
-        (this.criteria && this.criteria.length > 0))
+          (this.criteria && this.criteria.length > 0))
           ? "Next"
           : this.mode === Typ.simpleEditMode.Add
           ? "Add"

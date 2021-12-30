@@ -4,9 +4,9 @@
     <v-list>
       <v-item-group>
         <v-item v-for="item in getCriteria" :key="noSecHash(item)">
-          <CriteriumListItem 
-            :propCriteriumKV="item" 
-            :workflow="workflow" 
+          <CriteriumListItem
+            :propCriteriumKV="item"
+            :workflow="workflow"
             :tools="tools"
           />
         </v-item>
