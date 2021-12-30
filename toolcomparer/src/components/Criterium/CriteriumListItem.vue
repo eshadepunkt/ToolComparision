@@ -28,10 +28,10 @@
       </v-container>
     </v-card>
     <CriteriumCreationDialog
-      v-if="workflow === 'CriteriaFirst'"
       :showDialog="showDialog"
       :mode="editMode"
       :propCriteriumKV="propCriteriumKV"
+      :workflow="workflow"
       v-on:closeDialog="showDialog = false"
     />
   </div>
