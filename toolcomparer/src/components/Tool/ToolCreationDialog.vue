@@ -191,9 +191,9 @@ export default Vue.extend({
       }
 
       if (this.workflow === "CriteriaFirst") {
-        const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
+        const updateSuitabilities: Array<Typ.toolKVSuitabilityItem> = (
           this.$refs.suit_creation as Vue & {
-            getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
+            getSuitabilities: () => Array<Typ.toolKVSuitabilityItem>;
           }
         ).getSuitabilities();
         if (
@@ -202,8 +202,8 @@ export default Vue.extend({
         ) {
           updateSuitabilities.forEach((element) => {
             this.$store.dispatch("updateToolSuitability", {
-              toolKV: this.toolKV,
-              criteriumSuitability: element,
+              toolKV: element.toolKV,
+              criteriumSuitability: element.suitability,
             });
           });
 

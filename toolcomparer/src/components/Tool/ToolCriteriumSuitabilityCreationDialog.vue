@@ -150,9 +150,9 @@ export default Vue.extend({
     return {
       toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
 
-      currentSuitability: {} as Typ.toolCriteriumSuitability,
+      currentSuitability: {} as Typ.toolKVSuitabilityItem,
       currentSuitabilityIndex: -1 as number,
-      updateSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+      updateSuitabilities: Array<Typ.toolKVSuitabilityItem>(),
 
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
@@ -186,7 +186,7 @@ export default Vue.extend({
         if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
           this.updateSuitabilities.push(this.currentSuitability);
         } else {
-          this.updateSuitabilities[this.currentSuitabilityIndex] = suitability;
+          this.updateSuitabilities[this.currentSuitabilityIndex] = this.currentSuitability;
         }
       }
 
@@ -209,7 +209,7 @@ export default Vue.extend({
         }
       ).getSuitabilityIfValid();
       if (suitability !== null) {
-        this.currentSuitability = suitability;
+        this.currentSuitability.suitability = suitability;
 
         const newHash: string = noSecHash(this.currentSuitability);
         console.log(this.suitabilityHash + "  : " + newHash);
@@ -310,8 +310,10 @@ export default Vue.extend({
                 ? this.criteria[this.currentSuitabilityIndex].key
                 : this.propCriteriumKV.key)
           );
-          this.currentSuitability =
-            found.length > 0
+          this.currentSuitability = {
+            toolKV: (this.workflow === "CriteriaFirst" ? this.toolKV : this.tools[this.currentSuitabilityIndex]),
+            suitability: (
+              found.length > 0
               ? found[0]
               : {
                   criteriumKV:
@@ -320,7 +322,8 @@ export default Vue.extend({
                       : this.propCriteriumKV,
                   fullfillment: Typ.toolCriteriumFullfillment.undefined,
                   justification: "" as string,
-                };
+                })
+          }          
         }
 
         if (this.workflow !== "CriteriaFirst") {
@@ -342,7 +345,7 @@ export default Vue.extend({
         }
       }
     },
-    getCurrentSuitability(): Typ.toolCriteriumSuitability {
+    getCurrentSuitability(): Typ.toolKVSuitabilityItem {
       if (this.currentSuitabilityIndex < 0) {
         this.setCurrentSuitability();
       }
@@ -355,7 +358,7 @@ export default Vue.extend({
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },
-    getSuitabilities(): Array<Typ.toolCriteriumSuitability> {
+    getSuitabilities(): Array<Typ.toolKVSuitabilityItem> {
       return this.updateSuitabilities;
     },
     resetToolKV() {
@@ -376,7 +379,7 @@ export default Vue.extend({
       handler(oldVal: Typ.toolKeyValue, newVal: Typ.toolKeyValue) {
         this.resetToolKV();
         if (oldVal.key !== newVal.key) {
-          this.updateSuitabilities = Array<Typ.toolCriteriumSuitability>();
+          this.updateSuitabilities = Array<Typ.toolKVSuitabilityItem>();
         }
       },
       deep: true,
@@ -385,7 +388,7 @@ export default Vue.extend({
       handler(oldVal: Typ.criteriumKeyValue, newVal: Typ.criteriumKeyValue) {
         this.resetToolKV();
         if (oldVal.key !== newVal.key) {
-          this.updateSuitabilities = Array<Typ.toolCriteriumSuitability>();
+          this.updateSuitabilities = Array<Typ.toolKVSuitabilityItem>();
         }
       },
       deep: true,

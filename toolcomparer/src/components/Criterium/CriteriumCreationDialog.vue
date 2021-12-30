@@ -188,9 +188,9 @@ export default Vue.extend({
 
       console.log(this.workflow);
       if (this.workflow === "ToolsFirst") {
-        const updateSuitabilities: Array<Typ.toolCriteriumSuitability> = (
+        const updateSuitabilities: Array<Typ.toolKVSuitabilityItem> = (
           this.$refs.suit_creation as Vue & {
-            getSuitabilities: () => Array<Typ.toolCriteriumSuitability>;
+            getSuitabilities: () => Array<Typ.toolKVSuitabilityItem>;
           }
         ).getSuitabilities();
 
@@ -201,13 +201,12 @@ export default Vue.extend({
         ) {
           console.log("TEU");
 
-          for (let index = 0; index < updateSuitabilities.length; index++) {
-            const element = updateSuitabilities[index];
+          updateSuitabilities.forEach((element) => {
             this.$store.dispatch("updateToolSuitability", {
-              toolKV: this.tools[index],
-              criteriumSuitability: element,
+              toolKV: element.toolKV,
+              criteriumSuitability: element.suitability,
             });
-          }
+          });
 
           this.closeDialog();
         }

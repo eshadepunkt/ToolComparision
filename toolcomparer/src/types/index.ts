@@ -224,3 +224,8 @@ export interface score {
   maxValue: number;
   isExcluded: boolean;
 }
+
+export interface toolKVSuitabilityItem {
+  toolKV: toolKeyValue;
+  suitability: toolCriteriumSuitability;
+}
