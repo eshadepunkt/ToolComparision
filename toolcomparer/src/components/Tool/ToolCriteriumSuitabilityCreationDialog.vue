@@ -28,7 +28,6 @@
                   ref="tool_card"
                   :propToolCriteriumSuitability="getCurrentSuitability()"
                   :propModuleState="moduleState"
-                  :propToolKV="toolKV"
                   :workflow="workflow"
                   :propCriteriumKV="propCriteriumKV"
                 />
@@ -248,8 +247,8 @@ export default Vue.extend({
     updateSuitabilitiesOfTool() {
       this.updateSuitabilities.forEach((element) => {
         this.$store.dispatch("updateToolSuitability", {
-          toolKV: this.toolKV,
-          criteriumSuitability: element,
+          toolKV: element.toolKV,
+          criteriumSuitability: element.suitability,
         });
       });
     },
@@ -257,8 +256,8 @@ export default Vue.extend({
       const lenght: number = this.tools.length;
       for (let index = 0; index < length; index++) {
         this.$store.dispatch("updateToolSuitability", {
-          toolKV: this.tools[index],
-          criteriumSuitability: this.updateSuitabilities[index],
+          toolKV: this.currentSuitability.toolKV,
+          criteriumSuitability: this.currentSuitability.suitability,
         });
       }
     },

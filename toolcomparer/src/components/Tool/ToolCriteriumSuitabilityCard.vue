@@ -166,22 +166,32 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
-    propToolCriteriumSuitability: {
-      type: Object as () => Typ.toolCriteriumSuitability,
+    propToolKVSuitabilityItem: {
+      type: Object as () => Typ.toolKVSuitabilityItem,
       default() {
         return {
-          criteriumKV: {
+          toolKV: {
             key: uuidv4() as string,
             value: {
               name: "",
               description: "",
-              importance: Typ.criteriumImportance.undefined,
-              isExclusionCriterium: false,
-            } as Typ.criterium,
-          } as Typ.criteriumKeyValue,
-          fullfillment: Typ.toolCriteriumFullfillment.undefined,
-          justification: "" as string,
-        } as Typ.toolCriteriumSuitability;
+              criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+            } as Typ.tool,
+          } as Typ.toolKeyValue,
+          suitability: {
+            criteriumKV: {
+              key: uuidv4() as string,
+              value: {
+                name: "",
+                description: "",
+                importance: Typ.criteriumImportance.undefined,
+                isExclusionCriterium: false,
+              } as Typ.criterium,
+            } as Typ.criteriumKeyValue,
+            fullfillment: Typ.toolCriteriumFullfillment.undefined,
+            justification: "" as string,
+          } as Typ.toolCriteriumSuitability,
+        } as Typ.toolKVSuitabilityItem;
       },
     },
     propModuleState: {
@@ -208,7 +218,7 @@ export default Vue.extend({
   data() {
     return {
       toolCriteriumSuitability: JSON.parse(
-        JSON.stringify(this.propToolCriteriumSuitability)
+        JSON.stringify(this.propToolKVSuitabilityItem)
       ) as Typ.toolCriteriumSuitability,
 
       moduleState: this.propModuleState as Typ.simpleModuleState,
@@ -309,7 +319,7 @@ export default Vue.extend({
     },
     updateSuitability() {
       this.toolCriteriumSuitability = JSON.parse(
-        JSON.stringify(this.propToolCriteriumSuitability)
+        JSON.stringify(this.propToolKVSuitabilityItem)
       );
       this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
         this.toolCriteriumSuitability.fullfillment
@@ -323,10 +333,10 @@ export default Vue.extend({
       );
 
       if (
-        this.propToolCriteriumSuitability.criteriumKV.value.name === "" &&
-        this.propToolCriteriumSuitability.criteriumKV.value.description ===
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.name === "" &&
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.description ===
           "" &&
-        this.propToolCriteriumSuitability.criteriumKV.value.importance ===
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.importance ===
           Typ.criteriumImportance.undefined
       ) {
         this.toolCriteriumSuitability.criteriumKV.key = uuidv4();
@@ -343,7 +353,7 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    propToolCriteriumSuitability: {
+    propToolKVSuitabilityItem: {
       handler() {
         this.updateSuitability();
       },
