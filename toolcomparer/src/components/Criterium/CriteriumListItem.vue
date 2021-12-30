@@ -32,6 +32,7 @@
       :mode="editMode"
       :propCriteriumKV="propCriteriumKV"
       :workflow="workflow"
+      :tools="tools"
       v-on:closeDialog="showDialog = false"
     />
   </div>
@@ -71,6 +72,9 @@ export default Vue.extend({
     },
     propCriteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,
+    },
+    tools: {
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 

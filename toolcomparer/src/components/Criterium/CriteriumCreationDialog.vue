@@ -40,7 +40,7 @@
             <v-col xl="1"> </v-col>
             <v-col xl="1">
               <v-btn @click="btnSave()" color="teal lighten-5">
-                {{ Typ.convertEditModeEnumToString(mode) }}
+                {{ getBtnNextTxt }}
               </v-btn>
             </v-col>
           </v-row>
@@ -160,7 +160,7 @@ export default Vue.extend({
         this.criteriumKV = criteriumKV;
 
         if (
-          this.workflow !== "CriteriaFirst" &&
+          this.workflow === "ToolsFirst" &&
           this.tools &&
           this.tools.length > 0
         ) {
@@ -239,6 +239,20 @@ export default Vue.extend({
         this.updateCriteriumKV();
       },
       deep: true,
+    },
+  },
+
+  computed: {
+    getBtnNextTxt: function (): string {
+      return (
+        this.workflow === "ToolsFirst" &&
+          (this.tools &&
+          this.tools.length > 0)
+          ? "Next"
+          : this.mode === Typ.simpleEditMode.Add
+          ? "Add"
+          : "Update"
+      ) as string;
     },
   },
 });
