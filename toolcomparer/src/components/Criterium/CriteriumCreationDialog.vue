@@ -202,7 +202,7 @@ export default Vue.extend({
           console.log("Checked Mode");
           
           updateSuitabilities.forEach((element) => {
-            console.log(element.suitability.criteriumKV.value.name);
+            console.log(element.toolKV.value.name);
             /*
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,

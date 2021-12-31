@@ -316,7 +316,7 @@ export default Vue.extend({
                 ? this.toolKV
                 : this.tools[this.currentSuitabilityIndex],
             suitability:
-              found.length > 0
+              JSON.parse(JSON.stringify(found.length > 0
                 ? found[0]
                 : {
                     criteriumKV:
@@ -326,7 +326,10 @@ export default Vue.extend({
                     fullfillment: Typ.toolCriteriumFullfillment.undefined,
                     justification: "" as string,
                   },
+              ))
           };
+
+          console.log("CS: " + this.currentSuitability.suitability.criteriumKV.value.name);
         }
 
         (
