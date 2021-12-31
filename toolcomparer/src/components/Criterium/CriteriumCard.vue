@@ -197,9 +197,15 @@ export default Vue.extend({
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
     resetValidation() {
+      try {
+          (this.$refs.form as Vue & { resetValidation: () => void }
+          ).resetValidation();
+        }
+        catch {
+          console.log("Validation reseting");
+        }
       (
-        this.$refs.form as Vue & { resetValidation: () => void }
-      ).resetValidation();
+        
     },
     reset() {
       (this.$refs.form as Vue & { reset: () => void }).reset();

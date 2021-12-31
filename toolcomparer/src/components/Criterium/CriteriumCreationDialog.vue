@@ -195,6 +195,7 @@ export default Vue.extend({
         ).getSuitabilities();
         
         console.log("Got Suits");
+        //TODO: Mode for updating suits
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.tools.length === updateSuitabilities.length

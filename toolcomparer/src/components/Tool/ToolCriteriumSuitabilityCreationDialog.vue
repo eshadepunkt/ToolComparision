@@ -273,6 +273,7 @@ export default Vue.extend({
       return currentCriteria;
     },
     setCurrentSuitability() {
+      console.log("SET CS");
       this.currentSuitabilityIndex++;
       this.btnNextText =
         this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
@@ -333,13 +334,20 @@ export default Vue.extend({
 
           console.log("CS: " + this.currentSuitability.suitability.criteriumKV.value.name);
         }
-
-        (
+        
+        try {
+          (
           this.$refs.tool_card as Vue & { resetValidation: () => boolean }
-        ).resetValidation();
+          ).resetValidation();
+        }
+        catch {
+          console.log("Validation reseted");
+        }
+        
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
 
+        console.log(this.currentSuitabilityIndex + " : " + (length - 1))
         if (this.currentSuitabilityIndex === length - 1) {
           this.btnNextText =
             this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All";
