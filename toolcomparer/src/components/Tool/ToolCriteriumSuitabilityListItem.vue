@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="10">
             <ToolCriteriumSuitabilityCard
-              :propToolCriteriumSuitability="suitability"
+              :propToolKVSuitabilityItem="toolKVSuitability"
               :propModuleState="moduleState"
             />
           </v-col>
@@ -85,6 +85,10 @@ export default Vue.extend({
       showDialog: false as boolean,
       suitability:
         this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
+      toolKVSuitability: {
+        toolKV: this.propToolKV,
+        suitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
+      } as Typ.toolKVSuitabilityItem,
 
       icons: {
         mdiAccount,
