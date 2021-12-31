@@ -87,7 +87,10 @@ export default Vue.extend({
         this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
       toolKVSuitability: {
         toolKV: this.propToolKV,
-        suitability: this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
+        suitability:
+          this.propToolKV.value.criteriaSuitabilities[
+            this.propSuitabilityIndex
+          ],
       } as Typ.toolKVSuitabilityItem,
 
       icons: {

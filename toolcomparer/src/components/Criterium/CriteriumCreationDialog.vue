@@ -187,13 +187,12 @@ export default Vue.extend({
       }
 
       if (this.workflow === "ToolsFirst") {
-        
         const updateSuitabilities: Array<Typ.toolKVSuitabilityItem> = (
           this.$refs.suit_creation as Vue & {
             getSuitabilities: () => Array<Typ.toolKVSuitabilityItem>;
           }
         ).getSuitabilities();
-        
+
         console.log("Got Suits");
         //TODO: Mode for updating suits
         if (
@@ -201,17 +200,15 @@ export default Vue.extend({
           this.tools.length === updateSuitabilities.length
         ) {
           console.log("Checked Mode");
-          
+
           updateSuitabilities.forEach((element) => {
             console.log(element.suitability.criteriumKV.value.name);
-            
+
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,
               criteriumSuitability: element.suitability,
             });
-            
           });
-          
 
           this.closeDialog();
         }

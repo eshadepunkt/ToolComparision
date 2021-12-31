@@ -78,7 +78,9 @@
               required
               :readonly="true"
               no-resize
-              :value="toolKVSuitabilityItem.suitability.criteriumKV.value.description"
+              :value="
+                toolKVSuitabilityItem.suitability.criteriumKV.value.description
+              "
             >
             </v-textarea>
           </v-col>
@@ -244,13 +246,12 @@ export default Vue.extend({
     },
     resetValidation() {
       try {
-          (
-            this.$refs.form as Vue & { resetValidation: () => void }
-          ).resetValidation();
-        }
-        catch {
-          console.log("Validation reseted");
-        }   
+        (
+          this.$refs.form as Vue & { resetValidation: () => void }
+        ).resetValidation();
+      } catch {
+        console.log("Validation reseted");
+      }
     },
     reset() {
       (this.$refs.form as Vue & { reset: () => void }).reset();
@@ -305,11 +306,12 @@ export default Vue.extend({
       );
 
       if (
-        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.name === "" &&
-        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.description ===
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.name ===
           "" &&
-        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.importance ===
-          Typ.criteriumImportance.undefined
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value
+          .description === "" &&
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value
+          .importance === Typ.criteriumImportance.undefined
       ) {
         this.toolKVSuitabilityItem.suitability.criteriumKV.key = uuidv4();
       }
