@@ -202,13 +202,13 @@ export default Vue.extend({
           console.log("Checked Mode");
           
           updateSuitabilities.forEach((element) => {
-            console.log(element.toolKV.value.name);
-            /*
+            console.log(element.suitability.criteriumKV.value.name);
+            
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,
               criteriumSuitability: element.suitability,
             });
-            */
+            
           });
           
 

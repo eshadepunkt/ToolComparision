@@ -202,13 +202,15 @@ export default Vue.extend({
       }
     },
     btnSave(closeDialog = false) {
-      const suitability: Typ.toolCriteriumSuitability | null = (
+      const suitability: Typ.toolKVSuitabilityItem | null = (
         this.$refs.tool_card as Vue & {
-          getSuitabilityIfValid: () => Typ.toolCriteriumSuitability | null;
+          getSuitabilityIfValid: () => Typ.toolKVSuitabilityItem | null;
         }
       ).getSuitabilityIfValid();
       if (suitability !== null) {
-        this.currentSuitability.suitability = suitability;
+        this.currentSuitability = suitability;
+        //console.log("GOT: " + suitability.criteriumKV.value.name);
+        console.log("Save: " + this.currentSuitability.suitability.criteriumKV.value.name);
 
         const newHash: string = noSecHash(this.currentSuitability);
         console.log(this.suitabilityHash + "  : " + newHash);
