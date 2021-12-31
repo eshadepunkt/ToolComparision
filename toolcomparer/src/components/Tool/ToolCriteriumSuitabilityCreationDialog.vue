@@ -381,7 +381,7 @@ export default Vue.extend({
       handler(oldVal: Typ.toolKeyValue, newVal: Typ.toolKeyValue) {
         this.resetToolKV();
         if (oldVal.key !== newVal.key) {
-          this.updateSuitabilities = Array<Typ.toolKVSuitabilityItem>();
+          this.updateSuitabilities = new Array<Typ.toolKVSuitabilityItem>();
         }
       },
       deep: true,
@@ -390,7 +390,7 @@ export default Vue.extend({
       handler(oldVal: Typ.criteriumKeyValue, newVal: Typ.criteriumKeyValue) {
         this.resetToolKV();
         if (oldVal.key !== newVal.key) {
-          this.updateSuitabilities = Array<Typ.toolKVSuitabilityItem>();
+          this.updateSuitabilities = new Array<Typ.toolKVSuitabilityItem>();
         }
       },
       deep: true,
