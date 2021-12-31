@@ -164,7 +164,7 @@ export default Vue.extend({
           this.tools &&
           this.tools.length > 0
         ) {
-          console.log("SC");
+          console.log("Start SuitabilityCreation");
 
           this.isInSuitabilityCreation = true;
         } else {
@@ -173,7 +173,7 @@ export default Vue.extend({
       }
     },
     saveAndCloseDialog(finished: boolean) {
-      console.log(finished);
+      console.log("Finished: " + finished);
 
       if (!finished) {
         this.isInSuitabilityCreation = false;
@@ -186,30 +186,31 @@ export default Vue.extend({
         (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
-      console.log(this.workflow);
       if (this.workflow === "ToolsFirst") {
+        
         const updateSuitabilities: Array<Typ.toolKVSuitabilityItem> = (
           this.$refs.suit_creation as Vue & {
             getSuitabilities: () => Array<Typ.toolKVSuitabilityItem>;
           }
         ).getSuitabilities();
-
-        console.log("TF");
+        
+        console.log("Got Suits");
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.tools.length === updateSuitabilities.length
         ) {
-          console.log("TEU");
-          console.log(updateSuitabilities.length);
-          /*
+          console.log("Checked Mode");
+          
           updateSuitabilities.forEach((element) => {
-            console.log(element.toolKV.value.name + element.suitability.criteriumKV.value.name);
+            console.log(element.suitability.criteriumKV.value.name);
+            /*
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,
               criteriumSuitability: element.suitability,
             });
+            */
           });
-          */
+          
 
           this.closeDialog();
         }

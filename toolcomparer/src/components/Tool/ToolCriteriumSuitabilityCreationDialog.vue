@@ -297,10 +297,11 @@ export default Vue.extend({
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
         } else {
+          console.log(this.workflow);
           console.log(this.toolKV.value.name + this.toolKV.value.criteriaSuitabilities.length);
           console.log((this.workflow === "CriteriaFirst"
                 ? this.criteria[this.currentSuitabilityIndex].key
-                : this.propCriteriumKV.key));
+                : this.propCriteriumKV.value.name));
 
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
@@ -357,10 +358,6 @@ export default Vue.extend({
       this.$emit("closeDialog", finished);
     },
     getSuitabilities(): Array<Typ.toolKVSuitabilityItem> {
-      this.updateSuitabilities.forEach((element) => {
-            console.log(element.toolKV.value.name + element.suitability.criteriumKV.value.name);
-          });
-
       return this.updateSuitabilities;
     },
     resetToolKV() {
