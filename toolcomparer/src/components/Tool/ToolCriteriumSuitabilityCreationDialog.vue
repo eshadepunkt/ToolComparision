@@ -29,7 +29,6 @@
                   :propToolKVSuitabilityItem="getCurrentSuitability()"
                   :propModuleState="moduleState"
                   :workflow="workflow"
-                  :propCriteriumKV="propCriteriumKV"
                 />
               </v-card>
             </v-col>
@@ -287,6 +286,10 @@ export default Vue.extend({
         //this.closeDialog(true);
         return;
       } else if (this.currentSuitabilityIndex < length) {
+         if (this.workflow === "ToolsFirst") {
+          this.toolKV = this.tools[this.currentSuitabilityIndex];
+        }
+
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.updateSuitabilities.length > this.currentSuitabilityIndex
@@ -294,6 +297,11 @@ export default Vue.extend({
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
         } else {
+          console.log(this.toolKV.value.name + this.toolKV.value.criteriaSuitabilities.length);
+          console.log((this.workflow === "CriteriaFirst"
+                ? this.criteria[this.currentSuitabilityIndex].key
+                : this.propCriteriumKV.key));
+
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
@@ -318,10 +326,6 @@ export default Vue.extend({
                     justification: "" as string,
                   },
           };
-        }
-
-        if (this.workflow !== "CriteriaFirst") {
-          this.toolKV = this.tools[this.currentSuitabilityIndex];
         }
 
         (

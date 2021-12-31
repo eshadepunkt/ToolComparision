@@ -179,20 +179,6 @@ export default Vue.extend({
       type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
-    propCriteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
-      default() {
-        return {
-          key: uuidv4() as string,
-          value: {
-            name: "",
-            description: "",
-            importance: Typ.criteriumImportance.undefined,
-            isExclusionCriterium: false,
-          } as Typ.criterium,
-        } as Typ.criteriumKeyValue;
-      },
-    },
   },
 
   //DATA
@@ -310,7 +296,7 @@ export default Vue.extend({
     },
     updateCriteriumKV(): void {
       this.toolKVSuitabilityItem.suitability.criteriumKV = JSON.parse(
-        JSON.stringify(this.propCriteriumKV)
+        JSON.stringify(this.propToolKVSuitabilityItem)
       );
 
       if (
@@ -337,12 +323,6 @@ export default Vue.extend({
     propToolKVSuitabilityItem: {
       handler() {
         this.updateSuitability();
-      },
-      deep: true,
-    },
-    propCriteriumKV: {
-      handler() {
-        this.updateCriteriumKV();
       },
       deep: true,
     },
