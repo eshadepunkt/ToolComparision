@@ -201,7 +201,7 @@ export default Vue.extend({
         ) {
           console.log("TEU");
           console.log(updateSuitabilities.length);
-
+          /*
           updateSuitabilities.forEach((element) => {
             console.log(element.toolKV.value.name + element.suitability.criteriumKV.value.name);
             this.$store.dispatch("updateToolSuitability", {
@@ -209,6 +209,7 @@ export default Vue.extend({
               criteriumSuitability: element.suitability,
             });
           });
+          */
 
           this.closeDialog();
         }

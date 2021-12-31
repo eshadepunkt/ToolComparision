@@ -150,7 +150,7 @@ export default Vue.extend({
 
       currentSuitability: {} as Typ.toolKVSuitabilityItem,
       currentSuitabilityIndex: -1 as number,
-      updateSuitabilities: Array<Typ.toolKVSuitabilityItem>(),
+      updateSuitabilities: new Array<Typ.toolKVSuitabilityItem>(),
 
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
 
