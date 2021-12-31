@@ -120,7 +120,7 @@ export default Vue.extend({
           value: {
             name: "",
             description: "",
-            criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+            criteriaSuitabilities: new Array<Typ.toolCriteriumSuitability>(),
           } as Typ.tool,
         } as Typ.toolKeyValue;
       },

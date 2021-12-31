@@ -357,6 +357,10 @@ export default Vue.extend({
       this.$emit("closeDialog", finished);
     },
     getSuitabilities(): Array<Typ.toolKVSuitabilityItem> {
+      this.updateSuitabilities.forEach((element) => {
+            console.log(element.toolKV.value.name + element.suitability.criteriumKV.value.name);
+          });
+
       return this.updateSuitabilities;
     },
     resetToolKV() {
