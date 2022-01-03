@@ -206,23 +206,23 @@ const store = new Vuex.Store({
         }
       }
     },
-    setSettingsWorkflow: (state) => {
-      return state.settingsWorkflow;
+    setSettingsWorkflow: (state, workflow: string) => {
+      state.settingsWorkflow = workflow;
     },
-    setSettingsIsDescriptionMandatory: (state) => {
-      return state.settingsIsDescriptionMandatory;
+    setSettingsIsDescriptionMandatory: (state, isMandatory: boolean) => {
+      state.settingsIsDescriptionMandatory = isMandatory;
     },
-    setSettingsIsJustificationMandatory:(state) => {
-      return state.settingsIsJustificationMandatory;
+    setSettingsIsJustificationMandatory:(state, isMandatory: boolean) => {
+      state.settingsIsJustificationMandatory = isMandatory;
     },
-    setSettingsColorChips: (state) => {
-      return state.settingsIsColorChips;
+    setSettingsColorChips: (state, isColored: boolean) => {
+      state.settingsIsColorChips = isColored;
     },
-    setSettingsColorChipsScoreOnly: (state) => {
-      return state.settingsIsColorChipsScoreOnly;
+    setSettingsColorChipsScoreOnly: (state, isColoredScoreOnly) => {
+      state.settingsIsColorChipsScoreOnly = isColoredScoreOnly;
     },
-    setSettingsStarsInsteadOfNumbers: (state) => {
-      return state.settingsIsStarsInsteadOfNumbers;
+    setSettingsStarsInsteadOfNumbers: (state, isShowAsStars) => {
+      state.settingsIsStarsInsteadOfNumbers = isShowAsStars;
     },
   },
   //ACTIONS
