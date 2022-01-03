@@ -22,7 +22,7 @@
               label="Tool description"
               v-model="toolKVSuitabilityItem.toolKV.value.description"
               :rules="rules.str"
-              required
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="true"
               no-resize
             >
@@ -75,7 +75,7 @@
               outlined
               label="Criterium description"
               :rules="rules.str"
-              required
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="true"
               no-resize
               :value="
@@ -111,7 +111,7 @@
               label="Justification"
               v-model="toolKVSuitabilityItem.suitability.justification"
               :rules="rules.str"
-              required
+              :required="$store.getters.getSettingsIsJustificationMandatory"
               :readonly="!isInCreation()"
               no-resize
             >

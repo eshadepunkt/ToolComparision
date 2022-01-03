@@ -34,7 +34,7 @@
                 <v-list-item
                   link
                   class="px-2"
-                  v-on:click.native="navigateTo('/Workflow/CriteriaFirst')"
+                  v-on:click.native="navigateTo('/Workflow/' + $store.getters.getSettingsWorkflow)"
                 >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiPlus }}</v-icon>
@@ -122,6 +122,7 @@ export default Vue.extend({
   data() {
     return {
       showDialog: false as boolean,
+      showSettings: false as boolean,
       currentPage: "Comparision" as string,
 
       btnBackTxt: "" as string,

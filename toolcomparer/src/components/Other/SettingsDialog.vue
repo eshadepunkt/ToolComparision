@@ -1,8 +1,8 @@
 <template>
   <v-dialog
-      v-model="showDialog"
-      height="67vh"
-      width="50vw"
+      v-model="showSettings"
+      height="50vh"
+      width="33vw"
       persistent
       transition="dialog-bottom-transition"
       id="Settings"
@@ -62,7 +62,7 @@
             </v-col>
          </v-row>      
       </v-container>
-      <v-container v-show="!isWorkflow" style="height: 50vh;">
+      <v-container v-show="!isWorkflow" style="height: 33vh;">
          <v-row>
             <v-col>
                <v-switch
@@ -118,6 +118,13 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Settings",
+
+  props: {
+     showSettings: {
+        type: Boolean,
+        default: false,
+     }
+  },
 
   //DATA
   data() {
