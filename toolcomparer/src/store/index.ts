@@ -19,11 +19,11 @@ const store = new Vuex.Store({
     tools: Array<Typ.toolKeyValue>(),
 
     settingsWorkflow: "ToolsFirst",
-    settingsDescriptionMandatory: true,
-    settingsJustificationMandatory: true,
-    settingsColorChips: true,
-    settingsColorChipsScoreOnly: false,
-    settingsStarsInsteadOfNumbers: false,
+    settingsIsDescriptionMandatory: true,
+    settingsIsJustificationMandatory: true,
+    settingsIsColorChips: true,
+    settingsIsColorChipsScoreOnly: false,
+    settingsIsStarsInsteadOfNumbers: false,
   },
   //GETTERS
   getters: {
@@ -56,6 +56,24 @@ const store = new Vuex.Store({
       }
 
       return -1;
+    },
+    getSettingsWorkflow: (state) => {
+      return state.settingsWorkflow;
+    },
+    getSettingsIsDescriptionMandatory: (state) => {
+      return state.settingsIsDescriptionMandatory;
+    },
+    getSettingsIsJustificationMandatory:(state) => {
+      return state.settingsIsJustificationMandatory;
+    },
+    getSettingsColorChips: (state) => {
+      return state.settingsIsColorChips;
+    },
+    getSettingsColorChipsScoreOnly: (state) => {
+      return state.settingsIsColorChipsScoreOnly;
+    },
+    getSettingsStarsInsteadOfNumbers: (state) => {
+      return state.settingsIsStarsInsteadOfNumbers;
     },
   },
   //MUTATIONS
@@ -187,6 +205,24 @@ const store = new Vuex.Store({
           );
         }
       }
+    },
+    setSettingsWorkflow: (state) => {
+      return state.settingsWorkflow;
+    },
+    setSettingsIsDescriptionMandatory: (state) => {
+      return state.settingsIsDescriptionMandatory;
+    },
+    setSettingsIsJustificationMandatory:(state) => {
+      return state.settingsIsJustificationMandatory;
+    },
+    setSettingsColorChips: (state) => {
+      return state.settingsIsColorChips;
+    },
+    setSettingsColorChipsScoreOnly: (state) => {
+      return state.settingsIsColorChipsScoreOnly;
+    },
+    setSettingsStarsInsteadOfNumbers: (state) => {
+      return state.settingsIsStarsInsteadOfNumbers;
     },
   },
   //ACTIONS
