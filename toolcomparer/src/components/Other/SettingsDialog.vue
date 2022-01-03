@@ -37,22 +37,62 @@
               v-model="selectedWorkflow"
               :rules="rules.str"
               required
-              @change="updateWorkflow(selectedWorkflow)"
             >
             </v-select>
             </v-col>
          </v-row>
+         <v-spacer>
+         </v-spacer>
          <v-row>
             <v-col>
-
+               <v-switch
+                  v-model="isDescriptionMandatory"
+                  :label="'Description mandatory'"
+               >
+               </v-switch>
             </v-col>
          </v-row>
          <v-row>
             <v-col>
-
+                <v-switch
+                  v-model="isJustificationMandatory"
+                  :label="'Justification mandatory'"
+               >
+               </v-switch>
+            </v-col>
+         </v-row>      
+      </v-container>
+      <v-container v-show="!isWorkflow" style="height: 50vh;">
+         <v-row>
+            <v-col>
+               <v-switch
+                  v-model="isColorChips"
+                  :label="'Color chips'"
+               >
+               </v-switch>
             </v-col>
          </v-row>
-         
+         <v-row>
+            <v-col>
+               <v-switch
+                  v-model="isColorChipsScoreOnly"
+                  :label="'Color chips on score only'"
+                  :disabled="!isColorChips"
+               >
+               </v-switch>
+            </v-col>
+         </v-row>
+         <v-spacer>
+         </v-spacer>
+         <v-row>
+            <v-col>
+                <v-switch
+                  v-model="isStarsInsteadOfNumbers"
+                  :label="'Show stars intead of numbers'"
+               >
+               </v-switch>
+            </v-col>
+         </v-row>    
       </v-container>
     </v-sheet>
   </v-card>
@@ -86,7 +126,12 @@ export default Vue.extend({
             "ToolsFirst",
             "CriteriaFirst",
             ] as string[],
-      selectedImportance: "ToolsFirst" as string,
+      selectedWorkflow: JSON.parse(JSON.stringify(this.$store.getters.getSettingsWorkflow)) as string,
+      isDescriptionMandatory: JSON.parse(JSON.stringify(this.$store.getters.getSettingsIsDescriptionMandatory)) as boolean,
+      isJustificationMandatory: JSON.parse(JSON.stringify(this.$store.getters.getSettingsIsJustificationMandatory)) as boolean,
+      isColorChips: JSON.parse(JSON.stringify(this.$store.getters.getSettingsIsColorChips)) as boolean,
+      isColorChipsScoreOnly: JSON.parse(JSON.stringify(this.$store.getters.getSettingsIsColorChipsScoreOnly)) as boolean,
+      isStarsInsteadOfNumbers: JSON.parse(JSON.stringify(this.$store.getters.getSettingsIsStarsInsteadOfNumbers)) as boolean,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -110,9 +155,24 @@ export default Vue.extend({
     };
   },
 
-  methods: {
-     updateWorkflow(workflow: string): void {
-      
+  watch: {
+     selectedWorkflow: function(workflow: string): void {
+      this.$store.commit("setSettingsWorkflow", workflow);
+    },
+    isDescriptionMandatory: function(isMandatory: boolean) {
+       this.$store.commit("setSettingsIsDescriptionMandatory", isMandatory)
+    },
+    isJustificationMandatory: function(isMandatory: boolean) {
+       this.$store.commit("setSettingsIsJustificationMandatory", isMandatory);
+    },
+    isColorChips: function(isColored: boolean) {
+       this.$store.commit("setSettingsIsColorChips", isColored);
+    },
+    isColorChipsScoreOnly: function(isColored: boolean) {
+       this.$store.commit("setSettingsIsColorChipsScoreOnly", isColored);
+    },
+    isStarsInsteadOfNumbers: function(isStars: boolean) {
+       this.$store.commit("setSettingsIsStarsInsteadOfNumbers", isStars);
     },
   }
 });

@@ -66,13 +66,13 @@ const store = new Vuex.Store({
     getSettingsIsJustificationMandatory:(state) => {
       return state.settingsIsJustificationMandatory;
     },
-    getSettingsColorChips: (state) => {
+    getSettingsIsColorChips: (state) => {
       return state.settingsIsColorChips;
     },
-    getSettingsColorChipsScoreOnly: (state) => {
+    getSettingsIsColorChipsScoreOnly: (state) => {
       return state.settingsIsColorChipsScoreOnly;
     },
-    getSettingsStarsInsteadOfNumbers: (state) => {
+    getSettingsISStarsInsteadOfNumbers: (state) => {
       return state.settingsIsStarsInsteadOfNumbers;
     },
   },
@@ -215,13 +215,13 @@ const store = new Vuex.Store({
     setSettingsIsJustificationMandatory:(state, isMandatory: boolean) => {
       state.settingsIsJustificationMandatory = isMandatory;
     },
-    setSettingsColorChips: (state, isColored: boolean) => {
+    setSettingsIsColorChips: (state, isColored: boolean) => {
       state.settingsIsColorChips = isColored;
     },
-    setSettingsColorChipsScoreOnly: (state, isColoredScoreOnly) => {
+    setSettingsIsColorChipsScoreOnly: (state, isColoredScoreOnly) => {
       state.settingsIsColorChipsScoreOnly = isColoredScoreOnly;
     },
-    setSettingsStarsInsteadOfNumbers: (state, isShowAsStars) => {
+    setSettingsIsStarsInsteadOfNumbers: (state, isShowAsStars) => {
       state.settingsIsStarsInsteadOfNumbers = isShowAsStars;
     },
   },
