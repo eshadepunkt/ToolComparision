@@ -68,7 +68,7 @@
               outlined
               label="Description"
               v-model="toolKV.value.description"
-              :rules="rules.str || !$store.getters.getSettingsIsDescriptionMandatory"
+              :rules="!$store.getters.getSettingsIsDescriptionMandatory || rules.str"
               :required="$store.getters.getSettingsIsDescriprionMandatory"
               :readonly="!isInCreation()"
               no-resize
