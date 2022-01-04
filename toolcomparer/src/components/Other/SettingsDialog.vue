@@ -13,9 +13,10 @@
         shrink-on-scroll
         prominent
         scroll-target="#scrolling-techniques-4"
+        style="position: relative;"
       >
         <v-toolbar-title>Settings</v-toolbar-title>
-        <v-btn icon @click="closeSettings()">
+        <v-btn style="position: absolute; right: 1em; top: 0em" icon @click="closeSettings()" >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
 
