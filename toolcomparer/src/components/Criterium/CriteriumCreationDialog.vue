@@ -164,8 +164,6 @@ export default Vue.extend({
           this.tools &&
           this.tools.length > 0
         ) {
-          console.log("Start SuitabilityCreation");
-
           this.isInSuitabilityCreation = true;
         } else {
           this.saveAndCloseDialog(true);
@@ -173,8 +171,6 @@ export default Vue.extend({
       }
     },
     saveAndCloseDialog(finished: boolean) {
-      console.log("Finished: " + finished);
-
       if (!finished) {
         this.isInSuitabilityCreation = false;
         return;
@@ -193,17 +189,12 @@ export default Vue.extend({
           }
         ).getSuitabilities();
 
-        console.log("Got Suits");
         //TODO: Mode for updating suits
         if (
           this.mode === Typ.simpleEditMode.Add &&
           this.tools.length === updateSuitabilities.length
         ) {
-          console.log("Checked Mode");
-
           updateSuitabilities.forEach((element) => {
-            console.log(element.suitability.criteriumKV.value.name);
-
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,
               criteriumSuitability: element.suitability,

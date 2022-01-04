@@ -209,13 +209,8 @@ export default Vue.extend({
       ).getSuitabilityIfValid();
       if (suitability !== null) {
         this.currentSuitability = suitability;
-        //console.log("GOT: " + suitability.criteriumKV.value.name);
-        console.log(
-          "Save: " + this.currentSuitability.suitability.criteriumKV.value.name
-        );
 
         const newHash: string = noSecHash(this.currentSuitability);
-        console.log(this.suitabilityHash + "  : " + newHash);
         if (this.suitabilityHash !== newHash) {
           if (
             this.currentSuitabilityIndex === this.updateSuitabilities.length
@@ -275,7 +270,6 @@ export default Vue.extend({
       return currentCriteria;
     },
     setCurrentSuitability() {
-      console.log("SET CS");
       this.currentSuitabilityIndex++;
       this.btnNextText =
         this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
@@ -302,17 +296,6 @@ export default Vue.extend({
           this.currentSuitability =
             this.updateSuitabilities[this.currentSuitabilityIndex];
         } else {
-          console.log(this.workflow);
-          console.log(
-            this.toolKV.value.name +
-              this.toolKV.value.criteriaSuitabilities.length
-          );
-          console.log(
-            this.workflow === "CriteriaFirst"
-              ? this.criteria[this.currentSuitabilityIndex].key
-              : this.propCriteriumKV.value.name
-          );
-
           const found = this.toolKV.value.criteriaSuitabilities.filter(
             (x) =>
               x.criteriumKV.key ===
@@ -340,10 +323,6 @@ export default Vue.extend({
               )
             ),
           };
-
-          console.log(
-            "CS: " + this.currentSuitability.suitability.criteriumKV.value.name
-          );
         }
 
         try {
@@ -355,8 +334,6 @@ export default Vue.extend({
         }
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
-
-        console.log(this.currentSuitabilityIndex + " : " + (length - 1));
         if (this.currentSuitabilityIndex === length - 1) {
           this.btnNextText =
             this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All";
@@ -374,8 +351,6 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
-      console.log("TSC F");
-
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },
