@@ -82,7 +82,7 @@
               </v-list>
             </v-navigation-drawer>
             <v-card style="height: 85vh; overflow-y: auto">
-              <PageManager
+              <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
                 :currentPage="currentPage"
@@ -120,7 +120,7 @@ import {
 import Vue from "vue";
 
 import Header from "./Header.vue";
-import PageManager from "./NavigationManager.vue";
+import NavigationManager from "./NavigationManager.vue";
 import SettingsDialog from "./SettingsDialog.vue";
 
 export default Vue.extend({
@@ -128,7 +128,7 @@ export default Vue.extend({
 
   components: {
     Header,
-    PageManager,
+    NavigationManager,
     SettingsDialog,
   },
 
@@ -137,6 +137,8 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       showSettings: false as boolean,
+      exportDialog: false as boolean,
+      importDialog: false as boolean,
       currentPage: "Comparision" as string,
 
       btnBackTxt: "" as string,
