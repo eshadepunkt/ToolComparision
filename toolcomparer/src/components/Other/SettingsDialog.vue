@@ -10,8 +10,6 @@
     <v-card class="overflow-hidden">
       <v-app-bar
         absolute
-        shrink-on-scroll
-        prominent
         scroll-target="#scrolling-techniques-4"
         style="position: relative;"
       >
@@ -28,7 +26,7 @@
         </template>
       </v-app-bar>
       <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
-        <v-container v-show="isWorkflow" style="height: 50vh">
+        <v-container v-show="isWorkflow" style="height: 40vh">
           <v-row>
             <v-col>
               <v-select
@@ -61,7 +59,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container v-show="!isWorkflow" style="height: 33vh">
+        <v-container v-show="!isWorkflow" style="height: 40vh">
           <v-row>
             <v-col>
               <v-switch v-model="isColorChips" :label="'Color chips'">

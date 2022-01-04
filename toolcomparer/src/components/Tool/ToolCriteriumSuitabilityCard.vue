@@ -93,8 +93,8 @@
               :items="fullfillmentItems"
               label="Fullfillment"
               v-model="selectedFullfillment"
-              :rules="rules.str"
-              required
+              :rules="rules.str || !$store.getters.getSettingsIsDescriptionMandatory"
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="!isInCreation()"
               @change="updateFullfillment(selectedFullfillment)"
             >
@@ -110,7 +110,7 @@
               outlined
               label="Justification"
               v-model="toolKVSuitabilityItem.suitability.justification"
-              :rules="rules.str"
+              :rules="rules.str || !$store.getters.getSettingsIsJustificationMandatory"
               :required="$store.getters.getSettingsIsJustificationMandatory"
               :readonly="!isInCreation()"
               no-resize

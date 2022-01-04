@@ -54,7 +54,7 @@
               outlined
               label="Description"
               v-model="criteriumKV.value.description"
-              :rules="rules.str"
+              :rules="rules.str || !$store.getters.getSettingsIsDescriptionMandatory"
               :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="!isInCreation()"
               no-resize
