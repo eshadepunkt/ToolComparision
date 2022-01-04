@@ -18,7 +18,7 @@
           <v-col xl="12">
             <v-navigation-drawer permanent expand-on-hover absolute>
               <v-list nav>
-                <v-list-item link class="px-2">
+                <v-list-item link class="px-2" v-on:click.native="showSettings = true">
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiCog }}</v-icon>
                   </v-list-item-icon>
@@ -84,6 +84,9 @@
         </v-row>
       </v-container>
     </v-card>
+    <SettingsDialog
+      :showSettings="showSettings"
+    />
   </div>
 </template>
 
@@ -109,6 +112,7 @@ import Vue from "vue";
 
 import Header from "./Header.vue";
 import PageManager from "./NavigationManager.vue";
+import SettingsDialog from "./SettingsDialog.vue";
 
 export default Vue.extend({
   name: "Navigation",
@@ -116,6 +120,7 @@ export default Vue.extend({
   components: {
     Header,
     PageManager,
+    SettingsDialog,
   },
 
   //DATA
@@ -165,6 +170,9 @@ export default Vue.extend({
     convertJSONToArray(json: string | undefined) {
       //TO DO
       //Convert IMPORT
+    },
+    closeSettings() {
+      this.showSettings = false;
     },
   },
 

@@ -16,6 +16,13 @@
       scroll-target="#scrolling-techniques-4"
     >
       <v-toolbar-title>Settings</v-toolbar-title>
+       <v-btn
+         icon
+         dark
+         @click="closeSettings()"
+      >
+         <v-icon>{{ icons.mdiClose }}</v-icon>
+      </v-btn>
 
       <template v-slot:extension>
         <v-tabs align-with-title>
@@ -112,6 +119,7 @@ import {
   mdiAppleKeyboardControl,
   mdiContentSaveEdit,
   mdiFileRestoreOutline,
+  mdiClose,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -154,12 +162,19 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiContentSaveEdit,
         mdiFileRestoreOutline,
+        mdiClose,
       },
       Typ,
 
       isValid: true as boolean,
       isWorkflow: true as boolean,
     };
+  },
+
+  methods: {
+     closeSettings() {
+      this.$emit("closeSettings");
+    },
   },
 
   watch: {
