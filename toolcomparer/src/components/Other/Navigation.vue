@@ -92,9 +92,9 @@
         </v-row>
       </v-container>
     </v-card>
-    <SettingsDialog 
+    <SettingsDialog
       :showSettings="showSettings"
-      v-on:closeSettings="closeSettings()" 
+      v-on:closeSettings="closeSettings()"
     />
   </div>
 </template>
