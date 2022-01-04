@@ -18,7 +18,11 @@
           <v-col xl="12">
             <v-navigation-drawer permanent expand-on-hover absolute>
               <v-list nav>
-                <v-list-item link class="px-2" v-on:click.native="showSettings = true">
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="showSettings = true"
+                >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiCog }}</v-icon>
                   </v-list-item-icon>
@@ -34,7 +38,11 @@
                 <v-list-item
                   link
                   class="px-2"
-                  v-on:click.native="navigateTo('/Workflow/' + $store.getters.getSettingsWorkflow)"
+                  v-on:click.native="
+                    navigateTo(
+                      '/Workflow/' + $store.getters.getSettingsWorkflow
+                    )
+                  "
                 >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiPlus }}</v-icon>
@@ -84,9 +92,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <SettingsDialog
-      :showSettings="showSettings"
-    />
+    <SettingsDialog :showSettings="showSettings" />
   </div>
 </template>
 
