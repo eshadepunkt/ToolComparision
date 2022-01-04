@@ -179,22 +179,55 @@ export default Vue.extend({
   watch: {
     selectedWorkflow: function (workflow: string): void {
       this.$store.commit("setSettingsWorkflow", workflow);
+      window.localStorage.setItem("workflow", workflow);
     },
     isDescriptionMandatory: function (isMandatory: boolean) {
       this.$store.commit("setSettingsIsDescriptionMandatory", isMandatory);
+      window.localStorage.setItem("isDescriptionMandatory", isMandatory.toString());
     },
     isJustificationMandatory: function (isMandatory: boolean) {
       this.$store.commit("setSettingsIsJustificationMandatory", isMandatory);
+      window.localStorage.setItem("isJustificationMandatory", isMandatory.toString());
     },
     isColorChips: function (isColored: boolean) {
       this.$store.commit("setSettingsIsColorChips", isColored);
+      window.localStorage.setItem("isColorChips", isColored.toString());
     },
     isColorChipsScoreOnly: function (isColored: boolean) {
       this.$store.commit("setSettingsIsColorChipsScoreOnly", isColored);
+      window.localStorage.setItem("isColorChipsScoreOnly", isColored.toString());
     },
     isStarsInsteadOfNumbers: function (isStars: boolean) {
       this.$store.commit("setSettingsIsStarsInsteadOfNumbers", isStars);
+      window.localStorage.setItem("isStarsInsteadOfNumbers", isStars.toString());
     },
   },
+
+  mounted: function() {
+     const workflow = window.localStorage.getItem("workflow");
+     if (workflow !== null) {
+        this.selectedWorkflow = workflow;
+     }
+     const isDescriptionMandatory = window.localStorage.getItem("isDescriptionMandatory");
+     if (isDescriptionMandatory !== null) {
+        this.isDescriptionMandatory = JSON.parse(isDescriptionMandatory);
+     }
+     const isJustificationMandatory = window.localStorage.getItem("isJustificationMandatory");
+     if (isJustificationMandatory !== null) {
+        this.isJustificationMandatory = JSON.parse(isJustificationMandatory);
+     }
+     const isColorChips = window.localStorage.getItem("isColorChips");
+     if (isColorChips !== null) {
+        this.isColorChips = JSON.parse(isColorChips);
+     }
+     const isColorChipsScoreOnly = window.localStorage.getItem("isColorChipsScoreOnly");
+     if (isColorChipsScoreOnly !== null) {
+        this.isColorChipsScoreOnly = JSON.parse(isColorChipsScoreOnly);
+     }
+     const isStarsInsteadOfNumbers = window.localStorage.getItem("isStarsInsteadOfNumbers");
+     if (isStarsInsteadOfNumbers !== null) {
+        this.isStarsInsteadOfNumbers = JSON.parse(isStarsInsteadOfNumbers);
+     }
+  }
 });
 </script>
