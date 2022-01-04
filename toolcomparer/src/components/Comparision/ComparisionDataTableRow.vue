@@ -130,7 +130,10 @@ export default Vue.extend({
       this.$store.commit("removeTool", this.result.toolKV);
     },
     getColor(score: Typ.score): string {
-      if (score.isExcluded) {
+      if (!this.$store.getters.getSettingsIsColorChips) {
+        return "background-color: white;";
+      }
+      else if (score.isExcluded) {
         return "background-color: lightgrey;";
       } else if (score.currentValue >= score.maxValue * 0.8) {
         return "background-color: lightgreen;";

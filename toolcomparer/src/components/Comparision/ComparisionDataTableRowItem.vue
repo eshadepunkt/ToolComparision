@@ -94,9 +94,13 @@ export default Vue.extend({
         Math.pow(this.suitability.criteriumKV.value.importance, 2) *
         this.suitability.fullfillment;
 
-      if (current === 0) {
+      if (!this.$store.getters.getSettingsIsColorChips || this.$store.getters.getSettingsIsColorChipsScoreOnly) {
+        return "background-color: white;";
+      }
+      else if (current === 0) {
         return "background-color: lightgrey;";
-      } else if (current >= max * 0.8) {
+      }
+      else if (current >= max * 0.8) {
         return "background-color: lightgreen;";
       } else if (current >= max * 0.6) {
         return "background-color: yellow;";
