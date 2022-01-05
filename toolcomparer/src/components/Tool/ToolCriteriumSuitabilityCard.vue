@@ -7,11 +7,36 @@
   >
     <v-card>
       <v-container>
+        <v-row v-if="isInCreation()">
+          <v-col cols="9">
+            <div style="font-size: 1.5em; position: relative; top: 0.5em">
+              {{ "Tool: " + toolKVSuitabilityItem.toolKV.value.name }}
+            </div>
+          </v-col>
+        </v-row>
+        <v-row v-if="isInCreation()">
+          <v-col cols="12">
+            <v-textarea
+              height="5em"
+              outlined
+              label="Tool description"
+              v-model="toolKVSuitabilityItem.toolKV.value.description"
+              :rules="rules.str"
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
+              :readonly="true"
+              no-resize
+            >
+            </v-textarea>
+          </v-col>
+        </v-row>
         <!-- Head -->
         <v-row>
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ toolCriteriumSuitability.criteriumKV.value.name }}
+              {{
+                "Criterium: " +
+                toolKVSuitabilityItem.suitability.criteriumKV.value.name
+              }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -46,12 +71,16 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="5em"
               outlined
               label="Criterium description"
-              v-model="toolCriteriumSuitability.criteriumKV.value.description"
               :rules="rules.str"
-              required
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="true"
+              no-resize
+              :value="
+                toolKVSuitabilityItem.suitability.criteriumKV.value.description
+              "
             >
             </v-textarea>
           </v-col>
@@ -64,8 +93,10 @@
               :items="fullfillmentItems"
               label="Fullfillment"
               v-model="selectedFullfillment"
-              :rules="rules.str"
-              required
+              :rules="
+                !$store.getters.getSettingsIsDescriptionMandatory || rules.str
+              "
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="!isInCreation()"
               @change="updateFullfillment(selectedFullfillment)"
             >
@@ -77,12 +108,16 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="5em"
               outlined
               label="Justification"
-              v-model="toolCriteriumSuitability.justification"
-              :rules="rules.str"
-              required
+              v-model="toolKVSuitabilityItem.suitability.justification"
+              :rules="
+                rules.str || !$store.getters.getSettingsIsJustificationMandatory
+              "
+              :required="$store.getters.getSettingsIsJustificationMandatory"
               :readonly="!isInCreation()"
+              no-resize
             >
             </v-textarea>
           </v-col>
@@ -93,7 +128,8 @@
 </template>
 
 <script lang="ts">
-console.dir();
+import { v4 as uuidv4 } from "uuid";
+import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
 import {
@@ -113,74 +149,50 @@ export default Vue.extend({
 
   //PROPS
   props: {
-    propToolCriteriumSuitability: {
-      type: Object as () => Typ.toolCriteriumSuitability,
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
+    propToolKVSuitabilityItem: {
+      type: Object as () => Typ.toolKVSuitabilityItem,
+      default() {
+        return {
+          toolKV: {
+            key: uuidv4() as string,
+            value: {
+              name: "",
+              description: "",
+              criteriaSuitabilities: Array<Typ.toolCriteriumSuitability>(),
+            } as Typ.tool,
+          } as Typ.toolKeyValue,
+          suitability: {
+            criteriumKV: {
+              key: uuidv4() as string,
+              value: {
+                name: "",
+                description: "",
+                importance: Typ.criteriumImportance.undefined,
+                isExclusionCriterium: false,
+              } as Typ.criterium,
+            } as Typ.criteriumKeyValue,
+            fullfillment: Typ.toolCriteriumFullfillment.undefined,
+            justification: "" as string,
+          } as Typ.toolCriteriumSuitability,
+        } as Typ.toolKVSuitabilityItem;
+      },
     },
     propModuleState: {
-      type: Object as () => Typ.simpleModuleState,
+      type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-    },
-  },
-
-  //METHODS
-  methods: {
-    isMinimized(): boolean {
-      return this.moduleState === Typ.simpleModuleState.minimized;
-    },
-    isInCreation(): boolean {
-      return this.moduleState === Typ.simpleModuleState.increation;
-    },
-    changeModuleState(state: string): void {
-      let stateEnum = Typ.convertStringToModuleStateEnum(state);
-      this.moduleState = stateEnum;
-    },
-
-    updateFullfillment(fullfillment: string): void {
-      let fullfillmentEnum: Typ.toolCriteriumFullfillment =
-        Typ.convertStringToFullfillmentEnum(fullfillment);
-      this.toolCriteriumSuitability.fullfillment = fullfillmentEnum;
-    },
-    validate(): boolean {
-      return (this.$refs.form as Vue & { validate: () => boolean }).validate();
-    },
-    resetValidation() {
-      (
-        this.$refs.form as Vue & { resetValidation: () => void }
-      ).resetValidation();
-    },
-    reset() {
-      (this.$refs.form as Vue & { reset: () => void }).reset();
-    },
-
-    minAfterValidate() {
-      if (this.validate()) {
-        this.changeModuleState("minimized");
-      }
-    },
-
-    getResultString(): string {
-      const max: number =
-        Math.pow(
-          this.toolCriteriumSuitability.criteriumKV.value.importance,
-          2
-        ) * Typ.toolCriteriumFullfillment.verygood;
-
-      const min: number =
-        Math.pow(
-          this.toolCriteriumSuitability.criteriumKV.value.importance,
-          2
-        ) * this.toolCriteriumSuitability.fullfillment;
-
-      return min + "/" + max;
     },
   },
 
   //DATA
   data() {
     return {
-      toolCriteriumSuitability: JSON.parse(
-        JSON.stringify(this.propToolCriteriumSuitability)
-      ) as Typ.toolCriteriumSuitability,
+      toolKVSuitabilityItem: JSON.parse(
+        JSON.stringify(this.propToolKVSuitabilityItem)
+      ) as Typ.toolKVSuitabilityItem,
 
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
@@ -210,41 +222,121 @@ export default Vue.extend({
         mdiContentSaveEdit,
         mdiFileRestoreOutline,
       },
+      Typ,
 
       isValid: true as boolean,
     };
   },
 
-  //WATCH
-  watch: {
-    propToolCriteriumSuitability: {
-      handler(newVal: Typ.toolCriteriumSuitability) {
-        this.toolCriteriumSuitability = newVal;
-        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfillment
-        );
-      },
-      deep: true,
+  //METHODS
+  methods: {
+    isMinimized(): boolean {
+      return this.moduleState === Typ.simpleModuleState.minimized;
     },
-    toolCriteriumSuitability: {
-      handler(newVal: Typ.toolCriteriumSuitability) {
-        this.$emit("update_tool_suitability", newVal);
-        this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-          this.toolCriteriumSuitability.fullfillment
-        );
-      },
-      deep: true,
+    isInCreation(): boolean {
+      return this.moduleState === Typ.simpleModuleState.increation;
+    },
+    changeModuleState(state: string): void {
+      let stateEnum = Typ.convertStringToModuleStateEnum(state);
+      this.moduleState = stateEnum;
+    },
+    updateFullfillment(fullfillment: string): void {
+      let fullfillmentEnum: Typ.toolCriteriumFullfillment =
+        Typ.convertStringToFullfillmentEnum(fullfillment);
+      this.toolKVSuitabilityItem.suitability.fullfillment = fullfillmentEnum;
+    },
+    validate(): boolean {
+      return (this.$refs.form as Vue & { validate: () => boolean }).validate();
+    },
+    resetValidation() {
+      try {
+        (
+          this.$refs.form as Vue & { resetValidation: () => void }
+        ).resetValidation();
+      } catch {
+        console.log("Validation reseted");
+      }
+    },
+    reset() {
+      (this.$refs.form as Vue & { reset: () => void }).reset();
+    },
+
+    minAfterValidate() {
+      if (this.validate()) {
+        this.changeModuleState("minimized");
+      }
+    },
+
+    getResultString(): string {
+      const max: number =
+        Math.pow(
+          this.toolKVSuitabilityItem.suitability.criteriumKV.value.importance,
+          2
+        ) * Typ.toolCriteriumFullfillment.verygood;
+
+      const min: number =
+        Math.pow(
+          this.toolKVSuitabilityItem.suitability.criteriumKV.value.importance,
+          2
+        ) * this.toolKVSuitabilityItem.suitability.fullfillment;
+
+      return min + "/" + max;
+    },
+    getSuitabilityIfValid(): Typ.toolKVSuitabilityItem | null {
+      const isValid: boolean = this.validate();
+      let suitability = null;
+      if (isValid) {
+        suitability = this.toolKVSuitabilityItem;
+      }
+
+      return suitability;
+    },
+    getSuitabilityEvenIncomplete(): Typ.toolKVSuitabilityItem {
+      return this.toolKVSuitabilityItem;
+    },
+    updateSuitability() {
+      this.toolKVSuitabilityItem = JSON.parse(
+        JSON.stringify(this.propToolKVSuitabilityItem)
+      );
+      this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
+        this.toolKVSuitabilityItem.suitability.fullfillment
+      );
+
+      this.resetValidation();
+    },
+    updateCriteriumKV(): void {
+      this.toolKVSuitabilityItem.suitability.criteriumKV = JSON.parse(
+        JSON.stringify(this.propToolKVSuitabilityItem)
+      );
+
+      if (
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value.name ===
+          "" &&
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value
+          .description === "" &&
+        this.propToolKVSuitabilityItem.suitability.criteriumKV.value
+          .importance === Typ.criteriumImportance.undefined
+      ) {
+        this.toolKVSuitabilityItem.suitability.criteriumKV.key = uuidv4();
+      }
+
+      this.resetValidation();
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.moduleState = this.propModuleState;
-    this.selectedFullfillment = Typ.convertFullfillmentEnumToString(
-      this.toolCriteriumSuitability.fullfillment
-    );
+    this.updateSuitability();
+  },
 
-    this.resetValidation();
+  //WATCH
+  watch: {
+    propToolKVSuitabilityItem: {
+      handler() {
+        this.updateSuitability();
+      },
+      deep: true,
+    },
   },
 });
 </script>

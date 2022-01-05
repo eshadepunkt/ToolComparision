@@ -64,12 +64,16 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="5em"
               outlined
               label="Description"
               v-model="toolKV.value.description"
-              :rules="rules.str"
-              required
+              :rules="
+                !$store.getters.getSettingsIsDescriptionMandatory || rules.str
+              "
+              :required="$store.getters.getSettingsIsDescriprionMandatory"
               :readonly="!isInCreation()"
+              no-resize
             >
             </v-textarea>
           </v-col>
@@ -78,7 +82,12 @@
         <v-row>
           <v-col cols="12">
             <ToolCriteriumSuitabilityListBox
-              v-if="!isInCreation() && !isMinimized()"
+              v-if="
+                !isInCreation() &&
+                !isMinimized() &&
+                this.propToolKV.value.criteriaSuitabilities &&
+                this.propToolKV.value.criteriaSuitabilities.length > 0
+              "
               :propToolKV="toolKV"
             />
           </v-col>
@@ -130,7 +139,7 @@ export default Vue.extend({
       },
     },
     propModuleState: {
-      type: Object as () => Typ.simpleModuleState,
+      type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
     },
 
@@ -138,6 +147,33 @@ export default Vue.extend({
       type: Object as () => Typ.toolRating,
       default: undefined,
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
+      moduleState: this.propModuleState as Typ.simpleModuleState,
+
+      rules: {
+        required: (value: boolean | string) => !!value || "Required",
+        str: [
+          (val: string) => (val || "").length > 0 || "This field is required",
+        ],
+      },
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiContentSaveEdit,
+        mdiFileRestoreOutline,
+      },
+      Typ,
+
+      isValid: true as boolean,
+    };
   },
 
   //METHODS
@@ -175,9 +211,13 @@ export default Vue.extend({
       return (this.$refs.form as Vue & { validate: () => boolean }).validate();
     },
     resetValidation() {
-      (
-        this.$refs.form as Vue & { resetValidation: () => void }
-      ).resetValidation();
+      try {
+        (
+          this.$refs.form as Vue & { resetValidation: () => void }
+        ).resetValidation();
+      } catch {
+        console.log("Validation reseting");
+      }
     },
     reset() {
       (this.$refs.form as Vue & { reset: () => void }).reset();
@@ -188,58 +228,50 @@ export default Vue.extend({
         this.changeModuleState("minimized");
       }
     },
-  },
+    save(): boolean {
+      const isValid: boolean = this.validate();
+      if (isValid) {
+        this.$store.dispatch("updateTool", this.toolKV);
+        this.resetToolKV();
+      }
 
-  //DATA
-  data() {
-    return {
-      toolKV: JSON.parse(JSON.stringify(this.propToolKV)) as Typ.toolKeyValue,
-      moduleState: this.propModuleState as Typ.simpleModuleState,
-
-      rules: {
-        required: (value: boolean | string) => !!value || "Required",
-        str: [
-          (val: string) => (val || "").length > 0 || "This field is required",
-        ],
-      },
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-        mdiContentSaveEdit,
-        mdiFileRestoreOutline,
-      },
-
-      isValid: true as boolean,
-    };
-  },
-
-  //WATCH
-  watch: {
-    propToolKV: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.toolKV = newVal;
-      },
-      deep: true,
+      return isValid;
     },
-    toolKV: {
-      handler(newVal: Typ.toolKeyValue) {
-        this.$emit("update_tool", newVal);
-      },
-      deep: true,
+    getToolKVIfValid(): Typ.toolKeyValue | null {
+      const isValid: boolean = this.validate();
+      let toolKV = null;
+      if (isValid) {
+        toolKV = this.toolKV;
+      }
+
+      return toolKV;
+    },
+    resetToolKV() {
+      this.toolKV = JSON.parse(JSON.stringify(this.propToolKV));
+      if (
+        this.toolKV.value.name === "" &&
+        this.toolKV.value.description === ""
+      ) {
+        this.toolKV.key = uuidv4();
+      }
+
+      this.resetValidation();
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.moduleState = this.propModuleState;
-    if (this.propToolRating !== undefined) {
-      this.toolKV = JSON.parse(JSON.stringify(this.propToolRating.toolKV));
-    }
+    this.resetToolKV();
+  },
 
-    this.resetValidation();
+  //WATCH
+  watch: {
+    propToolKV: {
+      handler() {
+        this.resetToolKV();
+      },
+      deep: true,
+    },
   },
 });
 </script>

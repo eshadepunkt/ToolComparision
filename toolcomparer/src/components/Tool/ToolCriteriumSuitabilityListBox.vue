@@ -11,7 +11,7 @@
               <v-item
                 v-for="(suitability, index) in propToolKV.value
                   .criteriaSuitabilities"
-                :key="suitability.criteriumKV.key"
+                :key="noSecHash(suitability)"
               >
                 <ToolCriteriumSuitabilityListItem
                   :propToolKV="propToolKV"
@@ -29,6 +29,7 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -60,6 +61,8 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      Typ,
+      noSecHash,
     };
   },
 });

@@ -1,22 +1,19 @@
 <template>
-  <div id="CriteriumListBox">
-    <div v-if="!getCriteria || getCriteria.length == 0">No data available</div>
-    <v-list>
-      <v-item-group>
-        <v-item v-for="item in getCriteria" :key="noSecHash(item)">
-          <CriteriumListItem
-            :propCriteriumKV="item"
-            :workflow="workflow"
-            :tools="tools"
-          />
-        </v-item>
-      </v-item-group>
-    </v-list>
-    <CriteriumCreationDialog
-      :showDialog="showDialog"
-      :mode="editMode"
-      :workflow="workflow"
+  <div id="WorkflowManager">
+    <CriteriumListBox
+      v-show="currentListBox === 'Criteria'"
+      :criteria="criteria"
       :tools="tools"
+      :showDialog="showDialog && currentListBox === 'Criteria'"
+      :workflow="workflow"
+      v-on:closeDialog="closeDialog()"
+    />
+    <ToolListBox
+      v-show="currentListBox === 'Tools'"
+      :tools="tools"
+      :criteria="criteria"
+      :showDialog="showDialog && currentListBox === 'Tools'"
+      :workflow="workflow"
       v-on:closeDialog="closeDialog()"
     />
   </div>
@@ -25,7 +22,6 @@
 <script lang="ts">
 import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
-import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -38,15 +34,15 @@ import {
 
 import Vue from "vue";
 
-import CriteriumListItem from "./CriteriumListItem.vue";
-import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
+import CriteriumListBox from "../Criterium/CriteriumListBox.vue";
+import ToolListBox from "../Tool/ToolListBox.vue";
 
 export default Vue.extend({
-  name: "CriteriumListBox",
+  name: "WorkflowManager",
 
   components: {
-    CriteriumListItem,
-    CriteriumCreationDialog,
+    CriteriumListBox,
+    ToolListBox,
   },
 
   props: {
@@ -56,7 +52,9 @@ export default Vue.extend({
     },
     workflow: {
       type: String,
-      default: "CriteriaFirst",
+    },
+    currentListBox: {
+      type: String,
     },
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
@@ -64,17 +62,6 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
-  },
-
-  //DATA
-  data() {
-    return {
-      uuidNIL,
-      Typ,
-      noSecHash,
-      editMode: Typ.simpleEditMode.Add,
-      currentTool: {} as Typ.toolKeyValue,
-    };
   },
 
   methods: {
@@ -87,6 +74,9 @@ export default Vue.extend({
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
       return this.criteria;
+    },
+    getTools: function (): Array<Typ.toolKeyValue> {
+      return this.tools;
     },
   },
 });

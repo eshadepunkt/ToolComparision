@@ -17,6 +17,13 @@ const store = new Vuex.Store({
   state: {
     criteria: Array<Typ.criteriumKeyValue>(),
     tools: Array<Typ.toolKeyValue>(),
+
+    settingsWorkflow: "ToolsFirst",
+    settingsIsDescriptionMandatory: true,
+    settingsIsJustificationMandatory: true,
+    settingsIsColorChips: true,
+    settingsIsColorChipsScoreOnly: false,
+    settingsIsStarsInsteadOfNumbers: false,
   },
   //GETTERS
   getters: {
@@ -49,6 +56,24 @@ const store = new Vuex.Store({
       }
 
       return -1;
+    },
+    getSettingsWorkflow: (state) => {
+      return state.settingsWorkflow;
+    },
+    getSettingsIsDescriptionMandatory: (state) => {
+      return state.settingsIsDescriptionMandatory;
+    },
+    getSettingsIsJustificationMandatory: (state) => {
+      return state.settingsIsJustificationMandatory;
+    },
+    getSettingsIsColorChips: (state) => {
+      return state.settingsIsColorChips;
+    },
+    getSettingsIsColorChipsScoreOnly: (state) => {
+      return state.settingsIsColorChipsScoreOnly;
+    },
+    getSettingsIsStarsInsteadOfNumbers: (state) => {
+      return state.settingsIsStarsInsteadOfNumbers;
     },
   },
   //MUTATIONS
@@ -180,6 +205,24 @@ const store = new Vuex.Store({
           );
         }
       }
+    },
+    setSettingsWorkflow: (state, workflow: string) => {
+      state.settingsWorkflow = workflow;
+    },
+    setSettingsIsDescriptionMandatory: (state, isMandatory: boolean) => {
+      state.settingsIsDescriptionMandatory = isMandatory;
+    },
+    setSettingsIsJustificationMandatory: (state, isMandatory: boolean) => {
+      state.settingsIsJustificationMandatory = isMandatory;
+    },
+    setSettingsIsColorChips: (state, isColored: boolean) => {
+      state.settingsIsColorChips = isColored;
+    },
+    setSettingsIsColorChipsScoreOnly: (state, isColoredScoreOnly) => {
+      state.settingsIsColorChipsScoreOnly = isColoredScoreOnly;
+    },
+    setSettingsIsStarsInsteadOfNumbers: (state, isShowAsStars) => {
+      state.settingsIsStarsInsteadOfNumbers = isShowAsStars;
     },
   },
   //ACTIONS

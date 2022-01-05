@@ -13,14 +13,21 @@
       </v-tooltip>
     </td>
     <td>
-      {{ result.score.currentValue + "/" + result.score.maxValue }}
+      <v-chip
+        :style="
+          getColor(result.score) +
+          (result.score.isExcluded ? 'color: grey' : '')
+        "
+      >
+        {{ result.score.currentValue + "/" + result.score.maxValue }}
+      </v-chip>
     </td>
     <ComparisionDataTableRowItem
       v-for="(suitability, index) in getSortedSuitabilities"
       :result="result"
       :propSuitabilityIndex="index"
       :sortBy="sortBy"
-      :key="suitability.criteriumKV.key"
+      :key="noSecHash(suitability)"
     />
     <td>
       <v-row>
@@ -40,11 +47,19 @@
         </v-col>
       </v-row>
     </td>
+    <ToolCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :propToolKV="result.toolKV"
+      :criteria="criteria"
+      v-on:closeDialog="showDialog = false"
+    />
   </tr>
 </template>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -57,12 +72,14 @@ import {
 
 import Vue from "vue";
 import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
+import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
     ComparisionDataTableRowItem,
+    ToolCreationDialog,
   },
 
   props: {
@@ -73,13 +90,16 @@ export default Vue.extend({
       type: String,
     },
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 
   //DATA
   data() {
     return {
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.Update,
+
       uuidNIL,
       icons: {
         mdiAccount,
@@ -88,6 +108,8 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
+      noSecHash,
+      Typ,
     };
   },
 
@@ -102,15 +124,23 @@ export default Vue.extend({
       return text;
     },
     btnEdit() {
-      const appendix: string = this.result.toolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
     },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
+    getColor(score: Typ.score): string {
+      if (!this.$store.getters.getSettingsIsColorChips) {
+        return "background-color: white;";
+      } else if (score.isExcluded) {
+        return "background-color: lightgrey;";
+      } else if (score.currentValue >= score.maxValue * 0.8) {
+        return "background-color: lightgreen;";
+      } else if (score.currentValue >= score.maxValue * 0.6) {
+        return "background-color: yellow;";
+      } else {
+        return "background-color: red;";
+      }
     },
   },
 

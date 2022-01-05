@@ -1,60 +1,49 @@
 <template>
-  <div id="ComparisionDataIterator">
-    <ComparisionContainer :redirectTo="redirectTo">
-      <v-card style="height: 71vh; overflow-y: auto" color="grey lighten-5">
-        <v-container fluid>
-          <v-data-iterator :items="getFilteredResults" hide-default-footer>
-            <template v-slot:header>
-              <v-toolbar dark color="blue darken-3" class="mb-1">
-                <v-text-field
-                  v-model="search"
-                  clearable
-                  flat
-                  solo-inverted
-                  hide-details
-                  prepend-inner-icon="mdi-magnify"
-                  label="Search tool"
-                >
-                </v-text-field>
-                <template v-if="$vuetify.breakpoint.mdAndUp">
-                  <v-spacer></v-spacer>
-                  <v-select
-                    v-model="sortBy"
-                    flat
-                    solo-inverted
-                    hide-details
-                    :items="[''].concat(criteria.map((x) => x.value.name))"
-                    prepend-inner-icon="mdi-magnify"
-                    label="Sort by criteria"
-                  >
-                  </v-select>
-                  <v-spacer></v-spacer>
-                  <v-btn-toggle v-model="sortDesc" mandatory>
-                    <v-btn large depressed color="blue" :value="false">
-                      <v-icon>mdi-arrow-up</v-icon>
-                    </v-btn>
-                    <v-btn large depressed color="blue" :value="true">
-                      <v-icon>mdi-arrow-down</v-icon>
-                    </v-btn>
-                  </v-btn-toggle>
-                </template>
-              </v-toolbar>
-            </template>
-            <template v-slot:default="props">
-              <v-row>
-                <v-col v-for="result in props.items" :key="result.toolKV.key">
-                  <ComparisionDataIteratorCard
-                    :result="result"
-                    :criteria="criteria"
-                    :sortBy="sortBy"
-                  />
-                </v-col>
-              </v-row>
-            </template>
-          </v-data-iterator>
-        </v-container>
-      </v-card>
-    </ComparisionContainer>
+  <div id="Comparision">
+    <v-container>
+      <v-row>
+        <v-col xl="12">
+          <ComparisionHeader
+            :sortItems="getCriteria"
+            :search="search"
+            :sortDesc="sortDesc"
+            :sortBy="sortBy"
+            v-on:searchChanged="searchChanged"
+            v-on:sortDescChanged="sortDescChanged"
+            v-on:sortByChanged="sortByChanged"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col xl="12">
+          <v-card style="height: 59vh; overflow-y: auto">
+            <ComparisionManager
+              :currentView="currentView"
+              :results="getFilteredResults"
+              :criteria="getCriteria"
+              :maxScore="getMaxScore"
+              :search="search"
+              :sortDesc="sortDesc"
+              :sortBy="sortBy"
+              v-on:sortDescChanged="sortDescChanged"
+              v-on:sortByChanged="sortByChanged"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- Buttons -->
+      <v-row
+        align="center"
+        align-content="space-between"
+        justify="space-between"
+      >
+        <v-col xl="1">
+          <v-btn @click="changeView()" color="blue lighten-5">
+            Change View
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -65,31 +54,31 @@ import * as Typ from "../../types/index";
 
 import Vue from "vue";
 
-import ComparisionContainer from "./ComparisionContainer.vue";
-import ComparisionDataIteratorCard from "./ComparisionDataIteratorCard.vue";
+import Header from "../Other/Header.vue";
+import ComparisionHeader from "./ComparisionHeader.vue";
+import ComparisionManager from "./ComparisionManager.vue";
 
 export default Vue.extend({
-  name: "ComparisionDataIterator",
+  name: "Comparision",
 
   components: {
-    ComparisionContainer,
-    ComparisionDataIteratorCard,
+    Header,
+    ComparisionHeader,
+    ComparisionManager,
   },
 
   //DATA
   data() {
     return {
+      currentView: "DataIterator" as string,
       tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
-      criteria: Array<Typ.criteriumKeyValue>(),
 
-      maxScore: -1 as number,
       uuidNIL,
+      Typ,
 
       search: "",
-      filter: {},
       sortDesc: true,
       sortBy: "",
-      redirectTo: "/Comparision/DataTable/",
     };
   },
 
@@ -97,21 +86,6 @@ export default Vue.extend({
   methods: {
     navigateTo(route: string): void {
       this.$router.push(route);
-    },
-    cacheCriteria() {
-      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
-        JSON.stringify(this.$store.getters.getCriteria)
-      );
-
-      this.criteria = unsorted.sort((a, b) => {
-        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-          return b.value.importance - a.value.importance;
-        } else if (a.value.isExclusionCriterium) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
     },
 
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
@@ -129,13 +103,14 @@ export default Vue.extend({
       let toolCriteria: Array<Typ.criteriumKeyValue> =
         toolKV.value.criteriaSuitabilities.map((x) => x.criteriumKV);
       //NOTE: A tool could have stored tools that aren't in usage
-      if (toolCriteria.length < this.criteria.length) {
+      if (toolCriteria.length < this.getCriteria.length) {
         return false;
       }
 
-      for (let i = 0; i < this.criteria.length; i++) {
+      for (let i = 0; i < this.getCriteria.length; i++) {
         let notFound =
-          toolCriteria.findIndex((x) => x.key === this.criteria[i].key) === -1;
+          toolCriteria.findIndex((x) => x.key === this.getCriteria[i].key) ===
+          -1;
         if (notFound) {
           return false;
         }
@@ -151,7 +126,7 @@ export default Vue.extend({
 
       let filtered = toolCriteriumSuitabilites.filter(
         (x) =>
-          this.criteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
+          this.getCriteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
       );
 
       return filtered;
@@ -175,19 +150,9 @@ export default Vue.extend({
 
       return {
         currentValue: currentScore,
-        maxValue: this.maxScore,
+        maxValue: this.getMaxScore,
         isExcluded: isExcluded,
       } as Typ.score;
-    },
-    cacheMaxScore() {
-      let score = 0;
-      this.criteria.forEach((element) => {
-        score +=
-          Math.pow(element.value.importance, 2) *
-          Typ.toolCriteriumFullfillment.verygood;
-      });
-
-      this.maxScore = score;
     },
 
     //NOTE: Sort DESCending
@@ -273,12 +238,20 @@ export default Vue.extend({
       }
       return v.indexOf(v2) !== -1;
     },
-  },
 
-  //MOUNTED
-  mounted: function () {
-    this.cacheCriteria();
-    this.cacheMaxScore();
+    searchChanged(val: string) {
+      this.search = val;
+    },
+    sortDescChanged(val: boolean) {
+      this.sortDesc = val;
+    },
+    sortByChanged(val: string) {
+      this.sortBy = val;
+    },
+    changeView() {
+      const isTableView: boolean = this.currentView === "DataTable";
+      this.currentView = isTableView ? "DataIterator" : "DataTable";
+    },
   },
 
   //COMPUTED
@@ -345,6 +318,32 @@ export default Vue.extend({
           }
         });
       }
+    },
+    getCriteria(): Array<Typ.criteriumKeyValue> {
+      const unsorted: Array<Typ.criteriumKeyValue> =
+        this.$store.getters.getCriteria;
+
+      return unsorted.sort((a, b) => {
+        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
+          return b.value.importance - a.value.importance;
+        } else if (a.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    },
+    getMaxScore(): number {
+      let score = 0;
+      const criteria: Array<Typ.criteriumKeyValue> =
+        this.$store.getters.getCriteria;
+      criteria.forEach((element) => {
+        score +=
+          Math.pow(element.value.importance, 2) *
+          Typ.toolCriteriumFullfillment.verygood;
+      });
+
+      return score;
     },
   },
 });

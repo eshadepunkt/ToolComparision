@@ -50,11 +50,19 @@
       </v-list-item-content>
     </div>
     <div style="width: 2em" />
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="result.toolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
   </v-list-item>
 </template>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -67,8 +75,14 @@ import {
 
 import Vue from "vue";
 
+import ToolCriteriumSuitabilityCreationDialog from "../Tool/ToolCriteriumSuitabilityCreationDialog.vue";
+
 export default Vue.extend({
   name: "ComparisionDataIteratorCardItem",
+
+  components: {
+    ToolCriteriumSuitabilityCreationDialog,
+  },
 
   props: {
     result: {
@@ -91,6 +105,10 @@ export default Vue.extend({
       suitability: this.result.toolKV.value.criteriaSuitabilities[
         this.propSuitabilityIndex
       ] as Typ.toolCriteriumSuitability,
+
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.UpdateSingle,
+
       uuidNIL,
       icons: {
         mdiAccount,
@@ -99,6 +117,8 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
+      noSecHash,
+      Typ,
     };
   },
 
@@ -138,15 +158,7 @@ export default Vue.extend({
     },
 
     btnEdit() {
-      const appendix: string =
-        this.result.toolKV.key + "/" + this.suitability.criteriumKV.key;
-      this.navigateTo(
-        "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
-      );
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
+      this.showDialog = true;
     },
   },
 });

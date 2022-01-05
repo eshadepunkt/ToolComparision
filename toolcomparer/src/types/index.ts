@@ -18,6 +18,31 @@ export enum simpleModuleState {
 export enum simpleEditMode {
   Add,
   Update,
+  UpdateSingle,
+}
+
+export function convertStringToEditModeEnum(convert: string): simpleEditMode {
+  convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
+
+  switch (convert) {
+    case "update":
+      return simpleEditMode.Update;
+    case "updatesingle":
+      return simpleEditMode.UpdateSingle;
+    default:
+      return simpleEditMode.Add;
+  }
+}
+export function convertEditModeEnumToString(convert: simpleEditMode): string {
+  switch (convert) {
+    case simpleEditMode.Update:
+      return "Update";
+    case simpleEditMode.UpdateSingle:
+      return "Update single";
+    default:
+      return "Add";
+  }
 }
 
 //CRITERIA
@@ -33,6 +58,7 @@ export function convertStringToImportanceEnum(
   convert: string
 ): criteriumImportance {
   convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
 
   switch (convert) {
     case "veryimportant":
@@ -41,8 +67,10 @@ export function convertStringToImportanceEnum(
       return criteriumImportance.important;
     case "neutral":
       return criteriumImportance.neutral;
-    default:
+    case "unimportant":
       return criteriumImportance.unimportant;
+    default:
+      return criteriumImportance.undefined;
   }
 }
 export function convertImportanceEnumToString(
@@ -115,6 +143,7 @@ export function convertStringToFullfillmentEnum(
   convert: string
 ): toolCriteriumFullfillment {
   convert = convert.replaceAll(" ", "");
+  convert = convert.toLowerCase();
 
   switch (convert) {
     case "verygood":
@@ -127,8 +156,10 @@ export function convertStringToFullfillmentEnum(
       return toolCriteriumFullfillment.bad;
     case "verybad":
       return toolCriteriumFullfillment.verybad;
-    default:
+    case "doesnot":
       return toolCriteriumFullfillment.doesnot;
+    default:
+      return toolCriteriumFullfillment.undefined;
   }
 }
 
@@ -192,4 +223,9 @@ export interface score {
   currentValue: number;
   maxValue: number;
   isExcluded: boolean;
+}
+
+export interface toolKVSuitabilityItem {
+  toolKV: toolKeyValue;
+  suitability: toolCriteriumSuitability;
 }

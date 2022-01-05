@@ -57,15 +57,23 @@
           :result="result"
           :propSuitabilityIndex="index"
           :sortBy="sortBy"
-          :key="suitability.criteriumKV.key"
+          :key="noSecHash(suitability)"
         />
       </v-list>
     </div>
+    <ToolCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :propToolKV="result.toolKV"
+      :criteria="criteria"
+      v-on:closeDialog="showDialog = false"
+    />
   </v-card>
 </template>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
+import { sha1 as noSecHash } from "object-hash";
 
 import * as Typ from "../../types/index";
 import {
@@ -79,12 +87,14 @@ import {
 import Vue from "vue";
 
 import ComparisionDataIteratorCardItem from "./ComparisionDataIteratorCardItem.vue";
+import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataIteratorCard",
 
   components: {
     ComparisionDataIteratorCardItem,
+    ToolCreationDialog,
   },
 
   props: {
@@ -92,11 +102,30 @@ export default Vue.extend({
       type: Object as () => Typ.toolRating,
     },
     criteria: {
-      type: Object as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
     sortBy: {
       type: String,
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.Update,
+
+      uuidNIL,
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+      },
+      noSecHash,
+      Typ,
+    };
   },
 
   methods: {
@@ -111,30 +140,11 @@ export default Vue.extend({
     },
 
     btnEdit() {
-      const appendix: string = this.result.toolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.result.toolKV);
     },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
-    },
-  },
-
-  //DATA
-  data() {
-    return {
-      uuidNIL,
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-      },
-    };
   },
 
   //COMPUTED

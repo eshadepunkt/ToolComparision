@@ -30,6 +30,14 @@
         </v-row>
       </v-container>
     </v-card>
+    <ToolCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :workflow="workflow"
+      :propToolKV="propToolKV"
+      :criteria="criteria"
+      v-on:closeDialog="showDialog = false"
+    />
   </div>
 </template>
 
@@ -49,27 +57,32 @@ import {
 import Vue from "vue";
 
 import ToolCard from "./ToolCard.vue";
+import ToolCreationDialog from "./ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolListItem",
 
   components: {
     ToolCard,
+    ToolCreationDialog,
   },
 
   //PROPS
   props: {
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
+    },
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
-    },
-    btnText: {
-      type: String,
-      default: "Add",
     },
 
     propToolRating: {
       type: Object as () => Typ.toolRating,
       default: undefined,
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 
@@ -77,6 +90,8 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
+      editMode: Typ.simpleEditMode.Update,
+      showDialog: false as boolean,
 
       icons: {
         mdiAccount,
@@ -85,23 +100,17 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-
-      debug: true as boolean,
+      Typ,
     };
   },
 
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string = this.propToolKV.key;
-      this.navigateTo("/ToolCreation/Update/" + appendix);
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeTool", this.propToolKV);
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 });

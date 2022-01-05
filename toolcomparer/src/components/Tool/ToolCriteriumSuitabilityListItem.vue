@@ -5,9 +5,7 @@
         <v-row>
           <v-col cols="10">
             <ToolCriteriumSuitabilityCard
-              :propToolCriteriumSuitability="
-                propToolKV.value.criteriaSuitabilities[propSuitabilityIndex]
-              "
+              :propToolKVSuitabilityItem="toolKVSuitability"
               :propModuleState="moduleState"
             />
           </v-col>
@@ -29,6 +27,13 @@
         </v-row>
       </v-container>
     </v-card>
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="propToolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
   </div>
 </template>
 
@@ -48,12 +53,14 @@ import {
 import Vue from "vue";
 
 import ToolCriteriumSuitabilityCard from "./ToolCriteriumSuitabilityCard.vue";
+import ToolCriteriumSuitabilityCreationDialog from "./ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolCriteriumSuitabilityListItem",
 
   components: {
     ToolCriteriumSuitabilityCard,
+    ToolCriteriumSuitabilityCreationDialog,
   },
 
   //PROPS
@@ -74,6 +81,17 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
+      editMode: Typ.simpleEditMode.UpdateSingle,
+      showDialog: false as boolean,
+      suitability:
+        this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],
+      toolKVSuitability: {
+        toolKV: this.propToolKV,
+        suitability:
+          this.propToolKV.value.criteriaSuitabilities[
+            this.propSuitabilityIndex
+          ],
+      } as Typ.toolKVSuitabilityItem,
 
       icons: {
         mdiAccount,
@@ -82,22 +100,14 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-
-      debug: true as boolean,
+      Typ,
     };
   },
 
   //METHODS
   methods: {
     btnEdit() {
-      const appendix: string =
-        this.propToolKV.key +
-        "/" +
-        this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex]
-          .criteriumKV.key;
-      this.navigateTo(
-        "/ToolCriteriumSuitabilityCreation/UpdateSingle/" + appendix
-      );
+      this.showDialog = true;
     },
     btnDelete() {
       this.$store.commit("removeToolSuitability", {
@@ -107,10 +117,6 @@ export default Vue.extend({
             this.propSuitabilityIndex
           ],
       });
-    },
-
-    navigateTo(route: string): void {
-      this.$router.push(route);
     },
   },
 });

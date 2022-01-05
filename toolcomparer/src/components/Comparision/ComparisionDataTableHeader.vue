@@ -77,6 +77,7 @@ export default Vue.extend({
         mdiAppleKeyboardControl,
         mdiSort,
       },
+      Typ,
     };
   },
 

@@ -10,12 +10,12 @@
               v-if="isMinimized()"
               style="font-size: 1.5em; position: relative; top: 0.5em"
             >
-              {{ criterium.name }}
+              {{ criteriumKV.value.name }}
             </div>
             <!-- Maximized -->
             <v-text-field
               v-else
-              v-model="criterium.name"
+              v-model="criteriumKV.value.name"
               :rules="rules.str"
               label="Criterium name"
               required
@@ -50,12 +50,16 @@
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
             <v-textarea
+              height="5em"
               outlined
               label="Description"
-              v-model="criterium.description"
-              :rules="rules.str"
-              required
+              v-model="criteriumKV.value.description"
+              :rules="
+                !$store.getters.getSettingsIsDescriptionMandatory || rules.str
+              "
+              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="!isInCreation()"
+              no-resize
             >
             </v-textarea>
           </v-col>
@@ -82,7 +86,7 @@
           <v-col cols="12">
             <v-checkbox
               label="Exclusion Criterium"
-              v-model="criterium.isExclusionCriterium"
+              v-model="criteriumKV.value.isExclusionCriterium"
               :readonly="!isInCreation()"
             >
             </v-checkbox>
@@ -94,6 +98,9 @@
 </template>
 
 <script lang="ts">
+import { v4 as uuidv4 } from "uuid";
+import { NIL as uuidNIL } from "uuid";
+
 import * as Typ from "../../types/index";
 import {
   mdiAccount,
@@ -112,68 +119,32 @@ export default Vue.extend({
 
   //PROPS
   props: {
-    propCriterium: {
-      type: Object as () => Typ.criterium,
+    propCriteriumKV: {
+      type: Object as () => Typ.criteriumKeyValue,
       default() {
         return {
-          name: "",
-          description: "",
-          importance: Typ.criteriumImportance.undefined,
-          isExclusionCriterium: false,
-        } as Typ.criterium;
+          key: uuidv4() as string,
+          value: {
+            name: "",
+            description: "",
+            importance: Typ.criteriumImportance.undefined,
+            isExclusionCriterium: false,
+          } as Typ.criterium,
+        } as Typ.criteriumKeyValue;
       },
     },
     propModuleState: {
-      type: Object as () => Typ.simpleModuleState,
+      type: Number as () => Typ.simpleModuleState,
       default: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-    },
-  },
-
-  //METHODS
-  methods: {
-    isMinimized(): boolean {
-      return this.moduleState === Typ.simpleModuleState.minimized;
-    },
-    isInCreation(): boolean {
-      return this.moduleState === Typ.simpleModuleState.increation;
-    },
-    changeModuleState(state: string): void {
-      let stateEnum = Typ.convertStringToModuleStateEnum(state);
-      this.moduleState = stateEnum;
-    },
-
-    updateImportance(importance: string): void {
-      let importanceEnum: Typ.criteriumImportance =
-        Typ.convertStringToImportanceEnum(importance);
-      this.criterium.importance = importanceEnum;
-    },
-
-    validate(): boolean {
-      return (this.$refs.form as Vue & { validate: () => boolean }).validate();
-    },
-    resetValidation() {
-      (
-        this.$refs.form as Vue & { resetValidation: () => void }
-      ).resetValidation();
-    },
-    reset() {
-      (this.$refs.form as Vue & { reset: () => void }).reset();
-    },
-
-    minAfterValidate() {
-      if (this.validate()) {
-        this.changeModuleState("minimized");
-      }
     },
   },
 
   //DATA
   data() {
     return {
-      criterium: JSON.parse(
-        JSON.stringify(this.propCriterium)
-      ) as Typ.criterium,
-
+      criteriumKV: JSON.parse(
+        JSON.stringify(this.propCriteriumKV)
+      ) as Typ.criteriumKeyValue,
       moduleState: this.propModuleState as Typ.simpleModuleState,
 
       importanceItems: [
@@ -199,41 +170,101 @@ export default Vue.extend({
         mdiContentSaveEdit,
         mdiFileRestoreOutline,
       },
+      Typ,
 
       isValid: true as boolean,
     };
   },
 
-  //WATCH
-  watch: {
-    propCriterium: {
-      handler(newVal: Typ.criterium) {
-        this.criterium = newVal;
-        this.selectedImportance = Typ.convertImportanceEnumToString(
-          this.criterium.importance
-        );
-      },
-      deep: true,
+  //METHODS
+  methods: {
+    isMinimized(): boolean {
+      return this.moduleState === Typ.simpleModuleState.minimized;
     },
-    criterium: {
-      handler(newVal: Typ.criterium) {
-        this.$emit("update_criterium", newVal);
-        this.selectedImportance = Typ.convertImportanceEnumToString(
-          this.criterium.importance
-        );
-      },
-      deep: true,
+    isInCreation(): boolean {
+      return this.moduleState === Typ.simpleModuleState.increation;
+    },
+    changeModuleState(state: string): void {
+      let stateEnum = Typ.convertStringToModuleStateEnum(state);
+      this.moduleState = stateEnum;
+    },
+
+    updateImportance(importance: string): void {
+      let importanceEnum: Typ.criteriumImportance =
+        Typ.convertStringToImportanceEnum(importance);
+      this.criteriumKV.value.importance = importanceEnum;
+    },
+
+    validate(): boolean {
+      return (this.$refs.form as Vue & { validate: () => boolean }).validate();
+    },
+    resetValidation() {
+      try {
+        (
+          this.$refs.form as Vue & { resetValidation: () => void }
+        ).resetValidation();
+      } catch {
+        console.log("Validation reseting");
+      }
+    },
+    reset() {
+      (this.$refs.form as Vue & { reset: () => void }).reset();
+    },
+
+    minAfterValidate() {
+      if (this.validate()) {
+        this.changeModuleState("minimized");
+      }
+    },
+    save(): boolean {
+      const isValid: boolean = this.validate();
+      if (isValid) {
+        this.$store.dispatch("updateCriterium", this.criteriumKV);
+
+        this.updateCriteriumKV();
+      }
+
+      return isValid;
+    },
+    getCriteriumKVIfValid(): Typ.criteriumKeyValue | null {
+      const isValid: boolean = this.validate();
+      let criteriumKV = null;
+      if (isValid) {
+        criteriumKV = this.criteriumKV;
+      }
+
+      return criteriumKV;
+    },
+    updateCriteriumKV(): void {
+      this.criteriumKV = JSON.parse(JSON.stringify(this.propCriteriumKV));
+      this.selectedImportance = Typ.convertImportanceEnumToString(
+        this.propCriteriumKV.value.importance
+      );
+      if (
+        this.criteriumKV.value.name === "" &&
+        this.criteriumKV.value.description === "" &&
+        this.criteriumKV.value.importance === Typ.criteriumImportance.undefined
+      ) {
+        this.criteriumKV.key = uuidv4();
+      }
+
+      this.resetValidation();
     },
   },
 
   //MOUNTED
   mounted: function () {
-    this.moduleState = this.propModuleState;
-    this.selectedImportance = Typ.convertImportanceEnumToString(
-      this.propCriterium.importance
-    );
+    this.updateCriteriumKV();
+  },
 
-    this.resetValidation();
+  //WATCH
+  watch: {
+    propCriteriumKV: {
+      handler() {
+        this.updateCriteriumKV();
+      },
+      deep: true,
+    },
   },
 });
 </script>

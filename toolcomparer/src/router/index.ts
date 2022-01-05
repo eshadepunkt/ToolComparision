@@ -1,13 +1,5 @@
-import CriteriumCreation from "../components/Criterium/CriteriumCreation.vue";
-import CriteriumListBox from "../components/Criterium/CriteriumListBox.vue";
-
-import ToolCreation from "../components/Tool/ToolCreation.vue";
-import ToolCriteriumSuitabilityCreation from "../components/Tool/ToolCriteriumSuitabilityCreation.vue";
-import ToolListBox from "../components/Tool/ToolListBox.vue";
-
-import ComparisionListBox from "../components/Other/ComparisionListBox.vue";
-import ComparisionDataIterator from "../components/Other/ComparisionDataIterator.vue";
-import ComparisionDataTable from "../components/Other/ComparisionDataTable.vue";
+import Navigation from "../components/Other/Navigation.vue";
+import Workflow from "../components/Other/Workflow.vue";
 
 import App from "../App.vue";
 
@@ -21,51 +13,19 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
+    component: App,
+    name: "Start",
   },
   {
-    path: "/CriteriumCreation/:mode/:id",
-    component: CriteriumCreation,
-    name: "CriteriumCreation",
-  },
-  {
-    path: "/Criteria/",
-    component: CriteriumListBox,
-    name: "Criteria",
+    path: "/Workflow/:workflow",
+    component: Workflow,
+    name: "Workflow",
   },
 
   {
-    path: "/Tools/",
-    component: ToolListBox,
-    name: "Tools",
-  },
-  {
-    path: "/ToolCreation/:mode/:toolid",
-    component: ToolCreation,
-    name: "ToolCreation",
-  },
-  {
-    path: "/ToolCriteriumSuitabilityCreation/:mode/:toolid/:criteriumid",
-    component: ToolCriteriumSuitabilityCreation,
-    name: "ToolCriteriumSuitabilityCreation",
-  },
-
-  {
-    path: "/Comparision/ListBox/",
-    component: ComparisionListBox,
-    name: "ComparisionListBox",
-  },
-
-  {
-    path: "/Comparision/DataIterator/",
-    component: ComparisionDataIterator,
-    name: "ComparisionDataIterator",
-  },
-
-  {
-    path: "/Comparision/DataTable/",
-    component: ComparisionDataTable,
-    name: "ComparisionDataTable",
+    path: "/Start/",
+    component: Navigation,
+    name: "Navigation",
   },
 
   {

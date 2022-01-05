@@ -20,16 +20,8 @@ import {
 
 import Vue from "vue";
 
-import CriteriumCreation from "./components/Criterium/CriteriumCreation.vue";
-import CriteriumListBox from "./components/Criterium/CriteriumListBox.vue";
-
 export default Vue.extend({
   name: "App",
-
-  components: {
-    CriteriumCreation,
-    CriteriumListBox,
-  },
 
   data: () => ({
     currentState: Typ.appState.criteria as Typ.appState,
@@ -67,7 +59,7 @@ export default Vue.extend({
 
   //MOUNTED
   mounted: function () {
-    this.$router.push("/Criteria/");
+    this.$router.push("/Start/");
   },
 });
 </script>
