@@ -55,6 +55,38 @@
             <v-btn @click="exporter()"> Export </v-btn>
           </v-row>
         </v-container>
+        <v-container v-show="mode === 'Import'" style="height: 25vh">
+          <v-row>
+            <v-radio-group v-model="radImportGroup">
+              <v-radio
+                :key="0"
+                :label="'Import ' + caller + ' from JSON'"
+                :value="0"
+              ></v-radio>
+              <v-radio
+                v-show="caller === 'Comparision'"
+                :key="1"
+                :label="'Import (readonly) ' + caller + ' from CSV'"
+                :value="1"
+              ></v-radio>
+            </v-radio-group>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-spacer> </v-spacer>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-btn @click="importer()"> Import </v-btn>
+            <input
+              ref="uploader"
+              class="d-none"
+              type="file"
+              :accept="radImportGroup === 0 ? '.json' : '.csv'"
+              @change="onFileChanged"
+            />
+          </v-row>
+        </v-container>
       </v-sheet>
     </v-card>
   </v-dialog>
@@ -97,6 +129,7 @@ export default Vue.extend({
   data() {
     return {
       radExportGroup: 0,
+      radImportGroup: 0,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -124,6 +157,7 @@ export default Vue.extend({
   methods: {
     closeFeatures() {
       this.radExportGroup = 0;
+      this.radImportGroup = 0;
       this.$emit("closeFeatures");
     },
     exporter() {
@@ -177,6 +211,59 @@ export default Vue.extend({
 
       document.body.removeChild(element);
     },
+    importer() {
+      (this.$refs.uploader as Vue & { click: () => void }).click();
+    },
+    onFileChanged(e: any) {
+      const file = e.target.files[0];
+      if (e.target.value !== null) {
+        let reader = new FileReader();
+        let txt: string | undefined;
+        reader.onload = function () {
+          txt = reader.result?.toString();
+          e.target.value = null;
+        };
+        reader.onloadend = () => this.convertJSONToArray(txt);
+        reader.readAsText(file);
+      }
+    },
+    convertJSONToArray(txt: string | undefined) {
+      if (txt !== undefined) {
+        switch (this.radImportGroup) {
+          case 0:
+            {
+              switch (this.caller) {
+                // eslint-disable-next-line no-fallthrough
+                    case "Comparision":
+                    //fall-through
+                    // eslint-disable-next-line no-fallthrough
+                case "Tools":
+                  {
+                    const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
+                      txt
+                    ) as Array<Typ.toolKeyValue>;
+                    this.$store.dispatch("extendTools", tmpTools);
+                  }
+                  break;
+                case "Criteria":
+                    {
+                      const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
+                        txt
+                      ) as Array<Typ.criteriumKeyValue>;
+                      this.$store.dispatch("extendCriteria", tmpCriteria);
+                    }
+                    break;
+              }
+            }
+            break;
+          case 1:
+            {
+              //TODO: Add CSV Import Support
+            }
+          break;
+        }
+      }
+    },
 
     getRated(toolKV: Typ.toolKeyValue): Typ.toolRating {
       toolKV.value.criteriaSuitabilities =
@@ -189,6 +276,7 @@ export default Vue.extend({
         rank: -1,
       } as Typ.toolRating;
     },
+
     hasNoMissingCriteria(toolKV: Typ.toolKeyValue): boolean {
       let toolCriteria: Array<Typ.criteriumKeyValue> =
         toolKV.value.criteriaSuitabilities.map((x) => x.criteriumKV);
