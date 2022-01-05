@@ -234,9 +234,9 @@ export default Vue.extend({
             {
               switch (this.caller) {
                 // eslint-disable-next-line no-fallthrough
-                    case "Comparision":
-                    //fall-through
-                    // eslint-disable-next-line no-fallthrough
+                case "Comparision":
+                //fall-through
+                // eslint-disable-next-line no-fallthrough
                 case "Tools":
                   {
                     const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
@@ -246,13 +246,12 @@ export default Vue.extend({
                   }
                   break;
                 case "Criteria":
-                    {
-                      const tmpCriteria: Array<Typ.criteriumKeyValue> = JSON.parse(
-                        txt
-                      ) as Array<Typ.criteriumKeyValue>;
-                      this.$store.dispatch("extendCriteria", tmpCriteria);
-                    }
-                    break;
+                  {
+                    const tmpCriteria: Array<Typ.criteriumKeyValue> =
+                      JSON.parse(txt) as Array<Typ.criteriumKeyValue>;
+                    this.$store.dispatch("extendCriteria", tmpCriteria);
+                  }
+                  break;
               }
             }
             break;
@@ -260,7 +259,7 @@ export default Vue.extend({
             {
               //TODO: Add CSV Import Support
             }
-          break;
+            break;
         }
       }
     },

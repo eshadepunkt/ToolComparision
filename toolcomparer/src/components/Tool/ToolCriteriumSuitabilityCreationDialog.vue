@@ -173,6 +173,7 @@ export default Vue.extend({
 
   //METHODS
   methods: {
+    //TODO: Fix Back Navigation Bugs
     btnGoBack() {
       const suitability: Typ.toolCriteriumSuitability = (
         this.$refs.tool_card as Vue & {
@@ -215,6 +216,8 @@ export default Vue.extend({
           if (
             this.currentSuitabilityIndex === this.updateSuitabilities.length
           ) {
+            console.log("Changes pushed");
+
             this.updateSuitabilities.push(this.currentSuitability);
           } else {
             this.updateSuitabilities[this.currentSuitabilityIndex] =
@@ -231,10 +234,13 @@ export default Vue.extend({
         } else {
           this.setCurrentSuitability();
 
+          console.log("CurrentSuitIndex: " + this.currentSuitabilityIndex);
+
           const length: number =
             this.workflow === "CriteriaFirst"
               ? this.criteria.length
               : this.tools.length;
+
           if (this.currentSuitabilityIndex >= length) {
             this.currentSuitabilityIndex = -1;
             this.closeDialog(true);
@@ -351,6 +357,8 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
+      console.log("Closing");
+
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },
