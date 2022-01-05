@@ -189,15 +189,14 @@ export default Vue.extend({
           }
         ).getSuitabilities();
 
-        //TODO: Mode for updating suits
         updateSuitabilities.forEach((element) => {
-            this.$store.dispatch("updateToolSuitability", {
-              toolKV: element.toolKV,
-              criteriumSuitability: element.suitability,
-            });
+          this.$store.dispatch("updateToolSuitability", {
+            toolKV: element.toolKV,
+            criteriumSuitability: element.suitability,
           });
+        });
 
-          this.closeDialog();
+        this.closeDialog();
       } else {
         this.closeDialog();
       }
