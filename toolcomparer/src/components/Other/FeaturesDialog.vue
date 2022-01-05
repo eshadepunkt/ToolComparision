@@ -1,34 +1,61 @@
-<<template>
+<template>
   <v-dialog
-    v-model="showSettings"
-    height="50vh"
+    v-model="featuresDialog"
+    height="33vh"
     width="33vw"
     persistent
     transition="dialog-bottom-transition"
-    id="ExportDialog"
+    id="FeaturesDialog"
   >
     <v-card class="overflow-hidden">
-      <v-container>
-         <v-row>
-            <v-radio-group v-model="radioGroup">
-               <v-radio
-               :key="0"
-               :label="'Export as JSON'"
-               :value="0"
-               ></v-radio>
-               <v-radio
-               :key="1"
-               :label="'Export as CSV'"
-               :value="1"
-               ></v-radio>
+      <v-app-bar
+        absolute
+        scroll-target="#scrolling-techniques-4"
+        style="position: relative"
+      >
+        <v-toolbar-title>Features</v-toolbar-title>
+        <v-btn
+          style="position: absolute; right: 1em; top: 0em"
+          icon
+          @click="closeFeatures()"
+        >
+          <v-icon>{{ icons.mdiClose }}</v-icon>
+        </v-btn>
+
+        <template v-slot:extension>
+          <v-tabs align-with-title>
+            <v-tab @click="mode = 'Import'">Import</v-tab>
+            <v-tab @click="mode = 'Export'">Export</v-tab>
+          </v-tabs>
+        </template>
+      </v-app-bar>
+      <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
+        <v-container v-show="mode === 'Export'" style="height: 25vh">
+          <v-row>
+            <v-radio-group v-model="radExportGroup">
+              <v-radio
+                :key="0"
+                :label="'Export ' + caller + ' as JSON'"
+                :value="0"
+              ></v-radio>
+              <v-radio
+                v-show="caller === 'Comparision'"
+                :key="1"
+                :label="'Export ' + caller + ' as CSV'"
+                :value="1"
+              ></v-radio>
             </v-radio-group>
-         <v-row>
-         <v-row>
-            <v-btn @click="exporter()">
-              Export
-            </v-btn>
-         </v-row>
-      </v-container>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-spacer> </v-spacer>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-btn @click="exporter()"> Export </v-btn>
+          </v-row>
+        </v-container>
+      </v-sheet>
     </v-card>
   </v-dialog>
 </template>
@@ -50,21 +77,26 @@ import {
 } from "@mdi/js";
 
 import Vue from "vue";
+import goTo from "vuetify/lib/services/goto";
 
 export default Vue.extend({
-  name: "ExportDialog",
+  name: "FeaturesDialog",
 
   props: {
-    exportDialog: {
+    featuresDialog: {
       type: Boolean,
       default: false,
+    },
+    caller: {
+      type: String,
+      default: "Comparision",
     },
   },
 
   //DATA
   data() {
     return {
-      radioGroup: 0,
+      radExportGroup: 0,
 
       rules: {
         required: (value: boolean | string) => !!value || "Required",
@@ -85,22 +117,42 @@ export default Vue.extend({
       Typ,
 
       isValid: true as boolean,
-      isWorkflow: true as boolean,
+      mode: "Import" as string,
     };
   },
 
   methods: {
-    closeExport() {
-      this.$emit("closeExport");
+    closeFeatures() {
+      this.radExportGroup = 0;
+      this.$emit("closeFeatures");
     },
     exporter() {
       let file = "";
       let filename = "";
-      switch (this.radioGroup) {
+      switch (this.radExportGroup) {
         case 0:
           {
-            file = JSON.stringify(this.$store.getters.getTools);
-            filename = "toolcomparer_results.json";
+            switch (this.caller) {
+              // eslint-disable-next-line no-fallthrough
+              case "Comparision":
+              //fall-through
+              // eslint-disable-next-line no-fallthrough
+              case "Tools":
+                {
+                  file = JSON.stringify(this.$store.getters.getTools);
+                  filename =
+                    this.caller === "Tools"
+                      ? "toolcomparer_tools.json"
+                      : "toolcomparer_results.json";
+                }
+                break;
+              case "Criteria":
+                {
+                  file = JSON.stringify(this.$store.getters.getCriteria);
+                  filename = "toolcomparer_criteria.json";
+                }
+                break;
+            }
           }
           break;
         case 1:
@@ -238,28 +290,31 @@ export default Vue.extend({
 
   //COMPUTED
   computed: {
-     getCSV: function(): string {
-        let stringBuilder: string = "";
-        this.getCriteria.forEach(criterium => {
-           stringBuilder += criterium.value.name + ",";
+    getCSV: function (): string {
+      let stringBuilder = "";
+      this.getCriteria.forEach((criterium) => {
+        stringBuilder += criterium.value.name + ",";
+      });
+      stringBuilder.slice(0, -1) + "\n";
+
+      this.getResults.forEach((result) => {
+        stringBuilder +=
+          result.toolKV.value.name +
+          "," +
+          result.score.currentValue +
+          "/" +
+          result.score.maxValue +
+          ",";
+
+        result.toolKV.value.criteriaSuitabilities.forEach((suitability) => {
+          stringBuilder += this.getResultString(suitability) + ",";
         });
+
         stringBuilder.slice(0, -1) + "\n";
+      });
 
-        this.getResults.forEach(result => {
-           stringBuilder += result.toolKV.value.name + "," 
-            + result.score.currentValue +
-            "/" +
-            result.score.maxValue + ",";
-
-            result.toolKV.value.criteriaSuitabilities.forEach(suitability => {
-               stringBuilder += this.getResultString(suitability) + ",";
-            });
-
-            stringBuilder.slice(0, -1) + "\n";
-        });
-
-        return stringBuilder;
-     },
+      return stringBuilder;
+    },
     getResults: function (): Array<Typ.toolRating> {
       const raw = JSON.parse(
         JSON.stringify(this.$store.getters.getTools)

@@ -28,7 +28,11 @@
                   </v-list-item-icon>
                   <v-list-item-title> Settings </v-list-item-title>
                 </v-list-item>
-                <v-list-item link class="px-2">
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="featuresDialog = true"
+                >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
                   </v-list-item-icon>
@@ -94,7 +98,12 @@
     </v-card>
     <SettingsDialog
       :showSettings="showSettings"
-      v-on:closeSettings="closeSettings()"
+      v-on:closeSettings="showSettings = false"
+    />
+    <FeaturesDialog
+      :featuresDialog="featuresDialog"
+      :caller="currentPage"
+      v-on:closeFeatures="featuresDialog = false"
     />
   </div>
 </template>
@@ -122,6 +131,7 @@ import Vue from "vue";
 import Header from "./Header.vue";
 import NavigationManager from "./NavigationManager.vue";
 import SettingsDialog from "./SettingsDialog.vue";
+import FeaturesDialog from "./FeaturesDialog.vue";
 
 export default Vue.extend({
   name: "Navigation",
@@ -130,6 +140,7 @@ export default Vue.extend({
     Header,
     NavigationManager,
     SettingsDialog,
+    FeaturesDialog,
   },
 
   //DATA
@@ -137,7 +148,7 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       showSettings: false as boolean,
-      exportDialog: false as boolean,
+      featuresDialog: false as boolean,
       importDialog: false as boolean,
       currentPage: "Comparision" as string,
 
@@ -181,9 +192,6 @@ export default Vue.extend({
     convertJSONToArray(json: string | undefined) {
       //TO DO
       //Convert IMPORT
-    },
-    closeSettings() {
-      this.showSettings = false;
     },
   },
 

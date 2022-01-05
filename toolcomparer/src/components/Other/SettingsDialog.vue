@@ -24,13 +24,13 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title>
-            <v-tab @click="isWorkflow = true">Workflow</v-tab>
-            <v-tab @click="isWorkflow = false">Comparision</v-tab>
+            <v-tab @click="mode = 'Workflow'">Workflow</v-tab>
+            <v-tab @click="mode = 'Comparision'">Comparision</v-tab>
           </v-tabs>
         </template>
       </v-app-bar>
       <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
-        <v-container v-show="isWorkflow" style="height: 40vh">
+        <v-container v-show="mode === 'Workflow'" style="height: 40vh">
           <v-row>
             <v-col>
               <v-select
@@ -63,7 +63,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container v-show="!isWorkflow" style="height: 40vh">
+        <v-container v-show="mode === 'Comparision'" style="height: 40vh">
           <v-row>
             <v-col>
               <v-switch v-model="isColorChips" :label="'Color chips'">
@@ -166,7 +166,7 @@ export default Vue.extend({
       Typ,
 
       isValid: true as boolean,
-      isWorkflow: true as boolean,
+      mode: "Workflow" as string,
     };
   },
 

@@ -132,8 +132,7 @@ export default Vue.extend({
     getColor(score: Typ.score): string {
       if (!this.$store.getters.getSettingsIsColorChips) {
         return "background-color: white;";
-      }
-      else if (score.isExcluded) {
+      } else if (score.isExcluded) {
         return "background-color: lightgrey;";
       } else if (score.currentValue >= score.maxValue * 0.8) {
         return "background-color: lightgreen;";
