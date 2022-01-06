@@ -178,7 +178,8 @@ export default Vue.extend({
 
       const propHash = this.noSecHash(this.propCriteriumKV);
       const newHash = this.noSecHash(this.criteriumKV);
-      if (propHash !== newHash) {
+      //When adding: criterium needs to be stored first
+      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
         (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
@@ -189,14 +190,24 @@ export default Vue.extend({
           }
         ).getSuitabilities();
 
-        updateSuitabilities.forEach((element) => {
-          this.$store.dispatch("updateToolSuitability", {
-            toolKV: element.toolKV,
-            criteriumSuitability: element.suitability,
+        if (
+          this.mode !== Typ.simpleEditMode.Add ||
+          this.tools.length === updateSuitabilities.length
+        ) {
+          updateSuitabilities.forEach((element) => {
+            this.$store.dispatch("updateToolSuitability", {
+              toolKV: element.toolKV,
+              criteriumSuitability: element.suitability,
+            });
           });
-        });
 
-        this.closeDialog();
+          //When updating: criterium needs to be updated after tools
+          if (propHash !== newHash) {
+            (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
+          }
+
+          this.closeDialog();
+        }
       } else {
         this.closeDialog();
       }
