@@ -189,14 +189,19 @@ export default Vue.extend({
           }
         ).getSuitabilities();
 
-        updateSuitabilities.forEach((element) => {
-          this.$store.dispatch("updateToolSuitability", {
-            toolKV: element.toolKV,
-            criteriumSuitability: element.suitability,
+        if (
+          this.mode !== Typ.simpleEditMode.Add ||
+          this.tools.length === updateSuitabilities.length
+        ) {
+          updateSuitabilities.forEach((element) => {
+            this.$store.dispatch("updateToolSuitability", {
+              toolKV: element.toolKV,
+              criteriumSuitability: element.suitability,
+            });
           });
-        });
 
-        this.closeDialog();
+          this.closeDialog();
+        }
       } else {
         this.closeDialog();
       }
