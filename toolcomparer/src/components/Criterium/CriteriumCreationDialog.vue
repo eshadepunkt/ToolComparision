@@ -178,7 +178,8 @@ export default Vue.extend({
 
       const propHash = this.noSecHash(this.propCriteriumKV);
       const newHash = this.noSecHash(this.criteriumKV);
-      if (propHash !== newHash) {
+      //When adding: criterium needs to be stored first
+      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
         (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
@@ -199,6 +200,11 @@ export default Vue.extend({
               criteriumSuitability: element.suitability,
             });
           });
+
+          //When updating: criterium needs to be updated after tools
+          if (propHash !== newHash) {
+            (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
+          }
 
           this.closeDialog();
         }
