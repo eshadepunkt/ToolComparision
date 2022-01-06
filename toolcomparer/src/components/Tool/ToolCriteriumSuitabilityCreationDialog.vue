@@ -173,29 +173,14 @@ export default Vue.extend({
 
   //METHODS
   methods: {
-    //TODO: Fix Back Navigation Bugs
     btnGoBack() {
-      const suitability: Typ.toolCriteriumSuitability = (
-        this.$refs.tool_card as Vue & {
-          getSuitabilityEvenIncomplete: () => Typ.toolCriteriumSuitability;
-        }
-      ).getSuitabilityEvenIncomplete();
-      const newHash: string = noSecHash(suitability);
-      if (this.suitabilityHash !== newHash) {
-        if (this.currentSuitabilityIndex === this.updateSuitabilities.length) {
-          this.updateSuitabilities.push(this.currentSuitability);
-        } else {
-          this.updateSuitabilities[this.currentSuitabilityIndex] =
-            this.currentSuitability;
-        }
-      }
-
       if (this.mode === Typ.simpleEditMode.UpdateSingle) {
         this.currentSuitabilityIndex = -1;
         this.closeDialog(false);
       } else {
         this.currentSuitabilityIndex -= 2;
         if (this.currentSuitabilityIndex < -1) {
+          this.currentSuitabilityIndex = -1;
           this.closeDialog(false);
         } else {
           this.setCurrentSuitability();
@@ -330,6 +315,8 @@ export default Vue.extend({
             ),
           };
         }
+
+        console.log("After Next: " + this.currentSuitabilityIndex + " : " + this.updateSuitabilities.length);
 
         try {
           (
