@@ -1,24 +1,24 @@
 <template>
-  <div id="CriteriumDataTable">
-    <div v-if="!criteria || criteria.length == 0">No data available</div>
+  <div id="ToolDataTable">
+    <div v-if="!tools || tools.length == 0">No data available</div>
     <v-simple-table v-else>
       <template>
         <thead>
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Importance</th>
-            <th>Is Exclusion Criterium</th>
+            <th>Number of Suitabilities</th>
+            <th>Names of Suitabilities</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <CriteriumDataTableRow
-            v-for="criterium in criteria"
-            :key="noSecHash(criterium)"
-            :propCriteriumKV="criterium"
-            :tools="tools"
+          <ToolDataTableRow
+            v-for="tool in tools"
+            :key="noSecHash(tool)"
             :workflow="workflow"
+            :propToolKV="item"
+            :criteria="criteria"
             class="text-left"
           />
         </tbody>
@@ -43,15 +43,15 @@ import {
 
 import Vue from "vue";
 
-import CriteriumDataTableHeader from "./CriteriumDataTableHeader.vue";
-import CriteriumDataTableRow from "./CriteriumDataTableRow.vue";
+import ToolDataTableHeader from "./ToolDataTableHeader.vue";
+import ToolDataTableRow from "./ToolDataTableRow.vue";
 
 export default Vue.extend({
-  name: "CriteriumDataTable",
+  name: "ToolDataTable",
 
   components: {
-    CriteriumDataTableHeader,
-    CriteriumDataTableRow,
+    ToolDataTableHeader,
+    ToolDataTableRow,
   },
 
   props: {
@@ -63,11 +63,11 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
-    criteria: {
-      type: Array as () => Array<Typ.criteriumKeyValue>,
-    },
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 
@@ -78,7 +78,6 @@ export default Vue.extend({
       Typ,
       noSecHash,
       editMode: Typ.simpleEditMode.Add,
-      currentTool: {} as Typ.toolKeyValue,
     };
   },
 
@@ -90,8 +89,8 @@ export default Vue.extend({
 
   //COMPUTED
   computed: {
-    getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      return this.criteria;
+    getTools: function (): Array<Typ.toolKeyValue> {
+      return this.tools;
     },
   },
 });

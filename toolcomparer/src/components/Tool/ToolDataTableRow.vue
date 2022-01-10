@@ -30,12 +30,12 @@
         </v-col>
       </v-row>
     </td>
-    <CriteriumCreationDialog
+    <ToolCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
-      :propCriteriumKV="propCriteriumKV"
       :workflow="workflow"
-      :tools="tools"
+      :propToolKV="propToolKV"
+      :criteria="criteria"
       v-on:closeDialog="showDialog = false"
     />
   </tr>
@@ -55,14 +55,12 @@ import {
 } from "@mdi/js";
 
 import Vue from "vue";
-import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
 import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
-    ComparisionDataTableRowItem,
     ToolCreationDialog,
   },
 
@@ -72,11 +70,16 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
-    propCriteriumKV: {
-      type: Object as () => Typ.criteriumKeyValue,
+    propToolKV: {
+      type: Object as () => Typ.toolKeyValue,
     },
-    tools: {
-      type: Array as () => Array<Typ.toolKeyValue>,
+
+    propToolRating: {
+      type: Object as () => Typ.toolRating,
+      default: undefined,
+    },
+    criteria: {
+      type: Array as () => Array<Typ.criteriumKeyValue>,
     },
   },
 
@@ -84,9 +87,8 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
-      showDialog: false as boolean,
-
       editMode: Typ.simpleEditMode.Update,
+      showDialog: false as boolean,
 
       icons: {
         mdiAccount,
@@ -105,7 +107,7 @@ export default Vue.extend({
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeCriterium", this.propCriteriumKV);
+      this.$store.commit("removeTool", this.propToolKV);
     },
   },
 });

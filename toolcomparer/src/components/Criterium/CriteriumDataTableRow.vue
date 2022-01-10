@@ -1,5 +1,5 @@
 <template>
-  <tr id="ComparisionDataTableRow">
+  <tr id="CriteriumDataTableRow">
     <td>
       {{ propCriteriumKV.value.name }}
     </td>
@@ -55,15 +55,13 @@ import {
 } from "@mdi/js";
 
 import Vue from "vue";
-import ComparisionDataTableRowItem from "./ComparisionDataTableRowItem.vue";
-import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
+import CriteriumCreationDialog from "../Tool/CriteriumCreationDialog.vue";
 
 export default Vue.extend({
-  name: "ComparisionDataTableRow",
+  name: "CriteriumDataTableRow",
 
   components: {
-    ComparisionDataTableRowItem,
-    ToolCreationDialog,
+    CriteriumCreationDialog,
   },
 
   //PROPS

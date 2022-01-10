@@ -16,9 +16,9 @@
           <CriteriumDataTableRow
             v-for="criterium in criteria"
             :key="noSecHash(criterium)"
-            :propCriteriumKV="criterium"
-            :tools="tools"
+            :propCriteriumKV="item"
             :workflow="workflow"
+            :tools="tools"
             class="text-left"
           />
         </tbody>
@@ -43,14 +43,12 @@ import {
 
 import Vue from "vue";
 
-import CriteriumDataTableHeader from "./CriteriumDataTableHeader.vue";
 import CriteriumDataTableRow from "./CriteriumDataTableRow.vue";
 
 export default Vue.extend({
   name: "CriteriumDataTable",
 
   components: {
-    CriteriumDataTableHeader,
     CriteriumDataTableRow,
   },
 
