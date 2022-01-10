@@ -1,16 +1,20 @@
 <template>
   <tr id="ComparisionDataTableRow">
     <td>
-      {{ propCriteriumKV.value.name }}
+      {{ propToolKV.value.name }}
     </td>
     <td>
-      {{ propCriteriumKV.value.description }}
+      {{ propToolKV.value.description }}
     </td>
     <td>
-      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.name) }}
+      {{ ((propToolKV.value.criteriaSuitabilities 
+        && propToolKV.value.criteriaSuitabilities.length > 0)
+        ? propToolKV.value.criteriaSuitabilities.length
+        : 0) 
+      }}
     </td>
     <td>
-      {{ propCriteriumKV.value.isExclusionCriterium }}
+      {{ getSuitabilitiesCSV() }}
     </td>
     <td>
       <v-row>
@@ -109,6 +113,22 @@ export default Vue.extend({
     btnDelete() {
       this.$store.commit("removeTool", this.propToolKV);
     },
+    getSuitabilitiesCSV(): string {
+      let csv: string = "";
+
+      if (this.propToolKV.value.criteriaSuitabilities 
+        && this.propToolKV.value.criteriaSuitabilities.length > 0) {
+          this.propToolKV.value.criteriaSuitabilities.forEach(element => {
+            csv += element.criteriumKV.value.name + ",";
+          });
+
+          //Remove last comma
+          return csv.slice(0, -1);
+        }
+        else {
+          return csv;
+        }
+    }
   },
 });
 </script>
