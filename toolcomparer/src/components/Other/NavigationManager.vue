@@ -1,17 +1,17 @@
 <template>
   <div id="PageManager">
     <Comparision v-show="currentPage === 'Comparision'" />
-    <CriteriumListBox
-      v-show="currentPage === 'Criteria'"
-      :criteria="criteria"
-      :workflow="workflow"
-    />
-    <ToolListBox
-      v-show="currentPage === 'Tools'"
-      :tools="tools"
-      :criteria="criteria"
-      :workflow="workflow"
-    />
+    <div>
+      <WorkflowManager
+        v-show="currentPage !== 'Comparision'"
+        :currentDataTable="currentPage"
+        :criteria="getCriteria"
+        :tools="getTools"
+        :showDialog="showDialog"
+        :workflow="currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'"
+        v-on:closeDialog="closeDialog()"
+      />
+    </div>
   </div>
 </template>
 
@@ -31,16 +31,18 @@ import {
 import Vue from "vue";
 
 import Comparision from "../Comparision/Comparision.vue";
-import CriteriumListBox from "../Criterium/CriteriumListBox.vue";
-import ToolListBox from "../Tool/ToolListBox.vue";
+import CriteriumDataTable from "../Criterium/CriteriumDataTable.vue";
+import ToolDataTable from "../Tool/ToolDataTable.vue";
+import WorkflowManager from "./WorkflowManager.vue";
 
 export default Vue.extend({
   name: "PageManager",
 
   components: {
     Comparision,
-    CriteriumListBox,
-    ToolListBox,
+    CriteriumDataTable,
+    ToolDataTable,
+    WorkflowManager,
   },
 
   props: {

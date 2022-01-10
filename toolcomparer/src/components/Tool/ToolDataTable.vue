@@ -43,14 +43,12 @@ import {
 
 import Vue from "vue";
 
-import ToolDataTableHeader from "./ToolDataTableHeader.vue";
 import ToolDataTableRow from "./ToolDataTableRow.vue";
 
 export default Vue.extend({
   name: "ToolDataTable",
 
   components: {
-    ToolDataTableHeader,
     ToolDataTableRow,
   },
 

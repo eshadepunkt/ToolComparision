@@ -55,7 +55,7 @@ import {
 } from "@mdi/js";
 
 import Vue from "vue";
-import CriteriumCreationDialog from "../Tool/CriteriumCreationDialog.vue";
+import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumDataTableRow",

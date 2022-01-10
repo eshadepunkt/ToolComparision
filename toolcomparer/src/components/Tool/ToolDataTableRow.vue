@@ -7,10 +7,11 @@
       {{ propToolKV.value.description }}
     </td>
     <td>
-      {{ ((propToolKV.value.criteriaSuitabilities 
-        && propToolKV.value.criteriaSuitabilities.length > 0)
-        ? propToolKV.value.criteriaSuitabilities.length
-        : 0) 
+      {{
+        propToolKV.value.criteriaSuitabilities &&
+        propToolKV.value.criteriaSuitabilities.length > 0
+          ? propToolKV.value.criteriaSuitabilities.length
+          : 0
       }}
     </td>
     <td>
@@ -59,7 +60,7 @@ import {
 } from "@mdi/js";
 
 import Vue from "vue";
-import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
+import ToolCreationDialog from "./ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
@@ -114,21 +115,22 @@ export default Vue.extend({
       this.$store.commit("removeTool", this.propToolKV);
     },
     getSuitabilitiesCSV(): string {
-      let csv: string = "";
+      let csv = "";
 
-      if (this.propToolKV.value.criteriaSuitabilities 
-        && this.propToolKV.value.criteriaSuitabilities.length > 0) {
-          this.propToolKV.value.criteriaSuitabilities.forEach(element => {
-            csv += element.criteriumKV.value.name + ",";
-          });
+      if (
+        this.propToolKV.value.criteriaSuitabilities &&
+        this.propToolKV.value.criteriaSuitabilities.length > 0
+      ) {
+        this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
+          csv += element.criteriumKV.value.name + ",";
+        });
 
-          //Remove last comma
-          return csv.slice(0, -1);
-        }
-        else {
-          return csv;
-        }
-    }
+        //Remove last comma
+        return csv.slice(0, -1);
+      } else {
+        return csv;
+      }
+    },
   },
 });
 </script>

@@ -14,7 +14,7 @@
           <v-col xl="12">
             <v-card style="height: 71vh; overflow-y: auto">
               <WorkflowManager
-                :currentListBox="currentListBox"
+                :currentDataTable="currentListBox"
                 :criteria="getCriteria"
                 :tools="getTools"
                 :showDialog="showDialog"
