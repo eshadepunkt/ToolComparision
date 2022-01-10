@@ -1,34 +1,17 @@
 <template>
   <tr id="ComparisionDataTableRow">
     <td>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
-            {{ result.toolKV.value.name }}
-          </div>
-        </template>
-        <span>
-          <v-card-text v-html="getToolInfo()" />
-        </span>
-      </v-tooltip>
+      {{ propCriteriumKV.value.name }}
     </td>
     <td>
-      <v-chip
-        :style="
-          getColor(result.score) +
-          (result.score.isExcluded ? 'color: grey' : '')
-        "
-      >
-        {{ result.score.currentValue + "/" + result.score.maxValue }}
-      </v-chip>
+      {{ propCriteriumKV.value.description }}
     </td>
-    <ComparisionDataTableRowItem
-      v-for="(suitability, index) in getSortedSuitabilities"
-      :result="result"
-      :propSuitabilityIndex="index"
-      :sortBy="sortBy"
-      :key="noSecHash(suitability)"
-    />
+    <td>
+      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.name) }}
+    </td>
+    <td>
+      {{ propCriteriumKV.value.isExclusionCriterium }}
+    </td>
     <td>
       <v-row>
         <v-col cols="5">
@@ -47,11 +30,12 @@
         </v-col>
       </v-row>
     </td>
-    <ToolCreationDialog
+    <CriteriumCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
-      :propToolKV="result.toolKV"
-      :criteria="criteria"
+      :propCriteriumKV="propCriteriumKV"
+      :workflow="workflow"
+      :tools="tools"
       v-on:closeDialog="showDialog = false"
     />
   </tr>
@@ -82,25 +66,28 @@ export default Vue.extend({
     ToolCreationDialog,
   },
 
+  //PROPS
   props: {
-    result: {
-      type: Object as () => Typ.toolRating,
-    },
-    sortBy: {
+    workflow: {
       type: String,
+      default: "CriteriaFirst",
     },
-    criteria: {
-      type: Array as () => Array<Typ.criteriumKeyValue>,
+    propCriteriumKV: {
+      type: Object as () => Typ.criteriumKeyValue,
+    },
+    tools: {
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 
   //DATA
   data() {
     return {
+      moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
+
       editMode: Typ.simpleEditMode.Update,
 
-      uuidNIL,
       icons: {
         mdiAccount,
         mdiPencil,
@@ -108,65 +95,17 @@ export default Vue.extend({
         mdiDelete,
         mdiAppleKeyboardControl,
       },
-      noSecHash,
       Typ,
     };
   },
 
+  //METHODS
   methods: {
-    getToolInfo(): string {
-      const text =
-        "Description:<br/>" +
-        this.result.toolKV.value.description +
-        "<br/>Excluded: " +
-        this.result.score.isExcluded;
-
-      return text;
-    },
     btnEdit() {
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.result.toolKV);
-    },
-    getColor(score: Typ.score): string {
-      if (!this.$store.getters.getSettingsIsColorChips) {
-        return "background-color: white;";
-      } else if (score.isExcluded) {
-        return "background-color: lightgrey;";
-      } else if (score.currentValue >= score.maxValue * 0.8) {
-        return "background-color: lightgreen;";
-      } else if (score.currentValue >= score.maxValue * 0.6) {
-        return "background-color: yellow;";
-      } else {
-        return "background-color: red;";
-      }
-    },
-  },
-
-  //COMPUTED
-  computed: {
-    //NOTE: Sort DESCending
-    getSortedSuitabilities: function (): Array<Typ.toolCriteriumSuitability> {
-      const unsorted: Array<Typ.toolCriteriumSuitability> =
-        this.result.toolKV.value.criteriaSuitabilities;
-
-      const sorted = unsorted.sort((a, b) => {
-        if (
-          a.criteriumKV.value.isExclusionCriterium ===
-          b.criteriumKV.value.isExclusionCriterium
-        ) {
-          return (
-            b.criteriumKV.value.importance - a.criteriumKV.value.importance
-          );
-        } else if (a.criteriumKV.value.isExclusionCriterium) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-
-      return sorted;
+      this.$store.commit("removeCriterium", this.propCriteriumKV);
     },
   },
 });

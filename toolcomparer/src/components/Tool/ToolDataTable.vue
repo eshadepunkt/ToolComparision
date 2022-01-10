@@ -1,48 +1,25 @@
 <template>
-  <div id="ComparisionDataTable">
-    <div v-if="!results || results.length == 0">No data available</div>
+  <div id="CriteriumDataTable">
+    <div v-if="!criteria || criteria.length == 0">No data available</div>
     <v-simple-table v-else>
       <template>
         <thead>
           <tr>
-            <th>Tools</th>
-            <th v-on:click="changeSort('')">
-              <v-row>
-                <v-col cols="9"> Score </v-col>
-                <v-col cols="1">
-                  <v-icon
-                    v-if="'' === sortBy"
-                    class="ma-2"
-                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
-                    icon
-                  >
-                    {{ icons.mdiSort }}
-                  </v-icon>
-                </v-col>
-              </v-row>
-            </th>
-
-            <ComparisionDataTableHeader
-              v-for="criteriumKV in criteria"
-              :key="noSecHash(criteriumKV)"
-              :criteriumKV="criteriumKV"
-              :sortBy="sortBy"
-              :sortDesc="sortDesc"
-              v-on:click.native="changeSort(criteriumKV.value.name)"
-            />
+            <th>Name</th>
+            <th>Description</th>
+            <th>Importance</th>
+            <th>Is Exclusion Criterium</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <ComparisionDataTableRow
-            v-for="(result, index) in results"
-            :key="noSecHash(result)"
-            :result="result"
-            :propSuitabilityIndex="index"
-            :sortBy="sortBy"
-            :criteria="criteria"
+          <CriteriumDataTableRow
+            v-for="criterium in criteria"
+            :key="noSecHash(criterium)"
+            :propCriteriumKV="criterium"
+            :tools="tools"
+            :workflow="workflow"
             class="text-left"
-            :style="result.score.isExcluded ? 'color: grey;' : ''"
           />
         </tbody>
       </template>
@@ -66,66 +43,55 @@ import {
 
 import Vue from "vue";
 
-import ComparisionDataTableHeader from "./ComparisionDataTableHeader.vue";
-import ComparisionDataTableRow from "./ComparisionDataTableRow.vue";
+import CriteriumDataTableHeader from "./CriteriumDataTableHeader.vue";
+import CriteriumDataTableRow from "./CriteriumDataTableRow.vue";
 
 export default Vue.extend({
-  name: "ComparisionDataTable",
+  name: "CriteriumDataTable",
 
   components: {
-    ComparisionDataTableHeader,
-    ComparisionDataTableRow,
+    CriteriumDataTableHeader,
+    CriteriumDataTableRow,
   },
 
   props: {
-    results: {
-      type: Array as () => Array<Typ.toolRating>,
-      default() {
-        return new Array<Typ.toolRating>();
-      },
+    showDialog: {
+      type: Boolean,
+      default: false,
+    },
+    workflow: {
+      type: String,
+      default: "CriteriaFirst",
     },
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
-
-    maxScore: {
-      type: Number,
-    },
-
-    search: {
-      type: String,
-    },
-    sortDesc: {
-      type: Boolean,
-    },
-    sortBy: {
-      type: String,
+    tools: {
+      type: Array as () => Array<Typ.toolKeyValue>,
     },
   },
 
   //DATA
   data() {
     return {
-      icons: {
-        mdiAccount,
-        mdiPencil,
-        mdiShareVariant,
-        mdiDelete,
-        mdiAppleKeyboardControl,
-        mdiSort,
-      },
-      noSecHash,
+      uuidNIL,
       Typ,
+      noSecHash,
+      editMode: Typ.simpleEditMode.Add,
+      currentTool: {} as Typ.toolKeyValue,
     };
   },
 
   methods: {
-    changeSort(sortBy: string) {
-      if (this.sortBy == sortBy) {
-        this.$emit("sortDescChanged", !this.sortDesc);
-      } else {
-        this.$emit("sortByChanged", sortBy);
-      }
+    closeDialog() {
+      this.$emit("closeDialog");
+    },
+  },
+
+  //COMPUTED
+  computed: {
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      return this.criteria;
     },
   },
 });
