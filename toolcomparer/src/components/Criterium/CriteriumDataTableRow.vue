@@ -7,7 +7,7 @@
       {{ propCriteriumKV.value.description }}
     </td>
     <td>
-      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.name) }}
+      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.importance) }}
     </td>
     <td>
       {{ propCriteriumKV.value.isExclusionCriterium }}
