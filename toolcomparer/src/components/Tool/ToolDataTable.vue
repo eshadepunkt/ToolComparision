@@ -17,7 +17,7 @@
             v-for="tool in tools"
             :key="noSecHash(tool)"
             :workflow="workflow"
-            :propToolKV="item"
+            :propToolKV="tool"
             :criteria="criteria"
             class="text-left"
           />

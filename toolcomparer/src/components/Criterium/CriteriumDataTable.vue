@@ -16,7 +16,7 @@
           <CriteriumDataTableRow
             v-for="criterium in criteria"
             :key="noSecHash(criterium)"
-            :propCriteriumKV="item"
+            :propCriteriumKV="criterium"
             :workflow="workflow"
             :tools="tools"
             class="text-left"

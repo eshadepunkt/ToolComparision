@@ -122,11 +122,11 @@ export default Vue.extend({
         this.propToolKV.value.criteriaSuitabilities.length > 0
       ) {
         this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
-          csv += element.criteriumKV.value.name + ",";
+          csv += element.criteriumKV.value.name + ", ";
         });
 
         //Remove last comma
-        return csv.slice(0, -1);
+        return csv.slice(0, -2);
       } else {
         return csv;
       }
