@@ -38,7 +38,7 @@
     <ToolCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
-      :workflow="workflow"
+      :workflow="'ToolsFirst'"
       :propToolKV="propToolKV"
       :criteria="criteria"
       v-on:closeDialog="showDialog = false"
@@ -92,7 +92,7 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
-      editMode: Typ.simpleEditMode.Update,
+      editMode: Typ.simpleEditMode.UpdateSingle,
       showDialog: false as boolean,
 
       icons: {

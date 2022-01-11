@@ -188,7 +188,7 @@ export default Vue.extend({
       const propHash = this.noSecHash(this.propToolKV);
       const newHash = this.noSecHash(this.toolKV);
       //When adding: tool needs to be stored first
-      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
+      if ((this.workflow === 'ToolsFirst' || this.mode === Typ.simpleEditMode.Add) && propHash !== newHash) {
         (this.$refs.tool_card as Vue & { save: () => boolean }).save();
       }
 
@@ -210,7 +210,7 @@ export default Vue.extend({
           });
 
           //When updating: tool needs to be updated after suitabilities
-          if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
+          if (propHash !== newHash) {
             (this.$refs.tool_card as Vue & { save: () => boolean }).save();
           }
 

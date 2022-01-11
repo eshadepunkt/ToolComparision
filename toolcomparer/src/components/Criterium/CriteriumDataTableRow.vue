@@ -34,7 +34,7 @@
       :showDialog="showDialog"
       :mode="editMode"
       :propCriteriumKV="propCriteriumKV"
-      :workflow="workflow"
+      :workflow="'CriteriaFirst'"
       :tools="tools"
       v-on:closeDialog="showDialog = false"
     />

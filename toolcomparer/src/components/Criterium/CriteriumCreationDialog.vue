@@ -179,7 +179,7 @@ export default Vue.extend({
       const propHash = this.noSecHash(this.propCriteriumKV);
       const newHash = this.noSecHash(this.criteriumKV);
       //When adding: criterium needs to be stored first
-      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
+      if ((this.workflow === 'CriteriaFirst' || this.mode === Typ.simpleEditMode.Add) && propHash !== newHash) {
         (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
