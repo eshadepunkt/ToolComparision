@@ -206,6 +206,7 @@ export default Vue.extend({
           });
 
           //When updating: criterium needs to be updated after tools
+          //This will force that all tools will be updated with the new content of the criterium
           if (propHash !== newHash) {
             (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
           }

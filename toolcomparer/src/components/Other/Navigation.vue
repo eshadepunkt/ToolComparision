@@ -37,22 +37,7 @@
                     <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="
-                    navigateTo(
-                      '/Workflow/' + $store.getters.getSettingsWorkflow
-                    )
-                  "
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiPlus }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Workflow </v-list-item-title>
-                </v-list-item>
+                </v-list-item>            
                 <v-divider> </v-divider>
                 <v-list-item
                   link
@@ -82,6 +67,31 @@
                     </v-list-item-title>
                     <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
                   </v-list-item-content>
+                </v-list-item>
+                <v-divider> </v-divider>
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="featuresDialog = true"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ icons.mdiVectorCombine }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title> Combine Data </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="
+                    navigateTo(
+                      '/Workflow/' + $store.getters.getSettingsWorkflow
+                    )
+                  "
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ icons.mdiPlus }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title> Workflow </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
@@ -124,6 +134,7 @@ import {
   mdiHome,
   mdiPlus,
   mdiDotsHorizontal,
+  mdiVectorCombine,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -167,6 +178,7 @@ export default Vue.extend({
         mdiHome,
         mdiPlus,
         mdiDotsHorizontal,
+        mdiVectorCombine,
       },
       uuidNIL,
       Typ,
