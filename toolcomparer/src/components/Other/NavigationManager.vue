@@ -1,16 +1,24 @@
 <template>
   <div id="PageManager">
     <Comparision v-show="currentPage === 'Comparision'" />
-    <div>
+    <div v-show="currentPage !== 'Comparision'">
       <WorkflowManager
-        v-show="currentPage !== 'Comparision'"
         :currentDataTable="currentPage"
         :criteria="getCriteria"
         :tools="getTools"
         :showDialog="showDialog"
         :workflow="currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'"
-        v-on:closeDialog="closeDialog()"
+        v-on:closeDialog="showDialog = false"
       />
+      <v-btn
+        @click="showDialog = true"
+        class="rounded-circle"
+        height="66"
+        width="66"
+        style="position: absolute; bottom: 50px; right: 25px"
+      >
+        <v-icon>{{ icons.mdiPlus }}</v-icon>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -26,6 +34,11 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiCog,
+  mdiMenu,
+  mdiHome,
+  mdiPlus,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -46,10 +59,6 @@ export default Vue.extend({
   },
 
   props: {
-    showDialog: {
-      type: Boolean,
-      default: false,
-    },
     workflow: {
       type: String,
       default: "CriteriaFirst",
@@ -70,6 +79,25 @@ export default Vue.extend({
     closeDialog() {
       this.$emit("closeDialog");
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiCog,
+        mdiMenu,
+        mdiHome,
+        mdiPlus,
+        mdiDotsHorizontal,
+      },
+      showDialog: false as boolean,
+    };
   },
 
   //COMPUTED

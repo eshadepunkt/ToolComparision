@@ -24,6 +24,13 @@
         </tbody>
       </template>
     </v-simple-table>
+    <ToolCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :workflow="workflow"
+      :criteria="criteria"
+      v-on:closeDialog="closeDialog()"
+    />
   </div>
 </template>
 
@@ -44,12 +51,14 @@ import {
 import Vue from "vue";
 
 import ToolDataTableRow from "./ToolDataTableRow.vue";
+import ToolCreationDialog from "./ToolCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolDataTable",
 
   components: {
     ToolDataTableRow,
+    ToolCreationDialog,
   },
 
   props: {

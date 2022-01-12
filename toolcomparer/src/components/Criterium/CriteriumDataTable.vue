@@ -24,6 +24,13 @@
         </tbody>
       </template>
     </v-simple-table>
+    <CriteriumCreationDialog
+      :showDialog="showDialog"
+      :mode="editMode"
+      :workflow="workflow"
+      :tools="tools"
+      v-on:closeDialog="closeDialog()"
+    />
   </div>
 </template>
 
@@ -44,12 +51,14 @@ import {
 import Vue from "vue";
 
 import CriteriumDataTableRow from "./CriteriumDataTableRow.vue";
+import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumDataTable",
 
   components: {
     CriteriumDataTableRow,
+    CriteriumCreationDialog,
   },
 
   props: {

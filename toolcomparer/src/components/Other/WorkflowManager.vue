@@ -30,6 +30,11 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiCog,
+  mdiMenu,
+  mdiHome,
+  mdiPlus,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -62,6 +67,24 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiCog,
+        mdiMenu,
+        mdiHome,
+        mdiPlus,
+        mdiDotsHorizontal,
+      },
+    };
   },
 
   methods: {
