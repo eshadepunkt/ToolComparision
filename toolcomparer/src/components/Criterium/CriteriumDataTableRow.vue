@@ -30,6 +30,17 @@
         </v-col>
       </v-row>
     </td>
+    <td v-if="showConnectedTools">
+      {{
+        getConnectedToolsNames &&
+        getConnectedToolsNames.length > 0
+          ? getConnectedToolsNames.length
+          : 0
+      }}
+    </td>
+    <td v-if="showConnectedTools">
+
+    </td>
     <CriteriumCreationDialog
       :showDialog="showDialog"
       :mode="editMode"
@@ -80,6 +91,10 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    showConnectedTools: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   //DATA
@@ -106,6 +121,39 @@ export default Vue.extend({
     },
     btnDelete() {
       this.$store.commit("removeCriterium", this.propCriteriumKV);
+    },
+  },
+
+  //COMPUTED
+  computed: {
+    getConnectedToolsNames: function (): Array<string> {
+      let connections: Array<string> = new Array<string>();
+      let critKey = this.propCriteriumKV.key;
+    
+      this.tools.forEach(element => {
+        if (element.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.key === critKey) !== -1) {
+          connections.push(element.value.name);
+        }
+      });
+
+      return connections;
+    },
+    getToolsCSV: function(): string {
+      let csv = "";
+
+      if (
+        this.getConnectedToolsNames &&
+        this.getConnectedToolsNames.length > 0
+      ) {
+        this.getConnectedToolsNames.forEach((name) => {
+          csv += name + ", ";
+        });
+
+        //Remove last comma
+        return csv.slice(0, -2);
+      } else {
+        return csv;
+      }
     },
   },
 });

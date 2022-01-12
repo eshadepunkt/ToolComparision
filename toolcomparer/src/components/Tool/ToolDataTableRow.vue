@@ -15,7 +15,7 @@
       }}
     </td>
     <td>
-      {{ getSuitabilitiesCSV() }}
+      {{ getSuitabilitiesCSV }}
     </td>
     <td>
       <v-row>
@@ -117,7 +117,11 @@ export default Vue.extend({
     btnDelete() {
       this.$store.commit("removeTool", this.propToolKV);
     },
-    getSuitabilitiesCSV(): string {
+  },
+
+  //COMPUTED
+  computed: {
+    getSuitabilitiesCSV: function(): string {
       let csv = "";
 
       if (
