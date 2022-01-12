@@ -17,6 +17,7 @@
             v-for="tool in tools"
             :key="noSecHash(tool)"
             :workflow="workflow"
+            :editMode="workflow === 'ToolsFirst' ? Typ.simpleEditMode.UpdateSingle : Typ.simpleEditMode.Update"
             :propToolKV="tool"
             :criteria="criteria"
             class="text-left"

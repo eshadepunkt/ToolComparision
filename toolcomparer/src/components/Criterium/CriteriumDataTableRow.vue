@@ -70,6 +70,10 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
+    editMode: {
+      type: Number as () => Typ.simpleEditMode,
+      default: Typ.simpleEditMode.Update as Typ.simpleEditMode,
+    },
     propCriteriumKV: {
       type: Object as () => Typ.criteriumKeyValue,
     },
@@ -83,8 +87,6 @@ export default Vue.extend({
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
-
-      editMode: Typ.simpleEditMode.Update,
 
       icons: {
         mdiAccount,
