@@ -21,8 +21,6 @@
               outlined
               label="Tool description"
               v-model="toolKVSuitabilityItem.toolKV.value.description"
-              :rules="rules.str"
-              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="true"
               no-resize
             >
@@ -74,8 +72,6 @@
               height="5em"
               outlined
               label="Criterium description"
-              :rules="rules.str"
-              :required="$store.getters.getSettingsIsDescriptionMandatory"
               :readonly="true"
               no-resize
               :value="
@@ -113,7 +109,8 @@
               label="Justification"
               v-model="toolKVSuitabilityItem.suitability.justification"
               :rules="
-                rules.str || !$store.getters.getSettingsIsJustificationMandatory
+                !$store.getters.getSettingsIsJustificationMandatory ||
+                rules.str
               "
               :required="$store.getters.getSettingsIsJustificationMandatory"
               :readonly="!isInCreation()"
