@@ -68,6 +68,10 @@ export default Vue.extend({
     propToolKV: {
       type: Object as () => Typ.toolKeyValue,
     },
+    editMode: {
+      type: Number as () => Typ.simpleEditMode,
+      default: Typ.simpleEditMode.UpdateSingle as Typ.simpleEditMode,
+    },
     propSuitabilityIndex: {
       type: Number,
     },
@@ -81,7 +85,6 @@ export default Vue.extend({
   data() {
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
-      editMode: Typ.simpleEditMode.UpdateSingle,
       showDialog: false as boolean,
       suitability:
         this.propToolKV.value.criteriaSuitabilities[this.propSuitabilityIndex],

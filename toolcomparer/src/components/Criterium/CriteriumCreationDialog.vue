@@ -1,5 +1,5 @@
 <template>
-  <div id="CriteriumCreation">
+  <div id="CriteriumCreationDialog">
     <v-dialog
       v-model="showDialog"
       height="67vh"
@@ -83,7 +83,7 @@ import CriteriumCard from "./CriteriumCard.vue";
 import ToolCriteriumSuitabilityCreationDialog from "../Tool/ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
-  name: "CriteriumCreation",
+  name: "CriteriumCreationDialog",
 
   components: {
     CriteriumCard,
@@ -179,7 +179,11 @@ export default Vue.extend({
       const propHash = this.noSecHash(this.propCriteriumKV);
       const newHash = this.noSecHash(this.criteriumKV);
       //When adding: criterium needs to be stored first
-      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
+      if (
+        (this.workflow === "CriteriaFirst" ||
+          this.mode === Typ.simpleEditMode.Add) &&
+        propHash !== newHash
+      ) {
         (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
       }
 
@@ -202,6 +206,7 @@ export default Vue.extend({
           });
 
           //When updating: criterium needs to be updated after tools
+          //This will force that all tools will be updated with the new content of the criterium
           if (propHash !== newHash) {
             (this.$refs.criterium_card as Vue & { save: () => boolean }).save();
           }

@@ -316,7 +316,12 @@ export default Vue.extend({
           };
         }
 
-        console.log("After Next: " + this.currentSuitabilityIndex + " : " + this.updateSuitabilities.length);
+        console.log(
+          "After Next: " +
+            this.currentSuitabilityIndex +
+            " : " +
+            this.updateSuitabilities.length
+        );
 
         try {
           (

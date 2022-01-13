@@ -1,15 +1,29 @@
 <template>
   <div id="PageManager">
     <Comparision v-show="currentPage === 'Comparision'" />
-    <CriteriumListBox
-      v-show="currentPage === 'Criteria'"
+    <div v-show="currentPage === 'Criteria' || currentPage === 'Tools'">
+      <WorkflowManager
+        :currentDataTable="currentPage"
+        :criteria="getCriteria"
+        :tools="getTools"
+        :showDialog="showDialog"
+        :workflow="currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'"
+        v-on:closeDialog="showDialog = false"
+      />
+      <v-btn
+        @click="showDialog = true"
+        class="rounded-circle"
+        height="66"
+        width="66"
+        style="position: absolute; bottom: 50px; right: 25px"
+      >
+        <v-icon>{{ icons.mdiPlus }}</v-icon>
+      </v-btn>
+    </div>
+    <CombineDataTable
+      v-show="currentPage === 'Combine Data'"
       :criteria="criteria"
-      :workflow="workflow"
-    />
-    <ToolListBox
-      v-show="currentPage === 'Tools'"
       :tools="tools"
-      :criteria="criteria"
       :workflow="workflow"
     />
   </div>
@@ -26,28 +40,33 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiCog,
+  mdiMenu,
+  mdiHome,
+  mdiPlus,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 import Vue from "vue";
 
 import Comparision from "../Comparision/Comparision.vue";
-import CriteriumListBox from "../Criterium/CriteriumListBox.vue";
-import ToolListBox from "../Tool/ToolListBox.vue";
+import CriteriumDataTable from "../Criterium/CriteriumDataTable.vue";
+import ToolDataTable from "../Tool/ToolDataTable.vue";
+import WorkflowManager from "./WorkflowManager.vue";
+import CombineDataTable from "./CombineDataTable.vue";
 
 export default Vue.extend({
   name: "PageManager",
 
   components: {
     Comparision,
-    CriteriumListBox,
-    ToolListBox,
+    CriteriumDataTable,
+    ToolDataTable,
+    WorkflowManager,
+    CombineDataTable,
   },
 
   props: {
-    showDialog: {
-      type: Boolean,
-      default: false,
-    },
     workflow: {
       type: String,
       default: "CriteriaFirst",
@@ -68,6 +87,25 @@ export default Vue.extend({
     closeDialog() {
       this.$emit("closeDialog");
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiCog,
+        mdiMenu,
+        mdiHome,
+        mdiPlus,
+        mdiDotsHorizontal,
+      },
+      showDialog: false as boolean,
+    };
   },
 
   //COMPUTED

@@ -42,21 +42,6 @@
                 <v-list-item
                   link
                   class="px-2"
-                  v-on:click.native="
-                    navigateTo(
-                      '/Workflow/' + $store.getters.getSettingsWorkflow
-                    )
-                  "
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiPlus }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Workflow </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
                   v-on:click.native="currentPage = 'Comparision'"
                 >
                   <v-list-item-icon>
@@ -83,6 +68,31 @@
                     <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
+                <v-divider> </v-divider>
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="currentPage = 'Combine Data'"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ icons.mdiVectorCombine }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title> Combine Data </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  link
+                  class="px-2"
+                  v-on:click.native="
+                    navigateTo(
+                      '/Workflow/' + $store.getters.getSettingsWorkflow
+                    )
+                  "
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ icons.mdiPlus }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title> Workflow </v-list-item-title>
+                </v-list-item>
               </v-list>
             </v-navigation-drawer>
             <v-card style="height: 85vh; overflow-y: auto">
@@ -90,6 +100,7 @@
                 :criteria="getCriteria"
                 :tools="getTools"
                 :currentPage="currentPage"
+                :workflow="$store.getters.getSettingsWorkflow"
               />
             </v-card>
           </v-col>
@@ -124,6 +135,7 @@ import {
   mdiHome,
   mdiPlus,
   mdiDotsHorizontal,
+  mdiVectorCombine,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -167,6 +179,7 @@ export default Vue.extend({
         mdiHome,
         mdiPlus,
         mdiDotsHorizontal,
+        mdiVectorCombine,
       },
       uuidNIL,
       Typ,

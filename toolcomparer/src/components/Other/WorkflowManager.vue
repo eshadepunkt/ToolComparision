@@ -1,18 +1,18 @@
 <template>
   <div id="WorkflowManager">
-    <CriteriumListBox
-      v-show="currentListBox === 'Criteria'"
+    <CriteriumDataTable
+      v-show="currentDataTable === 'Criteria'"
       :criteria="criteria"
       :tools="tools"
-      :showDialog="showDialog && currentListBox === 'Criteria'"
+      :showDialog="showDialog && currentDataTable === 'Criteria'"
       :workflow="workflow"
       v-on:closeDialog="closeDialog()"
     />
-    <ToolListBox
-      v-show="currentListBox === 'Tools'"
+    <ToolDataTable
+      v-show="currentDataTable === 'Tools'"
       :tools="tools"
       :criteria="criteria"
-      :showDialog="showDialog && currentListBox === 'Tools'"
+      :showDialog="showDialog && currentDataTable === 'Tools'"
       :workflow="workflow"
       v-on:closeDialog="closeDialog()"
     />
@@ -30,19 +30,24 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiCog,
+  mdiMenu,
+  mdiHome,
+  mdiPlus,
+  mdiDotsHorizontal,
 } from "@mdi/js";
 
 import Vue from "vue";
 
-import CriteriumListBox from "../Criterium/CriteriumListBox.vue";
-import ToolListBox from "../Tool/ToolListBox.vue";
+import CriteriumDataTable from "../Criterium/CriteriumDataTable.vue";
+import ToolDataTable from "../Tool/ToolDataTable.vue";
 
 export default Vue.extend({
   name: "WorkflowManager",
 
   components: {
-    CriteriumListBox,
-    ToolListBox,
+    CriteriumDataTable,
+    ToolDataTable,
   },
 
   props: {
@@ -53,7 +58,7 @@ export default Vue.extend({
     workflow: {
       type: String,
     },
-    currentListBox: {
+    currentDataTable: {
       type: String,
     },
     criteria: {
@@ -62,6 +67,24 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+  },
+
+  //DATA
+  data() {
+    return {
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiCog,
+        mdiMenu,
+        mdiHome,
+        mdiPlus,
+        mdiDotsHorizontal,
+      },
+    };
   },
 
   methods: {

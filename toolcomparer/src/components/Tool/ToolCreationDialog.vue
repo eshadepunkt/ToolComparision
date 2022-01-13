@@ -1,5 +1,5 @@
 <template>
-  <div id="ToolCreation">
+  <div id="ToolCreationDialog">
     <v-dialog
       v-show="!isInSuitabilityCreation"
       v-model="showDialog"
@@ -91,7 +91,7 @@ import ToolCard from "./ToolCard.vue";
 import ToolCriteriumSuitabilityCreationDialog from "./ToolCriteriumSuitabilityCreationDialog.vue";
 
 export default Vue.extend({
-  name: "ToolCreation",
+  name: "ToolCreationDialog",
 
   components: {
     ToolCard,
@@ -188,7 +188,11 @@ export default Vue.extend({
       const propHash = this.noSecHash(this.propToolKV);
       const newHash = this.noSecHash(this.toolKV);
       //When adding: tool needs to be stored first
-      if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
+      if (
+        (this.workflow === "ToolsFirst" ||
+          this.mode === Typ.simpleEditMode.Add) &&
+        propHash !== newHash
+      ) {
         (this.$refs.tool_card as Vue & { save: () => boolean }).save();
       }
 
@@ -202,17 +206,18 @@ export default Vue.extend({
           this.mode !== Typ.simpleEditMode.Add ||
           this.criteria.length === updateSuitabilities.length
         ) {
+          //When updating: tool needs to be updated after suitabilities
+          //Needs to be before criteria changes, so that the old suitabilities do not override the new
+          if (propHash !== newHash) {
+            (this.$refs.tool_card as Vue & { save: () => boolean }).save();
+          }
+
           updateSuitabilities.forEach((element) => {
             this.$store.dispatch("updateToolSuitability", {
               toolKV: element.toolKV,
               criteriumSuitability: element.suitability,
             });
           });
-
-          //When updating: tool needs to be updated after suitabilities
-          if (this.mode === Typ.simpleEditMode.Add && propHash !== newHash) {
-            (this.$refs.tool_card as Vue & { save: () => boolean }).save();
-          }
 
           this.closeDialog();
         }
