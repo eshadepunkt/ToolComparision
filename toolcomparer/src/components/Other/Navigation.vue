@@ -37,7 +37,7 @@
                     <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>            
+                </v-list-item>
                 <v-divider> </v-divider>
                 <v-list-item
                   link
@@ -72,7 +72,7 @@
                 <v-list-item
                   link
                   class="px-2"
-                  v-on:click.native="featuresDialog = true"
+                  v-on:click.native="currentPage = 'Combine Data'"
                 >
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiVectorCombine }}</v-icon>
@@ -100,6 +100,7 @@
                 :criteria="getCriteria"
                 :tools="getTools"
                 :currentPage="currentPage"
+                :workflow="$store.getters.getSettingsWorkflow"
               />
             </v-card>
           </v-col>

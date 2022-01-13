@@ -121,7 +121,7 @@ export default Vue.extend({
 
   //COMPUTED
   computed: {
-    getSuitabilitiesCSV: function(): string {
+    getSuitabilitiesCSV: function (): string {
       let csv = "";
 
       if (

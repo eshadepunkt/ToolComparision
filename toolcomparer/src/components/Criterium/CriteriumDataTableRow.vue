@@ -12,6 +12,16 @@
     <td>
       {{ propCriteriumKV.value.isExclusionCriterium }}
     </td>
+    <td v-if="showConnectedTools">
+      {{
+        getConnectedToolsNames && getConnectedToolsNames.length > 0
+          ? getConnectedToolsNames.length
+          : 0
+      }}
+    </td>
+    <td v-if="showConnectedTools">
+      {{ getToolsCSV }}
+    </td>
     <td>
       <v-row>
         <v-col cols="5">
@@ -29,17 +39,6 @@
           </v-btn>
         </v-col>
       </v-row>
-    </td>
-    <td v-if="showConnectedTools">
-      {{
-        getConnectedToolsNames &&
-        getConnectedToolsNames.length > 0
-          ? getConnectedToolsNames.length
-          : 0
-      }}
-    </td>
-    <td v-if="showConnectedTools">
-
     </td>
     <CriteriumCreationDialog
       :showDialog="showDialog"
@@ -94,7 +93,7 @@ export default Vue.extend({
     showConnectedTools: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   //DATA
@@ -129,16 +128,20 @@ export default Vue.extend({
     getConnectedToolsNames: function (): Array<string> {
       let connections: Array<string> = new Array<string>();
       let critKey = this.propCriteriumKV.key;
-    
-      this.tools.forEach(element => {
-        if (element.value.criteriaSuitabilities.findIndex(x => x.criteriumKV.key === critKey) !== -1) {
+
+      this.tools.forEach((element) => {
+        if (
+          element.value.criteriaSuitabilities.findIndex(
+            (x) => x.criteriumKV.key === critKey
+          ) !== -1
+        ) {
           connections.push(element.value.name);
         }
       });
 
       return connections;
     },
-    getToolsCSV: function(): string {
+    getToolsCSV: function (): string {
       let csv = "";
 
       if (

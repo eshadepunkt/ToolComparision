@@ -18,7 +18,11 @@
             :key="noSecHash(criterium)"
             :propCriteriumKV="criterium"
             :workflow="workflow"
-            :editMode="workflow === 'CriteriaFirst' ? Typ.simpleEditMode.UpdateSingle : Typ.simpleEditMode.Update"
+            :editMode="
+              workflow === 'CriteriaFirst'
+                ? Typ.simpleEditMode.UpdateSingle
+                : Typ.simpleEditMode.Update
+            "
             :tools="tools"
             class="text-left"
           />

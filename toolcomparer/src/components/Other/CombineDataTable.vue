@@ -71,8 +71,10 @@ import {
 
 import Vue from "vue";
 
-import ToolDataTableRow from "./ToolDataTableRow.vue";
-import ToolCreationDialog from "./ToolCreationDialog.vue";
+import ToolDataTableRow from "../Tool/ToolDataTableRow.vue";
+import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
+import CriteriumDataTableRow from "../Criterium/CriteriumDataTableRow.vue";
+import CriteriumCreationDialog from "../Criterium/CriteriumCreationDialog.vue";
 
 export default Vue.extend({
   name: "ToolDataTable",
@@ -80,6 +82,8 @@ export default Vue.extend({
   components: {
     ToolDataTableRow,
     ToolCreationDialog,
+    CriteriumDataTableRow,
+    CriteriumCreationDialog,
   },
 
   props: {

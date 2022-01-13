@@ -205,7 +205,7 @@ export default Vue.extend({
         if (
           this.mode !== Typ.simpleEditMode.Add ||
           this.criteria.length === updateSuitabilities.length
-        ) {      
+        ) {
           //When updating: tool needs to be updated after suitabilities
           //Needs to be before criteria changes, so that the old suitabilities do not override the new
           if (propHash !== newHash) {

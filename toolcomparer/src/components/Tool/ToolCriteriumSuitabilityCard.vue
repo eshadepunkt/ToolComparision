@@ -109,8 +109,7 @@
               label="Justification"
               v-model="toolKVSuitabilityItem.suitability.justification"
               :rules="
-                !$store.getters.getSettingsIsJustificationMandatory ||
-                rules.str
+                !$store.getters.getSettingsIsJustificationMandatory || rules.str
               "
               :required="$store.getters.getSettingsIsJustificationMandatory"
               :readonly="!isInCreation()"

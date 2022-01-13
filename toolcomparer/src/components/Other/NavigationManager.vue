@@ -1,7 +1,7 @@
 <template>
   <div id="PageManager">
     <Comparision v-show="currentPage === 'Comparision'" />
-    <div v-show="currentPage !== 'Comparision'">
+    <div v-show="currentPage === 'Criteria' || currentPage === 'Tools'">
       <WorkflowManager
         :currentDataTable="currentPage"
         :criteria="getCriteria"
@@ -20,6 +20,12 @@
         <v-icon>{{ icons.mdiPlus }}</v-icon>
       </v-btn>
     </div>
+    <CombineDataTable
+      v-show="currentPage === 'Combine Data'"
+      :criteria="criteria"
+      :tools="tools"
+      :workflow="workflow"
+    />
   </div>
 </template>
 
@@ -47,6 +53,7 @@ import Comparision from "../Comparision/Comparision.vue";
 import CriteriumDataTable from "../Criterium/CriteriumDataTable.vue";
 import ToolDataTable from "../Tool/ToolDataTable.vue";
 import WorkflowManager from "./WorkflowManager.vue";
+import CombineDataTable from "./CombineDataTable.vue";
 
 export default Vue.extend({
   name: "PageManager",
@@ -56,6 +63,7 @@ export default Vue.extend({
     CriteriumDataTable,
     ToolDataTable,
     WorkflowManager,
+    CombineDataTable,
   },
 
   props: {
