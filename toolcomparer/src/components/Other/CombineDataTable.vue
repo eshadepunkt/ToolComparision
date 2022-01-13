@@ -18,8 +18,8 @@
             :key="noSecHash(tool)"
             :workflow="'CriteriaFirst'"
             :editMode="
-              !tool.value.criteriaSuitabilities ||
-              tool.value.criteriaSuitabilities.length
+              !(tool.value.criteriaSuitabilities &&
+              tool.value.criteriaSuitabilities.length !== 0)
                 ? Typ.simpleEditMode.Add
                 : Typ.simpleEditMode.Update
             "
