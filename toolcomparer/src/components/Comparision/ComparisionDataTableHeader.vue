@@ -86,6 +86,8 @@ export default Vue.extend({
       const text =
         "Description:<br/>" +
         this.criteriumKV.value.description +
+        "<br/>Importance: " +
+        Typ.convertImportanceEnumToString(this.criteriumKV.value.importance) +
         "<br/>Exclusion Criterium: " +
         this.criteriumKV.value.isExclusionCriterium;
 

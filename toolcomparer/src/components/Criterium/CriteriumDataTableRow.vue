@@ -42,7 +42,15 @@
     </td>
     <CriteriumCreationDialog
       :showDialog="showDialog"
-      :mode="editMode"
+      :mode="
+        !(
+          showConnectedTools &&
+          getConnectedToolsNames &&
+          getConnectedToolsNames.length !== 0
+        )
+          ? editMode
+          : Typ.simpleEditMode.Update
+      "
       :propCriteriumKV="propCriteriumKV"
       :workflow="workflow"
       :tools="tools"
