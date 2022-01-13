@@ -17,11 +17,12 @@
             v-for="tool in tools"
             :key="noSecHash(tool)"
             :workflow="'CriteriaFirst'"
-            :editMode="(
-               !tool.value.criteriaSuitabilities 
-                  || tool.value.criteriaSuitabilities.lenght) 
-                  ? Typ.simpleEditMode.Add
-                  : Typ.simpleEditMode.Update"
+            :editMode="
+              !tool.value.criteriaSuitabilities ||
+              tool.value.criteriaSuitabilities.length
+                ? Typ.simpleEditMode.Add
+                : Typ.simpleEditMode.Update
+            "
             :propToolKV="tool"
             :criteria="criteria"
             class="text-left"

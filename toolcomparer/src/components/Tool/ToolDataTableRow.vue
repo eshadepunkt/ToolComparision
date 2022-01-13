@@ -124,18 +124,22 @@ export default Vue.extend({
     getSuitabilitiesCSV: function (): string {
       let csv = "";
 
+      console.log("Something changed: " + this.criteria.length);
+
       if (
         this.propToolKV.value.criteriaSuitabilities &&
         this.propToolKV.value.criteriaSuitabilities.length > 0
       ) {
         this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
-          if (this.criteria.findIndex(x => x.key === element.criteriumKV.key)) {
+          if (
+            this.criteria.findIndex((x) => x.key === element.criteriumKV.key)
+          ) {
             csv += element.criteriumKV.value.name + ", ";
-          }   
+          }
         });
 
         //Remove last comma
-        return csv.slice(0, -2);
+        return csv.length >= 2 ? csv.slice(0, -2) : "";
       } else {
         return csv;
       }
