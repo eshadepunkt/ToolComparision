@@ -129,7 +129,9 @@ export default Vue.extend({
         this.propToolKV.value.criteriaSuitabilities.length > 0
       ) {
         this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
-          csv += element.criteriumKV.value.name + ", ";
+          if (this.criteria.findIndex(x => x.key === element.criteriumKV.key)) {
+            csv += element.criteriumKV.value.name + ", ";
+          }   
         });
 
         //Remove last comma
