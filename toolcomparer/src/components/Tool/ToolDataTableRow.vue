@@ -132,7 +132,9 @@ export default Vue.extend({
       ) {
         this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
           if (
-            this.criteria.findIndex((x) => x.key === element.criteriumKV.key) !== -1
+            this.criteria.findIndex(
+              (x) => x.key === element.criteriumKV.key
+            ) !== -1
           ) {
             csv += element.criteriumKV.value.name + ", ";
           }

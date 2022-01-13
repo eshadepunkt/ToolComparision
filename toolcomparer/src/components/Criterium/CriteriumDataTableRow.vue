@@ -43,9 +43,11 @@
     <CriteriumCreationDialog
       :showDialog="showDialog"
       :mode="
-        !(showConnectedTools &&
-        (getConnectedToolsNames &&
-        getConnectedToolsNames.length !== 0))
+        !(
+          showConnectedTools &&
+          getConnectedToolsNames &&
+          getConnectedToolsNames.length !== 0
+        )
           ? editMode
           : Typ.simpleEditMode.Update
       "
