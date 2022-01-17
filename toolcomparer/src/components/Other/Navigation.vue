@@ -47,7 +47,7 @@
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiHome }}</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title> Start </v-list-item-title>
+                  <v-list-item-title> Comparision </v-list-item-title>
                 </v-list-item>
                 <v-divider> </v-divider>
                 <v-list-item link v-on:click.native="currentPage = 'Criteria'">
