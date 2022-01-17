@@ -19,7 +19,24 @@
           (result.score.isExcluded ? 'color: grey' : '')
         "
       >
-        {{ result.score.currentValue + "/" + result.score.maxValue }}
+        <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+          {{ result.score.currentValue + "/" + result.score.maxValue }}
+        </div>
+        <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+          <v-rating
+            :empty-icon="icons.mdiStarOutline"
+            :full-icon="icons.mdiStar"
+            :half-icon="icons.mdiStarHalfFull"
+            v-model="rating"
+            half-increments
+            readonly
+            dense
+            x-small
+            length="5"
+            size="1.5em"
+          >
+          </v-rating>
+        </div>
       </v-chip>
     </td>
     <ComparisionDataTableRowItem
@@ -68,6 +85,9 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -99,6 +119,7 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       editMode: Typ.simpleEditMode.Update,
+      rating: ((this.result.score.currentValue / this.result.score.maxValue) * 5) as number,
 
       uuidNIL,
       icons: {
@@ -107,6 +128,9 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
       },
       noSecHash,
       Typ,

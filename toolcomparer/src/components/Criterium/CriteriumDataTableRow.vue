@@ -70,6 +70,9 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -116,6 +119,9 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
       },
       Typ,
     };

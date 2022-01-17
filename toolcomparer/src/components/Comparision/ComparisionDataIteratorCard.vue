@@ -1,5 +1,6 @@
 <template>
-  <v-card id="ComparisionDataIteratorCard" style="width: 20em">
+  <v-card id="ComparisionDataIteratorCard" 
+    :style="(result.score.isExcluded ? 'background-color: lightgrey; ' : '') + 'width: 20em'">
     <v-card-title class="subheading font-weight-bold">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -12,12 +13,23 @@
                   <br />
                   {{ result.toolKV.value.name }}
                   <br />
-                  {{
-                    "XXXXX STARS " +
-                    result.score.currentValue +
-                    "/" +
-                    result.score.maxValue
-                  }}
+                            <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                    {{ result.score.currentValue + "/" + result.score.maxValue }}
+                  </div>
+                  <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                    <v-rating
+                      :empty-icon="icons.mdiStarOutline"
+                      :full-icon="icons.mdiStar"
+                      :half-icon="icons.mdiStarHalfFull"
+                      v-model="rating"
+                      half-increments
+                      readonly
+                      dense
+                      length="5"
+                      size="1.5em"
+                    >
+                    </v-rating>
+                  </div>
                 </div>
               </v-col>
               <v-col cols="1">
@@ -50,8 +62,10 @@
 
     <v-divider></v-divider>
 
-    <div style="width: 20em">
-      <v-list dense>
+    <div>
+      <v-list dense
+        :style="(result.score.isExcluded ? 'background-color: lightgrey; ' : '') + 'width: 20em'"
+      >
         <ComparisionDataIteratorCardItem
           v-for="(suitability, index) in getSortedSuitabilities"
           :result="result"
@@ -82,6 +96,9 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -114,6 +131,7 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       editMode: Typ.simpleEditMode.Update,
+      rating: ((this.result.score.currentValue / this.result.score.maxValue) * 5) as number,
 
       uuidNIL,
       icons: {
@@ -122,6 +140,9 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
       },
       noSecHash,
       Typ,
