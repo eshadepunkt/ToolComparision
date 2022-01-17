@@ -22,7 +22,7 @@
     <td v-if="showConnectedTools">
       {{ getToolsCSV }}
     </td>
-    <td>
+    <td width="125">
       <v-row>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnEdit()">
