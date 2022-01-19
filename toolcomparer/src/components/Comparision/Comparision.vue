@@ -2,7 +2,7 @@
   <div id="Comparision">
     <v-container>
       <v-row>
-        <v-col xl="12">
+        <v-col>
           <ComparisionHeader
             :sortItems="getCriteria"
             :search="search"
@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col xl="12">
+        <v-col>
           <v-card style="height: 59vh; overflow-y: auto">
             <ComparisionManager
               :currentView="currentView"
@@ -37,11 +37,11 @@
         align-content="space-between"
         justify="space-between"
       >
-        <v-col xl="1">
+        <v-card-actions>
           <v-btn @click="changeView()" color="blue lighten-5">
             Change View
           </v-btn>
-        </v-col>
+        </v-card-actions>
       </v-row>
     </v-container>
   </div>

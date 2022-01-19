@@ -12,7 +12,7 @@
         <v-container>
           <!-- Head -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
                   {{ Typ.convertEditModeEnumToString(mode) }} tool
@@ -22,7 +22,7 @@
           </v-row>
           <!-- Body -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card outlined>
                 <ToolCard
                   ref="tool_card"
@@ -34,11 +34,10 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
-            <v-col xl="8"> </v-col>
-            <v-col xl="1">
+            <v-card-actions>
               <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn
                 v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
@@ -46,12 +45,12 @@
               >
                 Update All &amp; Close
               </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn @click="btnSave(false)" color="teal lighten-5">
                 {{ getBtnNextTxt }}
               </v-btn>
-            </v-col>
+            </v-card-actions>
           </v-row>
         </v-container>
       </v-card>

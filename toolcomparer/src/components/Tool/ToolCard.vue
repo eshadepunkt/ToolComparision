@@ -4,7 +4,7 @@
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col cols="10">
+          <v-col>
             <!-- Minimized -->
             <div
               v-if="isMinimized()"

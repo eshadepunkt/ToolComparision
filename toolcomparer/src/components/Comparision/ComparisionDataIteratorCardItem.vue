@@ -34,7 +34,9 @@
               <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
                 <v-card-text v-html="getResultString()" />
               </div>
-              <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+              <div
+                v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+              >
                 <v-rating
                   :empty-icon="icons.mdiStarOutline"
                   :full-icon="icons.mdiStar"

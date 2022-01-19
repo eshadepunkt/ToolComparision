@@ -1,21 +1,21 @@
 <template>
   <div id="Navigation">
     <v-card
-      style="position: relative; height: 100vh"
+      style="position: relative; height: 100vh; width: 100vw"
       class="overflow-hidden"
       color="grey lighten-5"
     >
       <v-container>
         <!-- Head -->
         <v-row>
-          <v-col xl="12">
+          <v-col>
             <Header :headerText="currentPage" />
           </v-col>
         </v-row>
 
         <!-- Body -->
         <v-row>
-          <v-col xl="12">
+          <v-col>
             <v-navigation-drawer permanent expand-on-hover absolute>
               <v-list nav>
                 <v-list-item

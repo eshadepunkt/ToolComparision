@@ -119,7 +119,8 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       editMode: Typ.simpleEditMode.Update,
-      rating: ((this.result.score.currentValue / this.result.score.maxValue) * 5) as number,
+      rating: ((this.result.score.currentValue / this.result.score.maxValue) *
+        5) as number,
 
       uuidNIL,
       icons: {

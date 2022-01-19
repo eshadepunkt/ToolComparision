@@ -1,8 +1,9 @@
 <template>
   <div id="PageManager">
-    <Comparision v-show="currentPage === 'Comparision'" />
+    <Comparision v-show="currentPage === 'Comparision'" height="80vh" />
     <div v-show="currentPage === 'Criteria' || currentPage === 'Tools'">
       <WorkflowManager
+        height="80vh"
         :currentDataTable="currentPage"
         :criteria="getCriteria"
         :tools="getTools"

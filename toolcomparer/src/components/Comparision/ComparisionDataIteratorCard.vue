@@ -1,6 +1,11 @@
 <template>
-  <v-card id="ComparisionDataIteratorCard" 
-    :style="(result.score.isExcluded ? 'background-color: lightgrey; ' : '') + 'width: 20em'">
+  <v-card
+    id="ComparisionDataIteratorCard"
+    :style="
+      (result.score.isExcluded ? 'background-color: lightgrey; ' : '') +
+      'width: 20em'
+    "
+  >
     <v-card-title class="subheading font-weight-bold">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -13,10 +18,18 @@
                   <br />
                   {{ result.toolKV.value.name }}
                   <br />
-                            <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
-                    {{ result.score.currentValue + "/" + result.score.maxValue }}
+                  <div
+                    v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers"
+                  >
+                    {{
+                      result.score.currentValue + "/" + result.score.maxValue
+                    }}
                   </div>
-                  <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                  <div
+                    v-else-if="
+                      $store.getters.getSettingsIsStarsInsteadOfNumbers
+                    "
+                  >
                     <v-rating
                       :empty-icon="icons.mdiStarOutline"
                       :full-icon="icons.mdiStar"
@@ -63,8 +76,12 @@
     <v-divider></v-divider>
 
     <div>
-      <v-list dense
-        :style="(result.score.isExcluded ? 'background-color: lightgrey; ' : '') + 'width: 20em'"
+      <v-list
+        dense
+        :style="
+          (result.score.isExcluded ? 'background-color: lightgrey; ' : '') +
+          'width: 20em'
+        "
       >
         <ComparisionDataIteratorCardItem
           v-for="(suitability, index) in getSortedSuitabilities"
@@ -131,7 +148,8 @@ export default Vue.extend({
     return {
       showDialog: false as boolean,
       editMode: Typ.simpleEditMode.Update,
-      rating: ((this.result.score.currentValue / this.result.score.maxValue) * 5) as number,
+      rating: ((this.result.score.currentValue / this.result.score.maxValue) *
+        5) as number,
 
       uuidNIL,
       icons: {
