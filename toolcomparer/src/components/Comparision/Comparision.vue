@@ -162,7 +162,7 @@ export default Vue.extend({
         let placeholder: Typ.toolCriteriumSuitability = {
           criteriumKV: element,
           fullfillment: Typ.toolCriteriumFullfillment.undefined,
-          justification: "Application Message: not available (unset/undefined data)",        
+          justification: "",        
           }
           toolCriteriumSuitabilites.push(placeholder);
       });

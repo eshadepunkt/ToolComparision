@@ -89,10 +89,8 @@
               :items="fullfillmentItems"
               label="Fullfillment"
               v-model="selectedFullfillment"
-              :rules="
-                !$store.getters.getSettingsIsDescriptionMandatory || rules.str
-              "
-              :required="$store.getters.getSettingsIsDescriptionMandatory"
+              :rules="rules.str"
+              required
               :readonly="!isInCreation()"
               @change="updateFullfillment(selectedFullfillment)"
             >
