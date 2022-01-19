@@ -8,7 +8,7 @@
       <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col>
+          <v-col style="position: absolute; left: 5vw;  width: 90vw;">
             <Header :headerText="currentPage" />
           </v-col>
         </v-row>
@@ -95,7 +95,7 @@
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-            <v-card style="height: 85vh; overflow-y: auto">
+            <v-card style="position: absolute; left: 5vw; top: 10vh; height: 85vh; width: 90vw; overflow-y: auto">
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
