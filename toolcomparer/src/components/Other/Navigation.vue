@@ -1,14 +1,14 @@
 <template>
   <div id="Navigation">
     <v-card
-      style="position: relative; height: 100vh; width: 100vw;"
+      style="position: relative; height: 100vh; width: 100vw"
       class="overflow-hidden"
       color="grey lighten-5"
     >
       <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col style="position: absolute; left: 5vw;  width: 90vw;">
+          <v-col style="position: absolute; left: 5vw; width: 90vw">
             <Header :headerText="currentPage" />
           </v-col>
         </v-row>
@@ -95,7 +95,16 @@
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-            <v-card style="position: absolute; left: 5vw; top: 10vh; height: 85vh; width: 90vw; overflow-y: auto">
+            <v-card
+              style="
+                position: absolute;
+                left: 5vw;
+                top: 10vh;
+                height: 85vh;
+                width: 90vw;
+                overflow-y: auto;
+              "
+            >
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"

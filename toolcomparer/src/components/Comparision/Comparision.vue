@@ -101,14 +101,16 @@ export default Vue.extend({
     },
     getRatingPlaceholder(toolKV: Typ.toolKeyValue): Typ.toolRating {
       let placeholder: Typ.toolKeyValue = JSON.parse(JSON.stringify(toolKV));
-      let realData: Array<Typ.toolCriteriumSuitability> = this.filterUnusedSuitabilities(toolKV);
-      placeholder.value.criteriaSuitabilities = this.addPlaceholderSuitabilities(realData);
+      let realData: Array<Typ.toolCriteriumSuitability> =
+        this.filterUnusedSuitabilities(toolKV);
+      placeholder.value.criteriaSuitabilities =
+        this.addPlaceholderSuitabilities(realData);
 
       let score: Typ.score = {
         currentValue: -1,
         maxValue: -1,
         isExcluded: true,
-      }
+      };
 
       return {
         toolKV: placeholder,
@@ -151,20 +153,23 @@ export default Vue.extend({
     addPlaceholderSuitabilities(
       realData: Array<Typ.toolCriteriumSuitability>
     ): Array<Typ.toolCriteriumSuitability> {
-      let toolCriteriumSuitabilites: Array<Typ.toolCriteriumSuitability> = realData;
+      let toolCriteriumSuitabilites: Array<Typ.toolCriteriumSuitability> =
+        realData;
 
       let missing = this.getCriteria.filter(
         (x) =>
-          toolCriteriumSuitabilites.findIndex((y) => y.criteriumKV.key === x.key) === -1
+          toolCriteriumSuitabilites.findIndex(
+            (y) => y.criteriumKV.key === x.key
+          ) === -1
       );
 
-      missing.forEach(element => {
+      missing.forEach((element) => {
         let placeholder: Typ.toolCriteriumSuitability = {
           criteriumKV: element,
           fullfillment: Typ.toolCriteriumFullfillment.undefined,
-          justification: "",        
-          }
-          toolCriteriumSuitabilites.push(placeholder);
+          justification: "",
+        };
+        toolCriteriumSuitabilites.push(placeholder);
       });
 
       return toolCriteriumSuitabilites;
@@ -194,10 +199,12 @@ export default Vue.extend({
     },
 
     //NOTE: Sort DESCending
+    //Sorts Ratings for Ranking
     getSorted(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
       let sorted = rated.sort((a, b) => {
         if (a.score.isExcluded === b.score.isExcluded) {
-          return b.score.currentValue - a.score.currentValue;
+          let result: number = b.score.currentValue - a.score.currentValue;
+          return result !== 0 ? result : a.toolKV.value.name.localeCompare(b.toolKV.value.name);
         } else if (a.score.isExcluded) {
           return 1;
         } else {
@@ -206,6 +213,39 @@ export default Vue.extend({
       });
 
       return sorted;
+    },
+    //NOTE: Sort DESCending
+    //Sorts Criteria for Importance
+    getSortedCriteria(
+      unsorted: Array<Typ.criteriumKeyValue>
+    ): Array<Typ.criteriumKeyValue> {
+      return unsorted.sort((a, b) => {
+        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
+            let result: number = b.value.importance - a.value.importance;
+            return result !== 0 ? result : a.value.name.localeCompare(b.value.name);
+        }  else if (a.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    },
+    //NOTE: Sort DESCending
+    //Sorts (Suitability-) Criteria for Importance
+    getSortedSuitabilities(
+      unsorted: Array<Typ.toolCriteriumSuitability>
+    ): Array<Typ.toolCriteriumSuitability> {
+      return unsorted.sort((a, b) => {
+        if (a.criteriumKV.value.isExclusionCriterium ===
+            b.criteriumKV.value.isExclusionCriterium) {
+            let result: number = b.criteriumKV.value.importance - a.criteriumKV.value.importance;
+            return result !== 0 ? result : a.criteriumKV.value.name.localeCompare(b.criteriumKV.value.name);
+        } else if (a.criteriumKV.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
     },
     //NOTE: Sorted array
     getRanked(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
@@ -314,6 +354,13 @@ export default Vue.extend({
       const sorted = this.getSorted(converted);
       const ranked = this.getRanked(sorted);
 
+      ranked.forEach((element) => {
+        element.toolKV.value.criteriaSuitabilities =
+          this.getSortedSuitabilities(
+            element.toolKV.value.criteriaSuitabilities
+          );
+      });
+
       return ranked;
     },
     getFilteredResults: function (): Array<Typ.toolRating> {
@@ -361,15 +408,7 @@ export default Vue.extend({
       const unsorted: Array<Typ.criteriumKeyValue> =
         this.$store.getters.getCriteria;
 
-      return unsorted.sort((a, b) => {
-        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-          return b.value.importance - a.value.importance;
-        } else if (a.value.isExclusionCriterium) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
+      return this.getSortedCriteria(unsorted);
     },
     getMaxScore(): number {
       let score = 0;
