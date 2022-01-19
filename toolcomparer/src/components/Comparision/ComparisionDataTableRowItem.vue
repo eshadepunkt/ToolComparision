@@ -3,7 +3,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
-          <v-chip
+          <v-chip v-if="suitability.fullfillment !== Typ.toolCriteriumFullfillment.undefined"
             :style="
               getColor() +
               (result.score.isExcluded

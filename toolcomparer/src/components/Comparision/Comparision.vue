@@ -99,6 +99,23 @@ export default Vue.extend({
         rank: -1,
       } as Typ.toolRating;
     },
+    getRatingPlaceholder(toolKV: Typ.toolKeyValue): Typ.toolRating {
+      let placeholder: Typ.toolKeyValue = JSON.parse(JSON.stringify(toolKV));
+      let realData: Array<Typ.toolCriteriumSuitability> = this.filterUnusedSuitabilities(toolKV);
+      placeholder.value.criteriaSuitabilities = this.addPlaceholderSuitabilities(realData);
+
+      let score: Typ.score = {
+        currentValue: -1,
+        maxValue: -1,
+        isExcluded: true,
+      }
+
+      return {
+        toolKV: placeholder,
+        score: score,
+        rank: -1,
+      } as Typ.toolRating;
+    },
     hasNoMissingCriteria(toolKV: Typ.toolKeyValue): boolean {
       let toolCriteria: Array<Typ.criteriumKeyValue> =
         toolKV.value.criteriaSuitabilities.map((x) => x.criteriumKV);
@@ -130,6 +147,27 @@ export default Vue.extend({
       );
 
       return filtered;
+    },
+    addPlaceholderSuitabilities(
+      realData: Array<Typ.toolCriteriumSuitability>
+    ): Array<Typ.toolCriteriumSuitability> {
+      let toolCriteriumSuitabilites: Array<Typ.toolCriteriumSuitability> = realData;
+
+      let missing = this.getCriteria.filter(
+        (x) =>
+          toolCriteriumSuitabilites.findIndex((y) => y.criteriumKV.key === x.key) === -1
+      );
+
+      missing.forEach(element => {
+        let placeholder: Typ.toolCriteriumSuitability = {
+          criteriumKV: element,
+          fullfillment: Typ.toolCriteriumFullfillment.undefined,
+          justification: "Application Message: not available (unset/undefined data)",        
+          }
+          toolCriteriumSuitabilites.push(placeholder);
+      });
+
+      return toolCriteriumSuitabilites;
     },
     getScore(toolKV: Typ.toolKeyValue): Typ.score {
       let currentScore = 0;
@@ -268,8 +306,8 @@ export default Vue.extend({
           let rated = this.getRated(toolKV);
           converted.push(rated);
         } else {
-          //TO DO
-          //REDIRECT AND INFORM
+          let placeholder = this.getRatingPlaceholder(toolKV);
+          converted.push(placeholder);
         }
       });
 

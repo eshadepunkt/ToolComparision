@@ -24,7 +24,7 @@
       <v-list-item-content>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <div
+            <div v-if="suitability.fullfillment !== Typ.toolCriteriumFullfillment.undefined"
               v-bind:style="
                 criteriumKV.value.name === sortBy ? 'color: blue;' : ''
               "
