@@ -1,7 +1,7 @@
 <template>
   <div id="Workflow">
     <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
           <v-col>

@@ -1,6 +1,6 @@
 <template>
   <div id="Comparision">
-    <v-container>
+    <v-container fluid>
       <v-row>
         <v-col>
           <ComparisionHeader
@@ -16,7 +16,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card style="height: 59vh; overflow-y: auto">
+          <v-card style="height: 60vh; overflow-y: auto">
             <ComparisionManager
               :currentView="currentView"
               :results="getFilteredResults"

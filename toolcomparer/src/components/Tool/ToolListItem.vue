@@ -1,7 +1,7 @@
 <template>
   <div id="ToolListItem">
     <v-card>
-      <v-container>
+      <v-container fluid>
         <v-row>
           <v-col cols="10">
             <ToolCard

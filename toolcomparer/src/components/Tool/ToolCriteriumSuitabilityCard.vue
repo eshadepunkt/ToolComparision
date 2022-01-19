@@ -6,7 +6,7 @@
     id="ToolCriteriumSuitabilityCard"
   >
     <v-card>
-      <v-container>
+      <v-container fluid>
         <v-row v-if="isInCreation()">
           <v-col cols="9">
             <div style="font-size: 1.5em; position: relative; top: 0.5em">

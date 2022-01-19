@@ -30,7 +30,7 @@
         </template>
       </v-app-bar>
       <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
-        <v-container v-show="mode === 'Export'" style="height: 25vh">
+        <v-container fluid v-show="mode === 'Export'" style="height: 25vh">
           <v-row>
             <v-radio-group v-model="radExportGroup">
               <v-radio
@@ -55,7 +55,7 @@
             <v-btn @click="exporter()"> Export </v-btn>
           </v-row>
         </v-container>
-        <v-container v-show="mode === 'Import'" style="height: 25vh">
+        <v-container fluid v-show="mode === 'Import'" style="height: 25vh">
           <v-row>
             <v-radio-group v-model="radImportGroup">
               <v-radio

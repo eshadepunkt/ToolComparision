@@ -8,7 +8,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card color="grey lighten-5">
-        <v-container>
+        <v-container fluid>
           <!-- Head -->
           <v-row>
             <v-col>

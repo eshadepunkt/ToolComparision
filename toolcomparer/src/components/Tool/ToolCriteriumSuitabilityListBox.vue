@@ -3,7 +3,7 @@
     id="ToolCriteriumSuitabilityListBox"
     style="height: 72%; background-color: #fafafa"
   >
-    <v-container>
+    <v-container fluid>
       <v-row>
         <v-col cols="12">
           <v-list style="height: 72%; overflow-y: auto">

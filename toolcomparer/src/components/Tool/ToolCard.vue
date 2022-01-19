@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" lazy-validation v-model="isValid" id="ToolCard">
     <v-card>
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
           <v-col>

@@ -1,11 +1,11 @@
 <template>
   <div id="Navigation">
     <v-card
-      style="position: relative; height: 100vh; width: 100vw"
+      style="position: relative; height: 100vh; width: 100vw;"
       class="overflow-hidden"
       color="grey lighten-5"
     >
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
           <v-col>
