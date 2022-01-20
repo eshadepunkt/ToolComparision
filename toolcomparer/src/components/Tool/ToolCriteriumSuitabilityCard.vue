@@ -7,26 +7,6 @@
   >
     <v-card>
       <v-container fluid>
-        <v-row v-if="isInCreation()">
-          <v-col cols="9">
-            <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ "Tool: " + toolKVSuitabilityItem.toolKV.value.name }}
-            </div>
-          </v-col>
-        </v-row>
-        <v-row v-if="isInCreation()">
-          <v-col cols="12">
-            <v-textarea
-              height="5em"
-              outlined
-              label="Tool description"
-              v-model="toolKVSuitabilityItem.toolKV.value.description"
-              :readonly="true"
-              no-resize
-            >
-            </v-textarea>
-          </v-col>
-        </v-row>
         <!-- Head -->
         <v-row>
           <v-col cols="9">
