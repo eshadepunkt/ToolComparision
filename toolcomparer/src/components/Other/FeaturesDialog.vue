@@ -5,6 +5,7 @@
     width="33vw"
     persistent
     transition="dialog-bottom-transition"
+    :retain-focus="false"
     id="FeaturesDialog"
   >
     <v-card class="overflow-hidden">
@@ -424,9 +425,9 @@ export default Vue.extend({
 
       return ranked;
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
       const unsorted: Array<Typ.criteriumKeyValue> =
-        this.$store.getters.getCriteria;
+        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
 
       return unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
@@ -438,7 +439,7 @@ export default Vue.extend({
         }
       });
     },
-    getMaxScore(): number {
+    getMaxScore: function (): number {
       let score = 0;
       const criteria: Array<Typ.criteriumKeyValue> =
         this.$store.getters.getCriteria;

@@ -6,6 +6,7 @@
       width="50vw"
       persistent
       transition="dialog-bottom-transition"
+      :retain-focus="false"
     >
       <v-card color="grey lighten-5">
         <v-container fluid>
@@ -132,7 +133,7 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-      isInSuitabilityCreation: this.forceSkipToSuitabilities as boolean,
+      isInSuitabilityCreation: (this.forceSkipToSuitabilities && this.showDialog) as boolean,
 
       icons: {
         mdiAccount,

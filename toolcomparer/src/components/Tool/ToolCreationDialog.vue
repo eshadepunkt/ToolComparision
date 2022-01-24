@@ -6,6 +6,7 @@
       height="67vh"
       width="50vw"
       persistent
+      :retain-focus="false"
       transition="dialog-bottom-transition"
     >
       <v-card color="grey lighten-5">
@@ -151,7 +152,7 @@ export default Vue.extend({
 
       noSecHash,
 
-      isInSuitabilityCreation: this.forceSkipToSuitabilities as boolean,
+      isInSuitabilityCreation: (this.forceSkipToSuitabilities && this.showDialog) as boolean,
     };
   },
 

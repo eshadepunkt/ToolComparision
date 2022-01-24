@@ -5,6 +5,7 @@
     width="33vw"
     persistent
     transition="dialog-bottom-transition"
+    :retain-focus="false"
     id="Settings"
   >
     <v-card class="overflow-hidden">

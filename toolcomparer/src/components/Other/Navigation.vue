@@ -221,11 +221,11 @@ export default Vue.extend({
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
       console.log("Criteria changes detected");
-      return this.$store.getters.getCriteria;
+      return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
       console.log("Tools changes detected");
-      return this.$store.getters.getTools;
+      return JSON.parse(JSON.stringify(this.$store.getters.getTools));
     },
   },
 });

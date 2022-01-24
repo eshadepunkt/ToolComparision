@@ -5,6 +5,7 @@
       height="100vh"
       width="50vw"
       persistent
+      :retain-focus="false"
       transition="dialog-bottom-transition"
     >
       <v-card color="grey lighten-5">

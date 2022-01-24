@@ -71,7 +71,6 @@ export default Vue.extend({
   data() {
     return {
       currentView: "DataIterator" as string,
-      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
 
       uuidNIL,
       Typ,
@@ -345,7 +344,7 @@ export default Vue.extend({
   computed: {
     getResults: function (): Array<Typ.toolRating> {
       const raw = JSON.parse(
-        JSON.stringify(this.tools)
+        JSON.stringify(this.$store.getters.getTools)
       ) as Array<Typ.toolKeyValue>;
       let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
 
@@ -413,13 +412,15 @@ export default Vue.extend({
         });
       }
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
       const unsorted: Array<Typ.criteriumKeyValue> =
-        this.$store.getters.getCriteria;
+        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
 
-      return this.getSortedCriteria(unsorted);
+      const sorted: Array<Typ.criteriumKeyValue> = this.getSortedCriteria(unsorted);
+
+      return sorted;
     },
-    getMaxScore(): number {
+    getMaxScore: function (): number {
       let score = 0;
       const criteria: Array<Typ.criteriumKeyValue> =
         this.$store.getters.getCriteria;
