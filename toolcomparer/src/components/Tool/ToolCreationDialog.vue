@@ -127,6 +127,10 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -147,7 +151,7 @@ export default Vue.extend({
 
       noSecHash,
 
-      isInSuitabilityCreation: false as boolean,
+      isInSuitabilityCreation: this.forceSkipToSuitabilities as boolean,
     };
   },
 

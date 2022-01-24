@@ -119,6 +119,10 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -128,7 +132,7 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-      isInSuitabilityCreation: false,
+      isInSuitabilityCreation: this.forceSkipToSuitabilities as boolean,
 
       icons: {
         mdiAccount,
