@@ -146,6 +146,10 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -267,8 +271,10 @@ export default Vue.extend({
     },
     setCurrentSuitability() {
       this.currentSuitabilityIndex++;
-      this.btnNextText =
-        this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
+      this.btnPrevText =
+        (this.mode === Typ.simpleEditMode.UpdateSingle 
+          || this.forceSkipToSuitabilities && this.currentSuitabilityIndex <= 0) 
+            ? "Cancel" : "Go Back";
       this.btnNextText =
         this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
 

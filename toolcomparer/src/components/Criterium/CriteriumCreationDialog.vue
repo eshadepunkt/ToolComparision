@@ -55,6 +55,7 @@
         :showDialog="isInSuitabilityCreation"
         :propCriteriumKV="criteriumKV"
         :tools="tools"
+        :forceSkipToSuitabilities="forceSkipToSuitabilities"
         v-on:closeDialog="saveAndCloseDialog"
       />
     </template>
@@ -175,8 +176,12 @@ export default Vue.extend({
     },
     saveAndCloseDialog(finished: boolean) {
       if (!finished) {
-        this.isInSuitabilityCreation = false;
-        return;
+        if (!this.forceSkipToSuitabilities) {
+          this.isInSuitabilityCreation = false;
+          return;
+        }
+        
+        this.closeDialog();
       }
 
       const propHash = this.noSecHash(this.propCriteriumKV);
@@ -244,6 +249,11 @@ export default Vue.extend({
         this.updateCriteriumKV();
       },
       deep: true,
+    },
+    showDialog: {
+      handler() {
+        this.isInSuitabilityCreation = (this.forceSkipToSuitabilities && this.showDialog);
+      }, 
     },
   },
 
