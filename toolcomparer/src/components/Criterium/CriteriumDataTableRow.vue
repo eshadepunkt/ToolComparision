@@ -54,6 +54,7 @@
       :propCriteriumKV="propCriteriumKV"
       :workflow="workflow"
       :tools="tools"
+      :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
   </tr>
@@ -102,6 +103,10 @@ export default Vue.extend({
       type: Array as () => Array<Typ.toolKeyValue>,
     },
     showConnectedTools: {
+      type: Boolean,
+      default: false,
+    },
+    forceSkipToSuitabilities: {
       type: Boolean,
       default: false,
     },

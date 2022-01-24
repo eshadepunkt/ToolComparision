@@ -204,7 +204,9 @@ export default Vue.extend({
       let sorted = rated.sort((a, b) => {
         if (a.score.isExcluded === b.score.isExcluded) {
           let result: number = b.score.currentValue - a.score.currentValue;
-          return result !== 0 ? result : a.toolKV.value.name.localeCompare(b.toolKV.value.name);
+          return result !== 0
+            ? result
+            : a.toolKV.value.name.localeCompare(b.toolKV.value.name);
         } else if (a.score.isExcluded) {
           return 1;
         } else {
@@ -221,9 +223,11 @@ export default Vue.extend({
     ): Array<Typ.criteriumKeyValue> {
       return unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-            let result: number = b.value.importance - a.value.importance;
-            return result !== 0 ? result : a.value.name.localeCompare(b.value.name);
-        }  else if (a.value.isExclusionCriterium) {
+          let result: number = b.value.importance - a.value.importance;
+          return result !== 0
+            ? result
+            : a.value.name.localeCompare(b.value.name);
+        } else if (a.value.isExclusionCriterium) {
           return -1;
         } else {
           return 1;
@@ -236,10 +240,15 @@ export default Vue.extend({
       unsorted: Array<Typ.toolCriteriumSuitability>
     ): Array<Typ.toolCriteriumSuitability> {
       return unsorted.sort((a, b) => {
-        if (a.criteriumKV.value.isExclusionCriterium ===
-            b.criteriumKV.value.isExclusionCriterium) {
-            let result: number = b.criteriumKV.value.importance - a.criteriumKV.value.importance;
-            return result !== 0 ? result : a.criteriumKV.value.name.localeCompare(b.criteriumKV.value.name);
+        if (
+          a.criteriumKV.value.isExclusionCriterium ===
+          b.criteriumKV.value.isExclusionCriterium
+        ) {
+          let result: number =
+            b.criteriumKV.value.importance - a.criteriumKV.value.importance;
+          return result !== 0
+            ? result
+            : a.criteriumKV.value.name.localeCompare(b.criteriumKV.value.name);
         } else if (a.criteriumKV.value.isExclusionCriterium) {
           return -1;
         } else {

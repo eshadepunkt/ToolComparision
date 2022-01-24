@@ -27,6 +27,7 @@
             "
             :propToolKV="tool"
             :criteria="criteria"
+            :forceSkipToSuitabilities="true"
             class="text-left"
           />
         </tbody>
@@ -54,6 +55,7 @@
             :editMode="Typ.simpleEditMode.Add"
             :tools="tools"
             :showConnectedTools="true"
+            :forceSkipToSuitabilities="true"
             class="text-left"
           />
         </tbody>

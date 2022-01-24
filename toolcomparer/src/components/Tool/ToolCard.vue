@@ -78,20 +78,6 @@
             </v-textarea>
           </v-col>
         </v-row>
-
-        <v-row>
-          <v-col cols="12">
-            <ToolCriteriumSuitabilityListBox
-              v-if="
-                !isInCreation() &&
-                !isMinimized() &&
-                this.propToolKV.value.criteriaSuitabilities &&
-                this.propToolKV.value.criteriaSuitabilities.length > 0
-              "
-              :propToolKV="toolKV"
-            />
-          </v-col>
-        </v-row>
       </v-container>
     </v-card>
   </v-form>
@@ -114,14 +100,8 @@ import {
 
 import Vue from "vue";
 
-import ToolCriteriumSuitabilityListBox from "./ToolCriteriumSuitabilityListBox.vue";
-
 export default Vue.extend({
   name: "ToolCard",
-
-  components: {
-    ToolCriteriumSuitabilityListBox,
-  },
 
   //PROPS
   props: {
