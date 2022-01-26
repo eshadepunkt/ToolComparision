@@ -228,7 +228,7 @@ export default Vue.extend({
           this.$refs.form as Vue & { resetValidation: () => void }
         ).resetValidation();
       } catch {
-        console.log("Validation reseted");
+        console.log("");
       }
     },
     reset() {

@@ -220,11 +220,9 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      console.log("Criteria changes detected");
       return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      console.log("Tools changes detected");
       return JSON.parse(JSON.stringify(this.$store.getters.getTools));
     },
   },

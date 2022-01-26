@@ -134,7 +134,8 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-      isInSuitabilityCreation: (this.forceSkipToSuitabilities && this.showDialog) as boolean,
+      isInSuitabilityCreation: (this.forceSkipToSuitabilities &&
+        this.showDialog) as boolean,
 
       icons: {
         mdiAccount,
@@ -180,7 +181,7 @@ export default Vue.extend({
           this.isInSuitabilityCreation = false;
           return;
         }
-        
+
         this.closeDialog();
       }
 
@@ -252,8 +253,9 @@ export default Vue.extend({
     },
     showDialog: {
       handler() {
-        this.isInSuitabilityCreation = (this.forceSkipToSuitabilities && this.showDialog);
-      }, 
+        this.isInSuitabilityCreation =
+          this.forceSkipToSuitabilities && this.showDialog;
+      },
     },
   },
 

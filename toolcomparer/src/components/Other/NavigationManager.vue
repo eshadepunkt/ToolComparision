@@ -2,24 +2,50 @@
   <div id="PageManager">
     <Comparision v-show="currentPage === 'Comparision'" height="80vh" />
     <div v-show="currentPage === 'Criteria' || currentPage === 'Tools'">
-      <WorkflowManager
-        height="80vh"
-        :currentDataTable="currentPage"
-        :criteria="getCriteria"
-        :tools="getTools"
-        :showDialog="showDialog"
-        :workflow="currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'"
-        v-on:closeDialog="showDialog = false"
-      />
-      <v-btn
-        @click="showDialog = true"
-        class="rounded-circle"
-        height="66"
-        width="66"
-        style="position: absolute; bottom: 50px; right: 25px"
-      >
-        <v-icon>{{ icons.mdiPlus }}</v-icon>
-      </v-btn>
+      <v-container fluid>
+        <v-row>
+          <v-col>
+            <FilterHeader
+              :sortItems="currentSortItems"
+              :search="search"
+              :sortDesc="sortDesc"
+              :sortBy="sortBy"
+              :lblSearch="
+                currentPage === 'Criteria' ? 'Search criterium' : 'Search tool'
+              "
+              :lblSort="'Sort by'"
+              v-on:searchChanged="searchChanged"
+              v-on:sortDescChanged="sortDescChanged"
+              v-on:sortByChanged="sortByChanged"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card style="height: 60vh; overflow-y: auto">
+              <WorkflowManager
+                :currentDataTable="currentPage"
+                :criteria="getFilteredCriteria"
+                :tools="getFilteredTools"
+                :showDialog="showDialog"
+                :workflow="
+                  currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'
+                "
+                v-on:closeDialog="showDialog = false"
+              />
+            </v-card>
+            <v-btn
+              @click="showDialog = true"
+              class="rounded-circle"
+              height="66"
+              width="66"
+              style="position: absolute; bottom: 10px; right: 25px"
+            >
+              <v-icon>{{ icons.mdiPlus }}</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <CombineDataTable
       v-show="currentPage === 'Combine Data'"
@@ -55,6 +81,7 @@ import CriteriumDataTable from "../Criterium/CriteriumDataTable.vue";
 import ToolDataTable from "../Tool/ToolDataTable.vue";
 import WorkflowManager from "./WorkflowManager.vue";
 import CombineDataTable from "./CombineDataTable.vue";
+import FilterHeader from "./FilterHeader.vue";
 
 export default Vue.extend({
   name: "PageManager",
@@ -65,6 +92,7 @@ export default Vue.extend({
     ToolDataTable,
     WorkflowManager,
     CombineDataTable,
+    FilterHeader,
   },
 
   props: {
@@ -88,11 +116,25 @@ export default Vue.extend({
     closeDialog() {
       this.$emit("closeDialog");
     },
+
+    searchChanged(val: string) {
+      this.search = val;
+    },
+    sortDescChanged(val: boolean) {
+      this.sortDesc = val;
+    },
+    sortByChanged(val: string) {
+      this.sortBy = val;
+    },
   },
 
   //DATA
   data() {
     return {
+      search: "",
+      sortDesc: true,
+      sortBy: "",
+
       icons: {
         mdiAccount,
         mdiPencil,
@@ -111,11 +153,100 @@ export default Vue.extend({
 
   //COMPUTED
   computed: {
-    getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      return this.criteria;
+    currentSortItems: function (): Array<Typ.ISortItem> {
+      if (this.currentPage === "Criteria") {
+        return new Array<Typ.ISortItem>(
+          {
+            key: "name",
+            value: {
+              name: "name",
+            },
+          } as Typ.ISortItem,
+          {
+            key: "importance",
+            value: {
+              name: "importance",
+            },
+          } as Typ.ISortItem
+        );
+      } else {
+        return new Array<Typ.ISortItem>({
+          key: "name",
+          value: {
+            name: "name",
+          },
+        } as Typ.ISortItem);
+      }
     },
-    getTools: function (): Array<Typ.toolKeyValue> {
-      return this.tools;
+    getFilteredCriteria: function (): Array<Typ.criteriumKeyValue> {
+      let unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.criteria)
+      );
+
+      const filtered = unsorted.filter((x) =>
+        Typ.stringContains(x.value.name, this.search)
+      );
+
+      const sortInt = this.sortDesc ? -1 : 1;
+
+      if (this.sortBy !== "") {
+        return filtered.sort(
+          (a: Typ.criteriumKeyValue, b: Typ.criteriumKeyValue) => {
+            if (this.sortBy === "name") {
+              return a.value.name.localeCompare(b.value.name) * sortInt;
+            }
+            //else if (this.sortBy === "importance")
+            else {
+              if (
+                a.value.isExclusionCriterium === b.value.isExclusionCriterium
+              ) {
+                let result: number =
+                  (a.value.importance - b.value.importance) * sortInt;         
+
+                return result !== 0
+                  ? result
+                  : a.value.name.localeCompare(b.value.name);
+              } else if (a.value.isExclusionCriterium) {
+                return -1 * sortInt;
+              } else {
+                return 1 * sortInt;
+              }
+            }
+          }
+        );
+      }
+
+      return filtered;
+    },
+    getFilteredTools: function (): Array<Typ.toolKeyValue> {
+      let unsorted: Array<Typ.toolKeyValue> = JSON.parse(
+        JSON.stringify(this.tools)
+      );
+
+      const filtered = unsorted.filter((x) =>
+        Typ.stringContains(x.value.name, this.search)
+      );
+
+      const sortInt = this.sortDesc ? -1 : 1;
+
+      if (this.sortBy === "name") {
+        return filtered.sort((a: Typ.toolKeyValue, b: Typ.toolKeyValue) => {
+          return a.value.name.localeCompare(b.value.name) * sortInt;
+        });
+      }
+
+      return filtered;
+    },
+  },
+
+  //WATCH
+  watch: {
+    sortBy: function (newVal) {
+      if (newVal !== "") {
+        if (newVal !== "name") {
+          this.sortBy = "";
+        }
+      }
     },
   },
 });

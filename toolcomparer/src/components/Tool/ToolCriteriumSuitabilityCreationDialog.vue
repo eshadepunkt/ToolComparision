@@ -210,8 +210,6 @@ export default Vue.extend({
           if (
             this.currentSuitabilityIndex === this.updateSuitabilities.length
           ) {
-            console.log("Changes pushed");
-
             this.updateSuitabilities.push(this.currentSuitability);
           } else {
             this.updateSuitabilities[this.currentSuitabilityIndex] =
@@ -227,8 +225,6 @@ export default Vue.extend({
           this.closeDialog(true);
         } else {
           this.setCurrentSuitability();
-
-          console.log("CurrentSuitIndex: " + this.currentSuitabilityIndex);
 
           const length: number =
             this.workflow === "CriteriaFirst"
@@ -272,9 +268,10 @@ export default Vue.extend({
     setCurrentSuitability() {
       this.currentSuitabilityIndex++;
       this.btnPrevText =
-        (this.mode === Typ.simpleEditMode.UpdateSingle 
-          || this.forceSkipToSuitabilities && this.currentSuitabilityIndex <= 0) 
-            ? "Cancel" : "Go Back";
+        this.mode === Typ.simpleEditMode.UpdateSingle ||
+        (this.forceSkipToSuitabilities && this.currentSuitabilityIndex <= 0)
+          ? "Cancel"
+          : "Go Back";
       this.btnNextText =
         this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
 
@@ -327,19 +324,12 @@ export default Vue.extend({
           };
         }
 
-        console.log(
-          "After Next: " +
-            this.currentSuitabilityIndex +
-            " : " +
-            this.updateSuitabilities.length
-        );
-
         try {
           (
             this.$refs.tool_card as Vue & { resetValidation: () => boolean }
           ).resetValidation();
         } catch {
-          console.log("Validation reseted");
+          console.log("");
         }
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
@@ -360,8 +350,6 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
-      console.log("Closing");
-
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },

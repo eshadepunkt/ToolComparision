@@ -129,8 +129,6 @@ export default Vue.extend({
     getSuitabilitiesCSV: function (): string {
       let csv = "";
 
-      console.log("Something changed: " + this.criteria.length);
-
       if (
         this.propToolKV.value.criteriaSuitabilities &&
         this.propToolKV.value.criteriaSuitabilities.length > 0

@@ -229,3 +229,23 @@ export interface toolKVSuitabilityItem {
   toolKV: toolKeyValue;
   suitability: toolCriteriumSuitability;
 }
+
+export interface ISortItem {
+  key: string;
+  value: {
+    name: string;
+  };
+}
+
+export function stringContains(value: string, searchFor: string): boolean {
+  if (searchFor === "" || searchFor === undefined || searchFor === null) {
+    return true;
+  }
+
+  const v = (value || "").toLowerCase();
+  let v2 = searchFor;
+  if (v2) {
+    v2 = v2.toLowerCase();
+  }
+  return v.indexOf(v2) !== -1;
+}

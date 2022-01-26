@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col>
-          <ComparisionHeader
+          <FilterHeader
             :sortItems="getCriteria"
             :search="search"
             :sortDesc="sortDesc"
@@ -55,7 +55,7 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 import Header from "../Other/Header.vue";
-import ComparisionHeader from "./ComparisionHeader.vue";
+import FilterHeader from "../Other/FilterHeader.vue";
 import ComparisionManager from "./ComparisionManager.vue";
 
 export default Vue.extend({
@@ -63,7 +63,7 @@ export default Vue.extend({
 
   components: {
     Header,
-    ComparisionHeader,
+    FilterHeader,
     ComparisionManager,
   },
 
@@ -312,19 +312,6 @@ export default Vue.extend({
       //Convert IMPORT
     },
 
-    stringContains(value: string, searchFor: string): boolean {
-      if (searchFor === "" || searchFor === undefined || searchFor === null) {
-        return true;
-      }
-
-      var v = (value || "").toLowerCase();
-      var v2 = searchFor;
-      if (v2) {
-        v2 = v2.toLowerCase();
-      }
-      return v.indexOf(v2) !== -1;
-    },
-
     searchChanged(val: string) {
       this.search = val;
     },
@@ -375,7 +362,7 @@ export default Vue.extend({
       const results = this.getResults;
 
       const filtered = results.filter((x) =>
-        this.stringContains(x.toolKV.value.name, this.search)
+        Typ.stringContains(x.toolKV.value.name, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
@@ -413,10 +400,12 @@ export default Vue.extend({
       }
     },
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
-      const sorted: Array<Typ.criteriumKeyValue> = this.getSortedCriteria(unsorted);
+      const sorted: Array<Typ.criteriumKeyValue> =
+        this.getSortedCriteria(unsorted);
 
       return sorted;
     },

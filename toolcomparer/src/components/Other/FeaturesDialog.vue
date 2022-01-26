@@ -426,8 +426,9 @@ export default Vue.extend({
       return ranked;
     },
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
       return unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
