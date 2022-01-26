@@ -201,15 +201,15 @@ export default Vue.extend({
                 a.value.isExclusionCriterium === b.value.isExclusionCriterium
               ) {
                 let result: number =
-                  (a.value.importance - b.value.importance) * sortInt;         
+                  (b.value.importance - a.value.importance) * -1 * sortInt;     
 
                 return result !== 0
                   ? result
                   : a.value.name.localeCompare(b.value.name);
               } else if (a.value.isExclusionCriterium) {
-                return -1 * sortInt;
-              } else {
                 return 1 * sortInt;
+              } else {
+                return -1 * sortInt;
               }
             }
           }
@@ -241,9 +241,9 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    sortBy: function (newVal) {
-      if (newVal !== "") {
-        if (newVal !== "name") {
+    currentPage: function (newVal) {
+      if (newVal === "Tools") {
+        if (this.sortBy !== "" && this.sortBy !== "name") {
           this.sortBy = "";
         }
       }

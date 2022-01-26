@@ -329,7 +329,7 @@ export default Vue.extend({
             this.$refs.tool_card as Vue & { resetValidation: () => boolean }
           ).resetValidation();
         } catch {
-          console.log("");
+          //console.log("");
         }
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
