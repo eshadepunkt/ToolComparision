@@ -17,7 +17,7 @@
     <td>
       {{ getSuitabilitiesCSV }}
     </td>
-    <td>
+    <td width="125">
       <v-row>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnEdit()">
@@ -41,6 +41,7 @@
       :workflow="workflow"
       :propToolKV="propToolKV"
       :criteria="criteria"
+      :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
   </tr>
@@ -90,6 +91,10 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -123,8 +128,6 @@ export default Vue.extend({
   computed: {
     getSuitabilitiesCSV: function (): string {
       let csv = "";
-
-      console.log("Something changed: " + this.criteria.length);
 
       if (
         this.propToolKV.value.criteriaSuitabilities &&

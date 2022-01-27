@@ -6,12 +6,13 @@
       width="50vw"
       persistent
       transition="dialog-bottom-transition"
+      :retain-focus="false"
     >
       <v-card color="grey lighten-5">
-        <v-container>
+        <v-container fluid>
           <!-- Head -->
           <v-row>
-            <v-col xl="3">
+            <v-col>
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
                   {{ Typ.convertEditModeEnumToString(mode) }} Criterium
@@ -21,7 +22,7 @@
           </v-row>
           <!-- Body -->
           <v-row>
-            <v-col xl="3">
+            <v-col>
               <v-card outlined>
                 <CriteriumCard
                   ref="criterium_card"
@@ -33,16 +34,14 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
-            <v-col xl="2"> </v-col>
-            <v-col xl="1">
+            <v-card-actions>
               <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
-            </v-col>
-            <v-col xl="1"> </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn @click="btnSave()" color="teal lighten-5">
                 {{ getBtnNextTxt }}
               </v-btn>
-            </v-col>
+            </v-card-actions>
           </v-row>
         </v-container>
       </v-card>
@@ -56,6 +55,7 @@
         :showDialog="isInSuitabilityCreation"
         :propCriteriumKV="criteriumKV"
         :tools="tools"
+        :forceSkipToSuitabilities="forceSkipToSuitabilities"
         v-on:closeDialog="saveAndCloseDialog"
       />
     </template>
@@ -121,6 +121,10 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -130,7 +134,8 @@ export default Vue.extend({
         JSON.stringify(this.propCriteriumKV)
       ) as Typ.criteriumKeyValue,
       moduleState: Typ.simpleModuleState.increation as Typ.simpleModuleState,
-      isInSuitabilityCreation: false,
+      isInSuitabilityCreation: (this.forceSkipToSuitabilities &&
+        this.showDialog) as boolean,
 
       icons: {
         mdiAccount,
@@ -172,8 +177,12 @@ export default Vue.extend({
     },
     saveAndCloseDialog(finished: boolean) {
       if (!finished) {
-        this.isInSuitabilityCreation = false;
-        return;
+        if (!this.forceSkipToSuitabilities) {
+          this.isInSuitabilityCreation = false;
+          return;
+        }
+
+        this.closeDialog();
       }
 
       const propHash = this.noSecHash(this.propCriteriumKV);
@@ -241,6 +250,12 @@ export default Vue.extend({
         this.updateCriteriumKV();
       },
       deep: true,
+    },
+    showDialog: {
+      handler() {
+        this.isInSuitabilityCreation =
+          this.forceSkipToSuitabilities && this.showDialog;
+      },
     },
   },
 

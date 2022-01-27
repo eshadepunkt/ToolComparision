@@ -5,6 +5,7 @@
     width="33vw"
     persistent
     transition="dialog-bottom-transition"
+    :retain-focus="false"
     id="FeaturesDialog"
   >
     <v-card class="overflow-hidden">
@@ -30,7 +31,7 @@
         </template>
       </v-app-bar>
       <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
-        <v-container v-show="mode === 'Export'" style="height: 25vh">
+        <v-container fluid v-show="mode === 'Export'" style="height: 25vh">
           <v-row>
             <v-radio-group v-model="radExportGroup">
               <v-radio
@@ -55,7 +56,7 @@
             <v-btn @click="exporter()"> Export </v-btn>
           </v-row>
         </v-container>
-        <v-container v-show="mode === 'Import'" style="height: 25vh">
+        <v-container fluid v-show="mode === 'Import'" style="height: 25vh">
           <v-row>
             <v-radio-group v-model="radImportGroup">
               <v-radio
@@ -424,9 +425,10 @@ export default Vue.extend({
 
       return ranked;
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        this.$store.getters.getCriteria;
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
       return unsorted.sort((a, b) => {
         if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
@@ -438,7 +440,7 @@ export default Vue.extend({
         }
       });
     },
-    getMaxScore(): number {
+    getMaxScore: function (): number {
       let score = 0;
       const criteria: Array<Typ.criteriumKeyValue> =
         this.$store.getters.getCriteria;

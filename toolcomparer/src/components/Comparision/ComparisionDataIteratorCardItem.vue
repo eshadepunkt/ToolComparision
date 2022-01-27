@@ -25,13 +25,36 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <div
+              v-if="
+                suitability.fullfillment !==
+                Typ.toolCriteriumFullfillment.undefined
+              "
               v-bind:style="
                 criteriumKV.value.name === sortBy ? 'color: blue;' : ''
               "
               v-bind="attrs"
               v-on="on"
             >
-              <v-card-text v-html="getResultString()" />
+              <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                <v-card-text v-html="getResultString()" />
+              </div>
+              <div
+                v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+              >
+                <v-rating
+                  :empty-icon="icons.mdiStarOutline"
+                  :full-icon="icons.mdiStar"
+                  :half-icon="icons.mdiStarHalfFull"
+                  :value="getRatingRatio()"
+                  half-increments
+                  readonly
+                  dense
+                  x-small
+                  length="5"
+                  size="1.5em"
+                >
+                </v-rating>
+              </div>
             </div>
           </template>
           <span>
@@ -71,6 +94,9 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -116,6 +142,9 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
       },
       noSecHash,
       Typ,
@@ -133,6 +162,17 @@ export default Vue.extend({
         this.suitability.fullfillment;
 
       return min + "/" + max;
+    },
+    getRatingRatio(): number {
+      const max: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        Typ.toolCriteriumFullfillment.verygood;
+
+      const min: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        this.suitability.fullfillment;
+
+      return (min / max) * 5;
     },
     getCriteriumInfo(): string {
       const text =

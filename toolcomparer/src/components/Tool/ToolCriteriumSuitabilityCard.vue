@@ -6,27 +6,7 @@
     id="ToolCriteriumSuitabilityCard"
   >
     <v-card>
-      <v-container>
-        <v-row v-if="isInCreation()">
-          <v-col cols="9">
-            <div style="font-size: 1.5em; position: relative; top: 0.5em">
-              {{ "Tool: " + toolKVSuitabilityItem.toolKV.value.name }}
-            </div>
-          </v-col>
-        </v-row>
-        <v-row v-if="isInCreation()">
-          <v-col cols="12">
-            <v-textarea
-              height="5em"
-              outlined
-              label="Tool description"
-              v-model="toolKVSuitabilityItem.toolKV.value.description"
-              :readonly="true"
-              no-resize
-            >
-            </v-textarea>
-          </v-col>
-        </v-row>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
           <v-col cols="9">
@@ -89,10 +69,8 @@
               :items="fullfillmentItems"
               label="Fullfillment"
               v-model="selectedFullfillment"
-              :rules="
-                !$store.getters.getSettingsIsDescriptionMandatory || rules.str
-              "
-              :required="$store.getters.getSettingsIsDescriptionMandatory"
+              :rules="rules.str"
+              required
               :readonly="!isInCreation()"
               @change="updateFullfillment(selectedFullfillment)"
             >
@@ -250,7 +228,7 @@ export default Vue.extend({
           this.$refs.form as Vue & { resetValidation: () => void }
         ).resetValidation();
       } catch {
-        console.log("Validation reseted");
+        //console.log("");
       }
     },
     reset() {

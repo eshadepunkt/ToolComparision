@@ -1,21 +1,21 @@
 <template>
   <div id="Navigation">
     <v-card
-      style="position: relative; height: 100vh"
+      style="position: relative; height: 100vh; width: 100vw"
       class="overflow-hidden"
       color="grey lighten-5"
     >
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col xl="12">
+          <v-col style="position: absolute; left: 5vw; width: 90vw">
             <Header :headerText="currentPage" />
           </v-col>
         </v-row>
 
         <!-- Body -->
         <v-row>
-          <v-col xl="12">
+          <v-col>
             <v-navigation-drawer permanent expand-on-hover absolute>
               <v-list nav>
                 <v-list-item
@@ -47,7 +47,7 @@
                   <v-list-item-icon>
                     <v-icon>{{ icons.mdiHome }}</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title> Start </v-list-item-title>
+                  <v-list-item-title> Comparision </v-list-item-title>
                 </v-list-item>
                 <v-divider> </v-divider>
                 <v-list-item link v-on:click.native="currentPage = 'Criteria'">
@@ -95,7 +95,16 @@
                 </v-list-item>
               </v-list>
             </v-navigation-drawer>
-            <v-card style="height: 85vh; overflow-y: auto">
+            <v-card
+              style="
+                position: absolute;
+                left: 5vw;
+                top: 10vh;
+                height: 85vh;
+                width: 90vw;
+                overflow-y: auto;
+              "
+            >
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
@@ -211,12 +220,10 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      console.log("Criteria changes detected");
-      return this.$store.getters.getCriteria;
+      return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      console.log("Tools changes detected");
-      return this.$store.getters.getTools;
+      return JSON.parse(JSON.stringify(this.$store.getters.getTools));
     },
   },
 });

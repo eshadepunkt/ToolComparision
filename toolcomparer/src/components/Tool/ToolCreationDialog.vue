@@ -6,13 +6,14 @@
       height="67vh"
       width="50vw"
       persistent
+      :retain-focus="false"
       transition="dialog-bottom-transition"
     >
       <v-card color="grey lighten-5">
-        <v-container>
+        <v-container fluid>
           <!-- Head -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
                   {{ Typ.convertEditModeEnumToString(mode) }} tool
@@ -22,7 +23,7 @@
           </v-row>
           <!-- Body -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card outlined>
                 <ToolCard
                   ref="tool_card"
@@ -34,11 +35,10 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
-            <v-col xl="8"> </v-col>
-            <v-col xl="1">
+            <v-card-actions>
               <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn
                 v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
@@ -46,12 +46,12 @@
               >
                 Update All &amp; Close
               </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn @click="btnSave(false)" color="teal lighten-5">
                 {{ getBtnNextTxt }}
               </v-btn>
-            </v-col>
+            </v-card-actions>
           </v-row>
         </v-container>
       </v-card>
@@ -64,6 +64,7 @@
         :mode="mode"
         :showDialog="isInSuitabilityCreation"
         :criteria="criteria"
+        :forceSkipToSuitabilities="forceSkipToSuitabilities"
         v-on:closeDialog="saveAndCloseDialog"
       />
     </template>
@@ -128,6 +129,10 @@ export default Vue.extend({
     criteria: {
       type: Array as () => Array<Typ.criteriumKeyValue>,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -148,7 +153,8 @@ export default Vue.extend({
 
       noSecHash,
 
-      isInSuitabilityCreation: false as boolean,
+      isInSuitabilityCreation: (this.forceSkipToSuitabilities &&
+        this.showDialog) as boolean,
     };
   },
 
@@ -181,8 +187,12 @@ export default Vue.extend({
     },
     saveAndCloseDialog(finished: boolean) {
       if (!finished) {
-        this.isInSuitabilityCreation = false;
-        return;
+        if (!this.forceSkipToSuitabilities) {
+          this.isInSuitabilityCreation = false;
+          return;
+        }
+
+        this.closeDialog();
       }
 
       const propHash = this.noSecHash(this.propToolKV);
@@ -263,6 +273,12 @@ export default Vue.extend({
         this.updateToolKV();
       },
       deep: true,
+    },
+    showDialog: {
+      handler() {
+        this.isInSuitabilityCreation =
+          this.forceSkipToSuitabilities && this.showDialog;
+      },
     },
   },
 });

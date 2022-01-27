@@ -92,15 +92,5 @@ export default Vue.extend({
       this.$emit("closeDialog");
     },
   },
-
-  //COMPUTED
-  computed: {
-    getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      return this.criteria;
-    },
-    getTools: function (): Array<Typ.toolKeyValue> {
-      return this.tools;
-    },
-  },
 });
 </script>

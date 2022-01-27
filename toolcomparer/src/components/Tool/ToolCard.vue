@@ -1,10 +1,10 @@
 <template>
   <v-form ref="form" lazy-validation v-model="isValid" id="ToolCard">
     <v-card>
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col cols="10">
+          <v-col>
             <!-- Minimized -->
             <div
               v-if="isMinimized()"
@@ -78,20 +78,6 @@
             </v-textarea>
           </v-col>
         </v-row>
-
-        <v-row>
-          <v-col cols="12">
-            <ToolCriteriumSuitabilityListBox
-              v-if="
-                !isInCreation() &&
-                !isMinimized() &&
-                this.propToolKV.value.criteriaSuitabilities &&
-                this.propToolKV.value.criteriaSuitabilities.length > 0
-              "
-              :propToolKV="toolKV"
-            />
-          </v-col>
-        </v-row>
       </v-container>
     </v-card>
   </v-form>
@@ -114,14 +100,8 @@ import {
 
 import Vue from "vue";
 
-import ToolCriteriumSuitabilityListBox from "./ToolCriteriumSuitabilityListBox.vue";
-
 export default Vue.extend({
   name: "ToolCard",
-
-  components: {
-    ToolCriteriumSuitabilityListBox,
-  },
 
   //PROPS
   props: {
@@ -216,7 +196,7 @@ export default Vue.extend({
           this.$refs.form as Vue & { resetValidation: () => void }
         ).resetValidation();
       } catch {
-        console.log("Validation reseting");
+        //console.log("");
       }
     },
     reset() {

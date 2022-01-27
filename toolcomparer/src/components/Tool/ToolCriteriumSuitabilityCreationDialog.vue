@@ -5,16 +5,22 @@
       height="100vh"
       width="50vw"
       persistent
+      :retain-focus="false"
       transition="dialog-bottom-transition"
     >
       <v-card color="grey lighten-5">
-        <v-container>
+        <v-container fluid>
           <!-- Head -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card color="indigo darken-4">
                 <h1 style="text-align: center; color: white">
-                  {{ Typ.convertEditModeEnumToString(mode) }} tool criterium
+                  {{
+                    Typ.convertEditModeEnumToString(mode) +
+                    " [" +
+                    toolKV.value.name +
+                    "] "
+                  }}
                   suitability
                 </h1>
               </v-card>
@@ -22,7 +28,7 @@
           </v-row>
           <!-- Body -->
           <v-row>
-            <v-col xl="12">
+            <v-col>
               <v-card outlined>
                 <ToolCriteriumSuitabilityCard
                   ref="tool_card"
@@ -35,13 +41,12 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
-            <v-col xl="8"> </v-col>
-            <v-col xl="1">
+            <v-card-actions>
               <v-btn @click="btnGoBack()" color="red lighten-5">
                 {{ btnPrevText }}
               </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn
                 v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
@@ -49,12 +54,12 @@
               >
                 Update All &amp; Close
               </v-btn>
-            </v-col>
-            <v-col xl="1">
+            </v-card-actions>
+            <v-card-actions>
               <v-btn @click="btnSave()" color="teal lighten-5">
                 {{ btnNextText }}
               </v-btn>
-            </v-col>
+            </v-card-actions>
           </v-row>
         </v-container>
       </v-card>
@@ -141,6 +146,10 @@ export default Vue.extend({
       type: String,
       default: "CriteriaFirst",
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -201,8 +210,6 @@ export default Vue.extend({
           if (
             this.currentSuitabilityIndex === this.updateSuitabilities.length
           ) {
-            console.log("Changes pushed");
-
             this.updateSuitabilities.push(this.currentSuitability);
           } else {
             this.updateSuitabilities[this.currentSuitabilityIndex] =
@@ -218,8 +225,6 @@ export default Vue.extend({
           this.closeDialog(true);
         } else {
           this.setCurrentSuitability();
-
-          console.log("CurrentSuitIndex: " + this.currentSuitabilityIndex);
 
           const length: number =
             this.workflow === "CriteriaFirst"
@@ -262,8 +267,11 @@ export default Vue.extend({
     },
     setCurrentSuitability() {
       this.currentSuitabilityIndex++;
-      this.btnNextText =
-        this.mode === Typ.simpleEditMode.UpdateSingle ? "Cancel" : "Go Back";
+      this.btnPrevText =
+        this.mode === Typ.simpleEditMode.UpdateSingle ||
+        (this.forceSkipToSuitabilities && this.currentSuitabilityIndex <= 0)
+          ? "Cancel"
+          : "Go Back";
       this.btnNextText =
         this.mode === Typ.simpleEditMode.UpdateSingle ? "Update" : "Next";
 
@@ -316,19 +324,12 @@ export default Vue.extend({
           };
         }
 
-        console.log(
-          "After Next: " +
-            this.currentSuitabilityIndex +
-            " : " +
-            this.updateSuitabilities.length
-        );
-
         try {
           (
             this.$refs.tool_card as Vue & { resetValidation: () => boolean }
           ).resetValidation();
         } catch {
-          console.log("Validation reseted");
+          //console.log("");
         }
 
         this.suitabilityHash = noSecHash(this.currentSuitability);
@@ -349,8 +350,6 @@ export default Vue.extend({
       return this.currentSuitability;
     },
     closeDialog(finished: boolean) {
-      console.log("Closing");
-
       this.resetToolKV();
       this.$emit("closeDialog", finished);
     },

@@ -1,17 +1,17 @@
 <template>
   <div id="Workflow">
     <v-card min-height="100vh" color="grey lighten-5">
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col xl="12">
+          <v-col>
             <Header :headerText="currentListBox" />
           </v-col>
         </v-row>
 
         <!-- Body -->
         <v-row>
-          <v-col xl="12">
+          <v-col>
             <v-card style="height: 71vh; overflow-y: auto">
               <WorkflowManager
                 :currentDataTable="currentListBox"
@@ -31,28 +31,28 @@
           align-content="space-between"
           justify="space-between"
         >
-          <v-col xl="1">
+          <v-card-actions>
             <v-btn @click="navigateForward(false)" color="red lighten-5">
               {{ btnBackTxt }}
             </v-btn>
-          </v-col>
-          <v-col xl="1">
+          </v-card-actions>
+          <v-card-actions>
             <v-btn @click="showDialog = true" color="teal lighten-5">
               {{ btnAddTxt }}
             </v-btn>
-          </v-col>
-          <v-col xl="1">
+          </v-card-actions>
+          <v-card-actions>
             <v-btn @click="navigateForward()" color="blue lighten-5">
               {{ btnNextTxt }}
             </v-btn>
-          </v-col>
+          </v-card-actions>
         </v-row>
         <v-row
           align="center"
           align-content="space-between"
           justify="space-between"
         >
-          <v-col xl="1">
+          <v-card-actions>
             <v-btn @click="importer()"> Import </v-btn>
             <input
               ref="uploader"
@@ -61,10 +61,10 @@
               accept=".json"
               @change="onFileChanged"
             />
-          </v-col>
-          <v-col xl="1">
+          </v-card-actions>
+          <v-card-actions>
             <v-btn @click="exporter()"> Export </v-btn>
-          </v-col>
+          </v-card-actions>
         </v-row>
       </v-container>
     </v-card>
@@ -245,12 +245,10 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getCriteria: function (): Array<Typ.criteriumKeyValue> {
-      console.log("Criteria changes detected");
-      return this.$store.getters.getCriteria;
+      return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      console.log("Tools changes detected");
-      return this.$store.getters.getTools;
+      return JSON.parse(JSON.stringify(this.$store.getters.getTools));
     },
   },
 

@@ -5,6 +5,7 @@
     width="33vw"
     persistent
     transition="dialog-bottom-transition"
+    :retain-focus="false"
     id="Settings"
   >
     <v-card class="overflow-hidden">
@@ -30,7 +31,7 @@
         </template>
       </v-app-bar>
       <v-sheet id="scrolling-techniques-4" class="overflow-y-auto">
-        <v-container v-show="mode === 'Workflow'" style="height: 40vh">
+        <v-container fluid v-show="mode === 'Workflow'" style="height: 40vh">
           <v-row>
             <v-col>
               <v-select
@@ -63,7 +64,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-container v-show="mode === 'Comparision'" style="height: 40vh">
+        <v-container fluid v-show="mode === 'Comparision'" style="height: 40vh">
           <v-row>
             <v-col>
               <v-switch v-model="isColorChips" :label="'Color chips'">

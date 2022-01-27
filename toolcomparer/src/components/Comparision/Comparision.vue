@@ -1,9 +1,9 @@
 <template>
   <div id="Comparision">
-    <v-container>
+    <v-container fluid>
       <v-row>
-        <v-col xl="12">
-          <ComparisionHeader
+        <v-col>
+          <FilterHeader
             :sortItems="getCriteria"
             :search="search"
             :sortDesc="sortDesc"
@@ -15,8 +15,8 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col xl="12">
-          <v-card style="height: 59vh; overflow-y: auto">
+        <v-col>
+          <v-card style="height: 60vh; overflow-y: auto">
             <ComparisionManager
               :currentView="currentView"
               :results="getFilteredResults"
@@ -37,11 +37,11 @@
         align-content="space-between"
         justify="space-between"
       >
-        <v-col xl="1">
+        <v-card-actions>
           <v-btn @click="changeView()" color="blue lighten-5">
             Change View
           </v-btn>
-        </v-col>
+        </v-card-actions>
       </v-row>
     </v-container>
   </div>
@@ -55,7 +55,7 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 import Header from "../Other/Header.vue";
-import ComparisionHeader from "./ComparisionHeader.vue";
+import FilterHeader from "../Other/FilterHeader.vue";
 import ComparisionManager from "./ComparisionManager.vue";
 
 export default Vue.extend({
@@ -63,7 +63,7 @@ export default Vue.extend({
 
   components: {
     Header,
-    ComparisionHeader,
+    FilterHeader,
     ComparisionManager,
   },
 
@@ -71,7 +71,6 @@ export default Vue.extend({
   data() {
     return {
       currentView: "DataIterator" as string,
-      tools: this.$store.getters.getTools as Array<Typ.toolKeyValue>,
 
       uuidNIL,
       Typ,
@@ -95,6 +94,25 @@ export default Vue.extend({
 
       return {
         toolKV: toolKV,
+        score: score,
+        rank: -1,
+      } as Typ.toolRating;
+    },
+    getRatingPlaceholder(toolKV: Typ.toolKeyValue): Typ.toolRating {
+      let placeholder: Typ.toolKeyValue = JSON.parse(JSON.stringify(toolKV));
+      let realData: Array<Typ.toolCriteriumSuitability> =
+        this.filterUnusedSuitabilities(toolKV);
+      placeholder.value.criteriaSuitabilities =
+        this.addPlaceholderSuitabilities(realData);
+
+      let score: Typ.score = {
+        currentValue: -1,
+        maxValue: -1,
+        isExcluded: true,
+      };
+
+      return {
+        toolKV: placeholder,
         score: score,
         rank: -1,
       } as Typ.toolRating;
@@ -131,6 +149,30 @@ export default Vue.extend({
 
       return filtered;
     },
+    addPlaceholderSuitabilities(
+      realData: Array<Typ.toolCriteriumSuitability>
+    ): Array<Typ.toolCriteriumSuitability> {
+      let toolCriteriumSuitabilites: Array<Typ.toolCriteriumSuitability> =
+        realData;
+
+      let missing = this.getCriteria.filter(
+        (x) =>
+          toolCriteriumSuitabilites.findIndex(
+            (y) => y.criteriumKV.key === x.key
+          ) === -1
+      );
+
+      missing.forEach((element) => {
+        let placeholder: Typ.toolCriteriumSuitability = {
+          criteriumKV: element,
+          fullfillment: Typ.toolCriteriumFullfillment.undefined,
+          justification: "",
+        };
+        toolCriteriumSuitabilites.push(placeholder);
+      });
+
+      return toolCriteriumSuitabilites;
+    },
     getScore(toolKV: Typ.toolKeyValue): Typ.score {
       let currentScore = 0;
       let suitabilities = toolKV.value.criteriaSuitabilities;
@@ -156,10 +198,14 @@ export default Vue.extend({
     },
 
     //NOTE: Sort DESCending
+    //Sorts Ratings for Ranking
     getSorted(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
       let sorted = rated.sort((a, b) => {
         if (a.score.isExcluded === b.score.isExcluded) {
-          return b.score.currentValue - a.score.currentValue;
+          let result: number = b.score.currentValue - a.score.currentValue;
+          return result !== 0
+            ? result
+            : a.toolKV.value.name.localeCompare(b.toolKV.value.name);
         } else if (a.score.isExcluded) {
           return 1;
         } else {
@@ -168,6 +214,46 @@ export default Vue.extend({
       });
 
       return sorted;
+    },
+    //NOTE: Sort DESCending
+    //Sorts Criteria for Importance
+    getSortedCriteria(
+      unsorted: Array<Typ.criteriumKeyValue>
+    ): Array<Typ.criteriumKeyValue> {
+      return unsorted.sort((a, b) => {
+        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
+          let result: number = b.value.importance - a.value.importance;
+          return result !== 0
+            ? result
+            : a.value.name.localeCompare(b.value.name);
+        } else if (a.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    },
+    //NOTE: Sort DESCending
+    //Sorts (Suitability-) Criteria for Importance
+    getSortedSuitabilities(
+      unsorted: Array<Typ.toolCriteriumSuitability>
+    ): Array<Typ.toolCriteriumSuitability> {
+      return unsorted.sort((a, b) => {
+        if (
+          a.criteriumKV.value.isExclusionCriterium ===
+          b.criteriumKV.value.isExclusionCriterium
+        ) {
+          let result: number =
+            b.criteriumKV.value.importance - a.criteriumKV.value.importance;
+          return result !== 0
+            ? result
+            : a.criteriumKV.value.name.localeCompare(b.criteriumKV.value.name);
+        } else if (a.criteriumKV.value.isExclusionCriterium) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
     },
     //NOTE: Sorted array
     getRanked(rated: Array<Typ.toolRating>): Array<Typ.toolRating> {
@@ -226,19 +312,6 @@ export default Vue.extend({
       //Convert IMPORT
     },
 
-    stringContains(value: string, searchFor: string): boolean {
-      if (searchFor === "" || searchFor === undefined || searchFor === null) {
-        return true;
-      }
-
-      var v = (value || "").toLowerCase();
-      var v2 = searchFor;
-      if (v2) {
-        v2 = v2.toLowerCase();
-      }
-      return v.indexOf(v2) !== -1;
-    },
-
     searchChanged(val: string) {
       this.search = val;
     },
@@ -258,7 +331,7 @@ export default Vue.extend({
   computed: {
     getResults: function (): Array<Typ.toolRating> {
       const raw = JSON.parse(
-        JSON.stringify(this.tools)
+        JSON.stringify(this.$store.getters.getTools)
       ) as Array<Typ.toolKeyValue>;
       let converted: Array<Typ.toolRating> = Array<Typ.toolRating>();
 
@@ -268,13 +341,20 @@ export default Vue.extend({
           let rated = this.getRated(toolKV);
           converted.push(rated);
         } else {
-          //TO DO
-          //REDIRECT AND INFORM
+          let placeholder = this.getRatingPlaceholder(toolKV);
+          converted.push(placeholder);
         }
       });
 
       const sorted = this.getSorted(converted);
       const ranked = this.getRanked(sorted);
+
+      ranked.forEach((element) => {
+        element.toolKV.value.criteriaSuitabilities =
+          this.getSortedSuitabilities(
+            element.toolKV.value.criteriaSuitabilities
+          );
+      });
 
       return ranked;
     },
@@ -282,7 +362,7 @@ export default Vue.extend({
       const results = this.getResults;
 
       const filtered = results.filter((x) =>
-        this.stringContains(x.toolKV.value.name, this.search)
+        Typ.stringContains(x.toolKV.value.name, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
@@ -319,21 +399,17 @@ export default Vue.extend({
         });
       }
     },
-    getCriteria(): Array<Typ.criteriumKeyValue> {
-      const unsorted: Array<Typ.criteriumKeyValue> =
-        this.$store.getters.getCriteria;
+    getCriteria: function (): Array<Typ.criteriumKeyValue> {
+      const unsorted: Array<Typ.criteriumKeyValue> = JSON.parse(
+        JSON.stringify(this.$store.getters.getCriteria)
+      );
 
-      return unsorted.sort((a, b) => {
-        if (a.value.isExclusionCriterium === b.value.isExclusionCriterium) {
-          return b.value.importance - a.value.importance;
-        } else if (a.value.isExclusionCriterium) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
+      const sorted: Array<Typ.criteriumKeyValue> =
+        this.getSortedCriteria(unsorted);
+
+      return sorted;
     },
-    getMaxScore(): number {
+    getMaxScore: function (): number {
       let score = 0;
       const criteria: Array<Typ.criteriumKeyValue> =
         this.$store.getters.getCriteria;

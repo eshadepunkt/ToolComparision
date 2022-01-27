@@ -1,5 +1,5 @@
 <template>
-  <div id="ComparisionHeader">
+  <div id="FilterHeader">
     <v-toolbar dark color="blue darken-3" class="mb-1">
       <v-text-field
         v-model="hsearch"
@@ -8,7 +8,7 @@
         solo-inverted
         hide-details
         prepend-inner-icon="mdi-magnify"
-        label="Search tool"
+        :label="lblSearch"
       >
       </v-text-field>
       <template v-if="$vuetify.breakpoint.mdAndUp">
@@ -20,7 +20,7 @@
           hide-details
           :items="[''].concat(sortItems.map((x) => x.value.name))"
           prepend-inner-icon="mdi-magnify"
-          label="Sort by criteria"
+          :label="lblSort"
         >
         </v-select>
         <v-spacer></v-spacer>
@@ -43,13 +43,13 @@ import * as Typ from "../../types/index";
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "ComparisionHeader",
+  name: "FilterHeader",
 
   props: {
     sortItems: {
-      type: Array as () => Array<Typ.criteriumKeyValue>,
+      type: Array as () => Array<Typ.ISortItem>,
       default() {
-        return new Array<Typ.criteriumKeyValue>();
+        return new Array<Typ.ISortItem>();
       },
     },
     search: {
@@ -60,6 +60,14 @@ export default Vue.extend({
     },
     sortBy: {
       type: String,
+    },
+    lblSearch: {
+      type: String,
+      default: "Search tool",
+    },
+    lblSort: {
+      type: String,
+      default: "Sort by criteria",
     },
   },
 

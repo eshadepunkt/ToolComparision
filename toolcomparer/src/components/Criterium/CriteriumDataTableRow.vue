@@ -22,7 +22,7 @@
     <td v-if="showConnectedTools">
       {{ getToolsCSV }}
     </td>
-    <td>
+    <td width="125">
       <v-row>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnEdit()">
@@ -54,6 +54,7 @@
       :propCriteriumKV="propCriteriumKV"
       :workflow="workflow"
       :tools="tools"
+      :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
   </tr>
@@ -70,6 +71,9 @@ import {
   mdiShareVariant,
   mdiDelete,
   mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -102,6 +106,10 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    forceSkipToSuitabilities: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   //DATA
@@ -116,6 +124,9 @@ export default Vue.extend({
         mdiShareVariant,
         mdiDelete,
         mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
       },
       Typ,
     };

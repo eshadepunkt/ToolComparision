@@ -1,10 +1,10 @@
 <template>
   <v-form ref="form" lazy-validation v-model="isValid" id="CriteriumCard">
     <v-card>
-      <v-container>
+      <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col cols="11">
+          <v-col>
             <!-- Minimized -->
             <div
               v-if="isMinimized()"
@@ -204,7 +204,7 @@ export default Vue.extend({
           this.$refs.form as Vue & { resetValidation: () => void }
         ).resetValidation();
       } catch {
-        console.log("Validation reseting");
+        //console.log("");
       }
     },
     reset() {

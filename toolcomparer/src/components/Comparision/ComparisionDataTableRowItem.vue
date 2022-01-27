@@ -4,6 +4,10 @@
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-chip
+            v-if="
+              suitability.fullfillment !==
+              Typ.toolCriteriumFullfillment.undefined
+            "
             :style="
               getColor() +
               (result.score.isExcluded
@@ -13,7 +17,24 @@
                 : '')
             "
           >
-            {{ getResultString(result, criteriumKV) }}
+            <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+              {{ getResultString(result, criteriumKV) }}
+            </div>
+            <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+              <v-rating
+                :empty-icon="icons.mdiStarOutline"
+                :full-icon="icons.mdiStar"
+                :half-icon="icons.mdiStarHalfFull"
+                :value="getRatingRatio()"
+                half-increments
+                readonly
+                dense
+                x-small
+                length="5"
+                size="1.5em"
+              >
+              </v-rating>
+            </div>
           </v-chip>
         </div>
       </template>
@@ -28,6 +49,16 @@
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+  mdiStar,
+  mdiStarOutline,
+  mdiStarHalfFull,
+} from "@mdi/js";
 
 import Vue from "vue";
 
@@ -55,6 +86,17 @@ export default Vue.extend({
       suitability: this.result.toolKV.value.criteriaSuitabilities[
         this.propSuitabilityIndex
       ] as Typ.toolCriteriumSuitability,
+
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiStar,
+        mdiStarOutline,
+        mdiStarHalfFull,
+      },
       uuidNIL,
       Typ,
     };
@@ -71,6 +113,17 @@ export default Vue.extend({
         this.suitability.fullfillment;
 
       return min + "/" + max;
+    },
+    getRatingRatio(): number {
+      const max: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        Typ.toolCriteriumFullfillment.verygood;
+
+      const min: number =
+        Math.pow(this.suitability.criteriumKV.value.importance, 2) *
+        this.suitability.fullfillment;
+
+      return (min / max) * 5;
     },
     getRatingInfo(): string {
       const text =
