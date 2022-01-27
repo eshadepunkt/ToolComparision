@@ -201,7 +201,7 @@ export default Vue.extend({
                 a.value.isExclusionCriterium === b.value.isExclusionCriterium
               ) {
                 let result: number =
-                  (b.value.importance - a.value.importance) * -1 * sortInt;     
+                  (b.value.importance - a.value.importance) * -1 * sortInt;
 
                 return result !== 0
                   ? result

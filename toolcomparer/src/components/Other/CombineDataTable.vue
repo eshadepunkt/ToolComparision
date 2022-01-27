@@ -1,92 +1,91 @@
 <template>
   <div id="ToolDataTable">
     <v-container fluid>
-        <v-row>
-          <v-col>
-            <FilterHeader
-              :sortItems="currentSortItems"
-              :search="search"
-              :sortDesc="sortDesc"
-              :sortBy="sortBy"
-              :lblSearch="
-                workflow === 'CriteriaFirst' ? 'Search criterium' : 'Search tool'
-              "
-              :lblSort="'Sort by'"
-              v-on:searchChanged="searchChanged"
-              v-on:sortDescChanged="sortDescChanged"
-              v-on:sortByChanged="sortByChanged"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-card style="height: 60vh; overflow-y: auto">
-              <div v-if="!tools || tools.length == 0">No data available</div>
-              <v-simple-table v-else-if="workflow === 'ToolsFirst'">
-                <template>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Number of connected Criteria</th>
-                      <th>Names of connected Criteria</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <ToolDataTableRow
-                      v-for="tool in getFilteredTools"
-                      :key="noSecHash(tool)"
-                      :workflow="'CriteriaFirst'"
-                      :editMode="
-                        !(
-                          tool.value.criteriaSuitabilities &&
-                          tool.value.criteriaSuitabilities.length !== 0
-                        )
-                          ? Typ.simpleEditMode.Add
-                          : Typ.simpleEditMode.Update
-                      "
-                      :propToolKV="tool"
-                      :criteria="criteria"
-                      :forceSkipToSuitabilities="true"
-                      class="text-left"
-                    />
-                  </tbody>
-                </template>
-              </v-simple-table>
-              <v-simple-table v-else-if="workflow === 'CriteriaFirst'">
-                <template>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Importance</th>
-                      <th>Is Exclusion Criterium</th>
-                      <th>Number of connected Tools</th>
-                      <th>Names of connected Tools</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <CriteriumDataTableRow
-                      v-for="criterium in getFilteredCriteria"
-                      :key="noSecHash(criterium)"
-                      :propCriteriumKV="criterium"
-                      :workflow="'ToolsFirst'"
-                      :editMode="Typ.simpleEditMode.Add"
-                      :tools="tools"
-                      :showConnectedTools="true"
-                      :forceSkipToSuitabilities="true"
-                      class="text-left"
-                    />
-                  </tbody>
-                </template>
-              </v-simple-table>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    
+      <v-row>
+        <v-col>
+          <FilterHeader
+            :sortItems="currentSortItems"
+            :search="search"
+            :sortDesc="sortDesc"
+            :sortBy="sortBy"
+            :lblSearch="
+              workflow === 'CriteriaFirst' ? 'Search criterium' : 'Search tool'
+            "
+            :lblSort="'Sort by'"
+            v-on:searchChanged="searchChanged"
+            v-on:sortDescChanged="sortDescChanged"
+            v-on:sortByChanged="sortByChanged"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card style="height: 60vh; overflow-y: auto">
+            <div v-if="!tools || tools.length == 0">No data available</div>
+            <v-simple-table v-else-if="workflow === 'ToolsFirst'">
+              <template>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Number of connected Criteria</th>
+                    <th>Names of connected Criteria</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ToolDataTableRow
+                    v-for="tool in getFilteredTools"
+                    :key="noSecHash(tool)"
+                    :workflow="'CriteriaFirst'"
+                    :editMode="
+                      !(
+                        tool.value.criteriaSuitabilities &&
+                        tool.value.criteriaSuitabilities.length !== 0
+                      )
+                        ? Typ.simpleEditMode.Add
+                        : Typ.simpleEditMode.Update
+                    "
+                    :propToolKV="tool"
+                    :criteria="criteria"
+                    :forceSkipToSuitabilities="true"
+                    class="text-left"
+                  />
+                </tbody>
+              </template>
+            </v-simple-table>
+            <v-simple-table v-else-if="workflow === 'CriteriaFirst'">
+              <template>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Importance</th>
+                    <th>Is Exclusion Criterium</th>
+                    <th>Number of connected Tools</th>
+                    <th>Names of connected Tools</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <CriteriumDataTableRow
+                    v-for="criterium in getFilteredCriteria"
+                    :key="noSecHash(criterium)"
+                    :propCriteriumKV="criterium"
+                    :workflow="'ToolsFirst'"
+                    :editMode="Typ.simpleEditMode.Add"
+                    :tools="tools"
+                    :showConnectedTools="true"
+                    :forceSkipToSuitabilities="true"
+                    class="text-left"
+                  />
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -220,7 +219,7 @@ export default Vue.extend({
                 a.value.isExclusionCriterium === b.value.isExclusionCriterium
               ) {
                 let result: number =
-                  (b.value.importance - a.value.importance) * -1 * sortInt;     
+                  (b.value.importance - a.value.importance) * -1 * sortInt;
 
                 return result !== 0
                   ? result
