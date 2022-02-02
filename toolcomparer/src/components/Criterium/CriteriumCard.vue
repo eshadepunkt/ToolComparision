@@ -65,6 +65,19 @@
           </v-col>
         </v-row>
 
+        <!-- Exclusion Criterium -->
+        <v-row v-if="!isMinimized()">
+          <v-col cols="12">
+            <v-checkbox
+              label="Exclusion Criterium"
+              v-model="criteriumKV.value.isExclusionCriterium"
+              :readonly="!isInCreation()"
+              @change="updateImportance('very important')"
+            >
+            </v-checkbox>
+          </v-col>
+        </v-row>
+
         <!-- Importance -->
         <v-row v-if="!isMinimized()">
           <v-col cols="12">
@@ -76,20 +89,9 @@
               required
               :readonly="!isInCreation()"
               @change="updateImportance(selectedImportance)"
+              :disabled="criteriumKV.value.isExclusionCriterium"
             >
             </v-select>
-          </v-col>
-        </v-row>
-
-        <!-- Exclusion Criterium -->
-        <v-row v-if="!isMinimized()">
-          <v-col cols="12">
-            <v-checkbox
-              label="Exclusion Criterium"
-              v-model="criteriumKV.value.isExclusionCriterium"
-              :readonly="!isInCreation()"
-            >
-            </v-checkbox>
           </v-col>
         </v-row>
       </v-container>
@@ -193,6 +195,7 @@ export default Vue.extend({
       let importanceEnum: Typ.criteriumImportance =
         Typ.convertStringToImportanceEnum(importance);
       this.criteriumKV.value.importance = importanceEnum;
+      this.selectedImportance = importance;
     },
 
     validate(): boolean {
