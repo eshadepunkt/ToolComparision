@@ -18,12 +18,12 @@ const store = new Vuex.Store({
     criteria: Array<Typ.criteriumKeyValue>(),
     tools: Array<Typ.toolKeyValue>(),
 
-    settingsWorkflow: "ToolsFirst",
-    settingsIsDescriptionMandatory: true,
-    settingsIsJustificationMandatory: true,
+    settingsWorkflow: "CriteriaFirst",
+    settingsIsDescriptionMandatory: false,
+    settingsIsJustificationMandatory: false,
     settingsIsColorChips: true,
-    settingsIsColorChipsScoreOnly: false,
-    settingsIsStarsInsteadOfNumbers: false,
+    settingsIsColorChipsScoreOnly: true,
+    settingsIsStarsInsteadOfNumbers: true,
   },
   //GETTERS
   getters: {
