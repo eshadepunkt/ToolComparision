@@ -8,100 +8,89 @@
       <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col style="position: absolute; left: 5vw; width: 90vw">
-            <Header :headerText="currentPage" />
-          </v-col>
-        </v-row>
-
-        <!-- Body -->
-        <v-row>
-          <v-col>
-            <v-navigation-drawer permanent expand-on-hover absolute>
-              <v-list nav>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="showSettings = true"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiCog }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Settings </v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="featuresDialog = true"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="currentPage = 'Comparision'"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiHome }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Comparision </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item link v-on:click.native="currentPage = 'Criteria'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      Criteria
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                      Manage Criteria
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item link v-on:click.native="currentPage = 'Tools'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      Tools
-                    </v-list-item-title>
-                    <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="currentPage = 'Combine Data'"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiVectorCombine }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Combine Data </v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                  link
-                  class="px-2"
+          <v-col style="position: absolute; width: 100vw;">
+            <v-toolbar
+              flat
+              dense
+              tile
+              floating
+              absolute
+              color="transparent"
+              style="position: absolute; top: 10px; right: 10px"
+            >
+                <v-btn
+                  x-small
+                  text
+                  color="white"
                   v-on:click.native="
                     navigateTo(
                       '/Workflow/' + $store.getters.getSettingsWorkflow
                     )
                   "
                 >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiPlus }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Workflow </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-navigation-drawer>
+                  Brainstorming
+                </v-btn>
+                
+                <v-btn 
+                  x-small 
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Criteria'"
+                >
+                   Criteria
+                </v-btn>
+                <v-btn 
+                  x-small 
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Tools'"
+                  >
+                 Tools
+                </v-btn>
+                <v-btn
+                  x-small
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Comparision'"
+                >
+                 Comparision
+                </v-btn>
+                <v-btn
+                  class="px-2"
+                  x-small
+                  icon
+                  color="white"
+                  v-on:click.native="featuresDialog = true"
+                >
+                  <v-icon>{{ icons.mdiSwapVertical }}</v-icon>
+                </v-btn>
+                <v-btn
+                  class="px-2"
+                  x-small
+                  icon
+                  color="white"
+                  v-on:click.native="showSettings = true"
+                >
+                  <v-icon>{{ icons.mdiCog }}</v-icon>
+                </v-btn>
+                
+            </v-toolbar>
+            <Header :headerText="currentPage" />
+          </v-col>
+        </v-row>
+
+        <!-- Body -->
+        <v-row
+        style="
+                position: absolute;
+                left: 1vw;
+                top: 50px;
+                width: 98vw;"
+        >
+          <v-col>
             <v-card
               style="
-                position: absolute;
-                left: 5vw;
-                top: 10vh;
-                height: 85vh;
-                width: 90vw;
+                height: 85vh;            
                 overflow-y: auto;
               "
             >
@@ -145,6 +134,7 @@ import {
   mdiPlus,
   mdiDotsHorizontal,
   mdiVectorCombine,
+  mdiSwapVertical,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -189,6 +179,7 @@ export default Vue.extend({
         mdiPlus,
         mdiDotsHorizontal,
         mdiVectorCombine,
+        mdiSwapVertical, 
       },
       uuidNIL,
       Typ,

@@ -1,21 +1,21 @@
 <template>
   <div id="WorkflowManager">
-    <CriteriumDataTable
-      v-show="currentDataTable === 'Criteria'"
-      :criteria="criteria"
-      :tools="tools"
-      :showDialog="showDialog && currentDataTable === 'Criteria'"
-      :workflow="workflow"
-      v-on:closeDialog="closeDialog()"
-    />
-    <ToolDataTable
-      v-show="currentDataTable === 'Tools'"
-      :tools="tools"
-      :criteria="criteria"
-      :showDialog="showDialog && currentDataTable === 'Tools'"
-      :workflow="workflow"
-      v-on:closeDialog="closeDialog()"
-    />
+        <CriteriumDataTable
+          v-show="currentDataTable === 'Criteria'"
+          :criteria="criteria"
+          :tools="tools"
+          :showDialog="showDialog && currentDataTable === 'Criteria'"
+          :workflow="workflow"
+          v-on:closeDialog="closeDialog()"
+        />
+        <ToolDataTable
+          v-show="currentDataTable === 'Tools'"
+          :tools="tools"
+          :criteria="criteria"
+          :showDialog="showDialog && currentDataTable === 'Tools'"
+          :workflow="workflow"
+          v-on:closeDialog="closeDialog()"
+        />
   </div>
 </template>
 
@@ -67,6 +67,10 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    showWorkflowButtons: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   //DATA

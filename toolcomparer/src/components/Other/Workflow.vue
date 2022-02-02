@@ -1,71 +1,86 @@
 <template>
   <div id="Workflow">
-    <v-card min-height="100vh" color="grey lighten-5">
+    <v-card style="position: relative; height: 100vh; width: 100vw" color="grey lighten-5">
       <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col>
+          <v-col style="position: absolute; width: 100vw;">
             <Header :headerText="currentListBox" />
           </v-col>
         </v-row>
 
         <!-- Body -->
-        <v-row>
+        <v-row style="
+          position: absolute;
+          left: 1vw;
+          top: 50px;
+          width: 98vw;"
+        >
           <v-col>
-            <v-card style="height: 71vh; overflow-y: auto">
-              <WorkflowManager
-                :currentDataTable="currentListBox"
-                :criteria="getCriteria"
-                :tools="getTools"
-                :showDialog="showDialog"
-                :workflow="workflow"
-                v-on:closeDialog="closeDialog()"
-              />
+            <v-card
+              style="
+                height: 85vh;
+              "
+            >
+              <v-card style="
+                height: 71vh;              
+                overflow-y: auto;">
+                <WorkflowManager
+                  :currentDataTable="currentListBox"
+                  :criteria="getCriteria"
+                  :tools="getTools"
+                  :showDialog="showDialog"
+                  :workflow="workflow"
+                  v-on:closeDialog="closeDialog()"
+                />
+              </v-card>    
+              <v-container fluid>        
+              <!-- Buttons -->          
+              <v-row
+                align="center"
+                align-content="space-between"
+                justify="space-between"
+              >
+                <v-card-actions>
+                  <v-btn @click="navigateForward(false)" color="red lighten-5">
+                    {{ btnBackTxt }}
+                  </v-btn>
+                </v-card-actions>
+                <v-card-actions>
+                  <v-btn @click="showDialog = true" color="teal lighten-5">
+                    {{ btnAddTxt }}
+                  </v-btn>
+                </v-card-actions>
+                <v-card-actions>
+                  <v-btn @click="navigateForward()" color="blue lighten-5">
+                    {{ btnNextTxt }}
+                  </v-btn>
+                </v-card-actions>
+              </v-row>
+              <v-row
+                align="center"
+                align-content="space-between"
+                justify="space-between"
+              >
+                <v-card-actions>
+                  <v-btn @click="importer()"> Import </v-btn>
+                  <input
+                    ref="uploader"
+                    class="d-none"
+                    type="file"
+                    accept=".json"
+                    @change="onFileChanged"
+                  />
+                </v-card-actions>
+                <v-card-actions>
+                  <v-btn @click="exporter()"> Export </v-btn>
+                </v-card-actions>
+              </v-row>
+              </v-container>
             </v-card>
           </v-col>
         </v-row>
 
-        <!-- Buttons -->
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-card-actions>
-            <v-btn @click="navigateForward(false)" color="red lighten-5">
-              {{ btnBackTxt }}
-            </v-btn>
-          </v-card-actions>
-          <v-card-actions>
-            <v-btn @click="showDialog = true" color="teal lighten-5">
-              {{ btnAddTxt }}
-            </v-btn>
-          </v-card-actions>
-          <v-card-actions>
-            <v-btn @click="navigateForward()" color="blue lighten-5">
-              {{ btnNextTxt }}
-            </v-btn>
-          </v-card-actions>
-        </v-row>
-        <v-row
-          align="center"
-          align-content="space-between"
-          justify="space-between"
-        >
-          <v-card-actions>
-            <v-btn @click="importer()"> Import </v-btn>
-            <input
-              ref="uploader"
-              class="d-none"
-              type="file"
-              accept=".json"
-              @change="onFileChanged"
-            />
-          </v-card-actions>
-          <v-card-actions>
-            <v-btn @click="exporter()"> Export </v-btn>
-          </v-card-actions>
-        </v-row>
       </v-container>
     </v-card>
   </div>
