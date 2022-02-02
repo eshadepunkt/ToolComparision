@@ -1,7 +1,7 @@
 <template>
   <div id="Header">
     <v-card color="indigo darken-4">
-      <h1 style="text-align: left; color: white;">
+      <h1 style="text-align: left; color: white">
         {{ "|   " + headerText }}
       </h1>
     </v-card>

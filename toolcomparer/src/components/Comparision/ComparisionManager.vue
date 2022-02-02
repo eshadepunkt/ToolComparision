@@ -1,25 +1,25 @@
 <template>
   <div id="WorkflowManager">
-        <ComparisionDataIterator
-          v-if="currentView === 'DataIterator'"
-          :results="results"
-          :criteria="criteria"
-          :maxScore="maxScore"
-          :search="search"
-          :sortDesc="sortDesc"
-          :sortBy="sortBy"
-        />
-        <ComparisionDataTable
-          v-else-if="currentView === 'DataTable'"
-          :results="results"
-          :criteria="criteria"
-          :maxScore="maxScore"
-          :search="search"
-          :sortDesc="sortDesc"
-          :sortBy="sortBy"
-          v-on:sortDescChanged="sortDescChanged"
-          v-on:sortByChanged="sortByChanged"
-        />
+    <ComparisionDataIterator
+      v-if="currentView === 'DataIterator'"
+      :results="results"
+      :criteria="criteria"
+      :maxScore="maxScore"
+      :search="search"
+      :sortDesc="sortDesc"
+      :sortBy="sortBy"
+    />
+    <ComparisionDataTable
+      v-else-if="currentView === 'DataTable'"
+      :results="results"
+      :criteria="criteria"
+      :maxScore="maxScore"
+      :search="search"
+      :sortDesc="sortDesc"
+      :sortBy="sortBy"
+      v-on:sortDescChanged="sortDescChanged"
+      v-on:sortByChanged="sortByChanged"
+    />
   </div>
 </template>
 
