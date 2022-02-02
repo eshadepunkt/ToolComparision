@@ -18,7 +18,11 @@
               color="transparent"
               style="position: absolute; top: 10px; right: 10px"
             >
-                <v-btn
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                  v-bind="attrs"
+                  v-on="on"
                   x-small
                   text
                   color="white"
@@ -30,8 +34,18 @@
                 >
                   Brainstorming
                 </v-btn>
-                
-                <v-btn 
+                </template>
+                <span>
+                  Starts a Worklow where criteria and tools can be created and combined.
+                  <br/>
+                  Under Settings you can change the Workflow and Validation-Rules.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn 
+                  v-bind="attrs"
+                  v-on="on"
                   x-small 
                   text
                   color="white"
@@ -39,7 +53,16 @@
                 >
                    Criteria
                 </v-btn>
-                <v-btn 
+                </template>
+                <span>
+                  Add or change criteria.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn 
+                  v-bind="attrs"
+                  v-on="on"
                   x-small 
                   text
                   color="white"
@@ -47,15 +70,35 @@
                   >
                  Tools
                 </v-btn>
-                <v-btn
-                  x-small
-                  text
-                  color="white"
-                  v-on:click.native="currentPage = 'Comparision'"
-                >
+                </template>
+                <span>
+                  Add or change tools.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                   <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    x-small
+                    text
+                    color="white"
+                    v-on:click.native="currentPage = 'Comparision'"
+                  >
                  Comparision
                 </v-btn>
-                <v-btn
+                </template>
+                <span>
+                  Show Comparision of Tools.
+                  <br/>
+                  Under "Change View" you can switch between card and table design.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                  v-bind="attrs"
+                  v-on="on"
                   class="px-2"
                   x-small
                   icon
@@ -64,7 +107,16 @@
                 >
                   <v-icon>{{ icons.mdiSwapVertical }}</v-icon>
                 </v-btn>
-                <v-btn
+                </template>
+                <span>
+                  Import/Export data of the current page.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                  v-bind="attrs"
+                  v-on="on"
                   class="px-2"
                   x-small
                   icon
@@ -73,7 +125,13 @@
                 >
                   <v-icon>{{ icons.mdiCog }}</v-icon>
                 </v-btn>
-                
+                </template>
+                <span>
+                  Settings.
+                  <br/>
+                  You can change Workflow, Validation-Rules and Comparision-Design.
+                </span>
+              </v-tooltip>                 
             </v-toolbar>
             <Header :headerText="currentPage" />
           </v-col>
