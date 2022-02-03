@@ -44,6 +44,12 @@
       :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
+    <DeleteConfirmationDialog
+      :showDialog="confirmationRequest"
+      :deleteItem="propToolKV.value.name"
+      :deleteFrom="'Tools'"
+      v-on:deletionConfirmed="deleteItem"
+    />
   </tr>
 </template>
 
@@ -62,12 +68,14 @@ import {
 
 import Vue from "vue";
 import ToolCreationDialog from "./ToolCreationDialog.vue";
+import DeleteConfirmationDialog from "../Other/DeleteConfirmationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
     ToolCreationDialog,
+    DeleteConfirmationDialog,
   },
 
   //PROPS
@@ -102,6 +110,7 @@ export default Vue.extend({
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
+      confirmationRequest: false as boolean,
 
       icons: {
         mdiAccount,
@@ -120,7 +129,14 @@ export default Vue.extend({
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.propToolKV);
+      this.confirmationRequest = true;
+    },
+    deleteItem(deleteItem: boolean) {
+      if (deleteItem) {
+        this.$store.commit("removeTool", this.propToolKV);
+      }
+
+      this.confirmationRequest = false;
     },
   },
 
