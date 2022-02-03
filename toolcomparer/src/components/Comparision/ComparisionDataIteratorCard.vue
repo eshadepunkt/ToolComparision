@@ -65,7 +65,7 @@
                       @click="btnDelete()"
                     >
                       <v-icon>
-                        {{ icons.mdiDelete }}
+                        {{ icons.mdiClose }}
                       </v-icon>
                     </v-btn>
                   </div>
@@ -105,6 +105,12 @@
         :criteria="criteria"
         v-on:closeDialog="showDialog = false"
       />
+      <DeleteConfirmationDialog
+      :showDialog="confirmationRequest"
+      :deleteItem="'all suitabilities'"
+      :deleteFrom="result.toolKV.value.name"
+      v-on:deletionConfirmed="deleteItem"
+      />
     </v-card>
   </v-hover>
 </template>
@@ -123,12 +129,14 @@ import {
   mdiStar,
   mdiStarOutline,
   mdiStarHalfFull,
+  mdiClose,
 } from "@mdi/js";
 
 import Vue from "vue";
 
 import ComparisionDataIteratorCardItem from "./ComparisionDataIteratorCardItem.vue";
 import ToolCreationDialog from "../Tool/ToolCreationDialog.vue";
+import DeleteConfirmationDialog from "../Other/DeleteConfirmationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataIteratorCard",
@@ -136,6 +144,7 @@ export default Vue.extend({
   components: {
     ComparisionDataIteratorCardItem,
     ToolCreationDialog,
+    DeleteConfirmationDialog,
   },
 
   props: {
@@ -154,6 +163,7 @@ export default Vue.extend({
   data() {
     return {
       showDialog: false as boolean,
+      confirmationRequest: false as boolean,
       editMode: Typ.simpleEditMode.Update,
       rating:
         this.result.score.currentValue !== -1
@@ -170,6 +180,7 @@ export default Vue.extend({
         mdiStar,
         mdiStarOutline,
         mdiStarHalfFull,
+        mdiClose,
       },
       noSecHash,
       Typ,
@@ -191,7 +202,14 @@ export default Vue.extend({
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.result.toolKV);
+      this.confirmationRequest = true;
+    },
+    deleteItem(deleteItem: boolean) {
+      if (deleteItem) {
+        this.$store.commit("removeAllSuitabilitiesFromTool", this.result.toolKV);
+      }
+
+      this.confirmationRequest = false;
     },
   },
 
