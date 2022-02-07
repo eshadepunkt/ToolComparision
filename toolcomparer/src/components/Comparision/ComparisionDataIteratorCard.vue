@@ -106,10 +106,10 @@
         v-on:closeDialog="showDialog = false"
       />
       <DeleteConfirmationDialog
-      :showDialog="confirmationRequest"
-      :deleteItem="'all suitabilities'"
-      :deleteFrom="result.toolKV.value.name"
-      v-on:deletionConfirmed="deleteItem"
+        :showDialog="confirmationRequest"
+        :deleteItem="'all suitabilities'"
+        :deleteFrom="result.toolKV.value.name"
+        v-on:deletionConfirmed="deleteItem"
       />
     </v-card>
   </v-hover>
@@ -206,7 +206,10 @@ export default Vue.extend({
     },
     deleteItem(deleteItem: boolean) {
       if (deleteItem) {
-        this.$store.commit("removeAllSuitabilitiesFromTool", this.result.toolKV);
+        this.$store.commit(
+          "removeAllSuitabilitiesFromTool",
+          this.result.toolKV
+        );
       }
 
       this.confirmationRequest = false;

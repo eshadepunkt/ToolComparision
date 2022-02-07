@@ -5,10 +5,51 @@
       <template>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Importance</th>
-            <th>Is Exclusion Criterium</th>
+            <th v-on:click="changeSort('name')">
+              <v-row>
+                <v-col cols="9"> Name </v-col>
+                <v-col cols="1">
+                  <v-icon
+                    v-if="'name' === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                  >
+                    {{ icons.mdiSort }}
+                  </v-icon>
+                </v-col>
+              </v-row>
+            </th>
+            <th v-on:click="changeSort('description')">
+              <v-row>
+                <v-col cols="9"> Description </v-col>
+                <v-col cols="1">
+                  <v-icon
+                    v-if="'description' === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                  >
+                    {{ icons.mdiSort }}
+                  </v-icon>
+                </v-col>
+              </v-row>
+            </th>
+            <th v-on:click="changeSort('importance')">
+              <v-row>
+                <v-col cols="9"> Importance </v-col>
+                <v-col cols="1">
+                  <v-icon
+                    v-if="'importance' === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                  >
+                    {{ icons.mdiSort }}
+                  </v-icon>
+                </v-col>
+              </v-row>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -81,6 +122,12 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    sortDesc: {
+      type: Boolean,
+    },
+    sortBy: {
+      type: String,
+    },
   },
 
   //DATA
@@ -97,6 +144,9 @@ export default Vue.extend({
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    changeSort(sortBy: string) {
+      this.$emit("changeSort", sortBy);
     },
   },
 

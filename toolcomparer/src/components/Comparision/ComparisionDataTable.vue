@@ -135,7 +135,7 @@ export default Vue.extend({
 
   methods: {
     changeSort(sortBy: string) {
-      if (this.sortBy == sortBy) {
+      if (this.sortBy === sortBy) {
         this.$emit("sortDescChanged", !this.sortDesc);
       } else {
         this.$emit("sortByChanged", sortBy);

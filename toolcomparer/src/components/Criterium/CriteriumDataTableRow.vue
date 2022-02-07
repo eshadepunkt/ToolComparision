@@ -7,10 +7,11 @@
       {{ propCriteriumKV.value.description }}
     </td>
     <td>
-      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.importance) }}
-    </td>
-    <td>
-      {{ propCriteriumKV.value.isExclusionCriterium }}
+      {{
+        propCriteriumKV.value.isExclusionCriterium
+          ? "Exclusion Criterium"
+          : Typ.convertImportanceEnumToString(propCriteriumKV.value.importance)
+      }}
     </td>
     <td v-if="showConnectedTools">
       {{

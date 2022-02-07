@@ -370,7 +370,9 @@ export default Vue.extend({
       if (this.sortBy !== "") {
         return filtered.sort((a: Typ.toolRating, b: Typ.toolRating) => {
           if (this.sortBy === "tool-name") {
-            return a.toolKV.value.name.localeCompare(b.toolKV.value.name) * sortInt;
+            return (
+              a.toolKV.value.name.localeCompare(b.toolKV.value.name) * sortInt
+            );
           }
 
           const aIndex = a.toolKV.value.criteriaSuitabilities.findIndex(
@@ -425,14 +427,16 @@ export default Vue.extend({
 
       return score;
     },
-    getSortItems: function(): Array<Typ.ISortItem> {
-      return [{
-        key: "tool-name",
-        value: {
-          name: "tool-name"
-        }
-      }].concat(this.getCriteria);
-    }
+    getSortItems: function (): Array<Typ.ISortItem> {
+      return [
+        {
+          key: "tool-name",
+          value: {
+            name: "tool-name",
+          },
+        },
+      ].concat(this.getCriteria);
+    },
   },
 });
 </script>

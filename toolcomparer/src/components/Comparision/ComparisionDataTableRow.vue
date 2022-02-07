@@ -76,7 +76,7 @@
       :deleteItem="'all suitabilities'"
       :deleteFrom="result.toolKV.value.name"
       v-on:deletionConfirmed="deleteItem"
-      />
+    />
   </tr>
 </template>
 
@@ -169,7 +169,10 @@ export default Vue.extend({
     },
     deleteItem(deleteItem: boolean) {
       if (deleteItem) {
-        this.$store.commit("removeAllSuitabilitiesFromTool", this.result.toolKV);
+        this.$store.commit(
+          "removeAllSuitabilitiesFromTool",
+          this.result.toolKV
+        );
       }
 
       this.confirmationRequest = false;

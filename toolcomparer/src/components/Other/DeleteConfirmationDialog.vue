@@ -1,5 +1,5 @@
 <template>
-   <v-dialog
+  <v-dialog
     v-model="showDialog"
     height="100px"
     width="300px"
@@ -10,28 +10,20 @@
   >
     <v-card class="overflow-hidden">
       <v-alert type="Warning" color="red darken-5" :icon="icons.mdiAlert">
-         <v-card-text v-html="getWarning()" />
+        <v-card-text v-html="getWarning()" />
       </v-alert>
-         <v-row>
-         <v-card-actions>
-            <v-btn
-               @click="closeDialog(true)"
-               color="green lighten-5"
-            >
-               Yes
-            </v-btn>
-         </v-card-actions>
-         <v-card-actions>
-            <v-btn 
-            @click="closeDialog(false)"
-              color="red lighten-5"
-            >
-               No
-            </v-btn>
+      <v-row>
+        <v-card-actions>
+          <v-btn @click="closeDialog(true)" color="green lighten-5">
+            Yes
+          </v-btn>
         </v-card-actions>
-         </v-row>
+        <v-card-actions>
+          <v-btn @click="closeDialog(false)" color="red lighten-5"> No </v-btn>
+        </v-card-actions>
+      </v-row>
     </v-card>
-   </v-dialog>
+  </v-dialog>
 </template>
 
 <script lang="ts">
@@ -89,7 +81,13 @@ export default Vue.extend({
 
   methods: {
     getWarning(): string {
-      return "You are about to delete <br/>[" + this.deleteItem + "]<br/> from <br/>[" + this.deleteFrom + "]! <br/>Are you sure?";
+      return (
+        "You are about to delete <br/>[" +
+        this.deleteItem +
+        "]<br/> from <br/>[" +
+        this.deleteFrom +
+        "]! <br/>Are you sure?"
+      );
     },
     closeDialog(confirmed: boolean) {
       this.$emit("deletionConfirmed", confirmed);
