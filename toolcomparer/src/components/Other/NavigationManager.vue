@@ -77,6 +77,7 @@ import {
   mdiHome,
   mdiPlus,
   mdiDotsHorizontal,
+  mdiSort,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -151,6 +152,7 @@ export default Vue.extend({
         mdiHome,
         mdiPlus,
         mdiDotsHorizontal,
+        mdiSort,
       },
       showDialog: false as boolean,
     };
@@ -193,6 +195,12 @@ export default Vue.extend({
             value: {
               name: "description",
             },
+          } as Typ.ISortItem,
+          {
+            key: "number-of-suitabilities",
+            value: {
+              name: "number-of-suitabilities",
+            },
           } as Typ.ISortItem
         );
       }
@@ -203,7 +211,8 @@ export default Vue.extend({
       );
 
       const filtered = unsorted.filter((x) =>
-        Typ.stringContains(x.value.name, this.search)
+        Typ.stringContains(x.value.name, this.search) 
+          || Typ.stringContains(x.value.description, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
@@ -261,6 +270,9 @@ export default Vue.extend({
               a.value.description.localeCompare(b.value.description) * sortInt
             );
           }
+          else if (this.sortBy === "number-of-suitabilities") {
+            return (a.value.criteriaSuitabilities.length - b.value.criteriaSuitabilities.length) * sortInt;
+          }
           //else if (this.sortBy === "name")
           else {
             return a.value.name.localeCompare(b.value.name) * sortInt;
@@ -274,12 +286,10 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    currentPage: function (newVal) {
-      if (newVal === "Tools") {
-        if (this.sortBy !== "" && this.sortBy !== "name") {
+    currentPage: function() {
+      if (!(this.sortBy === "" || this.sortBy === "name" || this.sortBy === "description")) {
           this.sortBy = "";
         }
-      }
     },
   },
 });

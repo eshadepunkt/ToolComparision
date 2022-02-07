@@ -134,6 +134,14 @@ export default Vue.extend({
   data() {
     return {
       uuidNIL,
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiSort,
+      },
       Typ,
       noSecHash,
       editMode: Typ.simpleEditMode.Add,

@@ -14,9 +14,6 @@
           : 0
       }}
     </td>
-    <td>
-      {{ getSuitabilitiesCSV }}
-    </td>
     <td width="125">
       <v-row>
         <v-col cols="5">
@@ -137,33 +134,6 @@ export default Vue.extend({
       }
 
       this.confirmationRequest = false;
-    },
-  },
-
-  //COMPUTED
-  computed: {
-    getSuitabilitiesCSV: function (): string {
-      let csv = "";
-
-      if (
-        this.propToolKV.value.criteriaSuitabilities &&
-        this.propToolKV.value.criteriaSuitabilities.length > 0
-      ) {
-        this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
-          if (
-            this.criteria.findIndex(
-              (x) => x.key === element.criteriumKV.key
-            ) !== -1
-          ) {
-            csv += element.criteriumKV.value.name + ", ";
-          }
-        });
-
-        //Remove last comma
-        return csv.length >= 2 ? csv.slice(0, -2) : "";
-      } else {
-        return csv;
-      }
     },
   },
 });

@@ -8,8 +8,7 @@
       :workflow="workflow"
       :sortDesc="sortDesc"
       :sortBy="sortBy"
-      v-on:sortDescChanged="changeSort"
-      v-on:sortByChanged="changeSort"
+      v-on:changeSort="changeSort"
       v-on:closeDialog="closeDialog()"
     />
     <ToolDataTable
@@ -18,6 +17,9 @@
       :criteria="criteria"
       :showDialog="showDialog && currentDataTable === 'Tools'"
       :workflow="workflow"
+      :sortDesc="sortDesc"
+      :sortBy="sortBy"
+      v-on:changeSort="changeSort"
       v-on:closeDialog="closeDialog()"
     />
   </div>
