@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <FilterHeader
-            :sortItems="getCriteria"
+            :sortItems="getSortItems"
             :search="search"
             :sortDesc="sortDesc"
             :sortBy="sortBy"
@@ -369,6 +369,10 @@ export default Vue.extend({
 
       if (this.sortBy !== "") {
         return filtered.sort((a: Typ.toolRating, b: Typ.toolRating) => {
+          if (this.sortBy === "tool-name") {
+            return a.toolKV.value.name.localeCompare(b.toolKV.value.name) * sortInt;
+          }
+
           const aIndex = a.toolKV.value.criteriaSuitabilities.findIndex(
             (x) => x.criteriumKV.value.name === this.sortBy
           );
@@ -421,6 +425,14 @@ export default Vue.extend({
 
       return score;
     },
+    getSortItems: function(): Array<Typ.ISortItem> {
+      return [{
+        key: "tool-name",
+        value: {
+          name: "tool-name"
+        }
+      }].concat(this.getCriteria);
+    }
   },
 });
 </script>

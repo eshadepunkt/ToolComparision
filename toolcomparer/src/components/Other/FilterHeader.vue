@@ -19,7 +19,7 @@
           solo-inverted
           hide-details
           :items="[''].concat(sortItems.map((x) => x.value.name))"
-          prepend-inner-icon="mdi-magnify"
+          prepend-inner-icon="mdi-sort"
           :label="lblSort"
         >
         </v-select>
