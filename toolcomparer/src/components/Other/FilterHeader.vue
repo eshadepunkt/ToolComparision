@@ -11,7 +11,7 @@
         :label="lblSearch"
       >
       </v-text-field>
-      <template v-if="$vuetify.breakpoint.mdAndUp">
+      <template v-if="showSort && $vuetify.breakpoint.mdAndUp">
         <v-spacer></v-spacer>
         <v-select
           v-model="hsortBy"
@@ -68,6 +68,10 @@ export default Vue.extend({
     lblSort: {
       type: String,
       default: "Sort by criteria",
+    },
+    showSort: {
+      type: Boolean,
+      default: true,
     },
   },
 

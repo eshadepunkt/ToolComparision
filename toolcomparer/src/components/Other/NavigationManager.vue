@@ -14,6 +14,7 @@
                 currentPage === 'Criteria' ? 'Search criterium' : 'Search tool'
               "
               :lblSort="'Sort by'"
+              :showSort="false"
               v-on:searchChanged="searchChanged"
               v-on:sortDescChanged="sortDescChanged"
               v-on:sortByChanged="sortByChanged"
