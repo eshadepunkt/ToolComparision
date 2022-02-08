@@ -138,7 +138,7 @@ export function WriteCSVLine(
       const entry: string = line[k];
 
       if (autoEscape) {
-        let entr: string = entry.replace(
+        let entr: string = entry.replaceAll(
           rangeEscape,
           rangeEscape + rangeEscape
         );
