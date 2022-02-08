@@ -14,7 +14,7 @@
         scroll-target="#scrolling-techniques-4"
         style="position: relative"
       >
-        <v-toolbar-title>Features</v-toolbar-title>
+        <v-toolbar-title>Import/Export</v-toolbar-title>
         <v-btn
           style="position: absolute; right: 1em; top: 0em"
           icon
@@ -64,12 +64,14 @@
                 :label="'Import ' + caller + ' from JSON'"
                 :value="0"
               ></v-radio>
+              <!--
               <v-radio
                 v-show="caller === 'Comparision'"
                 :key="1"
                 :label="'Import (readonly) ' + caller + ' from CSV'"
                 :value="1"
               ></v-radio>
+              -->
             </v-radio-group>
           </v-row>
           <v-row>
@@ -98,6 +100,7 @@ import { v4 as uuidv4 } from "uuid";
 import { NIL as uuidNIL } from "uuid";
 
 import * as Typ from "../../types/index";
+import * as CSVHandler from "../../js/CSVHandler";
 import {
   mdiAccount,
   mdiPencil,
@@ -149,6 +152,7 @@ export default Vue.extend({
         mdiClose,
       },
       Typ,
+      CSVHandler,
 
       isValid: true as boolean,
       mode: "Import" as string,
@@ -379,29 +383,31 @@ export default Vue.extend({
   //COMPUTED
   computed: {
     getCSV: function (): string {
+      let lines: Array<Array<string>> = [];
+
+      let header: Array<string> = ["Tool", "Score"];
+
       let stringBuilder = "";
       this.getCriteria.forEach((criterium) => {
-        stringBuilder += criterium.value.name + ",";
+        header.push(criterium.value.name + (criterium.value.isExclusionCriterium ? " (!)" : ""));
       });
-      stringBuilder.slice(0, -1) + "\n";
+
+      lines.push(header);
 
       this.getResults.forEach((result) => {
-        stringBuilder +=
-          result.toolKV.value.name +
-          "," +
-          result.score.currentValue +
-          "/" +
-          result.score.maxValue +
-          ",";
+        let tool: Array<string> = [
+          result.toolKV.value.name + (result.score.isExcluded ? " (Excluded)" : ""),
+          result.score.currentValue + "/" + result.score.maxValue.toString(),
+        ];
 
         result.toolKV.value.criteriaSuitabilities.forEach((suitability) => {
-          stringBuilder += this.getResultString(suitability) + ",";
+          tool.push(this.getResultString(suitability));
         });
 
-        stringBuilder.slice(0, -1) + "\n";
+        lines.push(tool);
       });
 
-      return stringBuilder;
+      return CSVHandler.WriteCSVLine(lines);
     },
     getResults: function (): Array<Typ.toolRating> {
       const raw = JSON.parse(

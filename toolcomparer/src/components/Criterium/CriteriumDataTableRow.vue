@@ -7,10 +7,11 @@
       {{ propCriteriumKV.value.description }}
     </td>
     <td>
-      {{ Typ.convertImportanceEnumToString(propCriteriumKV.value.importance) }}
-    </td>
-    <td>
-      {{ propCriteriumKV.value.isExclusionCriterium }}
+      {{
+        propCriteriumKV.value.isExclusionCriterium
+          ? "Exclusion Criterium"
+          : Typ.convertImportanceEnumToString(propCriteriumKV.value.importance)
+      }}
     </td>
     <td v-if="showConnectedTools">
       {{
@@ -57,6 +58,12 @@
       :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
+    <DeleteConfirmationDialog
+      :showDialog="confirmationRequest"
+      :deleteItem="propCriteriumKV.value.name"
+      :deleteFrom="'Criteria'"
+      v-on:deletionConfirmed="deleteItem"
+    />
   </tr>
 </template>
 
@@ -78,12 +85,14 @@ import {
 
 import Vue from "vue";
 import CriteriumCreationDialog from "./CriteriumCreationDialog.vue";
+import DeleteConfirmationDialog from "../Other/DeleteConfirmationDialog.vue";
 
 export default Vue.extend({
   name: "CriteriumDataTableRow",
 
   components: {
     CriteriumCreationDialog,
+    DeleteConfirmationDialog,
   },
 
   //PROPS
@@ -117,6 +126,7 @@ export default Vue.extend({
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
+      confirmationRequest: false as boolean,
 
       icons: {
         mdiAccount,
@@ -138,7 +148,14 @@ export default Vue.extend({
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeCriterium", this.propCriteriumKV);
+      this.confirmationRequest = true;
+    },
+    deleteItem(deleteItem: boolean) {
+      if (deleteItem) {
+        this.$store.commit("removeCriterium", this.propCriteriumKV);
+      }
+
+      this.confirmationRequest = false;
     },
   },
 

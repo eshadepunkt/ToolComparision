@@ -18,12 +18,12 @@ const store = new Vuex.Store({
     criteria: Array<Typ.criteriumKeyValue>(),
     tools: Array<Typ.toolKeyValue>(),
 
-    settingsWorkflow: "ToolsFirst",
-    settingsIsDescriptionMandatory: true,
-    settingsIsJustificationMandatory: true,
+    settingsWorkflow: "CriteriaFirst",
+    settingsIsDescriptionMandatory: false,
+    settingsIsJustificationMandatory: false,
     settingsIsColorChips: true,
-    settingsIsColorChipsScoreOnly: false,
-    settingsIsStarsInsteadOfNumbers: false,
+    settingsIsColorChipsScoreOnly: true,
+    settingsIsStarsInsteadOfNumbers: true,
   },
   //GETTERS
   getters: {
@@ -204,6 +204,23 @@ const store = new Vuex.Store({
               " removed"
           );
         }
+      }
+    },
+    removeAllSuitabilitiesFromTool(state, toolKV: Typ.toolKeyValue) {
+      const toolindex: number = state.tools.findIndex(
+        (x) => x.key === toolKV.key
+      );
+      if (toolindex != -1) {
+        state.tools[toolindex].value.criteriaSuitabilities = [];
+
+        //LOG
+        console.log(
+          "Vuex: all suitabilities from tool with key: " +
+            state.tools[toolindex].key +
+            " at index: " +
+            toolindex +
+            " removed"
+        );
       }
     },
     setSettingsWorkflow: (state, workflow: string) => {

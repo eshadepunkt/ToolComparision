@@ -128,7 +128,7 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      workflows: ["ToolsFirst", "CriteriaFirst"] as string[],
+      workflows: ["CriteriaFirst", "ToolsFirst"] as string[],
       selectedWorkflow: JSON.parse(
         JSON.stringify(this.$store.getters.getSettingsWorkflow)
       ) as string,

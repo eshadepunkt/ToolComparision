@@ -5,7 +5,21 @@
       <template>
         <thead>
           <tr>
-            <th>Tools</th>
+            <th v-on:click="changeSort('tool-name')">
+              <v-row>
+                <v-col cols="9"> Tools </v-col>
+                <v-col cols="1">
+                  <v-icon
+                    v-if="'tool-name' === sortBy"
+                    class="ma-2"
+                    v-bind:style="sortDesc ? 'transform: scaleY(-1);' : ''"
+                    icon
+                  >
+                    {{ icons.mdiSort }}
+                  </v-icon>
+                </v-col>
+              </v-row>
+            </th>
             <th v-on:click="changeSort('')">
               <v-row>
                 <v-col cols="9"> Score </v-col>
@@ -121,7 +135,7 @@ export default Vue.extend({
 
   methods: {
     changeSort(sortBy: string) {
-      if (this.sortBy == sortBy) {
+      if (this.sortBy === sortBy) {
         this.$emit("sortDescChanged", !this.sortDesc);
       } else {
         this.$emit("sortByChanged", sortBy);

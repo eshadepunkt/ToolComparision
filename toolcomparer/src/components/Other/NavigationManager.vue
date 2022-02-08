@@ -14,6 +14,7 @@
                 currentPage === 'Criteria' ? 'Search criterium' : 'Search tool'
               "
               :lblSort="'Sort by'"
+              :showSort="false"
               v-on:searchChanged="searchChanged"
               v-on:sortDescChanged="sortDescChanged"
               v-on:sortByChanged="sortByChanged"
@@ -31,6 +32,10 @@
                 :workflow="
                   currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'
                 "
+                :sortDesc="sortDesc"
+                :sortBy="sortBy"
+                v-on:sortDescChanged="sortDescChanged"
+                v-on:sortByChanged="sortByChanged"
                 v-on:closeDialog="showDialog = false"
               />
             </v-card>
@@ -72,6 +77,7 @@ import {
   mdiHome,
   mdiPlus,
   mdiDotsHorizontal,
+  mdiSort,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -146,6 +152,7 @@ export default Vue.extend({
         mdiHome,
         mdiPlus,
         mdiDotsHorizontal,
+        mdiSort,
       },
       showDialog: false as boolean,
     };
@@ -163,6 +170,12 @@ export default Vue.extend({
             },
           } as Typ.ISortItem,
           {
+            key: "description",
+            value: {
+              name: "description",
+            },
+          } as Typ.ISortItem,
+          {
             key: "importance",
             value: {
               name: "importance",
@@ -170,12 +183,26 @@ export default Vue.extend({
           } as Typ.ISortItem
         );
       } else {
-        return new Array<Typ.ISortItem>({
-          key: "name",
-          value: {
-            name: "name",
-          },
-        } as Typ.ISortItem);
+        return new Array<Typ.ISortItem>(
+          {
+            key: "name",
+            value: {
+              name: "name",
+            },
+          } as Typ.ISortItem,
+          {
+            key: "description",
+            value: {
+              name: "description",
+            },
+          } as Typ.ISortItem,
+          {
+            key: "number-of-suitabilities",
+            value: {
+              name: "number-of-suitabilities",
+            },
+          } as Typ.ISortItem
+        );
       }
     },
     getFilteredCriteria: function (): Array<Typ.criteriumKeyValue> {
@@ -183,8 +210,10 @@ export default Vue.extend({
         JSON.stringify(this.criteria)
       );
 
-      const filtered = unsorted.filter((x) =>
-        Typ.stringContains(x.value.name, this.search)
+      const filtered = unsorted.filter(
+        (x) =>
+          Typ.stringContains(x.value.name, this.search) ||
+          Typ.stringContains(x.value.description, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
@@ -194,6 +223,10 @@ export default Vue.extend({
           (a: Typ.criteriumKeyValue, b: Typ.criteriumKeyValue) => {
             if (this.sortBy === "name") {
               return a.value.name.localeCompare(b.value.name) * sortInt;
+            } else if (this.sortBy === "description") {
+              return (
+                a.value.description.localeCompare(b.value.description) * sortInt
+              );
             }
             //else if (this.sortBy === "importance")
             else {
@@ -201,7 +234,7 @@ export default Vue.extend({
                 a.value.isExclusionCriterium === b.value.isExclusionCriterium
               ) {
                 let result: number =
-                  (b.value.importance - a.value.importance) * -1 * sortInt;     
+                  (b.value.importance - a.value.importance) * -1 * sortInt;
 
                 return result !== 0
                   ? result
@@ -223,15 +256,31 @@ export default Vue.extend({
         JSON.stringify(this.tools)
       );
 
-      const filtered = unsorted.filter((x) =>
-        Typ.stringContains(x.value.name, this.search)
+      const filtered = unsorted.filter(
+        (x) =>
+          Typ.stringContains(x.value.name, this.search) ||
+          Typ.stringContains(x.value.description, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
 
-      if (this.sortBy === "name") {
+      if (this.sortBy !== "") {
         return filtered.sort((a: Typ.toolKeyValue, b: Typ.toolKeyValue) => {
-          return a.value.name.localeCompare(b.value.name) * sortInt;
+          if (this.sortBy === "description") {
+            return (
+              a.value.description.localeCompare(b.value.description) * sortInt
+            );
+          } else if (this.sortBy === "number-of-suitabilities") {
+            return (
+              (a.value.criteriaSuitabilities.length -
+                b.value.criteriaSuitabilities.length) *
+              sortInt
+            );
+          }
+          //else if (this.sortBy === "name")
+          else {
+            return a.value.name.localeCompare(b.value.name) * sortInt;
+          }
         });
       }
 
@@ -241,11 +290,15 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    currentPage: function (newVal) {
-      if (newVal === "Tools") {
-        if (this.sortBy !== "" && this.sortBy !== "name") {
-          this.sortBy = "";
-        }
+    currentPage: function () {
+      if (
+        !(
+          this.sortBy === "" ||
+          this.sortBy === "name" ||
+          this.sortBy === "description"
+        )
+      ) {
+        this.sortBy = "";
       }
     },
   },

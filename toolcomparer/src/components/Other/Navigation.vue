@@ -8,103 +8,137 @@
       <v-container fluid>
         <!-- Head -->
         <v-row>
-          <v-col style="position: absolute; left: 5vw; width: 90vw">
+          <v-col style="position: absolute; width: 100vw">
+            <v-toolbar
+              flat
+              dense
+              tile
+              floating
+              absolute
+              color="transparent"
+              style="position: absolute; top: 10px; right: 10px"
+            >
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    x-small
+                    text
+                    color="white"
+                    v-on:click.native="
+                      navigateTo(
+                        '/Workflow/' + $store.getters.getSettingsWorkflow
+                      )
+                    "
+                  >
+                    Brainstorming
+                  </v-btn>
+                </template>
+                <span>
+                  Starts a Worklow where criteria and tools can be created and
+                  combined.
+                  <br />
+                  Under Settings you can change the Workflow and
+                  Validation-Rules.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    x-small
+                    text
+                    color="white"
+                    v-on:click.native="currentPage = 'Criteria'"
+                  >
+                    Criteria
+                  </v-btn>
+                </template>
+                <span> Add or change criteria. </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    x-small
+                    text
+                    color="white"
+                    v-on:click.native="currentPage = 'Tools'"
+                  >
+                    Tools
+                  </v-btn>
+                </template>
+                <span> Add or change tools. </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    x-small
+                    text
+                    color="white"
+                    v-on:click.native="currentPage = 'Comparision'"
+                  >
+                    Comparision
+                  </v-btn>
+                </template>
+                <span>
+                  Show Comparision of Tools.
+                  <br />
+                  Under "Change View" you can switch between card and table
+                  design.
+                </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-2"
+                    x-small
+                    icon
+                    color="white"
+                    v-on:click.native="featuresDialog = true"
+                  >
+                    <v-icon>{{ icons.mdiSwapVertical }}</v-icon>
+                  </v-btn>
+                </template>
+                <span> Import/Export data of the current page. </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    class="px-2"
+                    x-small
+                    icon
+                    color="white"
+                    v-on:click.native="showSettings = true"
+                  >
+                    <v-icon>{{ icons.mdiCog }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  Settings.
+                  <br />
+                  You can change Workflow, Validation-Rules and
+                  Comparision-Design.
+                </span>
+              </v-tooltip>
+            </v-toolbar>
             <Header :headerText="currentPage" />
           </v-col>
         </v-row>
 
         <!-- Body -->
-        <v-row>
+        <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
           <v-col>
-            <v-navigation-drawer permanent expand-on-hover absolute>
-              <v-list nav>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="showSettings = true"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiCog }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Settings </v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="featuresDialog = true"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiDotsHorizontal }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> More Features </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="currentPage = 'Comparision'"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiHome }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Comparision </v-list-item-title>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item link v-on:click.native="currentPage = 'Criteria'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      Criteria
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                      Manage Criteria
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item link v-on:click.native="currentPage = 'Tools'">
-                  <v-list-item-content>
-                    <v-list-item-title class="text-h6">
-                      Tools
-                    </v-list-item-title>
-                    <v-list-item-subtitle> Manage Tools </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-divider> </v-divider>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="currentPage = 'Combine Data'"
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiVectorCombine }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Combine Data </v-list-item-title>
-                </v-list-item>
-                <v-list-item
-                  link
-                  class="px-2"
-                  v-on:click.native="
-                    navigateTo(
-                      '/Workflow/' + $store.getters.getSettingsWorkflow
-                    )
-                  "
-                >
-                  <v-list-item-icon>
-                    <v-icon>{{ icons.mdiPlus }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-title> Workflow </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-navigation-drawer>
-            <v-card
-              style="
-                position: absolute;
-                left: 5vw;
-                top: 10vh;
-                height: 85vh;
-                width: 90vw;
-                overflow-y: auto;
-              "
-            >
+            <v-card style="height: 85vh; overflow-y: auto">
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
@@ -145,6 +179,7 @@ import {
   mdiPlus,
   mdiDotsHorizontal,
   mdiVectorCombine,
+  mdiSwapVertical,
 } from "@mdi/js";
 
 import Vue from "vue";
@@ -189,6 +224,7 @@ export default Vue.extend({
         mdiPlus,
         mdiDotsHorizontal,
         mdiVectorCombine,
+        mdiSwapVertical,
       },
       uuidNIL,
       Typ,

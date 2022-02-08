@@ -11,7 +11,7 @@
         :label="lblSearch"
       >
       </v-text-field>
-      <template v-if="$vuetify.breakpoint.mdAndUp">
+      <template v-if="showSort && $vuetify.breakpoint.mdAndUp">
         <v-spacer></v-spacer>
         <v-select
           v-model="hsortBy"
@@ -19,7 +19,7 @@
           solo-inverted
           hide-details
           :items="[''].concat(sortItems.map((x) => x.value.name))"
-          prepend-inner-icon="mdi-magnify"
+          prepend-inner-icon="mdi-sort"
           :label="lblSort"
         >
         </v-select>
@@ -68,6 +68,10 @@ export default Vue.extend({
     lblSort: {
       type: String,
       default: "Sort by criteria",
+    },
+    showSort: {
+      type: Boolean,
+      default: true,
     },
   },
 

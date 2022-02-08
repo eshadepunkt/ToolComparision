@@ -14,9 +14,6 @@
           : 0
       }}
     </td>
-    <td>
-      {{ getSuitabilitiesCSV }}
-    </td>
     <td width="125">
       <v-row>
         <v-col cols="5">
@@ -44,6 +41,12 @@
       :forceSkipToSuitabilities="forceSkipToSuitabilities"
       v-on:closeDialog="showDialog = false"
     />
+    <DeleteConfirmationDialog
+      :showDialog="confirmationRequest"
+      :deleteItem="propToolKV.value.name"
+      :deleteFrom="'Tools'"
+      v-on:deletionConfirmed="deleteItem"
+    />
   </tr>
 </template>
 
@@ -62,12 +65,14 @@ import {
 
 import Vue from "vue";
 import ToolCreationDialog from "./ToolCreationDialog.vue";
+import DeleteConfirmationDialog from "../Other/DeleteConfirmationDialog.vue";
 
 export default Vue.extend({
   name: "ComparisionDataTableRow",
 
   components: {
     ToolCreationDialog,
+    DeleteConfirmationDialog,
   },
 
   //PROPS
@@ -102,6 +107,7 @@ export default Vue.extend({
     return {
       moduleState: Typ.simpleModuleState.minimized as Typ.simpleModuleState,
       showDialog: false as boolean,
+      confirmationRequest: false as boolean,
 
       icons: {
         mdiAccount,
@@ -120,34 +126,14 @@ export default Vue.extend({
       this.showDialog = true;
     },
     btnDelete() {
-      this.$store.commit("removeTool", this.propToolKV);
+      this.confirmationRequest = true;
     },
-  },
-
-  //COMPUTED
-  computed: {
-    getSuitabilitiesCSV: function (): string {
-      let csv = "";
-
-      if (
-        this.propToolKV.value.criteriaSuitabilities &&
-        this.propToolKV.value.criteriaSuitabilities.length > 0
-      ) {
-        this.propToolKV.value.criteriaSuitabilities.forEach((element) => {
-          if (
-            this.criteria.findIndex(
-              (x) => x.key === element.criteriumKV.key
-            ) !== -1
-          ) {
-            csv += element.criteriumKV.value.name + ", ";
-          }
-        });
-
-        //Remove last comma
-        return csv.length >= 2 ? csv.slice(0, -2) : "";
-      } else {
-        return csv;
+    deleteItem(deleteItem: boolean) {
+      if (deleteItem) {
+        this.$store.commit("removeTool", this.propToolKV);
       }
+
+      this.confirmationRequest = false;
     },
   },
 });

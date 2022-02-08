@@ -1,86 +1,88 @@
 <template>
-  <v-list-item id="ComparisionDataIteratorCardItem" style="width: 20em">
-    <div style="width: 11em">
-      <v-list-item-content>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <div
-              v-bind:style="
-                criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-              "
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ criteriumKV.value.name }}:
-            </div>
-          </template>
-          <span>
-            <v-card-text v-html="getCriteriumInfo()" />
-          </span>
-        </v-tooltip>
-      </v-list-item-content>
-    </div>
-    <div style="width: 5em">
-      <v-list-item-content>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <div
-              v-if="
-                suitability.fullfillment !==
-                Typ.toolCriteriumFullfillment.undefined
-              "
-              v-bind:style="
-                criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-              "
-              v-bind="attrs"
-              v-on="on"
-            >
-              <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
-                <v-card-text v-html="getResultString()" />
-              </div>
+  <v-hover v-slot="{ hover }">
+    <v-list-item id="ComparisionDataIteratorCardItem" style="width: 20em">
+      <div style="width: 11em">
+        <v-list-item-content>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
               <div
-                v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+                v-bind:style="
+                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
+                "
+                v-bind="attrs"
+                v-on="on"
               >
-                <v-rating
-                  :empty-icon="icons.mdiStarOutline"
-                  :full-icon="icons.mdiStar"
-                  :half-icon="icons.mdiStarHalfFull"
-                  :value="getRatingRatio()"
-                  half-increments
-                  readonly
-                  dense
-                  x-small
-                  length="5"
-                  size="1.5em"
-                >
-                </v-rating>
+                {{ criteriumKV.value.name }}:
               </div>
-            </div>
-          </template>
-          <span>
-            <v-card-text v-html="getRatingInfo()" />
-          </span>
-        </v-tooltip>
-      </v-list-item-content>
-    </div>
-    <div style="width: 2em">
-      <v-list-item-content style="width: 2em">
-        <v-btn style="width: 2em" icon @click="btnEdit()">
-          <v-icon>
-            {{ icons.mdiPencil }}
-          </v-icon>
-        </v-btn>
-      </v-list-item-content>
-    </div>
-    <div style="width: 2em" />
-    <ToolCriteriumSuitabilityCreationDialog
-      :propToolKV="result.toolKV"
-      :mode="editMode"
-      :showDialog="showDialog"
-      :criteria="[].concat(suitability.criteriumKV)"
-      v-on:closeDialog="showDialog = false"
-    />
-  </v-list-item>
+            </template>
+            <span>
+              <v-card-text v-html="getCriteriumInfo()" />
+            </span>
+          </v-tooltip>
+        </v-list-item-content>
+      </div>
+      <div style="width: 5em">
+        <v-list-item-content>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <div
+                v-if="
+                  suitability.fullfillment !==
+                  Typ.toolCriteriumFullfillment.undefined
+                "
+                v-bind:style="
+                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
+                "
+                v-bind="attrs"
+                v-on="on"
+              >
+                <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                  <v-card-text v-html="getResultString()" />
+                </div>
+                <div
+                  v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+                >
+                  <v-rating
+                    :empty-icon="icons.mdiStarOutline"
+                    :full-icon="icons.mdiStar"
+                    :half-icon="icons.mdiStarHalfFull"
+                    :value="getRatingRatio()"
+                    half-increments
+                    readonly
+                    dense
+                    x-small
+                    length="5"
+                    size="1.5em"
+                  >
+                  </v-rating>
+                </div>
+              </div>
+            </template>
+            <span>
+              <v-card-text v-html="getRatingInfo()" />
+            </span>
+          </v-tooltip>
+        </v-list-item-content>
+      </div>
+      <div style="width: 2em">
+        <v-list-item-content style="width: 2em">
+          <v-btn style="width: 2em" v-show="hover" icon @click="btnEdit()">
+            <v-icon>
+              {{ icons.mdiPencil }}
+            </v-icon>
+          </v-btn>
+        </v-list-item-content>
+      </div>
+      <div style="width: 2em" />
+      <ToolCriteriumSuitabilityCreationDialog
+        :propToolKV="result.toolKV"
+        :mode="editMode"
+        :showDialog="showDialog"
+        :criteria="[].concat(suitability.criteriumKV)"
+        v-on:closeDialog="showDialog = false"
+      />
+    </v-list-item>
+  </v-hover>
 </template>
 
 <script lang="ts">

@@ -6,6 +6,9 @@
       :tools="tools"
       :showDialog="showDialog && currentDataTable === 'Criteria'"
       :workflow="workflow"
+      :sortDesc="sortDesc"
+      :sortBy="sortBy"
+      v-on:changeSort="changeSort"
       v-on:closeDialog="closeDialog()"
     />
     <ToolDataTable
@@ -14,6 +17,9 @@
       :criteria="criteria"
       :showDialog="showDialog && currentDataTable === 'Tools'"
       :workflow="workflow"
+      :sortDesc="sortDesc"
+      :sortBy="sortBy"
+      v-on:changeSort="changeSort"
       v-on:closeDialog="closeDialog()"
     />
   </div>
@@ -67,6 +73,16 @@ export default Vue.extend({
     tools: {
       type: Array as () => Array<Typ.toolKeyValue>,
     },
+    showWorkflowButtons: {
+      type: Boolean,
+      default: false,
+    },
+    sortDesc: {
+      type: Boolean,
+    },
+    sortBy: {
+      type: String,
+    },
   },
 
   //DATA
@@ -90,6 +106,13 @@ export default Vue.extend({
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    changeSort(sortBy: string) {
+      if (this.sortBy === sortBy) {
+        this.$emit("sortDescChanged", !this.sortDesc);
+      } else {
+        this.$emit("sortByChanged", sortBy);
+      }
     },
   },
 });
