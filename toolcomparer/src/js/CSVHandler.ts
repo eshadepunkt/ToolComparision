@@ -138,7 +138,7 @@ export function WriteCSVLine(
       const entry: string = line[k];
 
       if (autoEscape) {
-        let entr: string = entry.replace(
+        let entr: string = entry.replaceAll(
           rangeEscape,
           rangeEscape + rangeEscape
         );
@@ -158,8 +158,6 @@ export function WriteCSVLine(
 
     csvLines += "\n";
   }
-
-  console.log(csvLines + "EOF");
 
   //NOTE: A comma was added at the end that must be removed
   csvLines = csvLines.replaceAll(seperator + "\n", "\n");
