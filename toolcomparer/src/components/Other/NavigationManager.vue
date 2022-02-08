@@ -210,9 +210,10 @@ export default Vue.extend({
         JSON.stringify(this.criteria)
       );
 
-      const filtered = unsorted.filter((x) =>
-        Typ.stringContains(x.value.name, this.search) 
-          || Typ.stringContains(x.value.description, this.search)
+      const filtered = unsorted.filter(
+        (x) =>
+          Typ.stringContains(x.value.name, this.search) ||
+          Typ.stringContains(x.value.description, this.search)
       );
 
       const sortInt = this.sortDesc ? -1 : 1;
@@ -269,9 +270,12 @@ export default Vue.extend({
             return (
               a.value.description.localeCompare(b.value.description) * sortInt
             );
-          }
-          else if (this.sortBy === "number-of-suitabilities") {
-            return (a.value.criteriaSuitabilities.length - b.value.criteriaSuitabilities.length) * sortInt;
+          } else if (this.sortBy === "number-of-suitabilities") {
+            return (
+              (a.value.criteriaSuitabilities.length -
+                b.value.criteriaSuitabilities.length) *
+              sortInt
+            );
           }
           //else if (this.sortBy === "name")
           else {
@@ -286,10 +290,16 @@ export default Vue.extend({
 
   //WATCH
   watch: {
-    currentPage: function() {
-      if (!(this.sortBy === "" || this.sortBy === "name" || this.sortBy === "description")) {
-          this.sortBy = "";
-        }
+    currentPage: function () {
+      if (
+        !(
+          this.sortBy === "" ||
+          this.sortBy === "name" ||
+          this.sortBy === "description"
+        )
+      ) {
+        this.sortBy = "";
+      }
     },
   },
 });
