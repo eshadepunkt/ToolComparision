@@ -159,8 +159,6 @@ export function WriteCSVLine(
     csvLines += "\n";
   }
 
-  console.log(csvLines + "EOF");
-
   //NOTE: A comma was added at the end that must be removed
   csvLines = csvLines.replaceAll(seperator + "\n", "\n");
 
