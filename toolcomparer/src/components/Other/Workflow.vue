@@ -130,14 +130,15 @@ export default Vue.extend({
     exporter() {
       let json = "";
       let filename = "";
+      console.log(this.currentListBox);
       switch (this.currentListBox) {
-        case "Criteria":
+        case "Tools":
           {
             json = JSON.stringify(this.getTools);
             filename = "toolcomparer_tools.json";
           }
           break;
-        case "Tools":
+        case "Criteria":
           {
             json = JSON.stringify(this.getCriteria);
             filename = "toolcomparer_criteria.json";
@@ -213,7 +214,7 @@ export default Vue.extend({
           (!isCriteriaFirst && !isListBoxCriteria)) &&
         !forward;
       if (isComparisionNext || isStartBack) {
-        this.navigateTo("/Comparision/DataIterator/");
+        this.navigateTo("/Start/");
       } else {
         const isToolsNext =
           isListBoxCriteria &&
