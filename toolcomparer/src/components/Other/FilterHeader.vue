@@ -19,7 +19,7 @@
       </span>
     </v-tooltip>
 
-      <template v-if="showSort && $vuetify.breakpoint.mdAndUp" style="width: 66vw;">
+      <template v-if="showSort" style="width: 66vw;">
         <v-spacer></v-spacer>
         <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
