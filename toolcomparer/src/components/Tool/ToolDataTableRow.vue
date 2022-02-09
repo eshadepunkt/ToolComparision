@@ -18,16 +18,30 @@
       <v-row>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnEdit()">
-            <v-icon>
+            <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">
               {{ icons.mdiPencil }}
             </v-icon>
+            </template>
+            <span>
+              Edit Tool
+            </span>
+          </v-tooltip>
           </v-btn>
         </v-col>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnDelete()">
-            <v-icon>
+            <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+            <v-icon v-bind="attrs" v-on="on">
               {{ icons.mdiDelete }}
             </v-icon>
+            </template>
+            <span>
+              Remove Tool
+            </span>
+          </v-tooltip>
           </v-btn>
         </v-col>
       </v-row>
