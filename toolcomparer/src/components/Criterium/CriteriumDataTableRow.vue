@@ -28,28 +28,24 @@
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnEdit()">
             <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on">
-              {{ icons.mdiPencil }}
-            </v-icon>
-            </template>
-                <span>
-                  Edit Criterium
-                </span>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  {{ icons.mdiPencil }}
+                </v-icon>
+              </template>
+              <span> Edit Criterium </span>
             </v-tooltip>
           </v-btn>
         </v-col>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnDelete()">
             <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on">
-              {{ icons.mdiDelete }}
-            </v-icon>
-            </template>
-              <span>
-                Remove Criterium
-              </span>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  {{ icons.mdiDelete }}
+                </v-icon>
+              </template>
+              <span> Remove Criterium </span>
             </v-tooltip>
           </v-btn>
         </v-col>

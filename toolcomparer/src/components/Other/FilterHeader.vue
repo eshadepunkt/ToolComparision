@@ -2,70 +2,76 @@
   <div id="FilterHeader">
     <v-toolbar dark color="blue darken-3" class="mb-1">
       <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-      <v-text-field v-bind="attrs" v-on="on"
-        v-model="hsearch"
-        clearable
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        :label="lblSearch"
-      >
-      </v-text-field>
-      </template>
-      <span>
-        Search for
-      </span>
-    </v-tooltip>
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-bind="attrs"
+            v-on="on"
+            v-model="hsearch"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            :label="lblSearch"
+          >
+          </v-text-field>
+        </template>
+        <span> Search for </span>
+      </v-tooltip>
 
-      <template v-if="showSort" style="width: 66vw;">
+      <template v-if="showSort" style="width: 66vw">
         <v-spacer></v-spacer>
         <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on" style="width: 25vw;">
-        <v-select
-          v-model="hsortBy"
-          flat
-          solo-inverted
-          hide-details
-          :items="[''].concat(sortItems.map((x) => x.value.name))"
-          prepend-inner-icon="mdi-sort"
-          :label="lblSort"
-          
-        >
-        </v-select>
-          </div>
-        </template>
-          <span>
-            Sort by
-          </span>
+          <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on" style="width: 25vw">
+              <v-select
+                v-model="hsortBy"
+                flat
+                solo-inverted
+                hide-details
+                :items="[''].concat(sortItems.map((x) => x.value.name))"
+                prepend-inner-icon="mdi-sort"
+                :label="lblSort"
+              >
+              </v-select>
+            </div>
+          </template>
+          <span> Sort by </span>
         </v-tooltip>
         <v-spacer></v-spacer>
         <v-btn-toggle v-model="hsortDesc" mandatory>
           <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" large depressed color="blue" :value="false">
-            <v-icon>mdi-arrow-up</v-icon>
-          </v-btn>
-          </template>
-          <span>
-            Sort Ascending
-          </span>
-        </v-tooltip>
-        <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" large depressed color="blue" :value="true">
-            <v-icon>mdi-arrow-down</v-icon>
-          </v-btn>
-        </template>
-          <span>
-            Sort Descending
-          </span>
-        </v-tooltip>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                large
+                depressed
+                color="blue"
+                :value="false"
+              >
+                <v-icon>mdi-arrow-up</v-icon>
+              </v-btn>
+            </template>
+            <span> Sort Ascending </span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-bind="attrs"
+                v-on="on"
+                large
+                depressed
+                color="blue"
+                :value="true"
+              >
+                <v-icon>mdi-arrow-down</v-icon>
+              </v-btn>
+            </template>
+            <span> Sort Descending </span>
+          </v-tooltip>
         </v-btn-toggle>
       </template>
-
     </v-toolbar>
   </div>
 </template>

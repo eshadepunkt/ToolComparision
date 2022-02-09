@@ -68,14 +68,12 @@
         <v-list-item-content style="width: 2em">
           <v-btn style="width: 2em" v-show="hover" icon @click="btnEdit()">
             <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on">
-              {{ icons.mdiPencil }}
-            </v-icon>
-            </template>
-              <span>
-                Edit Suitability
-              </span>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  {{ icons.mdiPencil }}
+                </v-icon>
+              </template>
+              <span> Edit Suitability </span>
             </v-tooltip>
           </v-btn>
         </v-list-item-content>

@@ -51,15 +51,13 @@
                     <!-- Icons -->
                     <v-btn class="ma-2" v-show="hover" icon @click="btnEdit()">
                       <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" v-on="on">
-                          {{ icons.mdiPencil }}
-                        </v-icon>
-                      </template>
-                      <span>
-                        Edit Tool and Suitabilities
-                      </span>
-                    </v-tooltip>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on">
+                            {{ icons.mdiPencil }}
+                          </v-icon>
+                        </template>
+                        <span> Edit Tool and Suitabilities </span>
+                      </v-tooltip>
                     </v-btn>
                   </div>
                 </v-col>
@@ -71,16 +69,14 @@
                       icon
                       @click="btnDelete()"
                     >
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                      <v-icon v-bind="attrs" v-on="on">
-                        {{ icons.mdiClose }}
-                      </v-icon>
-                      </template>
-                      <span>
-                        Remove Suitabilities
-                      </span>
-                    </v-tooltip>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on">
+                            {{ icons.mdiClose }}
+                          </v-icon>
+                        </template>
+                        <span> Remove Suitabilities </span>
+                      </v-tooltip>
                     </v-btn>
                   </div>
                 </v-col>
