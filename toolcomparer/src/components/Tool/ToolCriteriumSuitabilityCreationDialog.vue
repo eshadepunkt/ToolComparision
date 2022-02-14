@@ -17,9 +17,8 @@
                 <h1 style="text-align: center; color: white">
                   {{
                     Typ.convertEditModeEnumToString(mode) +
-                    " [" +
-                    toolKV.value.name +
-                    "] "
+                    " " +
+                    toolKV.value.name
                   }}
                   suitability
                 </h1>
