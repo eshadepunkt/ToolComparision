@@ -156,7 +156,6 @@
     />
     <FeaturesDialog
       :featuresDialog="featuresDialog"
-      :caller="currentPage"
       v-on:closeFeatures="featuresDialog = false"
     />
   </div>
