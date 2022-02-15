@@ -41,7 +41,7 @@
           <!-- Buttons -->
           <v-row>
             <v-card-actions>
-              <v-btn @click="btnGoBack()" color="red lighten-5">
+              <v-btn @click="btnGoBack()" text>
                 {{ btnPrevText }}
               </v-btn>
             </v-card-actions>
@@ -49,13 +49,13 @@
               <v-btn
                 v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
-                color="blue lighten-5"
+                color="secondary"
               >
                 Update All &amp; Close
               </v-btn>
             </v-card-actions>
             <v-card-actions>
-              <v-btn @click="btnSave()" color="teal lighten-5">
+              <v-btn @click="btnSave()" color="primary">
                 {{ btnNextText }}
               </v-btn>
             </v-card-actions>

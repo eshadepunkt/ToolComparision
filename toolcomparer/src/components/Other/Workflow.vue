@@ -36,18 +36,18 @@
                   <v-card-actions>
                     <v-btn
                       @click="navigateForward(false)"
-                      color="red lighten-5"
+                      text
                     >
                       {{ btnBackTxt }}
                     </v-btn>
                   </v-card-actions>
                   <v-card-actions>
-                    <v-btn @click="showDialog = true" color="teal lighten-5">
+                    <v-btn @click="showDialog = true" color="primary">
                       {{ btnAddTxt }}
                     </v-btn>
                   </v-card-actions>
                   <v-card-actions>
-                    <v-btn @click="navigateForward()" color="blue lighten-5">
+                    <v-btn @click="navigateForward()" color="secondary">
                       {{ btnNextTxt }}
                     </v-btn>
                   </v-card-actions>
@@ -58,7 +58,7 @@
                   justify="space-between"
                 >
                   <v-card-actions>
-                    <v-btn @click="importer()"> Import </v-btn>
+                    <v-btn @click="importer()" text> Import </v-btn>
                     <input
                       ref="uploader"
                       class="d-none"
@@ -68,7 +68,7 @@
                     />
                   </v-card-actions>
                   <v-card-actions>
-                    <v-btn @click="exporter()"> Export </v-btn>
+                    <v-btn @click="exporter()" text> Export </v-btn>
                   </v-card-actions>
                 </v-row>
               </v-container>

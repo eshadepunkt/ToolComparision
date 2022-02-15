@@ -14,12 +14,12 @@
       </v-alert>
       <v-row>
         <v-card-actions>
-          <v-btn @click="closeDialog(true)" color="green lighten-5">
+          <v-btn @click="closeDialog(true)" color="primary">
             Yes
           </v-btn>
         </v-card-actions>
         <v-card-actions>
-          <v-btn @click="closeDialog(false)" color="red lighten-5"> No </v-btn>
+          <v-btn @click="closeDialog(false)" text> No </v-btn>
         </v-card-actions>
       </v-row>
     </v-card>

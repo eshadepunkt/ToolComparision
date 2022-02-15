@@ -52,7 +52,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-btn @click="exporter()"> Export </v-btn>
+            <v-btn @click="exporter()" color="primary"> Export </v-btn>
           </v-row>
         </v-container>
         <v-container fluid v-show="mode === 'Import'" style="height: 25vh">
@@ -71,7 +71,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-btn @click="importer()"> Import </v-btn>
+            <v-btn @click="importer()" color="primary"> Import </v-btn>
             <input
               ref="uploader"
               class="d-none"
