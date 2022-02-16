@@ -39,7 +39,7 @@ export function convertEditModeEnumToString(convert: simpleEditMode): string {
     case simpleEditMode.Update:
       return "Update";
     case simpleEditMode.UpdateSingle:
-      return "Update single";
+      return "Update";
     default:
       return "Add";
   }

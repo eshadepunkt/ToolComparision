@@ -44,7 +44,7 @@
                 @click="btnSave(true)"
                 color="secondary"
               >
-                Update All &amp; Close
+                Update &amp; Close
               </v-btn>
             </v-card-actions>
             <v-card-actions>

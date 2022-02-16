@@ -51,7 +51,7 @@
                 @click="btnSave(true)"
                 color="secondary"
               >
-                Update All &amp; Close
+                Update &amp; Close
               </v-btn>
             </v-card-actions>
             <v-card-actions>
@@ -334,7 +334,7 @@ export default Vue.extend({
         this.suitabilityHash = noSecHash(this.currentSuitability);
         if (this.currentSuitabilityIndex === length - 1) {
           this.btnNextText =
-            this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All";
+            this.mode === Typ.simpleEditMode.Add ? "Save" : "Update";
         } else if (this.mode === Typ.simpleEditMode.UpdateSingle) {
           this.btnPrevText = "Cancel";
           this.btnNextText = "Update";
