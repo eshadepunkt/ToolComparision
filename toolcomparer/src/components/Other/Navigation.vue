@@ -138,7 +138,7 @@
         <!-- Body -->
         <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
           <v-col>
-            <v-card style="height: 85vh; overflow-y: auto">
+            <v-card style="height: 85vh;">
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"

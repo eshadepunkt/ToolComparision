@@ -78,7 +78,7 @@
       <v-spacer v-if="showViewSwitch"></v-spacer>
       <div style="width: 25px;" v-if="showViewSwitch">
       <v-col>
-        <v-btn small icon @click="viewChanged('DataIterator')">
+        <v-btn v-if="currentView !== 'DataIterator'" small icon @click="viewChanged('DataIterator')">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-icon v-bind="attrs" v-on="on">
@@ -88,7 +88,7 @@
             <span> Card View </span>
           </v-tooltip>
         </v-btn>
-        <v-btn small icon @click="viewChanged('DataTable')">
+        <v-btn v-else-if="currentView !== 'DataTable'" small icon @click="viewChanged('DataTable')">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-icon v-bind="attrs" v-on="on">
@@ -154,6 +154,10 @@ export default Vue.extend({
     showViewSwitch: {
       type: Boolean,
       default: false,
+    },
+    currentView: {
+      type: String,
+      default: "DataTable",
     },
   },
 
