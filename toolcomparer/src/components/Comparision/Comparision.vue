@@ -8,6 +8,8 @@
             :search="search"
             :sortDesc="sortDesc"
             :sortBy="sortBy"
+            :showSort="currentView === 'DataTable'"
+            :showViewSwitch="true"
             v-on:searchChanged="searchChanged"
             v-on:sortDescChanged="sortDescChanged"
             v-on:sortByChanged="sortByChanged"
