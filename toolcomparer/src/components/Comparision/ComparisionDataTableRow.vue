@@ -170,9 +170,7 @@ export default Vue.extend({
       this.confirmationRequest = false;
     },
     getColor(score: Typ.score): string {
-       if (
-        this.result.score.currentValue < 0
-      ) {
+      if (this.result.score.currentValue < 0) {
         return "background-color: darkgrey;";
       } else if (!this.$store.getters.getSettingsIsColorChips) {
         return "background-color: white;";

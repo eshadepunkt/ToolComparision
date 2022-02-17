@@ -26,11 +26,7 @@
                     x-small
                     text
                     color="white"
-                    v-on:click.native="
-                      navigateTo(
-                        '/Workflow/' + $store.getters.getSettingsWorkflow
-                      )
-                    "
+                    v-on:click.native="showBrainstorming = true"
                   >
                     Brainstorming
                   </v-btn>
@@ -158,6 +154,11 @@
       :featuresDialog="featuresDialog"
       v-on:closeFeatures="featuresDialog = false"
     />
+    <Workflow
+      :showBrainstorming="showBrainstorming"
+      :workflow="$store.getters.getSettingsWorkflow"
+      v-on:closeBrainstorming="showBrainstorming = false"
+    />
   </div>
 </template>
 
@@ -187,6 +188,7 @@ import Header from "./Header.vue";
 import NavigationManager from "./NavigationManager.vue";
 import SettingsDialog from "./SettingsDialog.vue";
 import FeaturesDialog from "./FeaturesDialog.vue";
+import Workflow from "./Workflow.vue";
 
 export default Vue.extend({
   name: "Navigation",
@@ -196,6 +198,7 @@ export default Vue.extend({
     NavigationManager,
     SettingsDialog,
     FeaturesDialog,
+    Workflow,
   },
 
   //DATA
@@ -205,6 +208,7 @@ export default Vue.extend({
       showSettings: false as boolean,
       featuresDialog: false as boolean,
       importDialog: false as boolean,
+      showBrainstorming: false as boolean,
       currentPage: "Comparision" as string,
 
       btnBackTxt: "" as string,

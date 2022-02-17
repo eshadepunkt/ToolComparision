@@ -145,7 +145,7 @@ export default Vue.extend({
     btnEdit() {
       if (!this.confirmationRequest) {
         this.showDialog = true;
-      } 
+      }
     },
     btnDelete() {
       this.confirmationRequest = true;
