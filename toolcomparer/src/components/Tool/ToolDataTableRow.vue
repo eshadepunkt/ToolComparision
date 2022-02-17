@@ -121,7 +121,9 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnEdit() {
-      this.showDialog = true;
+      if (!this.confirmationRequest) {
+        this.showDialog = true;
+      } 
     },
     btnDelete() {
       this.confirmationRequest = true;

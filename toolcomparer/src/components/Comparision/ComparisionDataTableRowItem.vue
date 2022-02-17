@@ -164,6 +164,11 @@ export default Vue.extend({
         this.suitability.fullfillment;
 
       if (
+        this.suitability.fullfillment ===
+        Typ.toolCriteriumFullfillment.undefined
+      ) {
+        return "background-color: darkgrey;";
+      } else if (
         !this.$store.getters.getSettingsIsColorChips ||
         this.$store.getters.getSettingsIsColorChipsScoreOnly
       ) {

@@ -22,31 +22,46 @@
     </div>
     <div style="width: 5em">
       <v-list-item-content v-on:click="btnEdit()">
-        <div
-          v-if="
-            suitability.fullfillment !== Typ.toolCriteriumFullfillment.undefined
+        <v-chip
+          v-on:click="btnEdit()"
+          :style="
+            suitability.fullfillment === Typ.toolCriteriumFullfillment.undefined
+              ? 'background-color: darkgrey;'
+              : result.score.isExcluded
+              ? 'background-color: lightgrey;'
+              : 'background-color: white;'
           "
-          v-bind:style="criteriumKV.value.name === sortBy ? 'color: blue;' : ''"
         >
-          <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
-            <v-card-text v-html="getResultString()" />
-          </div>
-          <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
-            <v-rating
-              :empty-icon="icons.mdiStarOutline"
-              :full-icon="icons.mdiStar"
-              :half-icon="icons.mdiStarHalfFull"
-              :value="getRatingRatio()"
-              half-increments
-              readonly
-              dense
-              x-small
-              length="5"
-              size="1.5em"
+          <div style="width: 4.5em">
+            <div
+              v-if="
+                suitability.fullfillment !==
+                Typ.toolCriteriumFullfillment.undefined
+              "
             >
-            </v-rating>
+              <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                {{ getResultString(result, criteriumKV) }}
+              </div>
+              <div
+                v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+              >
+                <v-rating
+                  :empty-icon="icons.mdiStarOutline"
+                  :full-icon="icons.mdiStar"
+                  :half-icon="icons.mdiStarHalfFull"
+                  :value="getRatingRatio()"
+                  half-increments
+                  readonly
+                  dense
+                  x-small
+                  length="5"
+                  size="1.5em"
+                >
+                </v-rating>
+              </div>
+            </div>
           </div>
-        </div>
+        </v-chip>
       </v-list-item-content>
     </div>
     <ToolCriteriumSuitabilityCreationDialog
