@@ -1,19 +1,12 @@
 <template>
   <tr id="ComparisionDataTableRow">
     <td>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
+      <div v-on:click="btnEdit()">
             {{ result.toolKV.value.name }}
           </div>
-        </template>
-        <span>
-          <v-card-text v-html="getToolInfo()" />
-        </span>
-      </v-tooltip>
     </td>
     <td>
-      <v-chip
+      <v-chip  v-on:click="btnEdit()"
         :style="
           getColor(result.score) +
           (result.score.isExcluded ? 'color: grey' : '')
@@ -46,20 +39,8 @@
       :sortBy="sortBy"
       :key="noSecHash(suitability)"
     />
-    <td width="125">
+    <td width="5em">
       <v-row>
-        <v-col cols="5">
-          <v-btn class="ma-2" icon @click="btnEdit()">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">
-                  {{ icons.mdiPencil }}
-                </v-icon>
-              </template>
-              <span> Edit Tool and Suitabilities </span>
-            </v-tooltip>
-          </v-btn>
-        </v-col>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnDelete()">
             <v-tooltip bottom>
