@@ -26,11 +26,7 @@
                     x-small
                     text
                     color="white"
-                    v-on:click.native="
-                      navigateTo(
-                        '/Workflow/' + $store.getters.getSettingsWorkflow
-                      )
-                    "
+                    v-on:click.native="showBrainstorming = true"
                   >
                     Brainstorming
                   </v-btn>
@@ -138,7 +134,7 @@
         <!-- Body -->
         <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
           <v-col>
-            <v-card style="height: 85vh; overflow-y: auto">
+            <v-card style="height: 85vh">
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
@@ -156,8 +152,12 @@
     />
     <FeaturesDialog
       :featuresDialog="featuresDialog"
-      :caller="currentPage"
       v-on:closeFeatures="featuresDialog = false"
+    />
+    <Workflow
+      :showBrainstorming="showBrainstorming"
+      :workflow="$store.getters.getSettingsWorkflow"
+      v-on:closeBrainstorming="showBrainstorming = false"
     />
   </div>
 </template>
@@ -188,6 +188,7 @@ import Header from "./Header.vue";
 import NavigationManager from "./NavigationManager.vue";
 import SettingsDialog from "./SettingsDialog.vue";
 import FeaturesDialog from "./FeaturesDialog.vue";
+import Workflow from "./Workflow.vue";
 
 export default Vue.extend({
   name: "Navigation",
@@ -197,6 +198,7 @@ export default Vue.extend({
     NavigationManager,
     SettingsDialog,
     FeaturesDialog,
+    Workflow,
   },
 
   //DATA
@@ -206,12 +208,16 @@ export default Vue.extend({
       showSettings: false as boolean,
       featuresDialog: false as boolean,
       importDialog: false as boolean,
+      showBrainstorming: false as boolean,
       currentPage: "Comparision" as string,
 
       btnBackTxt: "" as string,
       btnNextTxt: "" as string,
       btnAddTxt: "" as string,
       btnAddNavi: "" as string,
+
+      isInitialized: false as boolean,
+
       icons: {
         mdiAccount,
         mdiPencil,
@@ -259,8 +265,26 @@ export default Vue.extend({
       return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      return JSON.parse(JSON.stringify(this.$store.getters.getTools));
+      const json: string = JSON.stringify(this.$store.getters.getTools);
+
+      if (this.isInitialized) {
+        window.localStorage.setItem("results", json);
+      }
+
+      return JSON.parse(json);
     },
+  },
+
+  mounted: function () {
+    const results = window.localStorage.getItem("results");
+    if (results !== null) {
+      const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
+        results
+      ) as Array<Typ.toolKeyValue>;
+      this.$store.dispatch("extendTools", tmpTools);
+    }
+
+    this.isInitialized = true;
   },
 });
 </script>

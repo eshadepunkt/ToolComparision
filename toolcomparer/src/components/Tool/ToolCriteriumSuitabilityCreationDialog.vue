@@ -17,9 +17,8 @@
                 <h1 style="text-align: center; color: white">
                   {{
                     Typ.convertEditModeEnumToString(mode) +
-                    " [" +
-                    toolKV.value.name +
-                    "] "
+                    " " +
+                    toolKV.value.name
                   }}
                   suitability
                 </h1>
@@ -42,7 +41,7 @@
           <!-- Buttons -->
           <v-row>
             <v-card-actions>
-              <v-btn @click="btnGoBack()" color="red lighten-5">
+              <v-btn @click="btnGoBack()" text>
                 {{ btnPrevText }}
               </v-btn>
             </v-card-actions>
@@ -50,13 +49,13 @@
               <v-btn
                 v-if="mode === Typ.simpleEditMode.Update"
                 @click="btnSave(true)"
-                color="blue lighten-5"
+                color="secondary"
               >
-                Update All &amp; Close
+                Update &amp; Close
               </v-btn>
             </v-card-actions>
             <v-card-actions>
-              <v-btn @click="btnSave()" color="teal lighten-5">
+              <v-btn @click="btnSave()" color="primary">
                 {{ btnNextText }}
               </v-btn>
             </v-card-actions>
@@ -335,7 +334,7 @@ export default Vue.extend({
         this.suitabilityHash = noSecHash(this.currentSuitability);
         if (this.currentSuitabilityIndex === length - 1) {
           this.btnNextText =
-            this.mode === Typ.simpleEditMode.Add ? "Save All" : "Update All";
+            this.mode === Typ.simpleEditMode.Add ? "Save" : "Update";
         } else if (this.mode === Typ.simpleEditMode.UpdateSingle) {
           this.btnPrevText = "Cancel";
           this.btnNextText = "Update";

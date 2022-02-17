@@ -14,12 +14,10 @@
       </v-alert>
       <v-row>
         <v-card-actions>
-          <v-btn @click="closeDialog(true)" color="green lighten-5">
-            Yes
-          </v-btn>
+          <v-btn @click="closeDialog(true)" color="primary"> Yes </v-btn>
         </v-card-actions>
         <v-card-actions>
-          <v-btn @click="closeDialog(false)" color="red lighten-5"> No </v-btn>
+          <v-btn @click="closeDialog(false)" text> No </v-btn>
         </v-card-actions>
       </v-row>
     </v-card>
@@ -82,11 +80,11 @@ export default Vue.extend({
   methods: {
     getWarning(): string {
       return (
-        "You are about to delete <br/>[" +
+        "You are about to delete <br/>" +
         this.deleteItem +
-        "]<br/> from <br/>[" +
+        "<br/> from <br/>" +
         this.deleteFrom +
-        "]! <br/>Are you sure?"
+        "! <br/>Are you sure?"
       );
     },
     closeDialog(confirmed: boolean) {

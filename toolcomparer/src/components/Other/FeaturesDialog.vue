@@ -36,13 +36,12 @@
             <v-radio-group v-model="radExportGroup">
               <v-radio
                 :key="0"
-                :label="'Export ' + caller + ' as JSON'"
+                :label="'Export Tools & Criteria as JSON'"
                 :value="0"
               ></v-radio>
               <v-radio
-                v-show="caller === 'Comparision'"
                 :key="1"
-                :label="'Export ' + caller + ' as CSV'"
+                :label="'Export Result as CSV'"
                 :value="1"
               ></v-radio>
             </v-radio-group>
@@ -53,7 +52,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-btn @click="exporter()"> Export </v-btn>
+            <v-btn @click="exporter()" color="primary"> Export </v-btn>
           </v-row>
         </v-container>
         <v-container fluid v-show="mode === 'Import'" style="height: 25vh">
@@ -61,17 +60,9 @@
             <v-radio-group v-model="radImportGroup">
               <v-radio
                 :key="0"
-                :label="'Import ' + caller + ' from JSON'"
+                :label="'Import Tools & Criteria from JSON'"
                 :value="0"
               ></v-radio>
-              <!--
-              <v-radio
-                v-show="caller === 'Comparision'"
-                :key="1"
-                :label="'Import (readonly) ' + caller + ' from CSV'"
-                :value="1"
-              ></v-radio>
-              -->
             </v-radio-group>
           </v-row>
           <v-row>
@@ -80,7 +71,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-btn @click="importer()"> Import </v-btn>
+            <v-btn @click="importer()" color="primary"> Import </v-btn>
             <input
               ref="uploader"
               class="d-none"
@@ -122,10 +113,6 @@ export default Vue.extend({
     featuresDialog: {
       type: Boolean,
       default: false,
-    },
-    caller: {
-      type: String,
-      default: "Comparision",
     },
   },
 
@@ -171,27 +158,8 @@ export default Vue.extend({
       switch (this.radExportGroup) {
         case 0:
           {
-            switch (this.caller) {
-              // eslint-disable-next-line no-fallthrough
-              case "Comparision":
-              //fall-through
-              // eslint-disable-next-line no-fallthrough
-              case "Tools":
-                {
-                  file = JSON.stringify(this.$store.getters.getTools);
-                  filename =
-                    this.caller === "Tools"
-                      ? "toolcomparer_tools.json"
-                      : "toolcomparer_results.json";
-                }
-                break;
-              case "Criteria":
-                {
-                  file = JSON.stringify(this.$store.getters.getCriteria);
-                  filename = "toolcomparer_criteria.json";
-                }
-                break;
-            }
+            file = JSON.stringify(this.$store.getters.getTools);
+            filename = "toolcomparer_results.json";
           }
           break;
         case 1:
@@ -234,38 +202,10 @@ export default Vue.extend({
     },
     convertJSONToArray(txt: string | undefined) {
       if (txt !== undefined) {
-        switch (this.radImportGroup) {
-          case 0:
-            {
-              switch (this.caller) {
-                // eslint-disable-next-line no-fallthrough
-                case "Comparision":
-                //fall-through
-                // eslint-disable-next-line no-fallthrough
-                case "Tools":
-                  {
-                    const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
-                      txt
-                    ) as Array<Typ.toolKeyValue>;
-                    this.$store.dispatch("extendTools", tmpTools);
-                  }
-                  break;
-                case "Criteria":
-                  {
-                    const tmpCriteria: Array<Typ.criteriumKeyValue> =
-                      JSON.parse(txt) as Array<Typ.criteriumKeyValue>;
-                    this.$store.dispatch("extendCriteria", tmpCriteria);
-                  }
-                  break;
-              }
-            }
-            break;
-          case 1:
-            {
-              //TODO: Add CSV Import Support
-            }
-            break;
-        }
+        const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
+          txt
+        ) as Array<Typ.toolKeyValue>;
+        this.$store.dispatch("extendTools", tmpTools);
       }
     },
 
@@ -479,7 +419,6 @@ export default Vue.extend({
 
       let header: Array<string> = ["Tool", "Score"];
 
-      let stringBuilder = "";
       this.getCriteria.forEach((criterium) => {
         header.push(
           criterium.value.name +

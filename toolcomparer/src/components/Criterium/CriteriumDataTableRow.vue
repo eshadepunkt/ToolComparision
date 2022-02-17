@@ -1,5 +1,5 @@
 <template>
-  <tr id="CriteriumDataTableRow">
+  <tr id="CriteriumDataTableRow" v-on:click="btnEdit()">
     <td>
       {{ propCriteriumKV.value.name }}
     </td>
@@ -23,20 +23,8 @@
     <td v-if="showConnectedTools">
       {{ getToolsCSV }}
     </td>
-    <td width="125">
+    <td width="5em">
       <v-row>
-        <v-col cols="5">
-          <v-btn class="ma-2" icon @click="btnEdit()">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">
-                  {{ icons.mdiPencil }}
-                </v-icon>
-              </template>
-              <span> Edit Criterium </span>
-            </v-tooltip>
-          </v-btn>
-        </v-col>
         <v-col cols="5">
           <v-btn class="ma-2" icon @click="btnDelete()">
             <v-tooltip bottom>
@@ -155,7 +143,9 @@ export default Vue.extend({
   //METHODS
   methods: {
     btnEdit() {
-      this.showDialog = true;
+      if (!this.confirmationRequest) {
+        this.showDialog = true;
+      }
     },
     btnDelete() {
       this.confirmationRequest = true;

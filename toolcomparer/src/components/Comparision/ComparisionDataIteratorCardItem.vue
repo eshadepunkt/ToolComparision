@@ -1,93 +1,77 @@
 <template>
-  <v-hover v-slot="{ hover }">
-    <v-list-item id="ComparisionDataIteratorCardItem" style="width: 20em">
-      <div style="width: 11em">
-        <v-list-item-content>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <div
-                v-bind:style="
-                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-                "
-                v-bind="attrs"
-                v-on="on"
-              >
-                {{ criteriumKV.value.name }}:
+  <v-list-item id="ComparisionDataIteratorCardItem" style="width: 16em">
+    <div style="width: 10em">
+      <v-list-item-content>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <div
+              v-bind:style="
+                criteriumKV.value.name === sortBy ? 'color: blue;' : ''
+              "
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ criteriumKV.value.name }}:
+            </div>
+          </template>
+          <span>
+            <v-card-text v-html="getCriteriumInfo()" />
+          </span>
+        </v-tooltip>
+      </v-list-item-content>
+    </div>
+    <div style="width: 5em">
+      <v-list-item-content v-on:click="btnEdit()">
+        <v-chip
+          v-on:click="btnEdit()"
+          :style="
+            suitability.fullfillment === Typ.toolCriteriumFullfillment.undefined
+              ? 'background-color: darkgrey;'
+              : result.score.isExcluded
+              ? 'background-color: lightgrey;'
+              : 'background-color: white;'
+          "
+        >
+          <div style="width: 4.5em">
+            <div
+              v-if="
+                suitability.fullfillment !==
+                Typ.toolCriteriumFullfillment.undefined
+              "
+            >
+              <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                {{ getResultString(result, criteriumKV) }}
               </div>
-            </template>
-            <span>
-              <v-card-text v-html="getCriteriumInfo()" />
-            </span>
-          </v-tooltip>
-        </v-list-item-content>
-      </div>
-      <div style="width: 5em">
-        <v-list-item-content>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
               <div
-                v-if="
-                  suitability.fullfillment !==
-                  Typ.toolCriteriumFullfillment.undefined
-                "
-                v-bind:style="
-                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-                "
-                v-bind="attrs"
-                v-on="on"
+                v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
               >
-                <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
-                  <v-card-text v-html="getResultString()" />
-                </div>
-                <div
-                  v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+                <v-rating
+                  :empty-icon="icons.mdiStarOutline"
+                  :full-icon="icons.mdiStar"
+                  :half-icon="icons.mdiStarHalfFull"
+                  :value="getRatingRatio()"
+                  half-increments
+                  readonly
+                  dense
+                  x-small
+                  length="5"
+                  size="1.5em"
                 >
-                  <v-rating
-                    :empty-icon="icons.mdiStarOutline"
-                    :full-icon="icons.mdiStar"
-                    :half-icon="icons.mdiStarHalfFull"
-                    :value="getRatingRatio()"
-                    half-increments
-                    readonly
-                    dense
-                    x-small
-                    length="5"
-                    size="1.5em"
-                  >
-                  </v-rating>
-                </div>
+                </v-rating>
               </div>
-            </template>
-            <span>
-              <v-card-text v-html="getRatingInfo()" />
-            </span>
-          </v-tooltip>
-        </v-list-item-content>
-      </div>
-      <div style="width: 2em">
-        <v-list-item-content style="width: 2em">
-          <v-btn style="width: 2em" v-show="hover" icon @click="btnEdit()">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">
-                  {{ icons.mdiPencil }}
-                </v-icon>
-              </template>
-              <span> Edit Suitability </span>
-            </v-tooltip>
-          </v-btn>
-        </v-list-item-content>
-      </div>
-      <div style="width: 2em" />
-      <ToolCriteriumSuitabilityCreationDialog
-        :propToolKV="result.toolKV"
-        :mode="editMode"
-        :showDialog="showDialog"
-        :criteria="[].concat(suitability.criteriumKV)"
-        v-on:closeDialog="showDialog = false"
-      />
-    </v-list-item>
-  </v-hover>
+            </div>
+          </div>
+        </v-chip>
+      </v-list-item-content>
+    </div>
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="result.toolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
+  </v-list-item>
 </template>
 
 <script lang="ts">
@@ -183,10 +167,17 @@ export default Vue.extend({
     },
     getCriteriumInfo(): string {
       const text =
-        "Description:<br/>" +
-        this.criteriumKV.value.description +
-        "<br/>Exclusion Criterium: " +
-        this.criteriumKV.value.isExclusionCriterium;
+        (this.criteriumKV.value.isExclusionCriterium
+          ? "Exclusion Criterium"
+          : "") +
+        (this.criteriumKV.value.importance !==
+          Typ.criteriumImportance.undefined &&
+        !this.criteriumKV.value.isExclusionCriterium
+          ? Typ.convertImportanceEnumToString(this.criteriumKV.value.importance)
+          : "") +
+        (this.criteriumKV.value.description.trim() !== ""
+          ? "<br/> <br/>" + this.criteriumKV.value.description
+          : "");
 
       return text;
     },

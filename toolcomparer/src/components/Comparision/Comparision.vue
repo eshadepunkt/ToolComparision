@@ -8,15 +8,19 @@
             :search="search"
             :sortDesc="sortDesc"
             :sortBy="sortBy"
+            :showSort="currentView === 'DataIterator'"
+            :currentView="currentView"
+            :showViewSwitch="true"
             v-on:searchChanged="searchChanged"
             v-on:sortDescChanged="sortDescChanged"
             v-on:sortByChanged="sortByChanged"
+            v-on:viewChanged="viewChanged"
           />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-card style="height: 60vh; overflow-y: auto">
+          <v-card style="height: 70vh; overflow-y: auto">
             <ComparisionManager
               :currentView="currentView"
               :results="getFilteredResults"
@@ -30,18 +34,6 @@
             />
           </v-card>
         </v-col>
-      </v-row>
-      <!-- Buttons -->
-      <v-row
-        align="center"
-        align-content="space-between"
-        justify="space-between"
-      >
-        <v-card-actions>
-          <v-btn @click="changeView()" color="blue lighten-5">
-            Change View
-          </v-btn>
-        </v-card-actions>
       </v-row>
     </v-container>
   </div>
@@ -321,9 +313,8 @@ export default Vue.extend({
     sortByChanged(val: string) {
       this.sortBy = val;
     },
-    changeView() {
-      const isTableView: boolean = this.currentView === "DataTable";
-      this.currentView = isTableView ? "DataIterator" : "DataTable";
+    viewChanged(val: string) {
+      this.currentView = val;
     },
   },
 

@@ -1,20 +1,23 @@
 <template>
   <td id="ComparisionDataTableRowItem">
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <div v-bind="attrs" v-on="on">
-          <v-chip
+    <div>
+      <v-chip
+        v-on:click="btnEdit()"
+        :style="
+          getColor() +
+          (result.score.isExcluded ||
+          suitability.fullfillment === Typ.toolCriteriumFullfillment.undefined
+            ? 'color: grey:'
+            : criteriumKV.value.name === sortBy
+            ? 'color: blue;'
+            : '')
+        "
+      >
+        <div style="width: 4.5em">
+          <div
             v-if="
               suitability.fullfillment !==
               Typ.toolCriteriumFullfillment.undefined
-            "
-            :style="
-              getColor() +
-              (result.score.isExcluded
-                ? 'color: grey'
-                : criteriumKV.value.name === sortBy
-                ? 'color: blue;'
-                : '')
             "
           >
             <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
@@ -35,13 +38,17 @@
               >
               </v-rating>
             </div>
-          </v-chip>
+          </div>
         </div>
-      </template>
-      <span>
-        <v-card-text v-html="getRatingInfo()" />
-      </span>
-    </v-tooltip>
+      </v-chip>
+    </div>
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="result.toolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
   </td>
 </template>
 
@@ -62,8 +69,14 @@ import {
 
 import Vue from "vue";
 
+import ToolCriteriumSuitabilityCreationDialog from "../Tool/ToolCriteriumSuitabilityCreationDialog.vue";
+
 export default Vue.extend({
   name: "ComparisionDataTableRowItem",
+
+  components: {
+    ToolCriteriumSuitabilityCreationDialog,
+  },
 
   props: {
     result: {
@@ -86,6 +99,9 @@ export default Vue.extend({
       suitability: this.result.toolKV.value.criteriaSuitabilities[
         this.propSuitabilityIndex
       ] as Typ.toolCriteriumSuitability,
+
+      showDialog: false as boolean,
+      editMode: Typ.simpleEditMode.UpdateSingle,
 
       icons: {
         mdiAccount,
@@ -148,6 +164,11 @@ export default Vue.extend({
         this.suitability.fullfillment;
 
       if (
+        this.suitability.fullfillment ===
+        Typ.toolCriteriumFullfillment.undefined
+      ) {
+        return "background-color: darkgrey;";
+      } else if (
         !this.$store.getters.getSettingsIsColorChips ||
         this.$store.getters.getSettingsIsColorChipsScoreOnly
       ) {
@@ -161,6 +182,10 @@ export default Vue.extend({
       } else {
         return "background-color: red;";
       }
+    },
+
+    btnEdit() {
+      this.showDialog = true;
     },
   },
 });

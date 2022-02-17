@@ -35,10 +35,10 @@
           <!-- Buttons -->
           <v-row>
             <v-card-actions>
-              <v-btn @click="btnCancel()" color="red lighten-5"> Cancel </v-btn>
+              <v-btn @click="btnCancel()" text> Cancel </v-btn>
             </v-card-actions>
             <v-card-actions>
-              <v-btn @click="btnSave()" color="teal lighten-5">
+              <v-btn @click="btnSave()" color="primary">
                 {{ getBtnNextTxt }}
               </v-btn>
             </v-card-actions>

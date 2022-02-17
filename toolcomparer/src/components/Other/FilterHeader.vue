@@ -1,25 +1,27 @@
 <template>
   <div id="FilterHeader">
     <v-toolbar dark color="blue darken-3" class="mb-1">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-bind="attrs"
-            v-on="on"
-            v-model="hsearch"
-            clearable
-            flat
-            solo-inverted
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            :label="lblSearch"
-          >
-          </v-text-field>
-        </template>
-        <span> Search for </span>
-      </v-tooltip>
+      <div style="min-width: 30vw">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-bind="attrs"
+              v-on="on"
+              v-model="hsearch"
+              clearable
+              flat
+              solo-inverted
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              :label="lblSearch"
+            >
+            </v-text-field>
+          </template>
+          <span> Search for </span>
+        </v-tooltip>
+      </div>
 
-      <template v-if="showSort" style="width: 66vw">
+      <template v-if="showSort" style="width: 60vw">
         <v-spacer></v-spacer>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -72,12 +74,59 @@
           </v-tooltip>
         </v-btn-toggle>
       </template>
+
+      <v-spacer v-if="showViewSwitch"></v-spacer>
+      <div style="width: 25px" v-if="showViewSwitch">
+        <v-col>
+          <v-btn
+            v-if="currentView !== 'DataIterator'"
+            small
+            icon
+            @click="viewChanged('DataIterator')"
+          >
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  {{ icons.mdiViewColumn }}
+                </v-icon>
+              </template>
+              <span> Card View </span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn
+            v-else-if="currentView !== 'DataTable'"
+            small
+            icon
+            @click="viewChanged('DataTable')"
+          >
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on">
+                  {{ icons.mdiViewComfy }}
+                </v-icon>
+              </template>
+              <span> Table View </span>
+            </v-tooltip>
+          </v-btn>
+        </v-col>
+      </div>
     </v-toolbar>
   </div>
 </template>
 
 <script lang="ts">
 import * as Typ from "../../types/index";
+import {
+  mdiAccount,
+  mdiPencil,
+  mdiShareVariant,
+  mdiDelete,
+  mdiAppleKeyboardControl,
+  mdiContentSaveEdit,
+  mdiFileRestoreOutline,
+  mdiViewColumn,
+  mdiViewComfy,
+} from "@mdi/js";
 
 import Vue from "vue";
 
@@ -112,6 +161,14 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
+    showViewSwitch: {
+      type: Boolean,
+      default: false,
+    },
+    currentView: {
+      type: String,
+      default: "DataTable",
+    },
   },
 
   data() {
@@ -120,8 +177,26 @@ export default Vue.extend({
       hsearch: this.search,
       hsortDesc: this.sortDesc,
       hsortBy: this.sortBy,
+
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+        mdiAppleKeyboardControl,
+        mdiContentSaveEdit,
+        mdiFileRestoreOutline,
+        mdiViewColumn,
+        mdiViewComfy,
+      },
       Typ,
     };
+  },
+
+  methods: {
+    viewChanged(newVal: string) {
+      this.$emit("viewChanged", newVal);
+    },
   },
 
   //WATCH

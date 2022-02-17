@@ -128,9 +128,12 @@ export default Vue.extend({
   //DATA
   data() {
     return {
-      workflows: ["CriteriaFirst", "ToolsFirst"] as string[],
+      workflows: ["Criteria First", "Tools First"] as string[],
       selectedWorkflow: JSON.parse(
-        JSON.stringify(this.$store.getters.getSettingsWorkflow)
+        JSON.stringify(this.$store.getters.getSettingsWorkflow).replace(
+          "First",
+          " First"
+        )
       ) as string,
       isDescriptionMandatory: JSON.parse(
         JSON.stringify(this.$store.getters.getSettingsIsDescriptionMandatory)
@@ -179,6 +182,7 @@ export default Vue.extend({
 
   watch: {
     selectedWorkflow: function (workflow: string): void {
+      workflow = workflow.replaceAll(" ", "");
       this.$store.commit("setSettingsWorkflow", workflow);
       window.localStorage.setItem("workflow", workflow);
     },
@@ -219,7 +223,7 @@ export default Vue.extend({
   mounted: function () {
     const workflow = window.localStorage.getItem("workflow");
     if (workflow !== null) {
-      this.selectedWorkflow = workflow;
+      this.selectedWorkflow = workflow.replace("First", " First");
     }
     const isDescriptionMandatory = window.localStorage.getItem(
       "isDescriptionMandatory"
