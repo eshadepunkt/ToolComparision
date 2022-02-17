@@ -1,6 +1,6 @@
 <template>
     <v-list-item id="ComparisionDataIteratorCardItem" style="width: 16em">
-      <div style="width: 8em">
+      <div style="width: 10em">
         <v-list-item-content>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -63,7 +63,6 @@
           </v-tooltip>
         </v-list-item-content>
       </div>
-      <div style="width: 2em" />
       <ToolCriteriumSuitabilityCreationDialog
         :propToolKV="result.toolKV"
         :mode="editMode"
