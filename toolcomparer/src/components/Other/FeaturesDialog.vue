@@ -157,10 +157,10 @@ export default Vue.extend({
       let filename = "";
       switch (this.radExportGroup) {
         case 0:
-        {
-          file = JSON.stringify(this.$store.getters.getTools);
-          filename = "toolcomparer_results.json";
-        }    
+          {
+            file = JSON.stringify(this.$store.getters.getTools);
+            filename = "toolcomparer_results.json";
+          }
           break;
         case 1:
           {
@@ -203,9 +203,9 @@ export default Vue.extend({
     convertJSONToArray(txt: string | undefined) {
       if (txt !== undefined) {
         const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
-                      txt
-                    ) as Array<Typ.toolKeyValue>;
-                    this.$store.dispatch("extendTools", tmpTools);
+          txt
+        ) as Array<Typ.toolKeyValue>;
+        this.$store.dispatch("extendTools", tmpTools);
       }
     },
 

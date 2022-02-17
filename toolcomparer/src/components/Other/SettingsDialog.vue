@@ -130,7 +130,10 @@ export default Vue.extend({
     return {
       workflows: ["Criteria First", "Tools First"] as string[],
       selectedWorkflow: JSON.parse(
-        JSON.stringify(this.$store.getters.getSettingsWorkflow).replace("First", " First")
+        JSON.stringify(this.$store.getters.getSettingsWorkflow).replace(
+          "First",
+          " First"
+        )
       ) as string,
       isDescriptionMandatory: JSON.parse(
         JSON.stringify(this.$store.getters.getSettingsIsDescriptionMandatory)

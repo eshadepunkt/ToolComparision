@@ -14,9 +14,7 @@
       </v-alert>
       <v-row>
         <v-card-actions>
-          <v-btn @click="closeDialog(true)" color="primary">
-            Yes
-          </v-btn>
+          <v-btn @click="closeDialog(true)" color="primary"> Yes </v-btn>
         </v-card-actions>
         <v-card-actions>
           <v-btn @click="closeDialog(false)" text> No </v-btn>

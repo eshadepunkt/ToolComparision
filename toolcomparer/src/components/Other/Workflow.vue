@@ -34,10 +34,7 @@
                   justify="space-between"
                 >
                   <v-card-actions>
-                    <v-btn
-                      @click="navigateForward(false)"
-                      text
-                    >
+                    <v-btn @click="navigateForward(false)" text>
                       {{ btnBackTxt }}
                     </v-btn>
                   </v-card-actions>

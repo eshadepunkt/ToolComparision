@@ -138,7 +138,7 @@
         <!-- Body -->
         <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
           <v-col>
-            <v-card style="height: 85vh;">
+            <v-card style="height: 85vh">
               <NavigationManager
                 :criteria="getCriteria"
                 :tools="getTools"
@@ -211,6 +211,9 @@ export default Vue.extend({
       btnNextTxt: "" as string,
       btnAddTxt: "" as string,
       btnAddNavi: "" as string,
+
+      isInitialized: false as boolean,
+
       icons: {
         mdiAccount,
         mdiPencil,
@@ -258,8 +261,26 @@ export default Vue.extend({
       return JSON.parse(JSON.stringify(this.$store.getters.getCriteria));
     },
     getTools: function (): Array<Typ.toolKeyValue> {
-      return JSON.parse(JSON.stringify(this.$store.getters.getTools));
+      const json: string = JSON.stringify(this.$store.getters.getTools);
+
+      if (this.isInitialized) {
+        window.localStorage.setItem("results", json);
+      }
+
+      return JSON.parse(json);
     },
+  },
+
+  mounted: function () {
+    const results = window.localStorage.getItem("results");
+    if (results !== null) {
+      const tmpTools: Array<Typ.toolKeyValue> = JSON.parse(
+        results
+      ) as Array<Typ.toolKeyValue>;
+      this.$store.dispatch("extendTools", tmpTools);
+    }
+
+    this.isInitialized = true;
   },
 });
 </script>
