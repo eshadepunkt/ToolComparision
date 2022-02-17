@@ -7,10 +7,8 @@
         'width: 16em'
       "
     >
-      <v-card-title class="subheading font-weight-bold">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
+      <v-card-title class="subheading font-weight-bold" v-on:click="btnEdit()">
+        <div>
               <v-row>
                 <v-col cols="8">
                   <div style="width: 10em">
@@ -69,11 +67,6 @@
                 </v-col>
               </v-row>
             </div>
-          </template>
-          <span>
-            <v-card-text v-html="getToolInfo()" />
-          </span>
-        </v-tooltip>
       </v-card-title>
 
       <v-divider></v-divider>
@@ -196,7 +189,10 @@ export default Vue.extend({
     },
 
     btnEdit() {
-      this.showDialog = true;
+      if (!this.confirmationRequest) {
+        this.showDialog = true;
+      }
+      
     },
     btnDelete() {
       this.confirmationRequest = true;

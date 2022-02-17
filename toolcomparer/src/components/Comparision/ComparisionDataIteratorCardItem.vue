@@ -21,10 +21,8 @@
         </v-list-item-content>
       </div>
       <div style="width: 5em">
-        <v-list-item-content>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <div
+        <v-list-item-content v-on:click="btnEdit()">
+          <div
                 v-if="
                   suitability.fullfillment !==
                   Typ.toolCriteriumFullfillment.undefined
@@ -32,8 +30,6 @@
                 v-bind:style="
                   criteriumKV.value.name === sortBy ? 'color: blue;' : ''
                 "
-                v-bind="attrs"
-                v-on="on"
               >
                 <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
                   <v-card-text v-html="getResultString()" />
@@ -56,11 +52,6 @@
                   </v-rating>
                 </div>
               </div>
-            </template>
-            <span>
-              <v-card-text v-html="getRatingInfo()" />
-            </span>
-          </v-tooltip>
         </v-list-item-content>
       </div>
       <ToolCriteriumSuitabilityCreationDialog

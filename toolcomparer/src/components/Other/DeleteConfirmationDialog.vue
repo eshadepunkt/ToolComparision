@@ -80,11 +80,11 @@ export default Vue.extend({
   methods: {
     getWarning(): string {
       return (
-        "You are about to delete <br/>[" +
+        "You are about to delete <br/>" +
         this.deleteItem +
-        "]<br/> from <br/>[" +
+        "<br/> from <br/>" +
         this.deleteFrom +
-        "]! <br/>Are you sure?"
+        "! <br/>Are you sure?"
       );
     },
     closeDialog(confirmed: boolean) {
