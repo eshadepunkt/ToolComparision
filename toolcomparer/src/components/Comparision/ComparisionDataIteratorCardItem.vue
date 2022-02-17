@@ -157,10 +157,19 @@ export default Vue.extend({
     },
     getCriteriumInfo(): string {
       const text =
-        "Description:<br/>" +
-        this.criteriumKV.value.description +
-        "<br/>Exclusion Criterium: " +
-        this.criteriumKV.value.isExclusionCriterium;
+        (this.criteriumKV.value.isExclusionCriterium 
+        ? "Exclusion Criterium" 
+        : "") +
+
+        ((this.criteriumKV.value.importance !== Typ.criteriumImportance.undefined
+          && !this.criteriumKV.value.isExclusionCriterium)
+        ? (Typ.convertImportanceEnumToString(this.criteriumKV.value.importance))
+        : "") +
+
+
+        (this.criteriumKV.value.description.trim() !== "" 
+        ? (" <br/> <br/>" + this.criteriumKV.value.description) 
+        : "");
 
       return text;
     },
