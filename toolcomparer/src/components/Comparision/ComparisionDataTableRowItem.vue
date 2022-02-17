@@ -1,22 +1,25 @@
 <template>
   <td id="ComparisionDataTableRowItem">
     <div>
-          <v-chip v-on:click="btnEdit()"      
-            :style="
-              getColor() +
-              (result.score.isExcluded 
-                || suitability.fullfillment === Typ.toolCriteriumFullfillment.undefined
-                ? 'color: grey:'
-                : criteriumKV.value.name === sortBy
-                ? 'color: blue;'
-                : '')
-            "
-          >
-          <div style="width: 4.5em;">
-          <div v-if="
+      <v-chip
+        v-on:click="btnEdit()"
+        :style="
+          getColor() +
+          (result.score.isExcluded ||
+          suitability.fullfillment === Typ.toolCriteriumFullfillment.undefined
+            ? 'color: grey:'
+            : criteriumKV.value.name === sortBy
+            ? 'color: blue;'
+            : '')
+        "
+      >
+        <div style="width: 4.5em">
+          <div
+            v-if="
               suitability.fullfillment !==
               Typ.toolCriteriumFullfillment.undefined
-            ">
+            "
+          >
             <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
               {{ getResultString(result, criteriumKV) }}
             </div>
@@ -36,16 +39,16 @@
               </v-rating>
             </div>
           </div>
-          </div>
-          </v-chip>
         </div>
+      </v-chip>
+    </div>
     <ToolCriteriumSuitabilityCreationDialog
-        :propToolKV="result.toolKV"
-        :mode="editMode"
-        :showDialog="showDialog"
-        :criteria="[].concat(suitability.criteriumKV)"
-        v-on:closeDialog="showDialog = false"
-      />
+      :propToolKV="result.toolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
   </td>
 </template>
 
@@ -176,7 +179,7 @@ export default Vue.extend({
       }
     },
 
-     btnEdit() {
+    btnEdit() {
       this.showDialog = true;
     },
   },

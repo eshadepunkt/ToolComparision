@@ -1,67 +1,62 @@
 <template>
-    <v-list-item id="ComparisionDataIteratorCardItem" style="width: 16em">
-      <div style="width: 10em">
-        <v-list-item-content>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <div
-                v-bind:style="
-                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-                "
-                v-bind="attrs"
-                v-on="on"
-              >
-                {{ criteriumKV.value.name }}:
-              </div>
-            </template>
-            <span>
-              <v-card-text v-html="getCriteriumInfo()" />
-            </span>
-          </v-tooltip>
-        </v-list-item-content>
-      </div>
-      <div style="width: 5em">
-        <v-list-item-content v-on:click="btnEdit()">
-          <div
-                v-if="
-                  suitability.fullfillment !==
-                  Typ.toolCriteriumFullfillment.undefined
-                "
-                v-bind:style="
-                  criteriumKV.value.name === sortBy ? 'color: blue;' : ''
-                "
-              >
-                <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
-                  <v-card-text v-html="getResultString()" />
-                </div>
-                <div
-                  v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
-                >
-                  <v-rating
-                    :empty-icon="icons.mdiStarOutline"
-                    :full-icon="icons.mdiStar"
-                    :half-icon="icons.mdiStarHalfFull"
-                    :value="getRatingRatio()"
-                    half-increments
-                    readonly
-                    dense
-                    x-small
-                    length="5"
-                    size="1.5em"
-                  >
-                  </v-rating>
-                </div>
-              </div>
-        </v-list-item-content>
-      </div>
-      <ToolCriteriumSuitabilityCreationDialog
-        :propToolKV="result.toolKV"
-        :mode="editMode"
-        :showDialog="showDialog"
-        :criteria="[].concat(suitability.criteriumKV)"
-        v-on:closeDialog="showDialog = false"
-      />
-    </v-list-item>
+  <v-list-item id="ComparisionDataIteratorCardItem" style="width: 16em">
+    <div style="width: 10em">
+      <v-list-item-content>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <div
+              v-bind:style="
+                criteriumKV.value.name === sortBy ? 'color: blue;' : ''
+              "
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ criteriumKV.value.name }}:
+            </div>
+          </template>
+          <span>
+            <v-card-text v-html="getCriteriumInfo()" />
+          </span>
+        </v-tooltip>
+      </v-list-item-content>
+    </div>
+    <div style="width: 5em">
+      <v-list-item-content v-on:click="btnEdit()">
+        <div
+          v-if="
+            suitability.fullfillment !== Typ.toolCriteriumFullfillment.undefined
+          "
+          v-bind:style="criteriumKV.value.name === sortBy ? 'color: blue;' : ''"
+        >
+          <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+            <v-card-text v-html="getResultString()" />
+          </div>
+          <div v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers">
+            <v-rating
+              :empty-icon="icons.mdiStarOutline"
+              :full-icon="icons.mdiStar"
+              :half-icon="icons.mdiStarHalfFull"
+              :value="getRatingRatio()"
+              half-increments
+              readonly
+              dense
+              x-small
+              length="5"
+              size="1.5em"
+            >
+            </v-rating>
+          </div>
+        </div>
+      </v-list-item-content>
+    </div>
+    <ToolCriteriumSuitabilityCreationDialog
+      :propToolKV="result.toolKV"
+      :mode="editMode"
+      :showDialog="showDialog"
+      :criteria="[].concat(suitability.criteriumKV)"
+      v-on:closeDialog="showDialog = false"
+    />
+  </v-list-item>
 </template>
 
 <script lang="ts">
@@ -157,19 +152,17 @@ export default Vue.extend({
     },
     getCriteriumInfo(): string {
       const text =
-        (this.criteriumKV.value.isExclusionCriterium 
-        ? "Exclusion Criterium" 
-        : "") +
-
-        ((this.criteriumKV.value.importance !== Typ.criteriumImportance.undefined
-          && !this.criteriumKV.value.isExclusionCriterium)
-        ? (Typ.convertImportanceEnumToString(this.criteriumKV.value.importance))
-        : "") +
-
-
-        (this.criteriumKV.value.description.trim() !== "" 
-        ? (" <br/> <br/>" + this.criteriumKV.value.description) 
-        : "");
+        (this.criteriumKV.value.isExclusionCriterium
+          ? "Exclusion Criterium"
+          : "") +
+        (this.criteriumKV.value.importance !==
+          Typ.criteriumImportance.undefined &&
+        !this.criteriumKV.value.isExclusionCriterium
+          ? Typ.convertImportanceEnumToString(this.criteriumKV.value.importance)
+          : "") +
+        (this.criteriumKV.value.description.trim() !== ""
+          ? "<br/> <br/>" + this.criteriumKV.value.description
+          : "");
 
       return text;
     },

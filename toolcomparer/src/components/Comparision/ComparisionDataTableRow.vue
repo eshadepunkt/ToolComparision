@@ -2,11 +2,12 @@
   <tr id="ComparisionDataTableRow">
     <td>
       <div v-on:click="btnEdit()">
-            {{ result.toolKV.value.name }}
-          </div>
+        {{ result.toolKV.value.name }}
+      </div>
     </td>
     <td>
-      <v-chip  v-on:click="btnEdit()"
+      <v-chip
+        v-on:click="btnEdit()"
         :style="
           getColor(result.score) +
           (result.score.isExcluded ? 'color: grey' : '')

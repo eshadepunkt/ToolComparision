@@ -9,64 +9,52 @@
     >
       <v-card-title class="subheading font-weight-bold" v-on:click="btnEdit()">
         <div>
-              <v-row>
-                <v-col cols="8">
-                  <div style="width: 10em">
-                    {{ "RANK: " + result.rank.toString() }}
-                    <br />
-                    <br />
-                    {{ result.toolKV.value.name }}
-                    <br />
-                    <div
-                      v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers"
-                    >
-                      {{
-                        result.score.currentValue + "/" + result.score.maxValue
-                      }}
-                    </div>
-                    <div
-                      v-else-if="
-                        $store.getters.getSettingsIsStarsInsteadOfNumbers
-                      "
-                    >
-                      <v-rating
-                        :empty-icon="icons.mdiStarOutline"
-                        :full-icon="icons.mdiStar"
-                        :half-icon="icons.mdiStarHalfFull"
-                        v-model="rating"
-                        half-increments
-                        readonly
-                        dense
-                        length="5"
-                        size="1.5em"
-                      >
-                      </v-rating>
-                    </div>
-                  </div>
-                </v-col>
-                <v-col cols="1">              
-                </v-col>
-                <v-col cols="1">
-                  <div style="width: 2em">
-                    <v-btn
-                      class="ma-2"
-                      v-show="hover"
-                      icon
-                      @click="btnDelete()"
-                    >
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-bind="attrs" v-on="on">
-                            {{ icons.mdiClose }}
-                          </v-icon>
-                        </template>
-                        <span> Remove Suitabilities </span>
-                      </v-tooltip>
-                    </v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
+          <v-row>
+            <v-col cols="8">
+              <div style="width: 10em">
+                {{ "RANK: " + result.rank.toString() }}
+                <br />
+                <br />
+                {{ result.toolKV.value.name }}
+                <br />
+                <div v-if="!$store.getters.getSettingsIsStarsInsteadOfNumbers">
+                  {{ result.score.currentValue + "/" + result.score.maxValue }}
+                </div>
+                <div
+                  v-else-if="$store.getters.getSettingsIsStarsInsteadOfNumbers"
+                >
+                  <v-rating
+                    :empty-icon="icons.mdiStarOutline"
+                    :full-icon="icons.mdiStar"
+                    :half-icon="icons.mdiStarHalfFull"
+                    v-model="rating"
+                    half-increments
+                    readonly
+                    dense
+                    length="5"
+                    size="1.5em"
+                  >
+                  </v-rating>
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="1"> </v-col>
+            <v-col cols="1">
+              <div style="width: 2em">
+                <v-btn class="ma-2" v-show="hover" icon @click="btnDelete()">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon v-bind="attrs" v-on="on">
+                        {{ icons.mdiClose }}
+                      </v-icon>
+                    </template>
+                    <span> Remove Suitabilities </span>
+                  </v-tooltip>
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
       </v-card-title>
 
       <v-divider></v-divider>
@@ -192,7 +180,6 @@ export default Vue.extend({
       if (!this.confirmationRequest) {
         this.showDialog = true;
       }
-      
     },
     btnDelete() {
       this.confirmationRequest = true;
