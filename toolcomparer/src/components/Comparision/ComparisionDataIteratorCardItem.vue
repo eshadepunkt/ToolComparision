@@ -1,7 +1,6 @@
 <template>
-  <v-hover v-slot="{ hover }">
-    <v-list-item id="ComparisionDataIteratorCardItem" style="width: 20em">
-      <div style="width: 11em">
+    <v-list-item id="ComparisionDataIteratorCardItem" style="width: 16em">
+      <div style="width: 8em">
         <v-list-item-content>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -64,20 +63,6 @@
           </v-tooltip>
         </v-list-item-content>
       </div>
-      <div style="width: 2em">
-        <v-list-item-content style="width: 2em">
-          <v-btn style="width: 2em" v-show="hover" icon @click="btnEdit()">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on">
-                  {{ icons.mdiPencil }}
-                </v-icon>
-              </template>
-              <span> Edit Suitability </span>
-            </v-tooltip>
-          </v-btn>
-        </v-list-item-content>
-      </div>
       <div style="width: 2em" />
       <ToolCriteriumSuitabilityCreationDialog
         :propToolKV="result.toolKV"
@@ -87,7 +72,6 @@
         v-on:closeDialog="showDialog = false"
       />
     </v-list-item>
-  </v-hover>
 </template>
 
 <script lang="ts">

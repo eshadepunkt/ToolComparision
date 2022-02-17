@@ -4,7 +4,7 @@
       id="ComparisionDataIteratorCard"
       :style="
         (result.score.isExcluded ? 'background-color: lightgrey; ' : '') +
-        'width: 20em'
+        'width: 16em'
       "
     >
       <v-card-title class="subheading font-weight-bold">
@@ -13,7 +13,7 @@
             <div v-bind="attrs" v-on="on">
               <v-row>
                 <v-col cols="8">
-                  <div style="width: 15em">
+                  <div style="width: 10em">
                     {{ "RANK: " + result.rank.toString() }}
                     <br />
                     <br />
@@ -46,20 +46,7 @@
                     </div>
                   </div>
                 </v-col>
-                <v-col cols="1">
-                  <div style="width: 2em">
-                    <!-- Icons -->
-                    <v-btn class="ma-2" v-show="hover" icon @click="btnEdit()">
-                      <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-bind="attrs" v-on="on">
-                            {{ icons.mdiPencil }}
-                          </v-icon>
-                        </template>
-                        <span> Edit Tool and Suitabilities </span>
-                      </v-tooltip>
-                    </v-btn>
-                  </div>
+                <v-col cols="1">              
                 </v-col>
                 <v-col cols="1">
                   <div style="width: 2em">
@@ -96,7 +83,7 @@
           dense
           :style="
             (result.score.isExcluded ? 'background-color: lightgrey; ' : '') +
-            'width: 20em'
+            'width: 16em'
           "
         >
           <ComparisionDataIteratorCardItem
