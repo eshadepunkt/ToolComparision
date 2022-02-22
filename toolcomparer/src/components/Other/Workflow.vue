@@ -279,11 +279,11 @@ export default Vue.extend({
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     const isCriteriaFirst: boolean = this.workflow === "CriteriaFirst";
-        this.currentListBox = isCriteriaFirst ? "Criteria" : "Tools";
+    this.currentListBox = isCriteriaFirst ? "Criteria" : "Tools";
 
-        this.updateButtonTexts();
-  }
+    this.updateButtonTexts();
+  },
 });
 </script>
