@@ -8,10 +8,7 @@
     </td>
     <td>
       {{
-        propToolKV.value.criteriaSuitabilities &&
-        propToolKV.value.criteriaSuitabilities.length > 0
-          ? propToolKV.value.criteriaSuitabilities.length
-          : 0
+        getNumberOfSuitabilities
       }}
     </td>
     <td width="5em">
@@ -136,5 +133,17 @@ export default Vue.extend({
       this.confirmationRequest = false;
     },
   },
+
+  computed: {
+    getNumberOfSuitabilities: function(): number {
+       return (this.propToolKV.value.criteriaSuitabilities &&
+          this.propToolKV.value.criteriaSuitabilities.length > 0
+            ? this.propToolKV.value.criteriaSuitabilities.filter(
+                (x) =>
+                  this.criteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
+              ).length
+            : 0)
+    },
+  }
 });
 </script>
