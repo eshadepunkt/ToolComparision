@@ -1,30 +1,31 @@
 <template>
   <v-dialog
     v-model="showBrainstorming"
-    fullscreen
     persistent
     transition="dialog-bottom-transition"
+    height="100vh"
+    width="60vw"
     :retain-focus="false"
     id="Settings"
   >
     <div id="Workflow">
       <v-card
-        style="position: relative; height: 100vh; width: 100vw"
+        style="position: relative; height: 90vh; width: 60vw"
         color="grey lighten-5"
       >
         <v-container fluid>
           <!-- Head -->
           <v-row>
-            <v-col style="position: absolute; width: 100vw">
+            <v-col style="position: absolute; width: 60vw">
               <Header :headerText="currentListBox" />
             </v-col>
           </v-row>
 
           <!-- Body -->
-          <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
+          <v-row style="position: absolute; left: 1vw; top: 50px; width: 58vw">
             <v-col>
-              <v-card style="height: 85vh">
-                <v-card style="height: 78vh; overflow-y: auto">
+              <v-card style="height: 75vh">
+                <v-card style="height: 68vh; overflow-y: auto">
                   <WorkflowManager
                     :currentDataTable="currentListBox"
                     :criteria="getCriteria"
