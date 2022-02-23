@@ -174,23 +174,26 @@
       v-on:closeSettings="showSettings = false"
     />
     <v-dialog
-    v-model="exportDialog"
-    height="30vh"
-    width="30vw"
-    persistent
-    transition="dialog-bottom-transition"
-    :retain-focus="false"
-    id="ExportDialog"
-  >
-    <v-card class="overflow-hidden" style="height: 30vh; position: relative">
-      <v-btn
+      v-model="exportDialog"
+      height="30vh"
+      width="30vw"
+      persistent
+      transition="dialog-bottom-transition"
+      :retain-focus="false"
+      id="ExportDialog"
+    >
+      <v-card class="overflow-hidden" style="height: 30vh; position: relative">
+        <v-btn
           style="position: absolute; right: 1em; top: 0em"
           icon
           @click="exportDialog = false"
         >
           <v-icon>{{ icons.mdiClose }}</v-icon>
         </v-btn>
-      <v-container fluid style="position: absolute; left: 1em; top: 1.5em; width: 25vw;">
+        <v-container
+          fluid
+          style="position: absolute; left: 1em; top: 1.5em; width: 25vw"
+        >
           <v-row>
             <v-radio-group v-model="radExportGroup">
               <v-radio
@@ -212,11 +215,11 @@
           </v-row>
           <v-row>
             <v-card-actions>
-            <v-btn @click="exporter()" color="primary"> Export </v-btn>
+              <v-btn @click="exporter()" color="primary"> Export </v-btn>
             </v-card-actions>
           </v-row>
         </v-container>
-    </v-card>
+      </v-card>
     </v-dialog>
     <Workflow
       :showBrainstorming="showBrainstorming"
@@ -317,7 +320,7 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
-   exporter() {
+    exporter() {
       let file = "";
       let filename = "";
       switch (this.radExportGroup) {
@@ -648,7 +651,7 @@ export default Vue.extend({
 
       return sorted;
     },
-  getTools: function (): Array<Typ.toolKeyValue> {
+    getTools: function (): Array<Typ.toolKeyValue> {
       const json: string = JSON.stringify(this.$store.getters.getTools);
       if (this.isInitialized) {
         window.localStorage.setItem("results", json);
