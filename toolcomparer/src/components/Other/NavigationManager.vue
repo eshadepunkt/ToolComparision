@@ -49,7 +49,6 @@
                 v-on:closeDialog="showDialog = false"
               />
             </v-card>
-            
           </v-col>
         </v-row>
       </v-container>

@@ -33,8 +33,8 @@
             </v-col>
           </v-row>
           <!-- Buttons -->
-          <v-row align="end" align-content="end" justify="end">
-            <v-spacer> </v-spacer>
+          <v-row>
+            <div class="grow" />
             <v-card-actions>
               <v-btn @click="btnCancel()" text> Cancel </v-btn>
             </v-card-actions>

@@ -175,14 +175,14 @@
     />
     <v-dialog
       v-model="exportDialog"
-      height="30vh"
-      width="30vw"
+      height="200px"
+      width="275px"
       persistent
       transition="dialog-bottom-transition"
       :retain-focus="false"
       id="ExportDialog"
     >
-      <v-card class="overflow-hidden" style="height: 30vh; position: relative">
+      <v-card class="overflow-hidden" style="height: 200px; position: relative">
         <v-btn
           style="position: absolute; right: 1em; top: 0em"
           icon
@@ -192,7 +192,7 @@
         </v-btn>
         <v-container
           fluid
-          style="position: absolute; left: 1em; top: 1.5em; width: 25vw"
+          style="position: absolute; left: 1em; top: 1.5em; width: 200px"
         >
           <v-row>
             <v-radio-group v-model="radExportGroup">
@@ -208,17 +208,13 @@
               ></v-radio>
             </v-radio-group>
           </v-row>
-          <v-row>
-            <v-col>
-              <v-spacer> </v-spacer>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-card-actions>
-              <v-btn @click="exporter()" color="primary"> Export </v-btn>
-            </v-card-actions>
-          </v-row>
         </v-container>
+        <v-row style="position: absolute; bottom: 10px; right: 10px">
+          <div class="grow" />
+          <v-card-actions>
+            <v-btn @click="exporter()" color="primary"> Export </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-card>
     </v-dialog>
     <Workflow
