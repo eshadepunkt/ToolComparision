@@ -34,6 +34,7 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
+            <div class="grow" />
             <v-card-actions>
               <v-btn @click="btnCancel()" text> Cancel </v-btn>
             </v-card-actions>

@@ -1,5 +1,5 @@
 <template>
-  <tr id="CriteriumDataTableRow" v-on:click="btnEdit()">
+  <tr class="clickable" id="CriteriumDataTableRow" v-on:click="btnEdit()">
     <td>
       {{ propCriteriumKV.value.name }}
     </td>
@@ -64,6 +64,15 @@
     />
   </tr>
 </template>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  cursor: pointer;
+}
+</style>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";

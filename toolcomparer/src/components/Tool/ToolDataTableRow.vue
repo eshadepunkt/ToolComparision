@@ -1,5 +1,5 @@
 <template>
-  <tr id="ComparisionDataTableRow" v-on:click="btnEdit()">
+  <tr class="clickable" id="ComparisionDataTableRow" v-on:click="btnEdit()">
     <td>
       {{ propToolKV.value.name }}
     </td>
@@ -7,12 +7,7 @@
       {{ propToolKV.value.description }}
     </td>
     <td>
-      {{
-        propToolKV.value.criteriaSuitabilities &&
-        propToolKV.value.criteriaSuitabilities.length > 0
-          ? propToolKV.value.criteriaSuitabilities.length
-          : 0
-      }}
+      {{ getNumberOfSuitabilities }}
     </td>
     <td width="5em">
       <v-row>
@@ -47,6 +42,15 @@
     />
   </tr>
 </template>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  cursor: pointer;
+}
+</style>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";
@@ -134,6 +138,18 @@ export default Vue.extend({
       }
 
       this.confirmationRequest = false;
+    },
+  },
+
+  computed: {
+    getNumberOfSuitabilities: function (): number {
+      return this.propToolKV.value.criteriaSuitabilities &&
+        this.propToolKV.value.criteriaSuitabilities.length > 0
+        ? this.propToolKV.value.criteriaSuitabilities.filter(
+            (x) =>
+              this.criteria.findIndex((y) => y.key === x.criteriumKV.key) !== -1
+          ).length
+        : 0;
     },
   },
 });

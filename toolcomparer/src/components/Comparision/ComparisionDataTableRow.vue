@@ -1,6 +1,6 @@
 <template>
   <tr id="ComparisionDataTableRow">
-    <td>
+    <td class="clickable">
       <div v-on:click="btnEdit()">
         {{ result.toolKV.value.name }}
       </div>
@@ -71,6 +71,15 @@
     />
   </tr>
 </template>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  cursor: pointer;
+}
+</style>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";

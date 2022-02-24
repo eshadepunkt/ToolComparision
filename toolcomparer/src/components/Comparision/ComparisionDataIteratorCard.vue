@@ -7,7 +7,10 @@
         'width: 16em'
       "
     >
-      <v-card-title class="subheading font-weight-bold" v-on:click="btnEdit()">
+      <v-card-title
+        class="clickable subheading font-weight-bold"
+        v-on:click="btnEdit()"
+      >
         <div>
           <v-row>
             <v-col cols="8">
@@ -92,6 +95,15 @@
     </v-card>
   </v-hover>
 </template>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  cursor: pointer;
+}
+</style>
 
 <script lang="ts">
 import { NIL as uuidNIL } from "uuid";

@@ -19,11 +19,21 @@
               v-on:sortDescChanged="sortDescChanged"
               v-on:sortByChanged="sortByChanged"
             />
+            <v-btn
+              @click="showDialog = true"
+              class="rounded-circle"
+              height="66"
+              width="66"
+              style="position: absolute; top: 10px; right: 10px"
+              color="primary"
+            >
+              <v-icon>{{ icons.mdiPlus }}</v-icon>
+            </v-btn>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <v-card style="height: 60vh; overflow-y: auto">
+            <v-card style="height: 70vh; overflow-y: auto">
               <WorkflowManager
                 :currentDataTable="currentPage"
                 :criteria="getFilteredCriteria"
@@ -39,15 +49,6 @@
                 v-on:closeDialog="showDialog = false"
               />
             </v-card>
-            <v-btn
-              @click="showDialog = true"
-              class="rounded-circle"
-              height="66"
-              width="66"
-              style="position: absolute; bottom: 10px; right: 25px"
-            >
-              <v-icon>{{ icons.mdiPlus }}</v-icon>
-            </v-btn>
           </v-col>
         </v-row>
       </v-container>

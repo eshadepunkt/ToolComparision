@@ -40,6 +40,7 @@
           </v-row>
           <!-- Buttons -->
           <v-row>
+            <div class="grow" />
             <v-card-actions>
               <v-btn @click="btnGoBack()" text>
                 {{ btnPrevText }}

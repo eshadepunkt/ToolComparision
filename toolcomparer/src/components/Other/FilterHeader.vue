@@ -110,6 +110,7 @@
           </v-btn>
         </v-col>
       </div>
+      <div v-if="showViewSwitch" style="width: 5px"></div>
     </v-toolbar>
   </div>
 </template>
