@@ -7,7 +7,10 @@
         'width: 16em'
       "
     >
-      <v-card-title class="clickable subheading font-weight-bold" v-on:click="btnEdit()">
+      <v-card-title
+        class="clickable subheading font-weight-bold"
+        v-on:click="btnEdit()"
+      >
         <div>
           <v-row>
             <v-col cols="8">
