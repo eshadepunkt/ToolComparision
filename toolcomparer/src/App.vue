@@ -1,9 +1,7 @@
 <template>
   <div id="App" style="background-color: #fafafa">
     <v-app>
-      <v-card color="grey lighten-5">
-        <router-view />
-      </v-card>
+      <router-view />
     </v-app>
   </div>
 </template>

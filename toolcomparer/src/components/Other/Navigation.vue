@@ -1,172 +1,165 @@
 <template>
   <div id="Navigation">
-    <v-card
-      style="position: relative; height: 100vh; width: 100vw"
-      class="overflow-hidden"
-      color="grey lighten-5"
-    >
-      <v-container fluid>
-        <!-- Head -->
-        <v-row>
-          <v-col style="position: absolute; width: 100vw">
-            <v-toolbar
-              flat
-              dense
-              tile
-              floating
-              absolute
-              color="transparent"
-              style="position: absolute; top: 10px; right: 10px"
-            >
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    x-small
-                    text
-                    color="white"
-                    v-on:click.native="showBrainstorming = true"
-                  >
-                    Brainstorming
-                  </v-btn>
-                </template>
-                <span>
-                  Starts a Worklow where criteria and tools can be created and
-                  combined.
-                  <br />
-                  Under Settings you can change the Workflow and
-                  Validation-Rules.
-                </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    x-small
-                    text
-                    color="white"
-                    v-on:click.native="currentPage = 'Criteria'"
-                  >
-                    Criteria
-                  </v-btn>
-                </template>
-                <span> Add or change criteria. </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    x-small
-                    text
-                    color="white"
-                    v-on:click.native="currentPage = 'Tools'"
-                  >
-                    Tools
-                  </v-btn>
-                </template>
-                <span> Add or change tools. </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    x-small
-                    text
-                    color="white"
-                    v-on:click.native="currentPage = 'Comparision'"
-                  >
-                    Comparision
-                  </v-btn>
-                </template>
-                <span>
-                  Show Comparision of Tools.
-                  <br />
-                  Under "Change View" you can switch between card and table
-                  design.
-                </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    class="px-2"
-                    x-small
-                    icon
-                    color="white"
-                    @click="importer()"
-                  >
-                    <v-icon>{{ icons.mdiImport }}</v-icon>
-                    <input
-                      ref="uploader"
-                      class="d-none"
-                      type="file"
-                      :accept="'.json'"
-                      @change="onFileChanged"
-                    />
-                  </v-btn>
-                </template>
-                <span> Import </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    class="px-2"
-                    x-small
-                    icon
-                    color="white"
-                    v-on:click.native="exportDialog = true"
-                  >
-                    <v-icon>{{ icons.mdiExport }}</v-icon>
-                  </v-btn>
-                </template>
-                <span> Export </span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    class="px-2"
-                    x-small
-                    icon
-                    color="white"
-                    v-on:click.native="showSettings = true"
-                  >
-                    <v-icon>{{ icons.mdiCog }}</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  Settings.
-                  <br />
-                  You can change Workflow, Validation-Rules and
-                  Comparision-Design.
-                </span>
-              </v-tooltip>
-            </v-toolbar>
-            <Header :headerText="currentPage" />
-          </v-col>
-        </v-row>
+    <v-container fluid>
+      <!-- Head -->
+      <v-row>
+        <v-col style="position: fixed; top: 10px; left: 1vw; width: 98vw; z-index: 10;">
+          <v-toolbar
+            flat
+            dense
+            tile
+            floating
+            absolute
+            color="transparent"
+            style="position: absolute; top: 10px; right: 10px"
+          >
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  x-small
+                  text
+                  color="white"
+                  v-on:click.native="showBrainstorming = true"
+                >
+                  Brainstorming
+                </v-btn>
+              </template>
+              <span>
+                Starts a Worklow where criteria and tools can be created and
+                combined.
+                <br />
+                Under Settings you can change the Workflow and Validation-Rules.
+              </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  x-small
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Criteria'"
+                >
+                  Criteria
+                </v-btn>
+              </template>
+              <span> Add or change criteria. </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  x-small
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Tools'"
+                >
+                  Tools
+                </v-btn>
+              </template>
+              <span> Add or change tools. </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  x-small
+                  text
+                  color="white"
+                  v-on:click.native="currentPage = 'Comparision'"
+                >
+                  Comparision
+                </v-btn>
+              </template>
+              <span>
+                Show Comparision of Tools.
+                <br />
+                Under "Change View" you can switch between card and table
+                design.
+              </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  class="px-2"
+                  x-small
+                  icon
+                  color="white"
+                  @click="importer()"
+                >
+                  <v-icon>{{ icons.mdiImport }}</v-icon>
+                  <input
+                    ref="uploader"
+                    class="d-none"
+                    type="file"
+                    :accept="'.json'"
+                    @change="onFileChanged"
+                  />
+                </v-btn>
+              </template>
+              <span> Import </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  class="px-2"
+                  x-small
+                  icon
+                  color="white"
+                  v-on:click.native="exportDialog = true"
+                >
+                  <v-icon>{{ icons.mdiExport }}</v-icon>
+                </v-btn>
+              </template>
+              <span> Export </span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  class="px-2"
+                  x-small
+                  icon
+                  color="white"
+                  v-on:click.native="showSettings = true"
+                >
+                  <v-icon>{{ icons.mdiCog }}</v-icon>
+                </v-btn>
+              </template>
+              <span>
+                Settings.
+                <br />
+                You can change Workflow, Validation-Rules and
+                Comparision-Design.
+              </span>
+            </v-tooltip>
+          </v-toolbar>
+          <Header :headerText="currentPage" />
+        </v-col>
+      </v-row>
 
-        <!-- Body -->
-        <v-row style="position: absolute; left: 1vw; top: 50px; width: 98vw">
-          <v-col>
-              <NavigationManager
-                :criteria="getCriteria"
-                :tools="getTools"
-                :currentPage="currentPage"
-                :workflow="$store.getters.getSettingsWorkflow"
-              />
-          </v-col>    
-        </v-row>
-      </v-container>
-    </v-card>
+      <!-- Body -->
+      <v-row style="position: absolute; left: 1vw; top: 125px; width: 98vw; z-index: 1;">
+        <v-col>
+          <NavigationManager
+            :criteria="getCriteria"
+            :tools="getTools"
+            :currentPage="currentPage"
+            :workflow="$store.getters.getSettingsWorkflow"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
     <SettingsDialog
       :showSettings="showSettings"
       v-on:closeSettings="showSettings = false"
