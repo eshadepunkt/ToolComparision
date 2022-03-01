@@ -1,5 +1,5 @@
 <template>
-  <div id="FilterHeader">
+  <div id="FilterHeader"  style="position: fixed; top: 80px; left: 1vw; width: 98vw; z-index: 9;">
     <v-toolbar dark color="blue darken-3" class="mb-1">
       <div style="min-width: 30vw">
         <v-tooltip bottom>

@@ -1,6 +1,6 @@
 <template>
   <div id="PageManager">
-    <Comparision v-show="currentPage === 'Comparision'" height="80vh" />
+    <Comparision v-show="currentPage === 'Comparision'"/>
     <div v-show="currentPage === 'Criteria' || currentPage === 'Tools'">
       <v-container fluid>
         <v-row>
@@ -24,7 +24,7 @@
               class="rounded-circle"
               height="66"
               width="66"
-              style="position: absolute; top: 10px; right: 10px"
+              style="position: fixed; top: 79px; right: 3px; z-index: 11;"
               color="primary"
             >
               <v-icon>{{ icons.mdiPlus }}</v-icon>
@@ -33,22 +33,20 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-card style="height: 70vh; overflow-y: auto">
-              <WorkflowManager
-                :currentDataTable="currentPage"
-                :criteria="getFilteredCriteria"
-                :tools="getFilteredTools"
-                :showDialog="showDialog"
-                :workflow="
-                  currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'
-                "
-                :sortDesc="sortDesc"
-                :sortBy="sortBy"
-                v-on:sortDescChanged="sortDescChanged"
-                v-on:sortByChanged="sortByChanged"
-                v-on:closeDialog="showDialog = false"
-              />
-            </v-card>
+            <WorkflowManager
+              :currentDataTable="currentPage"
+              :criteria="getFilteredCriteria"
+              :tools="getFilteredTools"
+              :showDialog="showDialog"
+              :workflow="
+                currentPage === 'Criteria' ? 'CriteriaFirst' : 'ToolsFirst'
+              "
+              :sortDesc="sortDesc"
+              :sortBy="sortBy"
+              v-on:sortDescChanged="sortDescChanged"
+              v-on:sortByChanged="sortByChanged"
+              v-on:closeDialog="showDialog = false"
+            />
           </v-col>
         </v-row>
       </v-container>

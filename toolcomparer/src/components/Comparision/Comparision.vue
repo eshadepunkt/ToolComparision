@@ -20,19 +20,17 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card style="height: 70vh; overflow-y: auto">
-            <ComparisionManager
-              :currentView="currentView"
-              :results="getFilteredResults"
-              :criteria="getCriteria"
-              :maxScore="getMaxScore"
-              :search="search"
-              :sortDesc="sortDesc"
-              :sortBy="sortBy"
-              v-on:sortDescChanged="sortDescChanged"
-              v-on:sortByChanged="sortByChanged"
-            />
-          </v-card>
+          <ComparisionManager
+            :currentView="currentView"
+            :results="getFilteredResults"
+            :criteria="getCriteria"
+            :maxScore="getMaxScore"
+            :search="search"
+            :sortDesc="sortDesc"
+            :sortBy="sortBy"
+            v-on:sortDescChanged="sortDescChanged"
+            v-on:sortByChanged="sortByChanged"
+          />
         </v-col>
       </v-row>
     </v-container>

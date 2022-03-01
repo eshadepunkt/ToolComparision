@@ -10,19 +10,19 @@
   >
     <v-card class="overflow-hidden">
       <v-container fluid>
-      <v-alert type="Warning" color="red darken-5" :icon="icons.mdiAlert">
-        <v-card-text v-html="getWarning()" />
-      </v-alert>
-      <v-row>
-        <div class="grow" />
-        <v-card-actions>
-          <v-btn @click="closeDialog(true)" color="primary"> Yes </v-btn>
-        </v-card-actions>
-        <v-card-actions>
-          <v-btn @click="closeDialog(false)" text> No </v-btn>
-        </v-card-actions>
-      </v-row>
-      <v-spacer> </v-spacer>
+        <v-alert type="Warning" color="red darken-5" :icon="icons.mdiAlert">
+          <v-card-text v-html="getWarning()" />
+        </v-alert>
+        <v-row>
+          <div class="grow" />
+          <v-card-actions>
+            <v-btn @click="closeDialog(true)" color="primary"> Yes </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn @click="closeDialog(false)" text> No </v-btn>
+          </v-card-actions>
+        </v-row>
+        <v-spacer> </v-spacer>
       </v-container>
     </v-card>
   </v-dialog>
