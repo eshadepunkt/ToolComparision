@@ -1,6 +1,6 @@
 <template>
   <div id="Header">
-    <v-card color="indigo darken-4">
+    <v-card color="primary" class="ma-1">
       <h1 style="text-align: left; color: white">&nbsp; {{ headerText }}</h1>
     </v-card>
   </div>

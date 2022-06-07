@@ -3,7 +3,15 @@
     <v-container fluid>
       <!-- Head -->
       <v-row>
-        <v-col style="position: fixed; top: 10px; left: 1vw; width: 98vw; z-index: 10;">
+        <v-col
+          style="
+            position: fixed;
+            top: 10px;
+            left: 1vw;
+            width: 98vw;
+            z-index: 10;
+          "
+        >
           <v-toolbar
             flat
             dense
@@ -149,7 +157,16 @@
       </v-row>
 
       <!-- Body -->
-      <v-row style="position: absolute; left: 1vw; top: 125px; width: 98vw; z-index: 1;">
+      <v-row
+        style="
+          position: absolute;
+          left: 1vw;
+          top: 125px;
+          width: 98vw;
+          z-index: 1;
+        "
+        color="accent"
+      >
         <v-col>
           <NavigationManager
             :criteria="getCriteria"
@@ -166,46 +183,50 @@
     />
     <v-dialog
       v-model="exportDialog"
-      height="200px"
-      width="275px"
+      max-width="375px"
       persistent
       transition="dialog-bottom-transition"
       :retain-focus="false"
       id="ExportDialog"
     >
-      <v-card class="overflow-hidden" style="height: 200px; position: relative">
-        <v-btn
-          style="position: absolute; right: 1em; top: 0em"
-          icon
-          @click="exportDialog = false"
-        >
-          <v-icon>{{ icons.mdiClose }}</v-icon>
-        </v-btn>
-        <v-container
-          fluid
-          style="position: absolute; left: 1em; top: 1.5em; width: 200px"
-        >
+      <v-card class="overflow-hidden">
+        <v-card-title primary-title
+          ><span>Export</span><v-spacer></v-spacer>
+          <v-btn icon @click="exportDialog = false">
+            <v-icon>{{ icons.mdiClose }}</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-subheader>Choose the type of export..</v-subheader>
+        <v-container class="ma-2" fluid>
           <v-row>
             <v-radio-group v-model="radExportGroup">
               <v-radio
+                color="accent"
                 :key="0"
                 :label="'Export Tools & Criteria as JSON'"
                 :value="0"
               ></v-radio>
               <v-radio
+                color="accent"
                 :key="1"
                 :label="'Export Result as CSV'"
                 :value="1"
               ></v-radio>
+              <v-radio
+                color="accent"
+                :key="2"
+                :label="'Export Result as Microsoft Excel XLMX'"
+                :value="2"
+              ></v-radio>
             </v-radio-group>
           </v-row>
+          <v-row
+            ><v-spacer />
+            <v-card-actions class="mr-8">
+              <v-btn @click="exporter()" color="primary"> Export </v-btn>
+            </v-card-actions>
+          </v-row>
         </v-container>
-        <v-row style="position: absolute; bottom: 10px; right: 10px">
-          <div class="grow" />
-          <v-card-actions>
-            <v-btn @click="exporter()" color="primary"> Export </v-btn>
-          </v-card-actions>
-        </v-row>
       </v-card>
     </v-dialog>
     <Workflow
