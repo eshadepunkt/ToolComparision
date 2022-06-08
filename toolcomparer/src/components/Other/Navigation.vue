@@ -3,7 +3,15 @@
     <v-container fluid>
       <!-- Head -->
       <v-row>
-        <v-col style="position: fixed; top: 10px; left: 1vw; width: 98vw; z-index: 10;">
+        <v-col
+          style="
+            position: fixed;
+            top: 10px;
+            left: 1vw;
+            width: 98vw;
+            z-index: 10;
+          "
+        >
           <v-toolbar
             flat
             dense
@@ -149,7 +157,15 @@
       </v-row>
 
       <!-- Body -->
-      <v-row style="position: absolute; left: 1vw; top: 125px; width: 98vw; z-index: 1;">
+      <v-row
+        style="
+          position: absolute;
+          left: 1vw;
+          top: 125px;
+          width: 98vw;
+          z-index: 1;
+        "
+      >
         <v-col>
           <NavigationManager
             :criteria="getCriteria"
@@ -166,46 +182,51 @@
     />
     <v-dialog
       v-model="exportDialog"
-      height="200px"
-      width="275px"
+      max-width="400px"
       persistent
       transition="dialog-bottom-transition"
       :retain-focus="false"
       id="ExportDialog"
     >
-      <v-card class="overflow-hidden" style="height: 200px; position: relative">
-        <v-btn
-          style="position: absolute; right: 1em; top: 0em"
-          icon
-          @click="exportDialog = false"
+      <v-card
+        ><v-card-title
+          ><span class="text-h5">Export</span>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="exportDialog = false">
+            <v-icon>{{ icons.mdiClose }}</v-icon>
+          </v-btn></v-card-title
         >
-          <v-icon>{{ icons.mdiClose }}</v-icon>
-        </v-btn>
-        <v-container
-          fluid
-          style="position: absolute; left: 1em; top: 1.5em; width: 200px"
-        >
-          <v-row>
-            <v-radio-group v-model="radExportGroup">
-              <v-radio
-                :key="0"
-                :label="'Export Tools & Criteria as JSON'"
-                :value="0"
-              ></v-radio>
-              <v-radio
-                :key="1"
-                :label="'Export Result as CSV'"
-                :value="1"
-              ></v-radio>
-            </v-radio-group>
-          </v-row>
-        </v-container>
-        <v-row style="position: absolute; bottom: 10px; right: 10px">
-          <div class="grow" />
-          <v-card-actions>
-            <v-btn @click="exporter()" color="primary"> Export </v-btn>
-          </v-card-actions>
-        </v-row>
+
+        <v-radio-group v-model="radExportGroup" class="ml-4">
+          <v-radio
+            :key="0"
+            :label="'Tools & Criteria as JSON'"
+            :value="0"
+            color="accent"
+          ></v-radio>
+          <v-radio
+            :key="1"
+            :label="'Result as CSV'"
+            :value="1"
+            color="accent"
+          ></v-radio>
+          <v-radio
+            :key="2"
+            :label="'Result as XMLX - Excel Spreadsheet'"
+            :value="2"
+            color="accent"
+          ></v-radio>
+        </v-radio-group>
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn @click="exportExcel()" color="secondary"> as xlsx </v-btn>
+
+          <v-btn @click="exportDialog = false" color="secondary">
+            Cancel
+          </v-btn>
+          <v-btn @click="exporter()" color="primary"> Save </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <Workflow
@@ -246,7 +267,7 @@ import NavigationManager from "./NavigationManager.vue";
 import SettingsDialog from "./SettingsDialog.vue";
 import FeaturesDialog from "./FeaturesDialog.vue";
 import Workflow from "./Workflow.vue";
-
+import { read, utils, writeFile, WorkBook } from "xlsx";
 import * as CSVHandler from "../../js/CSVHandler";
 
 export default Vue.extend({
@@ -297,6 +318,7 @@ export default Vue.extend({
         mdiExport,
         mdiClose,
       },
+
       uuidNIL,
       Typ,
     };
@@ -307,6 +329,39 @@ export default Vue.extend({
     navigateTo(route: string): void {
       this.$router.push(route);
     },
+    // exportExcel(type: BookType, fn: string, dl: boolean): string {
+    //   console.log(type, fn, dl);
+
+    //   let elt = this.$store.getters.getTools;
+    //   console.log(elt);
+    //   var wb = xlsx.utils.table_to_book(elt, { sheet: "Test Sheet" });
+    //   return dl
+    //     ? xlsx.write(wb, { bookType: type, bookSST: true, type: "base64" })
+    //     : xlsx.writeFile(wb, fn || "toolcomparerExport." + (type || "xlsx"));
+    // },
+    exportExcel() {
+      //WIP
+      let wb = utils.book_new();
+      console.log(
+        "Tools: ",
+        JSON.stringify(this.$store.getters.getTools).valueOf
+      );
+      console.log(
+        "Tools-String: ",
+        JSON.stringify(this.$store.getters.getTools)
+      );
+      let tools_sheet = utils.json_to_sheet(this.$store.getters.getTools);
+      console.log("Tools: ", tools_sheet);
+
+      let criteria_sheet = utils.json_to_sheet(this.$store.getters.getCriteria);
+      console.log("Criteria: ", criteria_sheet);
+      utils.book_append_sheet(wb, tools_sheet, "Tools");
+      utils.book_append_sheet(wb, criteria_sheet, "Criteria");
+
+      console.log(wb);
+      writeFile(wb, "ExportTools.xlsx");
+    },
+
     exporter() {
       let file = "";
       let filename = "";
@@ -323,6 +378,12 @@ export default Vue.extend({
             filename = "toolcomparer_results.csv";
           }
           break;
+        // case 2:
+        //   {
+        //     file = this.exportExcel;
+        //     filename = "toolcomparer_results.xlsx";
+        //   }
+        //   break;
       }
 
       let element = document.createElement("a");
